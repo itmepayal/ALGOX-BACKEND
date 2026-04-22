@@ -35,7 +35,6 @@ export class ProblemController implements IProblemController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      console.log("Wecloem ");
       const validated = createProblemSchema.parse(req.body);
       const problem = await this.problemService.createProblem(validated);
 

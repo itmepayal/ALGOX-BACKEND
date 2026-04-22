@@ -2,5 +2,8 @@ import IORedis from "ioredis";
 import { serverConfig } from "../config";
 
 export const createQueueRedisConnection = () => {
-  return new IORedis(serverConfig.REDIS_URL);
+  return new IORedis(serverConfig.REDIS_URL, {
+    maxRetriesPerRequest: null,
+    tls: {},
+  });
 };

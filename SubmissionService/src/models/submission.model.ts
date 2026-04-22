@@ -87,11 +87,5 @@ const submissionSchema = new Schema<ISubmission>(
 
 submissionSchema.index({ problemId: 1, createdAt: -1 });
 submissionSchema.index({ status: 1 });
-submissionSchema.index({ language: 1 });
-submissionSchema.index({
-  code: "text",
-  language: "text",
-  status: "text",
-});
 
 export const Submission = model<ISubmission>("Submission", submissionSchema);
