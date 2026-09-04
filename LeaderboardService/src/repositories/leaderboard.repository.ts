@@ -52,7 +52,7 @@ export class LeaderboardRepository {
       UserStats.countDocuments(),
     ]);
 
-    const formattedRankings = rankings.map((user, idx) => ({
+    const formattedRankings = rankings.map((user: IUserStats, idx: number) => ({
       rank: skip + idx + 1,
       userId: user.userId.toString(),
       userName: user.userName,
