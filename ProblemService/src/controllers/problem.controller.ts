@@ -3,44 +3,35 @@ import { IProblemService } from "../services/problem.service";
 import {
   createProblemSchema,
   updateProblemSchema,
+  problemQuerySchema,
 } from "../validators/problem.validator";
+import { sendResponse } from "../utils/helpers/response.helper";
+import { HTTP_STATUS, PROBLEM_MESSAGES } from "../utils/constants";
 
 export interface IProblemController {
   createProblem(req: Request, res: Response, next: NextFunction): Promise<void>;
-  getProblemById(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void>;
-  getAllProblems(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void>;
+  getProblemById(req: Request, res: Response, next: NextFunction): Promise<void>;
+  getProblemBySlug(req: Request, res: Response, next: NextFunction): Promise<void>;
+  getInternalProblemById(req: Request, res: Response, next: NextFunction): Promise<void>;
+  getProblems(req: Request, res: Response, next: NextFunction): Promise<void>;
   updateProblem(req: Request, res: Response, next: NextFunction): Promise<void>;
   deleteProblem(req: Request, res: Response, next: NextFunction): Promise<void>;
-  searchProblems(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void>;
+  findByDifficulty(req: Request, res: Response, next: NextFunction): Promise<void>;
+  searchProblems(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
 export class ProblemController implements IProblemController {
   constructor(private problemService: IProblemService) {}
 
-  async createProblem(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async createProblem(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const validated = createProblemSchema.parse(req.body);
       const problem = await this.problemService.createProblem(validated);
 
-      res.status(201).json({
-        success: true,
-        message: "Problem created successfully",
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.CREATED,
+        message: PROBLEM_MESSAGES.PROBLEM_CREATED,
         data: problem,
       });
     } catch (error) {
@@ -48,19 +39,15 @@ export class ProblemController implements IProblemController {
     }
   }
 
-  async getProblemById(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async getProblemById(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
+      const problem = await this.problemService.getProblemById(id, true);
 
-      const problem = await this.problemService.getProblemById(id);
-
-      res.status(200).json({
-        success: true,
-        message: "Problem retrieved successfully",
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEM_RETRIEVED,
         data: problem,
       });
     } catch (error) {
@@ -68,38 +55,70 @@ export class ProblemController implements IProblemController {
     }
   }
 
-  async getAllProblems(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async getProblemBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const result = await this.problemService.getAllProblems();
+      const { slug } = req.params;
+      const problem = await this.problemService.getProblemBySlug(slug, true);
 
-      res.status(200).json({
-        success: true,
-        message: `${result.total} problems retrieved successfully`,
-        ...result,
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEM_RETRIEVED,
+        data: problem,
       });
     } catch (error) {
       next(error);
     }
   }
 
-  async updateProblem(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async getInternalProblemById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { id } = req.params;
+      const problem = await this.problemService.getProblemById(id, false);
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEM_RETRIEVED,
+        data: problem,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getProblems(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const query = problemQuerySchema.parse(req.query);
+      const result = await this.problemService.getProblems(query, true);
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEMS_RETRIEVED,
+        data: result.problems,
+        meta: {
+          total: result.total,
+          page: result.page,
+          limit: result.limit,
+          totalPages: result.totalPages,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateProblem(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
       const validated = updateProblemSchema.parse(req.body);
-
       const updated = await this.problemService.updateProblem(id, validated);
 
-      res.status(200).json({
-        success: true,
-        message: "Problem updated successfully",
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEM_UPDATED,
         data: updated,
       });
     } catch (error) {
@@ -107,38 +126,30 @@ export class ProblemController implements IProblemController {
     }
   }
 
-  async deleteProblem(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async deleteProblem(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-
       await this.problemService.deleteProblem(id);
 
-      res.status(200).json({
-        success: true,
-        message: "Problem deleted successfully",
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEM_DELETED,
       });
     } catch (error) {
       next(error);
     }
   }
 
-  async findByDifficulty(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async findByDifficulty(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const difficulty = req.params.difficulty as "easy" | "medium" | "hard";
-
       const problems = await this.problemService.findByDifficulty(difficulty);
 
-      res.status(200).json({
-        success: true,
-        message: `Problems with difficulty '${difficulty}' retrieved successfully`,
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEMS_RETRIEVED,
         data: problems,
       });
     } catch (error) {
@@ -146,19 +157,15 @@ export class ProblemController implements IProblemController {
     }
   }
 
-  async searchProblems(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async searchProblems(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { q } = req.query;
+      const problems = await this.problemService.searchProblems(String(q || ""));
 
-      const problems = await this.problemService.searchProblems(String(q));
-
-      res.status(200).json({
-        success: true,
-        message: "Search results retrieved successfully",
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEMS_RETRIEVED,
         data: problems,
       });
     } catch (error) {

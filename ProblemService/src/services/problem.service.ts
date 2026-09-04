@@ -5,6 +5,7 @@ import { sanitizeMarkdown } from "../utils/markdown/markdown.sanitizer";
 import {
   CreateProblemDto,
   UpdateProblemDto,
+  ProblemQueryDto,
 } from "../validators/problem.validator";
 
 export interface IProblemService {
@@ -12,17 +13,23 @@ export interface IProblemService {
 
   updateProblem(
     problemId: string,
-    data: UpdateProblemDto,
+    data: UpdateProblemDto
   ): Promise<IProblem | null>;
 
   deleteProblem(problemId: string): Promise<boolean>;
 
-  getProblemById(problemId: string): Promise<IProblem | null>;
+  getProblemById(problemId: string, isPublicView?: boolean): Promise<IProblem | null>;
 
-  getAllProblems(): Promise<{
+  getProblemBySlug(slug: string, isPublicView?: boolean): Promise<IProblem | null>;
+
+  getProblems(query: ProblemQueryDto, isPublicView?: boolean): Promise<{
     problems: IProblem[];
     total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
   }>;
+
   findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>;
   searchProblems(query: string): Promise<IProblem[]>;
 }
@@ -35,14 +42,14 @@ export class ProblemService implements IProblemService {
       ...problem,
       description: await sanitizeMarkdown(problem.description),
       editorial:
-        problem.editorial && (await sanitizeMarkdown(problem?.editorial)),
+        problem.editorial ? await sanitizeMarkdown(problem.editorial) : undefined,
     };
     return this.problemRepository.createProblem(payload);
   }
 
   async updateProblem(
     problemId: string,
-    problem: UpdateProblemDto,
+    problem: UpdateProblemDto
   ): Promise<IProblem | null> {
     const existing = await this.problemRepository.getProblemById(problemId);
 
@@ -75,33 +82,54 @@ export class ProblemService implements IProblemService {
     return this.problemRepository.deleteProblem(problemId);
   }
 
-  async getProblemById(problemId: string): Promise<IProblem | null> {
+  async getProblemById(problemId: string, isPublicView: boolean = true): Promise<IProblem | null> {
     const problem = await this.problemRepository.getProblemById(problemId);
 
     if (!problem) {
       throw new NotFoundError("Problem Not Found");
     }
 
-    return problem;
+    return isPublicView ? filterPublicProblem(problem) : problem;
   }
 
-  async getAllProblems(): Promise<{
-    problems: IProblem[];
-    total: number;
-  }> {
-    return this.problemRepository.getAllProblems();
+  async getProblemBySlug(slug: string, isPublicView: boolean = true): Promise<IProblem | null> {
+    const problem = await this.problemRepository.getProblemBySlug(slug);
+
+    if (!problem) {
+      throw new NotFoundError("Problem Not Found");
+    }
+
+    return isPublicView ? filterPublicProblem(problem) : problem;
+  }
+
+  async getProblems(query: ProblemQueryDto, isPublicView: boolean = true) {
+    const result = await this.problemRepository.getProblems(query);
+    if (isPublicView) {
+      result.problems = result.problems.map((p) => filterPublicProblem(p));
+    }
+    return result;
   }
 
   async findByDifficulty(
-    difficulty: "easy" | "medium" | "hard",
+    difficulty: "easy" | "medium" | "hard"
   ): Promise<IProblem[]> {
-    return await this.problemRepository.findByDifficulty(difficulty);
+    const problems = await this.problemRepository.findByDifficulty(difficulty);
+    return problems.map((p) => filterPublicProblem(p));
   }
 
   async searchProblems(query: string): Promise<IProblem[]> {
     if (!query || query.trim() === "") {
-      throw new BadRequestError("Query Not Found");
+      throw new BadRequestError("Query parameter is required");
     }
-    return await this.problemRepository.searchProblems(query);
+    const problems = await this.problemRepository.searchProblems(query);
+    return problems.map((p) => filterPublicProblem(p));
   }
+}
+
+function filterPublicProblem(problem: IProblem): IProblem {
+  const pObj = problem.toObject ? problem.toObject() : { ...problem };
+  if (pObj.testcases) {
+    pObj.testcases = pObj.testcases.filter((tc: any) => !tc.isHidden);
+  }
+  return pObj as IProblem;
 }

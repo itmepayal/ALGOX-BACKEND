@@ -4,25 +4,46 @@ export interface ITestcase {
   input: string;
   output: string;
   isHidden?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+}
+
+export interface ICodeStub {
+  language: "python" | "javascript" | "cpp" | "java";
+  startSnippet: string;
+  userTemplate: string;
 }
 
 export interface IProblem extends Document {
   title: string;
+  slug: string;
   description: string;
   difficulty: "easy" | "medium" | "hard";
   category: string;
+  tags: string[];
   editorial?: string;
+  codeStubs: ICodeStub[];
   testcases: ITestcase[];
   createdAt: Date;
   updatedAt: Date;
 }
+
 const testcaseSchema = new Schema<ITestcase>(
   {
     input: { type: String, required: true, trim: true },
     output: { type: String, required: true, trim: true },
     isHidden: { type: Boolean, default: false },
+  },
+  { _id: false },
+);
+
+const codeStubSchema = new Schema<ICodeStub>(
+  {
+    language: {
+      type: String,
+      enum: ["python", "javascript", "cpp", "java"],
+      required: true,
+    },
+    startSnippet: { type: String, default: "" },
+    userTemplate: { type: String, required: true },
   },
   { _id: false },
 );
@@ -33,6 +54,14 @@ const problemSchema = new Schema<IProblem>(
       type: String,
       required: true,
       trim: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
     },
     description: {
       type: String,
@@ -47,10 +76,17 @@ const problemSchema = new Schema<IProblem>(
     category: {
       type: String,
       required: true,
+      index: true,
+    },
+    tags: {
+      type: [String],
+      default: [],
+      index: true,
     },
     editorial: {
       type: String,
     },
+    codeStubs: [codeStubSchema],
     testcases: [testcaseSchema],
   },
   {
@@ -68,5 +104,6 @@ const problemSchema = new Schema<IProblem>(
 
 problemSchema.index({ title: 1 }, { unique: true });
 problemSchema.index({ difficulty: 1 });
+problemSchema.index({ category: 1, difficulty: 1 });
 
-export const Problem = mongoose.model("Problem", problemSchema);
+export const Problem = mongoose.model<IProblem>("Problem", problemSchema);
