@@ -3,10 +3,7 @@ import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import v1Router from "./routers/v1/index.router";
 import v2Router from "./routers/v2/index.router";
-import {
-  appErrorHandler,
-  genericErrorHandler,
-} from "./middlewares/error.middleware";
+import { errorHandler } from "./middlewares/error.middleware";
 import logger from "./config/logger.config";
 import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middleware";
 import { checkRedis } from "./config/redis.config";
@@ -24,8 +21,8 @@ app.get("/tests", (req, res) => {
 app.use("/api/v1", v1Router);
 app.use("/api/v2", v2Router);
 
-app.use(appErrorHandler);
-app.use(genericErrorHandler);
+app.use(errorHandler);
+
 
 const startServer = async () => {
   try {

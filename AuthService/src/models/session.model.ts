@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface ISession extends Document {
   userId: mongoose.Types.ObjectId;
-  refreshToken: string; // hashed
+  refreshToken: string;
   ip?: string;
   userAgent?: string;
   expiresAt: Date;
@@ -20,7 +20,7 @@ const sessionSchema = new Schema<ISession>(
     refreshToken: {
       type: String,
       required: true,
-      select: false, // 🔥 never expose
+      select: false,
     },
 
     ip: String,
