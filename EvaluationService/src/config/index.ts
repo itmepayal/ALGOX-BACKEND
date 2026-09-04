@@ -16,13 +16,14 @@ function loadEnv() {
 
 loadEnv();
 
-function getEnvVariable(key: string): string {
-  const value = process.env[key];
+function getEnvVariable(key: string, defaultValue?: string): string {
+  const value = process.env[key] || defaultValue;
   if (!value) {
     throw new Error(`Missing required environment variable: ${key}`);
   }
   return value;
 }
+
 
 export const serverConfig: ServerConfig = {
   PORT: Number(process.env.PORT) || 3001,

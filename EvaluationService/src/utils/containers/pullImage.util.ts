@@ -1,5 +1,5 @@
 import Docker from "dockerode";
-import { CPP_IMAGE, PYTHON_IMAGE } from "../constants";
+import { DOCKER_IMAGES } from "../constants";
 import logger from "../../config/logger.config";
 
 const docker = new Docker({
@@ -13,7 +13,7 @@ export async function pullImage(image: string): Promise<void> {
       image,
       (err: { message: any }, stream: NodeJS.ReadableStream) => {
         if (err) {
-          console.error("Docker pull error:", err.message);
+          logger.error("Docker pull error:", err.message);
           return reject(err);
         }
 
@@ -25,16 +25,16 @@ export async function pullImage(image: string): Promise<void> {
           stream,
           (error: Error | null) => {
             if (error) {
-              console.error("Pull failed:", error.message);
+              logger.error("Pull failed:", error.message);
               return reject(error);
             }
 
-            console.log("Image pulled successfully");
+            logger.info(`Image ${image} pulled successfully`);
             resolve();
           },
           (event: any) => {
             if (event.status) {
-              console.log(`${event.status}`);
+              logger.debug(`${event.status}`);
             }
           },
         );
@@ -44,13 +44,14 @@ export async function pullImage(image: string): Promise<void> {
 }
 
 export async function pullAllImages() {
-  const images = [PYTHON_IMAGE, CPP_IMAGE];
+  const images = Object.values(DOCKER_IMAGES);
 
   const promises = images.map((image) => pullImage(image));
   try {
     await Promise.all(promises);
-    logger.info("Successfully pulled images");
+    logger.info("Successfully pulled all Docker language images");
   } catch (error) {
     logger.error("Error while pulling images", error);
   }
 }
+

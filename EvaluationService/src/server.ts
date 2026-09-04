@@ -8,8 +8,7 @@ import logger from "./config/logger.config";
 import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middleware";
 import { startWorkers } from "./workers/evaluation.worker";
 import { pullAllImages } from "./utils/containers/pullImage.util";
-import { PYTHON_IMAGE } from "./utils/constants";
-import { createNewDockerContainer } from "./utils/containers/createContainer.util";
+
 
 const app = express();
 
@@ -26,17 +25,11 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(serverConfig.PORT, async () => {
-      logger.info(`Server is running on http://localhost:${serverConfig.PORT}`);
+      logger.info(`EvaluationService is running on http://localhost:${serverConfig.PORT}`);
       logger.info(`Press Ctrl+C to stop the server.`);
       await startWorkers();
       logger.info("Workers started successfully.");
       await pullAllImages();
-      const container = await createNewDockerContainer({
-        imageName: PYTHON_IMAGE,
-        cmd: ["/bin/bash", "-c", "tail -f /var/log/dmesg"],
-        memoryLimit: 1024 * 1024 * 1024,
-      });
-      await container?.start();
     });
   } catch (error) {
     logger.error("Failed to start server:", error);
@@ -45,3 +38,4 @@ const startServer = async () => {
 };
 
 startServer();
+
