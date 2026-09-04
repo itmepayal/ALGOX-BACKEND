@@ -87,7 +87,7 @@ const userSchema = new Schema<IUser>(
 // Index
 userSchema.index({ email: 1 });
 
-// 🔐 Password Hash
+// Password Hash
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;
 
@@ -96,13 +96,14 @@ userSchema.pre("save", async function (next) {
   this.passwordChangedAt = new Date();
 });
 
-// 🔐 Compare Password
+// Compare Password
 userSchema.methods.comparePassword = function (candidate: string) {
   return bcrypt.compare(candidate, this.password);
 };
 
-// 🔐 Account Lock Check
+// Account Lock Check
 userSchema.methods.isLocked = function () {
+
   return !!(this.lockUntil && this.lockUntil > Date.now());
 };
 

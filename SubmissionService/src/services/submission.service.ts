@@ -1,17 +1,21 @@
+import { Types } from "mongoose";
 import { getProblemById } from "../apis/problem.api";
 import logger from "../config/logger.config";
 import { ISubmission, SubmissionStatus } from "../models/submission.model";
 import { addSubmissionJob } from "../producers/submission.producer";
 import { ISubmissionRepository } from "../repositories/submission.repository";
 import { BadRequestError, NotFoundError } from "../utils/errors/app.error";
+import { SUBMISSION_MESSAGES } from "../utils/constants";
+import { CreateSubmissionDto } from "../validators/submission.validator";
 
 export interface ISubmissionService {
-  createSubmission(submission: Partial<ISubmission>): Promise<ISubmission>;
+  createSubmission(submission: CreateSubmissionDto): Promise<ISubmission>;
   getByProblemId(problemId: string): Promise<ISubmission[]>;
+  getByUserId(userId: string): Promise<ISubmission[]>;
   getSubmissionById(id: string): Promise<ISubmission | null>;
   getAllSubmissions(
     page: number,
-    limit: number,
+    limit: number
   ): Promise<{
     submissions: ISubmission[];
     total: number;
@@ -20,7 +24,7 @@ export interface ISubmissionService {
   }>;
   updateSubmission(
     submissionId: string,
-    submission: Partial<ISubmission>,
+    submission: Partial<ISubmission>
   ): Promise<ISubmission | null>;
   deleteSubmission(submissionId: string): Promise<boolean>;
   getByStatus(status: SubmissionStatus): Promise<ISubmission[]>;
@@ -29,42 +33,46 @@ export interface ISubmissionService {
 }
 
 export class SubmissionService implements ISubmissionService {
-  private submissionRepository: ISubmissionRepository;
-
-  constructor(submissionRepository: ISubmissionRepository) {
-    this.submissionRepository = submissionRepository;
-  }
+  constructor(private submissionRepository: ISubmissionRepository) {}
 
   async createSubmission(
-    submission: Partial<ISubmission>,
+    dto: CreateSubmissionDto
   ): Promise<ISubmission> {
-    if (!submission.problemId || !submission.code || !submission.language) {
-      throw new BadRequestError("Missing required fields");
+    if (!dto.problemId || !dto.code || !dto.language) {
+      throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
     }
 
-    const problemId = submission.problemId.toString();
+    const problemId = dto.problemId.toString();
 
+    // Fetch problem details (includes testcases) from ProblemService
     const problem = await getProblemById(problemId);
 
     if (!problem) {
-      throw new NotFoundError("Problem not found");
+      throw new NotFoundError("Problem not found in ProblemService");
     }
 
-    submission.status = "PENDING";
+    const submissionData: Partial<ISubmission> = {
+      problemId: new Types.ObjectId(dto.problemId),
+      ...(dto.userId && { userId: new Types.ObjectId(dto.userId) }),
+      language: dto.language,
+      code: dto.code,
+      status: "PENDING",
+    };
 
-    const response =
-      await this.submissionRepository.createSubmission(submission);
+    const response = await this.submissionRepository.createSubmission(submissionData);
+
 
     const payload = {
       submissionId: response._id.toString(),
       problem,
-      code: submission.code!,
-      language: submission.language!,
+      code: dto.code,
+      language: dto.language,
     };
+
 
     const jobId = await addSubmissionJob(payload);
 
-    logger.info("Submission queued", {
+    logger.info("Submission queued for evaluation", {
       submissionId: response._id,
       jobId,
     });
@@ -74,8 +82,12 @@ export class SubmissionService implements ISubmissionService {
 
   async getByProblemId(problemId: string): Promise<ISubmission[]> {
     if (!problemId) throw new BadRequestError("Problem ID is required");
-
     return await this.submissionRepository.getByProblemId(problemId);
+  }
+
+  async getByUserId(userId: string): Promise<ISubmission[]> {
+    if (!userId) throw new BadRequestError("User ID is required");
+    return await this.submissionRepository.getByUserId(userId);
   }
 
   async getSubmissionById(id: string): Promise<ISubmission | null> {
@@ -84,7 +96,7 @@ export class SubmissionService implements ISubmissionService {
     const submission = await this.submissionRepository.getSubmissionById(id);
 
     if (!submission) {
-      throw new NotFoundError("Submission not found");
+      throw new NotFoundError(SUBMISSION_MESSAGES.SUBMISSION_NOT_FOUND);
     }
 
     return submission;
@@ -96,17 +108,17 @@ export class SubmissionService implements ISubmissionService {
 
   async updateSubmission(
     submissionId: string,
-    submission: Partial<ISubmission>,
+    submission: Partial<ISubmission>
   ): Promise<ISubmission | null> {
     if (!submissionId) throw new BadRequestError("Submission ID is required");
 
     const updated = await this.submissionRepository.updateSubmission(
       submissionId,
-      submission,
+      submission
     );
 
     if (!updated) {
-      throw new NotFoundError("Submission not found");
+      throw new NotFoundError(SUBMISSION_MESSAGES.SUBMISSION_NOT_FOUND);
     }
 
     return updated;
@@ -115,11 +127,12 @@ export class SubmissionService implements ISubmissionService {
   async deleteSubmission(submissionId: string): Promise<boolean> {
     if (!submissionId) throw new BadRequestError("Submission ID is required");
 
-    const deleted =
-      await this.submissionRepository.deleteSubmission(submissionId);
+    const deleted = await this.submissionRepository.deleteSubmission(
+      submissionId
+    );
 
     if (!deleted) {
-      throw new NotFoundError("Submission not found or already deleted");
+      throw new NotFoundError(SUBMISSION_MESSAGES.SUBMISSION_NOT_FOUND);
     }
 
     return true;

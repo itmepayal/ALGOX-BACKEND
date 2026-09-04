@@ -1,123 +1,87 @@
-import { Types } from "mongoose";
-import {
-  ISubmission,
-  Submission,
-  SubmissionStatus,
-} from "../models/submission.model";
+import { Submission, ISubmission, SubmissionStatus } from "../models/submission.model";
 
 export interface ISubmissionRepository {
-  createSubmission(submission: Partial<ISubmission>): Promise<ISubmission>;
-
-  getByProblemId(problemId: string): Promise<ISubmission[]>;
-
+  createSubmission(data: Partial<ISubmission>): Promise<ISubmission>;
   getSubmissionById(id: string): Promise<ISubmission | null>;
-
   getAllSubmissions(
     page: number,
-    limit: number,
+    limit: number
   ): Promise<{
     submissions: ISubmission[];
     total: number;
     page: number;
     totalPages: number;
   }>;
-
   updateSubmission(
-    submissionId: string,
-    submission: Partial<ISubmission>,
+    id: string,
+    data: Partial<ISubmission>
   ): Promise<ISubmission | null>;
-
-  deleteSubmission(submissionId: string): Promise<boolean>;
-
+  deleteSubmission(id: string): Promise<boolean>;
+  getByProblemId(problemId: string): Promise<ISubmission[]>;
+  getByUserId(userId: string): Promise<ISubmission[]>;
   getByStatus(status: SubmissionStatus): Promise<ISubmission[]>;
-
   getByLanguage(language: string): Promise<ISubmission[]>;
-
   searchSubmissions(query: string): Promise<ISubmission[]>;
 }
 
 export class SubmissionRepository implements ISubmissionRepository {
-  async createSubmission(
-    submission: Partial<ISubmission>,
-  ): Promise<ISubmission> {
-    return await Submission.create(submission);
-  }
-
-  async getByProblemId(problemId: string): Promise<ISubmission[]> {
-    if (!Types.ObjectId.isValid(problemId)) return [];
-
-    return await Submission.find({ problemId }).sort({ createdAt: -1 }).lean();
+  async createSubmission(data: Partial<ISubmission>): Promise<ISubmission> {
+    return await Submission.create(data);
   }
 
   async getSubmissionById(id: string): Promise<ISubmission | null> {
-    if (!Types.ObjectId.isValid(id)) return null;
-
-    return await Submission.findById(id).lean();
+    return await Submission.findById(id);
   }
 
-  async getAllSubmissions(
-    page: number,
-    limit: number,
-  ): Promise<{
-    submissions: ISubmission[];
-    total: number;
-    page: number;
-    totalPages: number;
-  }> {
-    const safePage = Math.max(page, 1);
-    const safeLimit = Math.max(limit, 1);
-    const skip = (safePage - 1) * safeLimit;
-
+  async getAllSubmissions(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
     const [submissions, total] = await Promise.all([
-      Submission.find()
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(safeLimit)
-        .lean(),
+      Submission.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
       Submission.countDocuments(),
     ]);
 
     return {
       submissions,
       total,
-      page: safePage,
-      totalPages: Math.ceil(total / safeLimit),
+      page,
+      totalPages: Math.ceil(total / limit),
     };
   }
 
   async updateSubmission(
-    submissionId: string,
-    submission: Partial<ISubmission>,
+    id: string,
+    data: Partial<ISubmission>
   ): Promise<ISubmission | null> {
-    if (!Types.ObjectId.isValid(submissionId)) return null;
-
-    return await Submission.findByIdAndUpdate(submissionId, submission, {
-      new: true,
-      runValidators: true,
-    }).lean();
+    return await Submission.findByIdAndUpdate(id, data, { new: true });
   }
 
-  async deleteSubmission(submissionId: string): Promise<boolean> {
-    if (!Types.ObjectId.isValid(submissionId)) return false;
+  async deleteSubmission(id: string): Promise<boolean> {
+    const deleted = await Submission.findByIdAndDelete(id);
+    return deleted !== null;
+  }
 
-    const result = await Submission.findByIdAndDelete(submissionId);
-    return !!result;
+  async getByProblemId(problemId: string): Promise<ISubmission[]> {
+    return await Submission.find({ problemId }).sort({ createdAt: -1 });
+  }
+
+  async getByUserId(userId: string): Promise<ISubmission[]> {
+    return await Submission.find({ userId }).sort({ createdAt: -1 });
   }
 
   async getByStatus(status: SubmissionStatus): Promise<ISubmission[]> {
-    return await Submission.find({ status }).sort({ createdAt: -1 }).lean();
+    return await Submission.find({ status }).sort({ createdAt: -1 });
   }
 
   async getByLanguage(language: string): Promise<ISubmission[]> {
-    return await Submission.find({ language }).sort({ createdAt: -1 }).lean();
+    return await Submission.find({ language }).sort({ createdAt: -1 });
   }
 
   async searchSubmissions(query: string): Promise<ISubmission[]> {
-    return await Submission.find(
-      { $text: { $search: query } },
-      { score: { $meta: "textScore" } },
-    )
-      .sort({ score: { $meta: "textScore" } })
-      .lean();
+    return await Submission.find({
+      $or: [
+        { status: new RegExp(query, "i") },
+        { language: new RegExp(query, "i") },
+      ],
+    }).sort({ createdAt: -1 });
   }
 }

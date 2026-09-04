@@ -6,12 +6,14 @@ export type SubmissionStatus =
   | "ACCEPTED"
   | "WRONG_ANSWER"
   | "TIME_LIMIT_EXCEEDED"
+  | "MEMORY_LIMIT_EXCEEDED"
   | "RUNTIME_ERROR"
   | "COMPILATION_ERROR";
 
 export type ProgrammingLanguage = "python" | "javascript" | "cpp" | "java";
 
 export interface ISubmission extends Document {
+  userId?: Types.ObjectId;
   problemId: Types.ObjectId;
 
   language: ProgrammingLanguage;
@@ -34,10 +36,16 @@ export interface ISubmission extends Document {
 
 const submissionSchema = new Schema<ISubmission>(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      index: true,
+    },
     problemId: {
       type: Schema.Types.ObjectId,
       ref: "Problem",
       required: true,
+      index: true,
     },
     language: {
       type: String,
@@ -58,10 +66,12 @@ const submissionSchema = new Schema<ISubmission>(
         "ACCEPTED",
         "WRONG_ANSWER",
         "TIME_LIMIT_EXCEEDED",
+        "MEMORY_LIMIT_EXCEEDED",
         "RUNTIME_ERROR",
         "COMPILATION_ERROR",
       ],
       default: "PENDING",
+      index: true,
     },
     output: String,
     error: String,
@@ -85,7 +95,7 @@ const submissionSchema = new Schema<ISubmission>(
   },
 );
 
+submissionSchema.index({ userId: 1, problemId: 1, createdAt: -1 });
 submissionSchema.index({ problemId: 1, createdAt: -1 });
-submissionSchema.index({ status: 1 });
 
 export const Submission = model<ISubmission>("Submission", submissionSchema);

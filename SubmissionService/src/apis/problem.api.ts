@@ -41,11 +41,12 @@ export async function getProblemById(
 ): Promise<IProblemDetails | null> {
   try {
     const response: AxiosResponse<IProblemResponse> = await axios.get(
-      `${serverConfig.PROBLEM_SERVICE}/problems/${problemId}`,
+      `${serverConfig.PROBLEM_SERVICE}/problems/internal/${problemId}`,
       {
         timeout: 5000,
       },
     );
+
 
     if (!response.data?.data) {
       throw new InternalServerError("Invalid problem response");
