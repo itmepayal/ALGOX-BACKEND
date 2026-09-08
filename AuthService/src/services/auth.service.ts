@@ -32,12 +32,16 @@ export class AuthService {
     action: string,
     meta?: { ip?: string; userAgent?: string }
   ) {
-    await SecurityLog.create({
-      userId,
-      action,
-      ip: meta?.ip,
-      userAgent: meta?.userAgent,
-    });
+    try {
+      await SecurityLog.create({
+        userId,
+        action,
+        ip: meta?.ip,
+        userAgent: meta?.userAgent,
+      });
+    } catch {
+      // Non-blocking log failure
+    }
   }
 
   async register(

@@ -27,8 +27,36 @@ async function setupEvaluationWorker() {
     }
   );
 
-  worker.on("completed", (job, result) => {
+  worker.on("completed", async (job, result) => {
     logger.info(`Job ${job.id} completed successfully. Result: ${result.status}`);
+
+    try {
+      const axios = require("axios");
+      const jobData = job.data as any;
+
+      axios.post("http://localhost:3007/api/v1/analytics/record-submission", {
+        userId: jobData.userId || "anonymous",
+        status: result.status,
+        difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
+        topics: jobData.problem?.tags || [],
+      }).catch(() => { });
+
+      if (result.status === "ACCEPTED" && jobData.userId) {
+        axios.post("http://localhost:3005/api/v1/leaderboard/record-solved", {
+          userId: jobData.userId,
+          userName: jobData.userName || "User",
+          userEmail: jobData.userEmail || "user@leetcode.com",
+          difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
+        }).catch(() => { });
+      }
+
+      axios.patch(`http://localhost:3002/api/v1/submissions/${jobData.submissionId}`, {
+        status: result.status,
+        executionTimeMs: result.executionTimeMs,
+        memoryMb: result.memoryMb,
+      }).catch(() => { });
+    } catch {
+    }
   });
 
   worker.on("failed", (job, err) => {
@@ -45,4 +73,3 @@ async function setupEvaluationWorker() {
 export async function startWorkers() {
   await setupEvaluationWorker();
 }
-

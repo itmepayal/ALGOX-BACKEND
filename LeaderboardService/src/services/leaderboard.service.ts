@@ -1,13 +1,35 @@
 import { LeaderboardRepository } from "../repositories/leaderboard.repository";
 import { NotFoundError } from "../utils/errors/app.error";
-import { LEADERBOARD_MESSAGES } from "../utils/constants";
 import redis from "../config/redis.config";
 
 export class LeaderboardService {
+  private CACHE_TTL_SECONDS = 15;
+
   constructor(private leaderboardRepository: LeaderboardRepository) {}
 
   async getGlobalLeaderboard(page: number, limit: number) {
+    const cacheKey = `leaderboard_page:${page}:limit:${limit}`;
+
+    // Fix 4: Pagination & Short-TTL Caching of Leaderboard Responses
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return typeof cachedData === "string" ? JSON.parse(cachedData) : cachedData;
+      }
+    } catch {
+      // Cache miss or error, fallback to repository
+    }
+
     const result = await this.leaderboardRepository.getGlobalLeaderboard(page, limit);
+
+    try {
+      await redis.set(cacheKey, JSON.stringify(result), {
+        ex: this.CACHE_TTL_SECONDS,
+      });
+    } catch {
+      // Non-blocking catch
+    }
+
     return result;
   }
 
@@ -40,12 +62,14 @@ export class LeaderboardService {
       totalSolved,
     });
 
-    // Update Redis Leaderboard Sorted Set
-    await redis.zadd("global_leaderboard", {
-      score: totalSolved,
-      member: userId,
-    });
+    // Invalidate top page cache on updates so users see fresh data quickly
+    try {
+      await redis.del("leaderboard_page:1:limit:10");
+    } catch {
+      // Non-blocking
+    }
 
     return stats;
   }
 }
+

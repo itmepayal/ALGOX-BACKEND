@@ -7,7 +7,9 @@
     "dev": "nodemon src/server.ts"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "@upstash/redis": "^1.37.0",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "mongoose": "^9.5.0",

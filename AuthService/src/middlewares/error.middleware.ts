@@ -34,11 +34,12 @@ export const errorHandler: ErrorRequestHandler = (
 
   logger.error(`[Unhandled Error] Path: ${req.path} - Error: ${err.message}`, {
     stack: err.stack,
+    errorObj: err,
   });
 
   res.status(500).json({
     success: false,
-    message: "Internal Server Error",
+    message: err.message || "Internal Server Error",
   });
   return;
 };

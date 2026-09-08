@@ -24,6 +24,13 @@ export interface EvaluationJobPayload {
   testcases: ITestcase[];
   timeLimitMs?: number;
   memoryLimitMb?: number;
+  userId?: string;
+  userName?: string;
+  userEmail?: string;
+  problem?: {
+    difficulty?: string;
+    tags?: string[];
+  };
 }
 
 export interface ExecutionResult {

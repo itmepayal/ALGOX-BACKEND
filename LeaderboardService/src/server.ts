@@ -5,8 +5,11 @@ import v1Router from "./routers/v1/index.router";
 import { errorHandler } from "./middlewares/error.middleware";
 import logger from "./config/logger.config";
 
+import cors from "cors";
+
 const app = express();
 
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.use("/api/v1", v1Router);

@@ -33,7 +33,9 @@ export async function runCodeInDocker(
     throw new Error(`${EVALUATION_MESSAGES.UNSUPPORTED_LANGUAGE}: ${options.language}`);
   }
 
-  const { cmd } = getLanguageCmd(options.language, options.code);
+  // Safe Base64 Encoding to eliminate shell injection vulnerabilities
+  const base64Code = Buffer.from(options.code).toString("base64");
+  const { cmd } = getSafeLanguageCmd(options.language, base64Code);
 
   const container = await docker.createContainer({
     Image: imageName,
@@ -46,11 +48,12 @@ export async function runCodeInDocker(
     Tty: false,
     HostConfig: {
       Memory: memoryBytes,
+      MemorySwap: memoryBytes, // Disable Swap to strictly enforce memory limit
       PidsLimit: DOCKER_CONTAINER_CONFIG.PIDS_LIMIT,
       CpuQuota: DOCKER_CONTAINER_CONFIG.CPU_QUOTA,
       CpuPeriod: DOCKER_CONTAINER_CONFIG.CPU_PERIOD,
       SecurityOpt: [...DOCKER_CONTAINER_CONFIG.SECURITY_OPT],
-      NetworkMode: DOCKER_CONTAINER_CONFIG.NETWORK_MODE,
+      NetworkMode: DOCKER_CONTAINER_CONFIG.NETWORK_MODE, // 'none' for isolated sandbox
     },
   });
 
@@ -93,7 +96,7 @@ export async function runCodeInDocker(
         timedOut = true;
         try {
           await container.kill();
-        } catch (e) {
+        } catch {
           // container already terminated
         }
         reject(new Error(EVALUATION_MESSAGES.TIME_LIMIT_EXCEEDED_MSG));
@@ -145,27 +148,33 @@ export async function runCodeInDocker(
   }
 }
 
-function getLanguageCmd(
+function getSafeLanguageCmd(
   language: ProgrammingLanguage,
-  code: string
+  base64Code: string
 ): { cmd: string[] } {
-  const escapedCode = code.replace(/"/g, '\\"');
-
   switch (language) {
     case "python":
       return {
-        cmd: ["python3", "-c", code],
+        cmd: [
+          "sh",
+          "-c",
+          `echo "${base64Code}" | base64 -d > solution.py && python3 solution.py`,
+        ],
       };
     case "javascript":
       return {
-        cmd: ["node", "-e", code],
+        cmd: [
+          "sh",
+          "-c",
+          `echo "${base64Code}" | base64 -d > solution.js && node solution.js`,
+        ],
       };
     case "cpp":
       return {
         cmd: [
           "sh",
           "-c",
-          `echo "${escapedCode}" > solution.cpp && g++ -O3 solution.cpp -o solution && ./solution`,
+          `echo "${base64Code}" | base64 -d > solution.cpp && g++ -O3 solution.cpp -o solution && ./solution`,
         ],
       };
     case "java":
@@ -173,7 +182,7 @@ function getLanguageCmd(
         cmd: [
           "sh",
           "-c",
-          `echo "${escapedCode}" > Solution.java && javac Solution.java && java Solution`,
+          `echo "${base64Code}" | base64 -d > Solution.java && javac Solution.java && java Solution`,
         ],
       };
     default:

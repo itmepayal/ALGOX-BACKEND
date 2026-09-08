@@ -7,7 +7,6 @@ export class LeaderboardRepository {
     const stop = start + limit - 1;
 
     try {
-      // Fetch top user IDs and scores from Redis Sorted Set (ZSET)
       const rawRankings = (await redis.zrange("global_leaderboard", start, stop, {
         rev: true,
         withScores: true,
@@ -16,14 +15,26 @@ export class LeaderboardRepository {
       const total = await redis.zcard("global_leaderboard");
 
       if (rawRankings && rawRankings.length > 0) {
-        const leaderboardData = [];
+        const userIds: string[] = [];
+        const userScoreMap = new Map<string, number>();
+
         for (let i = 0; i < rawRankings.length; i += 2) {
           const userId = String(rawRankings[i]);
           const score = Number(rawRankings[i + 1]);
-          const stats = await UserStats.findOne({ userId });
+          userIds.push(userId);
+          userScoreMap.set(userId, score);
+        }
 
-          leaderboardData.push({
-            rank: start + Math.floor(i / 2) + 1,
+        const statsList = await UserStats.find({ userId: { $in: userIds } });
+        const statsMap = new Map<string, IUserStats>();
+        statsList.forEach((stat) => {
+          statsMap.set(stat.userId.toString(), stat);
+        });
+
+        const leaderboardData = userIds.map((userId, idx) => {
+          const stats = statsMap.get(userId);
+          return {
+            rank: start + idx + 1,
             userId,
             userName: stats?.userName || "Anonymous",
             solvedEasy: stats?.solvedEasy || 0,
@@ -31,9 +42,9 @@ export class LeaderboardRepository {
             solvedHard: stats?.solvedHard || 0,
             totalSolved: stats?.totalSolved || 0,
             rating: stats?.rating || 1500,
-            score,
-          });
-        }
+            score: userScoreMap.get(userId) || 0,
+          };
+        });
 
         return {
           rankings: leaderboardData,
@@ -43,7 +54,6 @@ export class LeaderboardRepository {
         };
       }
     } catch {
-      // Fallback to MongoDB query if Redis fails or is unpopulated
     }
 
     const skip = (page - 1) * limit;
@@ -61,6 +71,11 @@ export class LeaderboardRepository {
       solvedHard: user.solvedHard,
       totalSolved: user.totalSolved,
       rating: user.rating,
+      score:
+        (user.solvedEasy || 0) * 10 +
+        (user.solvedMedium || 0) * 20 +
+        (user.solvedHard || 0) * 30 +
+        (user.rating || 1500),
     }));
 
     return {
@@ -84,7 +99,6 @@ export class LeaderboardRepository {
         };
       }
     } catch {
-      // Fallback
     }
 
     return stats.toObject();
@@ -100,15 +114,18 @@ export class LeaderboardRepository {
       { new: true, upsert: true }
     );
 
-    // Update Redis Sorted Set for sub-millisecond ranking
     try {
-      const score = (data.totalSolved || 0) * 10 + (data.rating || 1500);
+      const score =
+        (stats.solvedEasy || 0) * 10 +
+        (stats.solvedMedium || 0) * 20 +
+        (stats.solvedHard || 0) * 30 +
+        (stats.rating || 1500);
+
       await redis.zadd("global_leaderboard", {
         score,
         member: userId,
       });
     } catch {
-      // Non-blocking catch
     }
 
     return stats;
