@@ -2,6 +2,7 @@ import express from "express";
 import { ProblemController } from "../../controllers/problem.controller";
 import { ProblemService } from "../../services/problem.service";
 import { ProblemRepository } from "../../repositories/problem.repository";
+import { authenticateAdmin } from "../../middlewares/auth.middleware";
 
 const problemRouter = express.Router();
 
@@ -18,8 +19,8 @@ problemRouter.get("/:id", problemController.getProblemById.bind(problemControlle
 
 // Internal / Admin Endpoints 
 problemRouter.get("/internal/:id", problemController.getInternalProblemById.bind(problemController));
-problemRouter.post("/", problemController.createProblem.bind(problemController));
-problemRouter.put("/:id", problemController.updateProblem.bind(problemController));
-problemRouter.delete("/:id", problemController.deleteProblem.bind(problemController));
+problemRouter.post("/", authenticateAdmin, problemController.createProblem.bind(problemController));
+problemRouter.put("/:id", authenticateAdmin, problemController.updateProblem.bind(problemController));
+problemRouter.delete("/:id", authenticateAdmin, problemController.deleteProblem.bind(problemController));
 
 export default problemRouter;

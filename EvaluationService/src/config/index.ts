@@ -26,10 +26,10 @@ function getEnvVariable(key: string, defaultValue?: string): string {
 
 
 export const serverConfig: ServerConfig = {
-  PORT: Number(process.env.PORT) || 3001,
+  PORT: Number(process.env.PORT) || 3006,
   MONGO_URL: getEnvVariable("MONGO_URL"),
   REDIS_URL: getEnvVariable("REDIS_URL"),
-  REDIS_TOKEN: getEnvVariable("REDIS_TOKEN"),
+  REDIS_TOKEN: process.env.REDIS_TOKEN || "",
   PROBLEM_SERVICE: getEnvVariable("PROBLEM_SERVICE"),
   SUBMISSION_SERVICE: getEnvVariable("SUBMISSION_SERVICE"),
 };

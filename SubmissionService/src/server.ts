@@ -8,8 +8,11 @@ import logger from "./config/logger.config";
 import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middleware";
 import { checkRedis } from "./config/redis.config";
 
+import cors from "cors";
+
 const app = express();
 
+app.use(cors({ origin: ["http://localhost:5173", "http://localhost:3000"], credentials: true }));
 app.use(express.json());
 app.use(attachCorrelationIdMiddleware);
 

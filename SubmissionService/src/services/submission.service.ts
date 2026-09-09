@@ -70,12 +70,18 @@ export class SubmissionService implements ISubmissionService {
     };
 
 
-    const jobId = await addSubmissionJob(payload);
-
-    logger.info("Submission queued for evaluation", {
-      submissionId: response._id,
-      jobId,
-    });
+    try {
+      const jobId = await addSubmissionJob(payload);
+      logger.info("Submission queued for evaluation", {
+        submissionId: response._id,
+        jobId,
+      });
+    } catch (error: any) {
+      logger.error("Failed to queue submission for evaluation", {
+        submissionId: response._id,
+        error: error.message,
+      });
+    }
 
     return response;
   }

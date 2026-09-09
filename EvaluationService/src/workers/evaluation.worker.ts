@@ -2,6 +2,7 @@ import { Worker } from "bullmq";
 import logger from "../config/logger.config";
 import { SUBMISSION_QUEUE } from "../utils/constants";
 import { createQueueRedisConnection } from "../queues/redis.queue";
+import { serverConfig } from "../config";
 import { EvaluationService } from "../services/evaluation.service";
 import { EvaluationJobPayload } from "../types/evaluation.type";
 
@@ -50,10 +51,10 @@ async function setupEvaluationWorker() {
         }).catch(() => { });
       }
 
-      axios.patch(`http://localhost:3002/api/v1/submissions/${jobData.submissionId}`, {
+      axios.patch(`${serverConfig.SUBMISSION_SERVICE}/submissions/${jobData.submissionId}`, {
         status: result.status,
-        executionTimeMs: result.executionTimeMs,
-        memoryMb: result.memoryMb,
+        executionTime: result.executionTimeMs,
+        memory: result.memoryMb,
       }).catch(() => { });
     } catch {
     }

@@ -6,6 +6,9 @@ console.log("==================================================\n");
 
 const services = [
   { name: "AuthService", port: 3001, path: "AuthService" },
+  { name: "ProblemService", port: 3003, path: "ProblemService" },
+  { name: "SubmissionService", port: 3004, path: "SubmissionService" },
+  { name: "EvaluationService", port: 3006, path: "EvaluationService" },
 ];
 
 services.forEach((s) => {

@@ -8,7 +8,7 @@ export const DOCKER_IMAGES = {
   python: "python:3.10-slim",
   javascript: "node:18-alpine",
   cpp: "gcc:latest",
-  java: "openjdk:17-alpine",
+  java: "eclipse-temurin:17-alpine",
 } as const;
 
 export const DEFAULT_LIMITS = {
