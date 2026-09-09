@@ -42,6 +42,11 @@ export const verify2FASchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
 });
 
+export const updateProfileSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(50).optional(),
+  avatar: z.string().optional(),
+});
+
 export type SignupDto = z.infer<typeof signupSchema>;
 export type LoginDto = z.infer<typeof loginSchema>;
 export type ResetPasswordRequestDto = z.infer<typeof resetPasswordRequestSchema>;
@@ -50,4 +55,6 @@ export type ChangePasswordDto = z.infer<typeof changePasswordSchema>;
 export type SendEmailVerificationDto = z.infer<typeof sendEmailVerificationSchema>;
 export type VerifyEmailOtpDto = z.infer<typeof verifyEmailOtpSchema>;
 export type Verify2FADto = z.infer<typeof verify2FASchema>;
+export type UpdateProfileDto = z.infer<typeof updateProfileSchema>;
+
 

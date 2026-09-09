@@ -9,6 +9,9 @@ type ServerConfig = {
   SUBMISSION_SERVICE: string;
   JWT_SECRET: string;
   REFRESH_TOKEN_SECRET: string;
+  CLOUDINARY_CLOUD_NAME: string;
+  CLOUDINARY_API_KEY: string;
+  CLOUDINARY_API_SECRET: string;
 };
 
 function loadEnv() {
@@ -35,5 +38,8 @@ export const serverConfig: ServerConfig = {
   SUBMISSION_SERVICE: getEnvVariable("SUBMISSION_SERVICE"),
   JWT_SECRET: getEnvVariable("JWT_SECRET", "super_secret_jwt_access_key"),
   REFRESH_TOKEN_SECRET: getEnvVariable("REFRESH_TOKEN_SECRET", "super_secret_jwt_refresh_key"),
+  CLOUDINARY_CLOUD_NAME: getEnvVariable("CLOUDINARY_CLOUD_NAME", "doqb7czvi"),
+  CLOUDINARY_API_KEY: getEnvVariable("CLOUDINARY_API_KEY", "163938951389993"),
+  CLOUDINARY_API_SECRET: getEnvVariable("CLOUDINARY_API_SECRET", "BZTX2YPOKH70Nf1VtPhpPvhtgN4"),
 };
 

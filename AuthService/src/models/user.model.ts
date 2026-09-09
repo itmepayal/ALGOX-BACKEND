@@ -5,6 +5,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  avatar?: string;
 
   role: "user" | "admin";
 
@@ -30,6 +31,11 @@ const userSchema = new Schema<IUser>(
       trim: true,
       minlength: 2,
       maxlength: 50,
+    },
+
+    avatar: {
+      type: String,
+      default: "",
     },
 
     email: {

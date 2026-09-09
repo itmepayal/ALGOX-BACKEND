@@ -13,13 +13,15 @@ import {
   ChangePasswordDto,
   VerifyEmailOtpDto,
   Verify2FADto,
+  UpdateProfileDto,
 } from "../validators/auth.validator";
+import { uploadToCloudinary } from "../utils/helpers/cloudinary.util";
 import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/helpers/jwt.util";
-import { saveOTP, verifyOTP } from "../utils/helpers/otp.util";
+import { saveOTP, verifyOTP, sendOTPEmail } from "../utils/helpers/otp.util";
 import {
   AUTH_MESSAGES,
   TIME_CONSTANTS,
@@ -48,12 +50,16 @@ export class AuthService {
     data: SignupDto,
     meta?: { ip?: string; userAgent?: string }
   ): Promise<IUser> {
+    console.log(`[AuthService.register] Checking existing user for email: ${data.email}`);
     const existing = await User.findOne({ email: data.email });
     if (existing) {
+      console.warn(`[AuthService.register] User already exists: ${data.email}`);
       throw new BadRequestError(AUTH_MESSAGES.USER_ALREADY_EXISTS);
     }
 
+    console.log(`[AuthService.register] Creating new user in MongoDB...`);
     const user = await User.create(data);
+    console.log(`[AuthService.register] User saved successfully. User ID: ${user._id}`);
     await this.logSecurityAction(
       user._id.toString(),
       SECURITY_ACTIONS.USER_REGISTERED,
@@ -63,19 +69,24 @@ export class AuthService {
   }
 
   async login(data: LoginDto, meta?: { ip?: string; userAgent?: string }) {
+    console.log(`[AuthService.login] Querying user in MongoDB for email: ${data.email}`);
     const user = await User.findOne({ email: data.email }).select(
       "+password +twoFactorSecret"
     );
     if (!user) {
+      console.warn(`[AuthService.login] User not found: ${data.email}`);
       throw new UnauthorizedError(AUTH_MESSAGES.INVALID_CREDENTIALS);
     }
 
     if (user.isLocked()) {
+      console.warn(`[AuthService.login] Account is locked for email: ${data.email}`);
       throw new UnauthorizedError(AUTH_MESSAGES.ACCOUNT_LOCKED);
     }
 
+    console.log(`[AuthService.login] Verifying password for email: ${data.email}`);
     const isMatch = await user.comparePassword(data.password);
     if (!isMatch) {
+      console.warn(`[AuthService.login] Invalid password attempt for email: ${data.email}`);
       user.loginAttempts += 1;
       if (user.loginAttempts >= TIME_CONSTANTS.MAX_LOGIN_ATTEMPTS) {
         user.lockUntil = new Date(
@@ -91,13 +102,17 @@ export class AuthService {
       throw new UnauthorizedError(AUTH_MESSAGES.INVALID_CREDENTIALS);
     }
 
+    console.log(`[AuthService.login] Password matched. Resetting login attempts.`);
     user.loginAttempts = 0;
     user.lockUntil = undefined;
     await user.save();
 
     if (user.twoFactorEnabled) {
+      console.log(`[AuthService.login] 2FA is ENABLED for User: ${user._id}. Generating OTP code...`);
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       await saveOTP(`2fa:${user._id.toString()}`, otp);
+      console.log(`[AuthService.login] 2FA OTP Generated: ${otp}. Dispatching Email via Resend...`);
+      sendOTPEmail(user.email, otp, "Your LeetCode 2FA Login Code").catch(err => console.error("Email error:", err));
       return {
         require2FA: true,
         userId: user._id.toString(),
@@ -105,6 +120,7 @@ export class AuthService {
       };
     }
 
+    console.log(`[AuthService.login] 2FA disabled. Generating JWT Access & Refresh Tokens...`);
     const payload = {
       userId: user._id.toString(),
       email: user.email,
@@ -114,6 +130,7 @@ export class AuthService {
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
+    console.log(`[AuthService.login] Creating session record in DB...`);
     await sessionRepository.create({
       userId: user._id,
       refreshToken,
@@ -127,7 +144,7 @@ export class AuthService {
       SECURITY_ACTIONS.LOGIN_SUCCESS,
       meta
     );
-
+    console.log(`[AuthService.login] Login completed successfully for User: ${user._id}`);
     return { require2FA: false, user, accessToken, refreshToken };
   }
 
@@ -136,12 +153,16 @@ export class AuthService {
     data: Verify2FADto,
     meta?: { ip?: string; userAgent?: string }
   ) {
+    console.log(`[AuthService.verify2FALogin] Looking up user by ID: ${userId}`);
     const user = await User.findById(userId);
     if (!user) {
+      console.warn(`[AuthService.verify2FALogin] User not found for ID: ${userId}`);
       throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND);
     }
 
+    console.log(`[AuthService.verify2FALogin] Verifying OTP: ${data.otp} for User: ${userId}`);
     await verifyOTP(`2fa:${userId}`, data.otp);
+    console.log(`[AuthService.verify2FALogin] OTP matched successfully!`);
 
     const payload = {
       userId: user._id.toString(),
@@ -325,7 +346,7 @@ export class AuthService {
   async getSecurityLogs(userId: string) {
     const logs = await SecurityLog.find({ userId })
       .sort({ createdAt: -1 })
-      .limit(50);
+      .limit(25);
     return logs;
   }
 
@@ -359,5 +380,42 @@ export class AuthService {
     );
 
     return { message: AUTH_MESSAGES.PASSWORD_RESET_SUCCESS };
+  }
+
+  async updateUserProfile(userId: string, data: UpdateProfileDto) {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND);
+    }
+
+    if (data.name) {
+      user.name = data.name.trim();
+    }
+
+    if (data.avatar) {
+      if (data.avatar.startsWith("data:image/") || data.avatar.startsWith("http")) {
+        let avatarUrl = data.avatar;
+        if (data.avatar.startsWith("data:image/")) {
+          avatarUrl = await uploadToCloudinary(data.avatar, "leetcode_avatars");
+        }
+        user.avatar = avatarUrl;
+      }
+    }
+
+    await user.save();
+    await this.logSecurityAction(userId, "PROFILE_UPDATED");
+
+    return {
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+        twoFactorEnabled: user.twoFactorEnabled,
+        isEmailVerified: user.isEmailVerified,
+      },
+    };
   }
 }

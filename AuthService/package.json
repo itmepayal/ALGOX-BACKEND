@@ -14,6 +14,7 @@
     "@types/cors": "^2.8.19",
     "@upstash/redis": "^1.37.0",
     "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^16.4.7",

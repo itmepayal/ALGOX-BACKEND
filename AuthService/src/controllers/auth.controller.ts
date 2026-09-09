@@ -7,6 +7,7 @@ import {
   changePasswordSchema,
   verifyEmailOtpSchema,
   verify2FASchema,
+  updateProfileSchema,
 } from "../validators/auth.validator";
 import { AuthService } from "../services/auth.service";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware";
@@ -27,11 +28,16 @@ export class AuthController {
     next: NextFunction
   ): Promise<void> {
     try {
+      console.log("=== [REGISTER API START] ===");
+      console.log("[Register Request Body]:", req.body);
       const validated = signupSchema.parse(req.body);
+      console.log("[Register Schema Validated Successfully]");
+
       const user = await authService.register(validated, {
         ip: req.ip,
         userAgent: req.headers["user-agent"],
       });
+      console.log(`[Register Service Success] New User Created -> ID: ${user._id}, Email: ${user.email}`);
 
       sendResponse({
         res,
@@ -42,22 +48,32 @@ export class AuthController {
           name: user.name,
           email: user.email,
           role: user.role,
+          avatar: user.avatar,
+          isEmailVerified: user.isEmailVerified,
+          twoFactorEnabled: user.twoFactorEnabled,
         },
       });
+      console.log("=== [REGISTER API COMPLETED] ===");
     } catch (error) {
+      console.error("[REGISTER API ERROR]:", error);
       next(error);
     }
   }
 
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
+      console.log("=== [LOGIN API START] ===");
+      console.log("[Login Request Body]:", { email: req.body?.email });
       const validated = loginSchema.parse(req.body);
+      console.log("[Login Schema Validated Successfully]");
+
       const result = await authService.login(validated, {
         ip: req.ip,
         userAgent: req.headers["user-agent"],
       });
 
       if (result.require2FA) {
+        console.log(`[Login Step] 2FA is ENABLED for User ID: ${result.userId}. OTP Required.`);
         sendResponse({
           res,
           statusCode: HTTP_STATUS.OK,
@@ -68,9 +84,11 @@ export class AuthController {
             ...(result.otp && { otp: result.otp }),
           },
         });
+        console.log("=== [LOGIN API COMPLETED (2FA Required)] ===");
         return;
       }
 
+      console.log("[Login Step] Standard Login Direct Success. Issuing Tokens...");
       const { user, accessToken, refreshToken } = result;
 
       res.cookie(COOKIE_NAME, refreshToken, {
@@ -92,10 +110,15 @@ export class AuthController {
             name: user?.name,
             email: user?.email,
             role: user?.role,
+            avatar: user?.avatar,
+            isEmailVerified: user?.isEmailVerified,
+            twoFactorEnabled: user?.twoFactorEnabled,
           },
         },
       });
+      console.log("=== [LOGIN API COMPLETED (Success)] ===");
     } catch (error) {
+      console.error("[LOGIN API ERROR]:", error);
       next(error);
     }
   }
@@ -106,13 +129,19 @@ export class AuthController {
     next: NextFunction
   ): Promise<void> {
     try {
+      console.log("=== [VERIFY 2FA LOGIN API START] ===");
+      console.log("[Verify 2FA Request Body]:", req.body);
       const { userId } = req.body;
       const validated = verify2FASchema.parse(req.body);
+      console.log("[Verify 2FA Schema Validated Successfully]");
+
       const { user, accessToken, refreshToken } =
         await authService.verify2FALogin(userId, validated, {
           ip: req.ip,
           userAgent: req.headers["user-agent"],
         });
+
+      console.log(`[Verify 2FA Service Success] OTP Verified for User ID: ${user._id}`);
 
       res.cookie(COOKIE_NAME, refreshToken, {
         httpOnly: true,
@@ -133,10 +162,15 @@ export class AuthController {
             name: user.name,
             email: user.email,
             role: user.role,
+            avatar: user.avatar,
+            isEmailVerified: user.isEmailVerified,
+            twoFactorEnabled: user.twoFactorEnabled,
           },
         },
       });
+      console.log("=== [VERIFY 2FA LOGIN API COMPLETED] ===");
     } catch (error) {
+      console.error("[VERIFY 2FA LOGIN API ERROR]:", error);
       next(error);
     }
   }
@@ -238,6 +272,7 @@ export class AuthController {
           name: user.name,
           email: user.email,
           role: user.role,
+          avatar: user.avatar,
           isEmailVerified: user.isEmailVerified,
           twoFactorEnabled: user.twoFactorEnabled,
         },
@@ -429,6 +464,27 @@ export class AuthController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: result.message,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateProfile(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user!.userId;
+      const validated = updateProfileSchema.parse(req.body);
+      const result = await authService.updateUserProfile(userId, validated);
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: result.message,
+        data: result.user,
       });
     } catch (error) {
       next(error);

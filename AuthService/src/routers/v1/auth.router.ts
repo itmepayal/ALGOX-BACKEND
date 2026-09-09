@@ -17,6 +17,7 @@ authRouter.post("/reset-password", authController.resetPassword);
 authRouter.post("/logout", authenticateJwt, authController.logout);
 authRouter.post("/logout-all", authenticateJwt, authController.logoutAllSessions);
 authRouter.get("/me", authenticateJwt, authController.getCurrentUser);
+authRouter.put("/profile", authenticateJwt, authController.updateProfile);
 authRouter.post("/change-password", authenticateJwt, authController.changePassword);
 
 // Email Verification
