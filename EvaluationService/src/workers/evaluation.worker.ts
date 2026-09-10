@@ -51,11 +51,14 @@ async function setupEvaluationWorker() {
         }).catch(() => { });
       }
 
-      axios.patch(`${serverConfig.SUBMISSION_SERVICE}/submissions/${jobData.submissionId}`, {
+      axios.put(`${serverConfig.SUBMISSION_SERVICE}/submissions/${jobData.submissionId}`, {
         status: result.status,
         executionTime: result.executionTimeMs,
         memory: result.memoryMb,
-      }).catch(() => { });
+        error: result.error || null,
+      }).catch((err: any) => {
+        logger.error("Failed to update submission status in SubmissionService", { error: err.message });
+      });
     } catch {
     }
   });

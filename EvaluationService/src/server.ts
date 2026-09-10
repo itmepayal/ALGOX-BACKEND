@@ -29,7 +29,7 @@ const startServer = async () => {
       logger.info(`Press Ctrl+C to stop the server.`);
       await startWorkers();
       logger.info("Workers started successfully.");
-      await pullAllImages();
+      pullAllImages().catch(() => {});
     });
   } catch (error) {
     logger.error("Failed to start server:", error);

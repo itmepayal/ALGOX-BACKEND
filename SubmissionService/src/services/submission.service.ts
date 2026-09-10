@@ -33,7 +33,7 @@ export interface ISubmissionService {
 }
 
 export class SubmissionService implements ISubmissionService {
-  constructor(private submissionRepository: ISubmissionRepository) {}
+  constructor(private submissionRepository: ISubmissionRepository) { }
 
   async createSubmission(
     dto: CreateSubmissionDto
@@ -44,7 +44,6 @@ export class SubmissionService implements ISubmissionService {
 
     const problemId = dto.problemId.toString();
 
-    // Fetch problem details (includes testcases) from ProblemService
     const problem = await getProblemById(problemId);
 
     if (!problem) {
@@ -64,9 +63,12 @@ export class SubmissionService implements ISubmissionService {
 
     const payload = {
       submissionId: response._id.toString(),
+      problemId,
       problem,
       code: dto.code,
       language: dto.language,
+      testcases: problem.testcases || [],
+      userId: dto.userId,
     };
 
 

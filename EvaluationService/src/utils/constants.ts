@@ -1,7 +1,3 @@
-/**
- * Application Constants for EvaluationService
- */
-
 export const SUBMISSION_QUEUE = "submission";
 
 export const DOCKER_IMAGES = {
@@ -12,9 +8,10 @@ export const DOCKER_IMAGES = {
 } as const;
 
 export const DEFAULT_LIMITS = {
-  TIME_LIMIT_MS: 2000, // 2 seconds
-  MEMORY_LIMIT_MB: 256, // 256 MB
+  TIME_LIMIT_MS: 2000,
+  MEMORY_LIMIT_MB: 256,
   CONCURRENCY_WORKERS: 5,
+  COMPILE_TIMEOUT_MS: 5000,
 } as const;
 
 export const DOCKER_CONTAINER_CONFIG = {
@@ -50,3 +47,4 @@ export const EVALUATION_MESSAGES = {
   RUNTIME_EXECUTION_ERROR: "Runtime Execution Error",
   UNSUPPORTED_LANGUAGE: "Unsupported programming language",
 } as const;
+

@@ -78,16 +78,20 @@ export class EvaluationService {
 
         if (result.exitCode !== 0) {
           const isCompilation =
-            result.stderr.includes("error") ||
+            result.stderr.includes("error:") ||
             result.stderr.includes("SyntaxError") ||
-            result.stderr.includes("Compilation failed");
+            result.stderr.includes("Compilation failed") ||
+            result.stderr.includes("g++") ||
+            result.stderr.includes("javac");
+
+          const errorMessage = result.stderr || result.stdout || EVALUATION_MESSAGES.RUNTIME_EXECUTION_ERROR;
 
           return {
             submissionId,
             status: isCompilation
               ? EVALUATION_STATUS.COMPILATION_ERROR
               : EVALUATION_STATUS.RUNTIME_ERROR,
-            error: result.stderr || EVALUATION_MESSAGES.RUNTIME_EXECUTION_ERROR,
+            error: errorMessage,
             executionTimeMs: totalExecutionTimeMs,
             memoryMb: maxMemoryMb,
             testCasesPassed,

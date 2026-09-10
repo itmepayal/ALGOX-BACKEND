@@ -5,9 +5,12 @@ import logger from "../config/logger.config";
 
 export interface ISubmissionJob {
   submissionId: string;
+  problemId?: string;
   problem: IProblemDetails;
   code: string;
   language: ProgrammingLanguage;
+  testcases?: any[];
+  userId?: string;
 }
 
 export async function addSubmissionJob(submission: ISubmissionJob) {
