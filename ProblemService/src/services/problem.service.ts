@@ -129,7 +129,20 @@ export class ProblemService implements IProblemService {
 function filterPublicProblem(problem: IProblem): IProblem {
   const pObj = problem.toObject ? problem.toObject() : { ...problem };
   if (pObj.testcases) {
-    pObj.testcases = pObj.testcases.filter((tc: any) => !tc.isHidden);
+    const all = pObj.testcases as any[];
+    // Counts let the UI show pending hidden slots without leaking content
+    (pObj as any).publicTestcaseCount = all.filter((tc) => !tc.isHidden).length;
+    (pObj as any).hiddenTestcaseCount = all.filter((tc) => Boolean(tc.isHidden)).length;
+    (pObj as any).totalTestcaseCount = all.length;
+    pObj.testcases = all.filter((tc) => !tc.isHidden);
+  } else {
+    (pObj as any).publicTestcaseCount = 0;
+    (pObj as any).hiddenTestcaseCount = 0;
+    (pObj as any).totalTestcaseCount = 0;
   }
+  // Engagement counters (denormalized on problem docs)
+  (pObj as any).likeCount = Math.max(0, Number((pObj as any).likeCount) || 0);
+  (pObj as any).dislikeCount = Math.max(0, Number((pObj as any).dislikeCount) || 0);
+  (pObj as any).bookmarkCount = Math.max(0, Number((pObj as any).bookmarkCount) || 0);
   return pObj as IProblem;
 }

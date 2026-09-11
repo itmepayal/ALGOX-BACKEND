@@ -11,7 +11,7 @@ export const DEFAULT_LIMITS = {
   TIME_LIMIT_MS: 2000,
   MEMORY_LIMIT_MB: 256,
   CONCURRENCY_WORKERS: 5,
-  COMPILE_TIMEOUT_MS: 5000,
+  COMPILE_TIMEOUT_MS: 10000,
 } as const;
 
 export const DOCKER_CONTAINER_CONFIG = {
@@ -47,4 +47,3 @@ export const EVALUATION_MESSAGES = {
   RUNTIME_EXECUTION_ERROR: "Runtime Execution Error",
   UNSUPPORTED_LANGUAGE: "Unsupported programming language",
 } as const;
-

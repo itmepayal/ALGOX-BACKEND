@@ -34,12 +34,17 @@ export async function runCodeInDocker(
   const compileTimeoutMs =
     options.compileTimeoutMs || DEFAULT_LIMITS.COMPILE_TIMEOUT_MS;
   const memoryLimitMb = options.memoryLimitMb || DEFAULT_LIMITS.MEMORY_LIMIT_MB;
-  const memoryBytes = memoryLimitMb * 1024 * 1024;
 
   const isCompiled = COMPILED_LANGUAGES.includes(options.language);
   const effectiveTimeLimitMs = isCompiled
     ? timeLimitMs + compileTimeoutMs
     : timeLimitMs;
+
+  // g++ / javac need far more than typical problem runtime limits (e.g. 128MB)
+  const containerMemoryMb = isCompiled
+    ? Math.max(memoryLimitMb, 512)
+    : memoryLimitMb;
+  const memoryBytes = containerMemoryMb * 1024 * 1024;
 
   const imageName = DOCKER_IMAGES[options.language];
   if (!imageName) {
@@ -56,7 +61,7 @@ export async function runCodeInDocker(
     AttachStdout: true,
     AttachStderr: true,
     OpenStdin: true,
-    StdinOnce: false,
+    StdinOnce: true,
     Tty: false,
     HostConfig: {
       Memory: memoryBytes,
@@ -75,6 +80,7 @@ export async function runCodeInDocker(
   try {
     const stream = await container.attach({
       stream: true,
+      hijack: true,
       stdin: true,
       stdout: true,
       stderr: true,
@@ -82,7 +88,9 @@ export async function runCodeInDocker(
 
     await container.start();
 
-    stream.write(options.input + "\n");
+    // Give the process a moment to start before writing stdin
+    await new Promise((r) => setTimeout(r, 50));
+    stream.write(Buffer.from(String(options.input ?? "") + "\n"));
     stream.end();
 
     let stdout = "";
@@ -135,11 +143,26 @@ export async function runCodeInDocker(
       stderr += err.message;
     }
 
+    // Allow demux to flush leftover stream chunks
+    await new Promise((r) => setTimeout(r, 100));
+
     const executionTimeMs = Date.now() - startTime;
     const stats = await container.stats({ stream: false });
     const memoryMb = Math.round(
       (stats.memory_stats?.usage || 0) / (1024 * 1024)
     );
+
+    // OOM kill
+    if (exitCode === 137) {
+      return {
+        stdout: stdout.trim(),
+        stderr: stderr.trim() || "Memory Limit Exceeded (process killed)",
+        exitCode,
+        timeMs: executionTimeMs,
+        memoryMb: memoryLimitMb,
+        timedOut: false,
+      };
+    }
 
     if (
       isCompiled &&
@@ -183,40 +206,79 @@ function getSafeLanguageCmd(
         cmd: [
           "sh",
           "-c",
-          `echo "${base64Code}" | base64 -d > user_code.py && cat << 'EOF' > solution.py
-import sys
+          `echo "${base64Code}" | base64 -d > user_code.py && cat << 'EOF' > runner.py
+import sys, json, inspect
+
 try:
     import user_code
 except Exception as e:
-    pass
+    import traceback
+    traceback.print_exc()
+    sys.exit(1)
 
-import json
-input_data = sys.stdin.read().strip()
-if input_data:
-    try:
-        # Check if Solution class exists
-        if hasattr(user_code, 'Solution'):
-            sol = user_code.Solution()
-            # Try parsing json array or primitive
+stdin_data = sys.stdin.read().strip()
+
+sol_cls = getattr(user_code, 'Solution', None)
+user_funcs = [
+    obj for name, obj in inspect.getmembers(user_code, inspect.isfunction)
+    if obj.__module__ == 'user_code'
+]
+
+executed = False
+if sol_cls:
+    sol = sol_cls()
+    methods = [m for m in dir(sol) if not m.startswith('__') and callable(getattr(sol, m))]
+    if methods and stdin_data:
+        fn = getattr(sol, methods[0])
+        lines = [l.strip() for l in stdin_data.split('\n') if l.strip()]
+        args = []
+        for l in lines:
+            try: args.append(json.loads(l))
+            except: args.append(l)
+        try:
+            res = fn(*args)
+            if res is not None:
+                print(json.dumps(res) if isinstance(res, (list, dict, set, tuple)) else res)
+            executed = True
+        except TypeError:
             try:
-                parsed = json.loads(input_data)
-                # Find first method in Solution
-                methods = [m for m in dir(sol) if not m.startswith('__') and callable(getattr(sol, m))]
-                if methods:
-                    res = getattr(sol, methods[0])(parsed)
-                    print(json.dumps(res) if isinstance(res, (list, dict)) else res)
-                else:
-                    exec(open('user_code.py').read())
-            except:
-                exec(open('user_code.py').read())
-        else:
-            exec(open('user_code.py').read())
-    except Exception as err:
-        print(err, file=sys.stderr)
-else:
-    exec(open('user_code.py').read())
+                res = fn(args[0] if len(args) == 1 else args)
+                if res is not None:
+                    print(json.dumps(res) if isinstance(res, (list, dict, set, tuple)) else res)
+                executed = True
+            except Exception:
+                pass
+        except Exception:
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
+
+if not executed and user_funcs and stdin_data:
+    fn = user_funcs[0]
+    lines = [l.strip() for l in stdin_data.split('\n') if l.strip()]
+    args = []
+    for l in lines:
+        try: args.append(json.loads(l))
+        except: args.append(l)
+    try:
+        res = fn(*args)
+        if res is not None:
+            print(json.dumps(res) if isinstance(res, (list, dict, set, tuple)) else res)
+        executed = True
+    except TypeError:
+        try:
+            res = fn(args[0] if len(args) == 1 else args)
+            if res is not None:
+                print(json.dumps(res) if isinstance(res, (list, dict, set, tuple)) else res)
+            executed = True
+        except Exception:
+            pass
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 EOF
-python3 solution.py`,
+python3 runner.py`,
         ],
       };
     case "javascript":
@@ -224,7 +286,85 @@ python3 solution.py`,
         cmd: [
           "sh",
           "-c",
-          `echo "${base64Code}" | base64 -d > solution.js && node solution.js`,
+          `echo "${base64Code}" | base64 -d > user_code.js && cat << 'EOF' > runner.js
+const fs = require('fs');
+const vm = require('vm');
+
+const code = fs.readFileSync('./user_code.js', 'utf-8');
+const stdinData = fs.readFileSync(0, 'utf-8').trim();
+
+const customConsole = {
+  log: (...args) => { console.log(...args); },
+  error: (...args) => { console.error(...args); },
+  warn: (...args) => { console.warn(...args); },
+  info: (...args) => { console.info(...args); },
+};
+
+const sandbox = {
+  console: customConsole,
+  require,
+  process,
+  Buffer,
+  setTimeout,
+  clearTimeout,
+  setInterval,
+  clearInterval,
+  exports: {},
+  module: { exports: {} }
+};
+
+vm.createContext(sandbox);
+
+try {
+  vm.runInContext(code, sandbox);
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
+
+let fn = null;
+if (sandbox.Solution && typeof sandbox.Solution === 'function') {
+  try {
+    const sol = new sandbox.Solution();
+    const proto = Object.getPrototypeOf(sol);
+    const methods = Object.getOwnPropertyNames(proto).filter(m => m !== 'constructor');
+    if (methods.length > 0) fn = sol[methods[0]].bind(sol);
+  } catch(e) {}
+}
+
+if (!fn) {
+  const customKeys = Object.keys(sandbox).filter(k => 
+    typeof sandbox[k] === 'function' && 
+    !['console', 'require', 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Buffer'].includes(k)
+  );
+  if (customKeys.length > 0) {
+    fn = sandbox[customKeys[0]];
+  }
+}
+
+if (fn && stdinData) {
+  try {
+    const lines = stdinData.split('\n').map(l => l.trim()).filter(Boolean);
+    const args = lines.map(l => {
+      try { return JSON.parse(l); } catch(e) { return l; }
+    });
+    let res;
+    try {
+      res = fn(...args);
+    } catch(err) {
+      if (args.length > 0) res = fn(args[0]);
+      else throw err;
+    }
+    if (res !== undefined) {
+      console.log(typeof res === 'object' ? JSON.stringify(res) : res);
+    }
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+EOF
+node runner.js`,
         ],
       };
     case "cpp":
@@ -232,16 +372,42 @@ python3 solution.py`,
         cmd: [
           "sh",
           "-c",
-          `echo "${base64Code}" | base64 -d > user_code.cpp && cat << 'EOF' > solution.cpp
+          `echo "${base64Code}" | base64 -d > user_code.cpp && cat << 'EOF' > runner.sh
+if grep -qE "int[[:space:]]+main[[:space:]]*\\(" user_code.cpp; then
+  g++ -O2 -std=c++17 user_code.cpp -o solution 2> /tmp/compile_err.txt
+  if [ $? -ne 0 ]; then
+    echo "COMPILATION_ERROR" >&2
+    cat /tmp/compile_err.txt >&2
+    exit 99
+  fi
+  ./solution
+else
+  cat << 'HEADER' > solution.cpp
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <algorithm>
 #include <cctype>
 using namespace std;
 
 #include "user_code.cpp"
+
+static vector<int> parseIntArray(const string& line) {
+    vector<int> nums;
+    string numStr;
+    for (char c : line) {
+        if (isdigit(c) || c == '-') {
+            numStr += c;
+        } else if (!numStr.empty()) {
+            try { nums.push_back(stoi(numStr)); } catch(...) {}
+            numStr.clear();
+        }
+    }
+    if (!numStr.empty()) {
+        try { nums.push_back(stoi(numStr)); } catch(...) {}
+    }
+    return nums;
+}
 
 int main() {
     ios_base::sync_with_stdio(false);
@@ -249,39 +415,91 @@ int main() {
 
     string line;
     vector<int> nums;
+    int target = 0;
+    bool hasTarget = false;
+    int lineIdx = 0;
+
     while (getline(cin, line)) {
         if (line.empty()) continue;
-        string numStr;
-        for (char c : line) {
-            if (isdigit(c) || c == '-') {
-                numStr += c;
-            } else if (!numStr.empty()) {
-                try { nums.push_back(stoi(numStr)); } catch(...) {}
-                numStr.clear();
-            }
+        vector<int> currentNums = parseIntArray(line);
+        if (lineIdx == 0) {
+            nums = currentNums;
+        } else if (lineIdx == 1 && currentNums.size() == 1) {
+            target = currentNums[0];
+            hasTarget = true;
         }
-        if (!numStr.empty()) {
-            try { nums.push_back(stoi(numStr)); } catch(...) {}
-        }
+        lineIdx++;
     }
 
-    if (nums.empty()) {
-        cerr << "Error: no valid input numbers parsed from stdin" << endl;
-        return 1;
-    }
+HEADER
 
+  # Free-function style: int solution(vector<int>& nums)
+  if grep -qE "(int|long|long long|bool|double|string|vector<.*>)[[:space:]]+solution[[:space:]]*\\(" user_code.cpp && ! grep -q "class[[:space:]]\\+Solution" user_code.cpp; then
+    cat << 'CALL' >> solution.cpp
+    cout << solution(nums) << endl;
+CALL
+  elif grep -q "class[[:space:]]\\+Solution" user_code.cpp || grep -qE "maxSubArray|twoSum|findMax|reverseArray|arraySum|countEven|containsDuplicate" user_code.cpp; then
+    cat << 'SOL' >> solution.cpp
     Solution sol;
+SOL
+    if grep -q "twoSum" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    auto res = sol.twoSum(nums, target);
+    cout << "[" << res[0] << "," << res[1] << "]" << endl;
+CALL
+    elif grep -q "maxSubArray" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
     cout << sol.maxSubArray(nums) << endl;
+CALL
+    elif grep -q "findMax" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    cout << sol.findMax(nums) << endl;
+CALL
+    elif grep -q "reverseArray" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    auto res = sol.reverseArray(nums);
+    cout << "[";
+    for(size_t i=0; i<res.size(); ++i) cout << res[i] << (i+1<res.size()? ",": "");
+    cout << "]" << endl;
+CALL
+    elif grep -q "arraySum" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    cout << sol.arraySum(nums) << endl;
+CALL
+    elif grep -q "countEven" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    cout << sol.countEven(nums) << endl;
+CALL
+    elif grep -q "containsDuplicate" user_code.cpp; then
+      cat << 'CALL' >> solution.cpp
+    cout << (sol.containsDuplicate(nums) ? "true" : "false") << endl;
+CALL
+    else
+      cat << 'CALL' >> solution.cpp
+    cout << sol.maxSubArray(nums) << endl;
+CALL
+    fi
+  else
+    cat << 'CALL' >> solution.cpp
+    // Fallback: try free function solution(nums)
+    cout << solution(nums) << endl;
+CALL
+  fi
+
+  cat << 'FOOTER' >> solution.cpp
     return 0;
 }
-EOF
-g++ -O2 -I. solution.cpp -o solution 2> /tmp/compile_err.txt
-if [ $? -ne 0 ]; then
-  echo "COMPILATION_ERROR" >&2
-  cat /tmp/compile_err.txt >&2
-  exit 99
+FOOTER
+  g++ -O2 -std=c++17 -I. solution.cpp -o solution 2> /tmp/compile_err.txt
+  if [ $? -ne 0 ]; then
+    echo "COMPILATION_ERROR" >&2
+    cat /tmp/compile_err.txt >&2
+    exit 99
+  fi
+  ./solution
 fi
-./solution`,
+EOF
+sh runner.sh`,
         ],
       };
     case "java":

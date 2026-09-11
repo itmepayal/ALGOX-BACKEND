@@ -20,7 +20,7 @@ export const submissionQueue = new Queue("submission", {
 submissionQueue.on("error", (error) => {
   logger.error("Submission queue error", { error: error.message });
 });
-
 submissionQueue.on("waiting", (jobId) => {
   logger.info(`Job is waiting in queue: ${jobId}`);
 });
+

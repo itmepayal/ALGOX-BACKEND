@@ -19,6 +19,7 @@
     "dockerode": "^4.0.10",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "ioredis": "^5.10.1",
     "mongoose": "^9.5.0",
     "uuid": "^11.1.0",
     "winston": "^3.17.0",

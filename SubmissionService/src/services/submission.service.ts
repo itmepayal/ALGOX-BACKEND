@@ -58,8 +58,53 @@ export class SubmissionService implements ISubmissionService {
       status: "PENDING",
     };
 
+    logger.info("SUBMISSION REQUEST RECEIVED", { problemId, language: dto.language });
+
     const response = await this.submissionRepository.createSubmission(submissionData);
 
+    logger.info("PROBLEM FOUND — submission created", {
+      submissionId: response._id,
+      problemId,
+    });
+
+    // Official suite ONLY — loaded from ProblemService internal API.
+    // Never accept testcases from the client (validator also omits them).
+    const rawTestcases = (problem as any).testcases || [];
+    const testcases = rawTestcases.map((tc: any) => ({
+      input: tc.input,
+      output: tc.output ?? tc.expectedOutput ?? "",
+      expectedOutput: tc.expectedOutput ?? tc.output ?? "",
+      isHidden: Boolean(tc.isHidden),
+    }));
+
+    const publicCount = testcases.filter((t: any) => !t.isHidden).length;
+    const hiddenCount = testcases.filter((t: any) => t.isHidden).length;
+
+    logger.info("SUBMIT — official testcases loaded from ProblemService", {
+      submissionId: response._id,
+      total: testcases.length,
+      publicCount,
+      hiddenCount,
+    });
+
+    if (testcases.length === 0) {
+      await this.submissionRepository.updateSubmission(response._id.toString(), {
+        status: "RUNTIME_ERROR",
+        error: "Problem has no official test cases configured.",
+      });
+      return (await this.submissionRepository.getSubmissionById(
+        response._id.toString()
+      )) as ISubmission;
+    }
+
+    // Persist expected totals so the UI can show 0/N while PENDING
+    const withTotals = await this.submissionRepository.updateSubmission(
+      response._id.toString(),
+      {
+        totalTestCases: testcases.length,
+        testCasesPassed: 0,
+      } as any
+    );
 
     const payload = {
       submissionId: response._id.toString(),
@@ -67,13 +112,20 @@ export class SubmissionService implements ISubmissionService {
       problem,
       code: dto.code,
       language: dto.language,
-      testcases: problem.testcases || [],
+      testcases,
+      mode: "submit" as const,
+      timeLimitMs: (problem as any).timeLimitMs || 2000,
+      memoryLimitMb: (problem as any).memoryLimitMb || 256,
       userId: dto.userId,
     };
 
-
     try {
-      const jobId = await addSubmissionJob(payload);
+      const jobId = await Promise.race([
+        addSubmissionJob(payload),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Redis queue add timed out after 8s")), 8000)
+        ),
+      ]);
       logger.info("Submission queued for evaluation", {
         submissionId: response._id,
         jobId,
@@ -83,9 +135,25 @@ export class SubmissionService implements ISubmissionService {
         submissionId: response._id,
         error: error.message,
       });
+      // Persist failure so frontend polling does not hang on PENDING forever
+      await this.submissionRepository.updateSubmission(response._id.toString(), {
+        status: "RUNTIME_ERROR",
+        error: `Failed to queue evaluation: ${error.message}`,
+      });
+      return (await this.submissionRepository.getSubmissionById(
+        response._id.toString()
+      )) as ISubmission;
     }
 
-    return response;
+    logger.info("RESPONSE SENT — returning PENDING submission", {
+      submissionId: response._id,
+    });
+    return (
+      withTotals ||
+      ((await this.submissionRepository.getSubmissionById(
+        response._id.toString()
+      )) as ISubmission)
+    );
   }
 
   async getByProblemId(problemId: string): Promise<ISubmission[]> {

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import v1Router from "./routers/v1/index.router";
@@ -12,6 +13,7 @@ import { pullAllImages } from "./utils/containers/pullImage.util";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(attachCorrelationIdMiddleware);
 

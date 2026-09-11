@@ -1,4 +1,4 @@
-import { spawn } from "child_process";
+import { spawn, execSync } from "child_process";
 
 console.log("==================================================");
 console.log("🚀 Launching All LeetCode Microservices...");
@@ -10,6 +10,20 @@ const services = [
   { name: "SubmissionService", port: 3004, path: "SubmissionService" },
   { name: "EvaluationService", port: 3006, path: "EvaluationService" },
 ];
+
+function freePort(port) {
+  try {
+    execSync(`fuser -k ${port}/tcp 2>/dev/null || true`, { stdio: "ignore" });
+  } catch {
+    // ignore
+  }
+}
+
+// Kill stale listeners so hung processes cannot swallow requests
+for (const s of services) {
+  console.log(`[~] Freeing port ${s.port}...`);
+  freePort(s.port);
+}
 
 services.forEach((s) => {
   console.log(`[+] Starting ${s.name} on http://localhost:${s.port}...`);

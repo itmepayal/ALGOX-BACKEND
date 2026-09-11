@@ -9,7 +9,11 @@ export interface ISubmissionJob {
   problem: IProblemDetails;
   code: string;
   language: ProgrammingLanguage;
+  /** Official suite from ProblemService internal API (includes isHidden). */
   testcases?: any[];
+  timeLimitMs?: number;
+  memoryLimitMb?: number;
+  mode?: "submit";
   userId?: string;
 }
 
