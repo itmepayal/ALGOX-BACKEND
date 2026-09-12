@@ -32,6 +32,8 @@ export const AUTH_MESSAGES = {
   SECURITY_LOGS_RETRIEVED: "Security logs retrieved successfully",
   INVALID_CREDENTIALS: "Invalid email or password",
   ACCOUNT_LOCKED: "Account is temporarily locked due to multiple failed login attempts",
+  ACCOUNT_SUSPENDED: "Account is suspended. Contact support.",
+  ACCOUNT_BANNED: "Account is banned.",
   USER_ALREADY_EXISTS: "User already exists with this email",
   USER_NOT_FOUND: "User not found",
   USER_NOT_FOUND_EMAIL: "User not found with this email",
@@ -41,6 +43,14 @@ export const AUTH_MESSAGES = {
   CURRENT_PASSWORD_INCORRECT: "Current password is incorrect",
   EMAIL_ALREADY_VERIFIED: "Email is already verified",
   INVALID_OTP: "Invalid OTP or OTP expired",
+  INSUFFICIENT_PERMISSIONS: "Access forbidden: Insufficient permissions",
+  ROLE_UPDATED: "User role updated",
+  STATUS_UPDATED: "User status updated",
+  USERS_RETRIEVED: "Users retrieved",
+  AUDIT_LOGS_RETRIEVED: "Audit logs retrieved",
+  AUDIT_LOG_CREATED: "Audit log recorded",
+  PERMISSIONS_RETRIEVED: "Permissions retrieved",
+  INTERNAL_STATS_OK: "Internal stats retrieved",
 } as const;
 
 export const TIME_CONSTANTS = {

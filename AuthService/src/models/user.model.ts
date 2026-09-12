@@ -1,5 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import type { AccountStatus, UserRole } from "../rbac/permissions";
+
+export type { AccountStatus, UserRole };
 
 export interface IUser extends Document {
   name: string;
@@ -7,7 +10,8 @@ export interface IUser extends Document {
   password: string;
   avatar?: string;
 
-  role: "user" | "admin";
+  role: UserRole;
+  status: AccountStatus;
 
   isEmailVerified: boolean;
 
@@ -19,8 +23,11 @@ export interface IUser extends Document {
 
   passwordChangedAt?: Date;
 
+  lastActiveAt?: Date;
+
   comparePassword(candidatePassword: string): Promise<boolean>;
   isLocked(): boolean;
+  isAccountActive(): boolean;
 }
 
 const userSchema = new Schema<IUser>(
@@ -56,8 +63,16 @@ const userSchema = new Schema<IUser>(
 
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "moderator", "content_manager", "admin", "super_admin"],
       default: "user",
+      index: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["active", "suspended", "banned"],
+      default: "active",
+      index: true,
     },
 
     isEmailVerified: {
@@ -86,14 +101,18 @@ const userSchema = new Schema<IUser>(
     },
 
     passwordChangedAt: Date,
+
+    lastActiveAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-// Index
 userSchema.index({ email: 1 });
+userSchema.index({ role: 1, status: 1 });
 
-// Password Hash
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;
 
@@ -102,15 +121,16 @@ userSchema.pre("save", async function (next) {
   this.passwordChangedAt = new Date();
 });
 
-// Compare Password
 userSchema.methods.comparePassword = function (candidate: string) {
   return bcrypt.compare(candidate, this.password);
 };
 
-// Account Lock Check
 userSchema.methods.isLocked = function () {
-
   return !!(this.lockUntil && this.lockUntil > Date.now());
+};
+
+userSchema.methods.isAccountActive = function () {
+  return this.status === "active" && !this.isLocked();
 };
 
 export const User = mongoose.model<IUser>("User", userSchema);

@@ -30,9 +30,18 @@ export interface EvaluationJobPayload {
   userName?: string;
   userEmail?: string;
   mode?: "submit";
+  /** Driver metadata for LeetCode-style class/function execution. */
+  functionName?: string;
+  className?: string;
+  returnType?: string;
+  parameters?: Array<{ name: string; type: string }>;
   problem?: {
     difficulty?: string;
     tags?: string[];
+    functionName?: string;
+    className?: string;
+    returnType?: string;
+    parameters?: Array<{ name: string; type: string }>;
   };
 }
 

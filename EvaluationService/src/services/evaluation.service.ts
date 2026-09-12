@@ -10,6 +10,19 @@ import {
   EVALUATION_MESSAGES,
 } from "../utils/constants";
 import logger from "../config/logger.config";
+import { outputsMatch } from "../execution/compareOutputs";
+import type { JudgeMeta } from "../execution/types";
+
+function extractJudgeMeta(job: EvaluationJobPayload): JudgeMeta {
+  const p = job.problem || {};
+  return {
+    functionName: job.functionName || p.functionName,
+    className: job.className || p.className || "Solution",
+    returnType: job.returnType || p.returnType,
+    parameters: (job.parameters || p.parameters) as JudgeMeta["parameters"],
+    executionMode: "function",
+  };
+}
 
 export class EvaluationService {
   /**
@@ -29,10 +42,15 @@ export class EvaluationService {
       memoryLimitMb = DEFAULT_LIMITS.MEMORY_LIMIT_MB,
     } = job;
 
-    logger.info(`SUBMIT JUDGE STARTED for submission ${submissionId}`, {
+    const meta = extractJudgeMeta(job);
+
+    logger.info(`[Execution] submission received`, {
+      submissionId,
       language,
+      mode: "submit",
+      functionName: meta.functionName,
       testcasesCount: testcases?.length || 0,
-      hiddenCount: (testcases || []).filter((t: any) => t.isHidden).length,
+      hiddenCount: (testcases || []).filter((t) => t.isHidden).length,
     });
 
     let totalExecutionTimeMs = 0;
@@ -55,7 +73,12 @@ export class EvaluationService {
     const total = testcases.length;
 
     for (let i = 0; i < testcases.length; i++) {
-      const tc = testcases[i] as any;
+      const tc = testcases[i] as {
+        input: unknown;
+        expectedOutput?: string;
+        output?: string;
+        isHidden?: boolean;
+      };
       const isHidden = Boolean(tc.isHidden);
       const stdin = formatJudgeInput(tc.input);
       const expected = String(tc.expectedOutput ?? tc.output ?? "");
@@ -73,7 +96,7 @@ export class EvaluationService {
       }
 
       try {
-        logger.info(`SUBMIT testcase=${i + 1}/${total}`, {
+        logger.info(`[Execution] executing testcase=${i + 1}/${total}`, {
           submissionId,
           isHidden,
         });
@@ -84,6 +107,7 @@ export class EvaluationService {
           input: stdin,
           timeLimitMs,
           memoryLimitMb,
+          meta,
         });
 
         totalExecutionTimeMs = Math.max(totalExecutionTimeMs, result.timeMs);
@@ -110,7 +134,6 @@ export class EvaluationService {
           testCasesPassed,
           totalTestCases: total,
           failedIsHidden: isHidden,
-          // Only attach I/O for public failures
           ...(isHidden
             ? {}
             : {
@@ -141,12 +164,11 @@ export class EvaluationService {
           }
 
           const isCompilation =
-            result.stderr.includes("COMPILATION_ERROR") ||
+            result.exitCode === 99 ||
             result.stderr.includes("error:") ||
             result.stderr.includes("SyntaxError") ||
             result.stderr.includes("Compilation failed") ||
-            result.stderr.includes("g++") ||
-            result.stderr.includes("javac");
+            /cannot find symbol|error: /.test(result.stderr);
 
           const errorMessage =
             result.stderr ||
@@ -162,10 +184,8 @@ export class EvaluationService {
           );
         }
 
-        const normalizedActual = normalizeString(result.stdout);
-        const normalizedExpected = normalizeString(expected);
-
-        if (normalizedActual !== normalizedExpected) {
+        if (!outputsMatch(result.stdout, expected)) {
+          logger.info(`[Execution] testcase_failed`, { index: i + 1, isHidden });
           return fail(
             EVALUATION_STATUS.WRONG_ANSWER,
             isHidden
@@ -175,10 +195,12 @@ export class EvaluationService {
           );
         }
 
+        logger.info(`[Execution] testcase_passed`, { index: i + 1 });
         testCasesPassed++;
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
         logger.error(`Error executing testcase ${i + 1}`, {
-          error: err.message,
+          error: message,
           isHidden,
         });
 
@@ -188,7 +210,7 @@ export class EvaluationService {
           status: EVALUATION_STATUS.RUNTIME_ERROR,
           error: isHidden
             ? "Runtime error on a hidden test case."
-            : err.message,
+            : message,
           executionTimeMs: totalExecutionTimeMs,
           memoryMb: maxMemoryMb,
           testCasesPassed,
@@ -198,7 +220,8 @@ export class EvaluationService {
       }
     }
 
-    logger.info(`SUBMIT JUDGE FINISHED ACCEPTED ${submissionId}`, {
+    logger.info(`[Execution] execution_complete ACCEPTED`, {
+      submissionId,
       testCasesPassed,
       total,
     });
@@ -244,13 +267,4 @@ export function formatJudgeInput(input: unknown): string {
   }
 
   return String(input);
-}
-
-function normalizeString(str: string): string {
-  return str
-    .replace(/\r\n/g, "\n")
-    .trim()
-    .split("\n")
-    .map((line) => line.trimEnd())
-    .join("\n");
 }

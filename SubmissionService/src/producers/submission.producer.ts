@@ -6,7 +6,14 @@ import logger from "../config/logger.config";
 export interface ISubmissionJob {
   submissionId: string;
   problemId?: string;
-  problem: IProblemDetails;
+  problem: Partial<IProblemDetails> & {
+    difficulty?: string;
+    tags?: string[];
+    functionName?: string;
+    className?: string;
+    returnType?: string;
+    parameters?: Array<{ name: string; type: string }>;
+  };
   code: string;
   language: ProgrammingLanguage;
   /** Official suite from ProblemService internal API (includes isHidden). */
@@ -15,6 +22,10 @@ export interface ISubmissionJob {
   memoryLimitMb?: number;
   mode?: "submit";
   userId?: string;
+  functionName?: string;
+  className?: string;
+  returnType?: string;
+  parameters?: Array<{ name: string; type: string }>;
 }
 
 export async function addSubmissionJob(submission: ISubmissionJob) {

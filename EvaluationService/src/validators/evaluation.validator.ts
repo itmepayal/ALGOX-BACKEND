@@ -16,6 +16,18 @@ export const runCodeSchema = z.object({
     .default(""),
   timeLimitMs: z.number().optional(),
   memoryLimitMb: z.number().optional(),
+  functionName: z.string().optional(),
+  className: z.string().optional(),
+  returnType: z.string().optional(),
+  parameters: z
+    .array(
+      z.object({
+        name: z.string(),
+        type: z.string(),
+      })
+    )
+    .optional(),
+  problemId: z.string().optional(),
 });
 
 export const evaluateSubmissionSchema = z.object({

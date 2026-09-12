@@ -4,16 +4,55 @@ import { ProblemService } from "../../services/problem.service";
 import { ProblemRepository } from "../../repositories/problem.repository";
 import { engagementController } from "../../controllers/engagement.controller";
 import {
-  authenticateAdmin,
   authenticateJwt,
   optionalAuthenticateJwt,
+  requirePermission,
 } from "../../middlewares/auth.middleware";
+import { sheetProgressController } from "../../controllers/sheetProgress.controller";
 
 const problemRouter = express.Router();
 
 const problemRepository = new ProblemRepository();
 const problemService = new ProblemService(problemRepository);
 const problemController = new ProblemController(problemService);
+
+// ── Admin (before /:id) ──────────────────────────────────────────────
+problemRouter.get(
+  "/admin/list",
+  authenticateJwt,
+  requirePermission("problems:view"),
+  problemController.getAdminProblems.bind(problemController)
+);
+problemRouter.get(
+  "/admin/internal-stats",
+  authenticateJwt,
+  requirePermission("analytics:view"),
+  problemController.internalStats.bind(problemController)
+);
+problemRouter.post(
+  "/admin/bulk",
+  authenticateJwt,
+  requirePermission("problems:update"),
+  problemController.bulkUpdate.bind(problemController)
+);
+problemRouter.get(
+  "/admin/:id",
+  authenticateJwt,
+  requirePermission("problems:view"),
+  problemController.getAdminProblemById.bind(problemController)
+);
+problemRouter.post(
+  "/admin/:id/duplicate",
+  authenticateJwt,
+  requirePermission("problems:create"),
+  problemController.duplicateProblem.bind(problemController)
+);
+problemRouter.patch(
+  "/admin/:id/status",
+  authenticateJwt,
+  requirePermission("problems:publish"),
+  problemController.setStatus.bind(problemController)
+);
 
 // Public User Endpoints
 problemRouter.get("/", problemController.getProblems.bind(problemController));
@@ -25,6 +64,18 @@ problemRouter.get(
 problemRouter.get(
   "/slug/:slug",
   problemController.getProblemBySlug.bind(problemController)
+);
+
+// Sheet progress — before bare /:id
+problemRouter.get(
+  "/sheets/:sheetId/progress",
+  authenticateJwt,
+  sheetProgressController.getProgress.bind(sheetProgressController)
+);
+problemRouter.post(
+  "/sheets/:sheetId/reset-progress",
+  authenticateJwt,
+  sheetProgressController.resetProgress.bind(sheetProgressController)
 );
 
 // Engagement — register before bare /:id
@@ -73,6 +124,11 @@ problemRouter.post(
   authenticateJwt,
   engagementController.toggleRevision.bind(engagementController)
 );
+problemRouter.delete(
+  "/:id/revision",
+  authenticateJwt,
+  engagementController.removeRevision.bind(engagementController)
+);
 
 // Internal before bare /:id so "internal" is not treated as an id
 problemRouter.get(
@@ -82,20 +138,23 @@ problemRouter.get(
 
 problemRouter.get("/:id", problemController.getProblemById.bind(problemController));
 
-// Admin Endpoints
+// Admin mutate endpoints
 problemRouter.post(
   "/",
-  authenticateAdmin,
+  authenticateJwt,
+  requirePermission("problems:create"),
   problemController.createProblem.bind(problemController)
 );
 problemRouter.put(
   "/:id",
-  authenticateAdmin,
+  authenticateJwt,
+  requirePermission("problems:update"),
   problemController.updateProblem.bind(problemController)
 );
 problemRouter.delete(
   "/:id",
-  authenticateAdmin,
+  authenticateJwt,
+  requirePermission("problems:delete"),
   problemController.deleteProblem.bind(problemController)
 );
 

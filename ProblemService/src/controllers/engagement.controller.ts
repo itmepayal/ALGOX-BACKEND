@@ -220,12 +220,34 @@ export class EngagementController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: data.isRevision ? "Marked for revision" : "Revision removed",
+        // Intentionally omit bookmark/reaction fields — revision must stay independent.
         data: {
           isRevision: data.isRevision,
-          isBookmarked: data.isBookmarked,
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async removeRevision(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) throw new UnauthorizedError("Authentication required");
+
+      const problemId = String(req.params.id);
+      const data = await engagementService.removeRevision(problemId, userId);
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Revision removed",
+        data: {
+          isRevision: data.isRevision,
         },
       });
     } catch (error) {

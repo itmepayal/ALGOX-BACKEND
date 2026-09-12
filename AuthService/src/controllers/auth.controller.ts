@@ -272,6 +272,7 @@ export class AuthController {
           name: user.name,
           email: user.email,
           role: user.role,
+          status: (user as any).status || "active",
           avatar: user.avatar,
           isEmailVerified: user.isEmailVerified,
           twoFactorEnabled: user.twoFactorEnabled,

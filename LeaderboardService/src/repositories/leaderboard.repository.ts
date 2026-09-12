@@ -1,5 +1,34 @@
 import { UserStats, IUserStats } from "../models/userStats.model";
+import { SolveEvent } from "../models/solveEvent.model";
 import redis from "../config/redis.config";
+import { Types } from "mongoose";
+
+export type LeaderboardPeriod =
+  | "global"
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "contest";
+
+function periodWindow(period: "daily" | "weekly" | "monthly"): {
+  from: Date;
+  to: Date;
+} {
+  const to = new Date();
+  const from = new Date(to);
+  if (period === "daily") {
+    from.setUTCHours(0, 0, 0, 0);
+  } else if (period === "weekly") {
+    const day = from.getUTCDay();
+    const diff = day === 0 ? 6 : day - 1;
+    from.setUTCDate(from.getUTCDate() - diff);
+    from.setUTCHours(0, 0, 0, 0);
+  } else {
+    from.setUTCDate(1);
+    from.setUTCHours(0, 0, 0, 0);
+  }
+  return { from, to };
+}
 
 export class LeaderboardRepository {
   async getGlobalLeaderboard(page: number = 1, limit: number = 10) {
@@ -84,6 +113,109 @@ export class LeaderboardRepository {
       page,
       totalPages: Math.ceil(total / limit),
     };
+  }
+
+  /**
+   * Rank by SolveEvent counts in the period window.
+   * Returns empty rankings (never invented ranks) when no events exist.
+   */
+  async getPeriodLeaderboard(
+    period: "daily" | "weekly" | "monthly",
+    page: number = 1,
+    limit: number = 10
+  ) {
+    const { from, to } = periodWindow(period);
+    const skip = (page - 1) * limit;
+
+    const grouped = await SolveEvent.aggregate([
+      { $match: { solvedAt: { $gte: from, $lte: to } } },
+      {
+        $group: {
+          _id: "$userId",
+          totalSolved: { $sum: 1 },
+          solvedEasy: {
+            $sum: { $cond: [{ $eq: ["$difficulty", "easy"] }, 1, 0] },
+          },
+          solvedMedium: {
+            $sum: { $cond: [{ $eq: ["$difficulty", "medium"] }, 1, 0] },
+          },
+          solvedHard: {
+            $sum: { $cond: [{ $eq: ["$difficulty", "hard"] }, 1, 0] },
+          },
+        },
+      },
+      {
+        $addFields: {
+          score: {
+            $add: [
+              { $multiply: ["$solvedEasy", 10] },
+              { $multiply: ["$solvedMedium", 20] },
+              { $multiply: ["$solvedHard", 30] },
+            ],
+          },
+        },
+      },
+      { $sort: { score: -1, totalSolved: -1, _id: 1 } },
+    ]);
+
+    if (!grouped.length) {
+      return {
+        rankings: [],
+        total: 0,
+        page,
+        totalPages: 0,
+        period,
+        from: from.toISOString(),
+        to: to.toISOString(),
+      };
+    }
+
+    const total = grouped.length;
+    const pageSlice = grouped.slice(skip, skip + limit);
+    const userIds = pageSlice.map((r) => r._id);
+    const statsList = await UserStats.find({ userId: { $in: userIds } });
+    const statsMap = new Map(
+      statsList.map((s) => [s.userId.toString(), s] as const)
+    );
+
+    const rankings = pageSlice.map((row, idx) => {
+      const userId = String(row._id);
+      const stats = statsMap.get(userId);
+      return {
+        rank: skip + idx + 1,
+        userId,
+        userName: stats?.userName || "Anonymous",
+        solvedEasy: row.solvedEasy,
+        solvedMedium: row.solvedMedium,
+        solvedHard: row.solvedHard,
+        totalSolved: row.totalSolved,
+        rating: stats?.rating || 1500,
+        score: row.score,
+      };
+    });
+
+    return {
+      rankings,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      period,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    };
+  }
+
+  async recordSolveEvent(
+    userId: string,
+    difficulty: "easy" | "medium" | "hard",
+    solvedAt: Date = new Date()
+  ) {
+    if (!Types.ObjectId.isValid(userId)) return null;
+    return SolveEvent.create({
+      userId: new Types.ObjectId(userId),
+      difficulty,
+      solvedAt,
+    });
   }
 
   async getUserStats(userId: string): Promise<(Record<string, any>) | null> {

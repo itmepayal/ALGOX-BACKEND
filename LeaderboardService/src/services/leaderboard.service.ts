@@ -1,23 +1,78 @@
 import { LeaderboardRepository } from "../repositories/leaderboard.repository";
-import { NotFoundError } from "../utils/errors/app.error";
+import { NotFoundError, BadRequestError } from "../utils/errors/app.error";
 import redis from "../config/redis.config";
+
+const PERIODS = new Set(["global", "daily", "weekly", "monthly", "contest"]);
 
 export class LeaderboardService {
   private CACHE_TTL_SECONDS = 15;
 
   constructor(private leaderboardRepository: LeaderboardRepository) {}
 
+  async getLeaderboard(
+    page: number,
+    limit: number,
+    period: string = "global"
+  ) {
+    const normalized = String(period || "global").toLowerCase();
+    if (!PERIODS.has(normalized)) {
+      throw new BadRequestError(
+        "Invalid period. Use global|daily|weekly|monthly|contest"
+      );
+    }
+
+    if (normalized === "contest") {
+      return {
+        rankings: [],
+        total: 0,
+        page,
+        totalPages: 0,
+        period: "contest",
+        message:
+          "Contest leaderboards are served by ProblemService contest APIs until ContestLeaderboard is wired here.",
+      };
+    }
+
+    if (normalized === "global") {
+      return this.getGlobalLeaderboard(page, limit);
+    }
+
+    const cacheKey = `leaderboard_page:${normalized}:${page}:limit:${limit}`;
+    try {
+      const cachedData = await redis.get(cacheKey);
+      if (cachedData) {
+        return typeof cachedData === "string"
+          ? JSON.parse(cachedData)
+          : cachedData;
+      }
+    } catch {
+    }
+
+    const result = await this.leaderboardRepository.getPeriodLeaderboard(
+      normalized as "daily" | "weekly" | "monthly",
+      page,
+      limit
+    );
+
+    try {
+      await redis.set(cacheKey, JSON.stringify(result), {
+        ex: this.CACHE_TTL_SECONDS,
+      });
+    } catch {
+    }
+
+    return result;
+  }
+
   async getGlobalLeaderboard(page: number, limit: number) {
     const cacheKey = `leaderboard_page:${page}:limit:${limit}`;
 
-    // Fix 4: Pagination & Short-TTL Caching of Leaderboard Responses
     try {
       const cachedData = await redis.get(cacheKey);
       if (cachedData) {
         return typeof cachedData === "string" ? JSON.parse(cachedData) : cachedData;
       }
     } catch {
-      // Cache miss or error, fallback to repository
     }
 
     const result = await this.leaderboardRepository.getGlobalLeaderboard(page, limit);
@@ -27,7 +82,6 @@ export class LeaderboardService {
         ex: this.CACHE_TTL_SECONDS,
       });
     } catch {
-      // Non-blocking catch
     }
 
     return result;
@@ -62,14 +116,21 @@ export class LeaderboardService {
       totalSolved,
     });
 
-    // Invalidate top page cache on updates so users see fresh data quickly
+    // Period boards: append SolveEvent for daily/weekly/monthly windows
+    try {
+      await this.leaderboardRepository.recordSolveEvent(userId, difficulty);
+    } catch {
+      // Non-blocking — global stats already updated
+    }
+
     try {
       await redis.del("leaderboard_page:1:limit:10");
+      await redis.del("leaderboard_page:daily:1:limit:10");
+      await redis.del("leaderboard_page:weekly:1:limit:10");
+      await redis.del("leaderboard_page:monthly:1:limit:10");
     } catch {
-      // Non-blocking
     }
 
     return stats;
   }
 }
-

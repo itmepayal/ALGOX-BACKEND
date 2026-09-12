@@ -22,7 +22,10 @@ export interface IPost extends Document {
   viewsCount: number;
   commentCount: number;
   isPinned: boolean;
-  isAcceptedSolution?: boolean; // Featured / LeetCode Official Solution badge
+  isLocked: boolean;
+  /** ACTIVE | HIDDEN | LOCKED | DELETED */
+  status: "ACTIVE" | "HIDDEN" | "LOCKED" | "DELETED";
+  isAcceptedSolution?: boolean;
 }
 
 const postSchema = new Schema<IPost>(
@@ -52,7 +55,14 @@ const postSchema = new Schema<IPost>(
     bookmarkedBy: [{ type: Schema.Types.ObjectId }],
     viewsCount: { type: Number, default: 0 },
     commentCount: { type: Number, default: 0 },
-    isPinned: { type: Boolean, default: false },
+    isPinned: { type: Boolean, default: false, index: true },
+    isLocked: { type: Boolean, default: false },
+    status: {
+      type: String,
+      enum: ["ACTIVE", "HIDDEN", "LOCKED", "DELETED"],
+      default: "ACTIVE",
+      index: true,
+    },
     isAcceptedSolution: { type: Boolean, default: false, index: true },
   },
   { timestamps: true }

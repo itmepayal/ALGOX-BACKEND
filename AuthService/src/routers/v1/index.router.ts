@@ -1,5 +1,6 @@
 import express from 'express';
 import authRouter from './auth.router';
+import adminRouter from './admin.router';
 import { sendResponse } from '../../utils/helpers/response.helper';
 import { HTTP_STATUS } from '../../utils/constants';
 
@@ -15,5 +16,6 @@ v1Router.get('/health', (req, res) => {
 });
 
 v1Router.use('/auth', authRouter);
+v1Router.use('/auth/admin', adminRouter);
 
 export default v1Router;

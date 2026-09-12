@@ -187,6 +187,9 @@ export class EngagementService {
     return this.getEngagement(problemId, userId);
   }
 
+  /**
+   * Remove bookmark only. Never touches ProblemRevision collection.
+   */
   async removeBookmark(
     problemId: string,
     userId: string
@@ -205,6 +208,7 @@ export class EngagementService {
         { $set: { bookmarkCount: 0 } }
       );
     }
+    // Re-read engagement so isRevision reflects the untouched revision doc.
     return this.getEngagement(problemId, userId);
   }
 
@@ -227,6 +231,9 @@ export class EngagementService {
     return this.getEngagement(problemId, userId);
   }
 
+  /**
+   * Remove revision only. Never touches ProblemBookmark collection.
+   */
   async removeRevision(
     problemId: string,
     userId: string

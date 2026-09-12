@@ -33,8 +33,9 @@ export class EvaluationController {
       });
 
       const stdin = formatJudgeInput(validated.input);
-      logger.info("EXECUTION START", {
+      logger.info("[Execution] RUN start", {
         language: validated.language,
+        functionName: validated.functionName,
         stdinPreview: stdin.slice(0, 120),
       });
 
@@ -44,6 +45,12 @@ export class EvaluationController {
         input: stdin,
         timeLimitMs: validated.timeLimitMs,
         memoryLimitMb: validated.memoryLimitMb,
+        meta: {
+          functionName: validated.functionName,
+          className: validated.className,
+          returnType: validated.returnType,
+          parameters: validated.parameters as any,
+        },
       });
 
       logger.info("EXECUTION RESULT", {
@@ -115,6 +122,18 @@ export class EvaluationController {
         timeLimitMs: validated.timeLimitMs ?? problem?.timeLimitMs,
         memoryLimitMb: validated.memoryLimitMb ?? problem?.memoryLimitMb,
         mode: "submit",
+        functionName: problem?.functionName,
+        className: problem?.className,
+        returnType: problem?.returnType,
+        parameters: problem?.parameters,
+        problem: {
+          difficulty: problem?.difficulty,
+          tags: problem?.tags,
+          functionName: problem?.functionName,
+          className: problem?.className,
+          returnType: problem?.returnType,
+          parameters: problem?.parameters,
+        },
       });
 
       sendResponse({

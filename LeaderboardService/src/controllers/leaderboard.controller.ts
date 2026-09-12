@@ -14,17 +14,29 @@ export class LeaderboardController {
     try {
       const page = Number(req.query.page) || 1;
       const limit = Number(req.query.limit) || 10;
-      const result = await this.leaderboardService.getGlobalLeaderboard(page, limit);
+      const period = String(req.query.period || "global");
+      const result = await this.leaderboardService.getLeaderboard(
+        page,
+        limit,
+        period
+      );
 
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
-        message: LEADERBOARD_MESSAGES.LEADERBOARD_RETRIEVED,
+        message:
+          period === "global"
+            ? LEADERBOARD_MESSAGES.LEADERBOARD_RETRIEVED
+            : `Leaderboard retrieved (${period})`,
         data: result.rankings,
         meta: {
           total: result.total,
           page: result.page,
           totalPages: result.totalPages,
+          period: result.period || period,
+          ...(result.from ? { from: result.from } : {}),
+          ...(result.to ? { to: result.to } : {}),
+          ...(result.message ? { message: result.message } : {}),
         },
       });
     } catch (error) {

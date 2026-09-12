@@ -51,6 +51,12 @@ export interface ISubmissionController {
     next: NextFunction
   ): Promise<void>;
 
+  getImportSourceForMe(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void>;
+
   getByStatus(req: Request, res: Response, next: NextFunction): Promise<void>;
 
   getByLanguage(req: Request, res: Response, next: NextFunction): Promise<void>;
@@ -77,7 +83,10 @@ export class SubmissionController implements ISubmissionController {
       sendResponse({
         res,
         statusCode: HTTP_STATUS.CREATED,
-        message: SUBMISSION_MESSAGES.SUBMISSION_CREATED,
+        message:
+          validated.source === "run"
+            ? "Run attempt recorded"
+            : SUBMISSION_MESSAGES.SUBMISSION_CREATED,
         data: submission,
       });
     } catch (error) {
@@ -219,6 +228,35 @@ export class SubmissionController implements ISubmissionController {
     }
   }
 
+  /**
+   * Authenticated lean feed for progress import.
+   * Always scoped to JWT userId — never trusts body/params userId.
+   */
+  async getImportSourceForMe(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = (req as any).user?.userId as string | undefined;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const submissions =
+        await this.submissionService.getImportSourceByUserId(userId);
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
+        data: { submissions },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getByStatus(
     req: Request,
     res: Response,
@@ -275,6 +313,60 @@ export class SubmissionController implements ISubmissionController {
         statusCode: HTTP_STATUS.OK,
         message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
         data: submissions,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async adminList(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const result = await this.submissionService.adminList({
+        page: Number(req.query.page) || 1,
+        limit: Number(req.query.limit) || 20,
+        status: req.query.status ? String(req.query.status) : undefined,
+        language: req.query.language ? String(req.query.language) : undefined,
+        problemId: req.query.problemId ? String(req.query.problemId) : undefined,
+        userId: req.query.userId ? String(req.query.userId) : undefined,
+        from: req.query.from ? String(req.query.from) : undefined,
+        to: req.query.to ? String(req.query.to) : undefined,
+        source: req.query.source ? String(req.query.source) : undefined,
+      });
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
+        data: result.submissions,
+        meta: {
+          total: result.total,
+          page: result.page,
+          limit: result.limit,
+          totalPages: result.totalPages,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async internalStats(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const days = Number(req.query.days) || 30;
+      const data = await this.submissionService.internalStats(days);
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Internal submission stats",
+        data,
       });
     } catch (error) {
       next(error);

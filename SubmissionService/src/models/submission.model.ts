@@ -12,14 +12,20 @@ export type SubmissionStatus =
 
 export type ProgrammingLanguage = "python" | "javascript" | "cpp" | "java";
 
+/** Run attempts are persisted for "Attempted" progress; only submit ACCEPTED counts as Solved. */
+export type SubmissionSource = "run" | "submit";
+
 export interface ISubmission extends Document {
   userId?: Types.ObjectId;
   problemId: Types.ObjectId;
+  contestId?: Types.ObjectId;
 
   language: ProgrammingLanguage;
   code: string;
 
   status: SubmissionStatus;
+  /** Defaults to submit for legacy rows. */
+  source?: SubmissionSource;
 
   output?: string;
   error?: string;
@@ -47,6 +53,10 @@ const submissionSchema = new Schema<ISubmission>(
       required: true,
       index: true,
     },
+    contestId: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
     language: {
       type: String,
       enum: ["python", "javascript", "cpp", "java"],
@@ -57,6 +67,12 @@ const submissionSchema = new Schema<ISubmission>(
     code: {
       type: String,
       required: true,
+    },
+    source: {
+      type: String,
+      enum: ["run", "submit"],
+      default: "submit",
+      index: true,
     },
     status: {
       type: String,

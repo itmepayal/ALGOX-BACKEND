@@ -1,11 +1,15 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+export type ProblemStatus = "draft" | "published" | "archived";
+
 export interface ITestcase {
   input: any;
   output?: string;
   expectedOutput?: string;
   isHidden?: boolean;
   order?: number;
+  explanation?: string;
+  weight?: number;
 }
 
 export interface ICodeStub {
@@ -32,9 +36,11 @@ export interface IProblem extends Document {
   slug: string;
   description: string;
   difficulty: "easy" | "medium" | "hard";
+  status: ProblemStatus;
   category: string;
   tags: string[];
   editorial?: string;
+  hints?: string[];
   constraints?: string;
   examples?: IProblemExample[];
   codeStubs: ICodeStub[];
@@ -49,6 +55,9 @@ export interface IProblem extends Document {
   videoUrl?: string;
   articleUrl?: string;
   practiceUrl?: string;
+  createdBy?: string;
+  updatedBy?: string;
+  publishedAt?: Date;
   /** Denormalized engagement counters (source of truth for list display). */
   likeCount?: number;
   dislikeCount?: number;
@@ -65,6 +74,8 @@ const testcaseSchema = new Schema(
     expectedOutput: { type: String, trim: true },
     isHidden: { type: Boolean, default: false },
     order: { type: Number },
+    explanation: { type: String },
+    weight: { type: Number, default: 1 },
   },
   { _id: true },
 );
@@ -116,6 +127,12 @@ const problemSchema = new Schema<IProblem>(
       default: "easy",
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["draft", "published", "archived"],
+      default: "draft",
+      index: true,
+    },
     category: {
       type: String,
       required: true,
@@ -129,6 +146,7 @@ const problemSchema = new Schema<IProblem>(
     editorial: {
       type: String,
     },
+    hints: { type: [String], default: [] },
     constraints: { type: String },
     examples: [exampleSchema],
     codeStubs: [codeStubSchema],
@@ -138,6 +156,9 @@ const problemSchema = new Schema<IProblem>(
     className: { type: String },
     timeLimitMs: { type: Number, default: 2000 },
     memoryLimitMb: { type: Number, default: 256 },
+    createdBy: { type: String, index: true },
+    updatedBy: { type: String },
+    publishedAt: { type: Date },
     resources: [
       {
         type: {
@@ -182,5 +203,7 @@ const problemSchema = new Schema<IProblem>(
 problemSchema.index({ title: 1 }, { unique: true });
 problemSchema.index({ difficulty: 1 });
 problemSchema.index({ category: 1, difficulty: 1 });
+problemSchema.index({ status: 1, difficulty: 1 });
+problemSchema.index({ status: 1, createdAt: -1 });
 
 export const Problem = mongoose.model<IProblem>("Problem", problemSchema);

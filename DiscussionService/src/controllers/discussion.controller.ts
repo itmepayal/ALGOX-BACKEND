@@ -1,21 +1,43 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import { DiscussionService } from "../services/discussion.service";
+import { AuthenticatedRequest } from "../middlewares/auth.middleware";
+import { BadRequestError, UnauthorizedError } from "../utils/errors/app.error";
+import { forwardAdminAudit } from "../utils/helpers/audit.helper";
+import { isStaffRole } from "../rbac/permissions";
 
 export class DiscussionController {
   constructor(private discussionService: DiscussionService) {}
 
-  async createPost(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async createPost(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
-      const post = await this.discussionService.createPost(req.body);
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const { title, content, category, problemId, language, tags, companyTags, authorName, authorAvatar } =
+        req.body;
+      if (!title?.trim() || !content?.trim()) {
+        throw new BadRequestError("title and content are required");
+      }
+      const post = await this.discussionService.createPost({
+        title: title.trim(),
+        content,
+        category,
+        problemId,
+        language,
+        tags,
+        companyTags,
+        authorId: req.user.userId as any,
+        authorName: authorName || req.user.email || "User",
+        authorAvatar,
+      });
       res.status(201).json({ success: true, message: "Post created successfully", data: post });
     } catch (error) {
       next(error);
     }
   }
 
-  async getPosts(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getPosts(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { category, problemId, language, companyTag, q, sortBy, page, limit } = req.query;
+      const { category, problemId, language, companyTag, q, sortBy, page, limit, status } = req.query;
+      const staff = isStaffRole(req.user?.role);
       const result = await this.discussionService.getPosts(
         category ? String(category) : undefined,
         problemId ? String(problemId) : undefined,
@@ -24,7 +46,12 @@ export class DiscussionController {
         q ? String(q) : undefined,
         sortBy as any,
         page ? Number(page) : 1,
-        limit ? Number(limit) : 10
+        limit ? Number(limit) : 10,
+        staff && status
+          ? { status: String(status), includeHidden: true }
+          : staff
+            ? { includeHidden: true }
+            : undefined
       );
       res.status(200).json({ success: true, data: result });
     } catch (error) {
@@ -32,51 +59,166 @@ export class DiscussionController {
     }
   }
 
-  async getPostById(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async getPostById(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-      const post = await this.discussionService.getPostById(String(id));
+      const post = await this.discussionService.getPostById(
+        String(id),
+        isStaffRole(req.user?.role)
+      );
       res.status(200).json({ success: true, data: post });
     } catch (error) {
       next(error);
     }
   }
 
-  async votePost(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async updatePost(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const post = await this.discussionService.updatePost(
+        String(req.params.id),
+        req.user.userId,
+        req.user.role,
+        {
+          title: req.body.title,
+          content: req.body.content,
+          tags: req.body.tags,
+        }
+      );
+      res.status(200).json({ success: true, message: "Post updated", data: post });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deletePost(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const post = await this.discussionService.deletePost(
+        String(req.params.id),
+        req.user.userId,
+        req.user.role
+      );
+      res.status(200).json({ success: true, message: "Post deleted", data: post });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async moderate(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const action = String(req.body.action || req.params.action || "") as
+        | "pin"
+        | "unpin"
+        | "lock"
+        | "unlock"
+        | "hide"
+        | "restore"
+        | "delete";
+      const before = { id: req.params.id };
+      const post = await this.discussionService.moderate(String(req.params.id), action);
+      await forwardAdminAudit({
+        authorizationHeader: req.headers.authorization,
+        action: `discussion.${action}`,
+        resource: "discussion",
+        resourceId: String(req.params.id),
+        before,
+        after: {
+          status: post.status,
+          isPinned: post.isPinned,
+          isLocked: post.isLocked,
+        },
+      });
+      res.status(200).json({ success: true, message: `Discussion ${action} applied`, data: post });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async votePost(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
       const { id } = req.params;
-      const { userId, voteType } = req.body;
-      const post = await this.discussionService.votePost(String(id), userId, voteType);
+      const { voteType } = req.body;
+      if (voteType !== "upvote" && voteType !== "downvote") {
+        throw new BadRequestError("voteType must be upvote or downvote");
+      }
+      const post = await this.discussionService.votePost(String(id), req.user.userId, voteType);
       res.status(200).json({ success: true, message: "Vote recorded", data: post });
     } catch (error) {
       next(error);
     }
   }
 
-  async bookmarkPost(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async bookmarkPost(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
       const { id } = req.params;
-      const { userId } = req.body;
-      const post = await this.discussionService.bookmarkPost(String(id), userId);
+      const post = await this.discussionService.bookmarkPost(String(id), req.user.userId);
       res.status(200).json({ success: true, message: "Bookmark updated", data: post });
     } catch (error) {
       next(error);
     }
   }
 
-  async addComment(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async addComment(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
-      const comment = await this.discussionService.addComment(req.body);
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const { postId, content, parentId, authorName } = req.body;
+      if (!postId || !content?.trim()) {
+        throw new BadRequestError("postId and content are required");
+      }
+      const comment = await this.discussionService.addComment({
+        postId,
+        content: content.trim(),
+        parentId,
+        authorId: req.user.userId as any,
+        authorName: authorName || req.user.email || "User",
+      });
       res.status(201).json({ success: true, message: "Comment added", data: comment });
     } catch (error) {
       next(error);
     }
   }
 
-  async getComments(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async updateComment(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      if (!req.body.content?.trim()) throw new BadRequestError("content is required");
+      const comment = await this.discussionService.updateComment(
+        String(req.params.id),
+        req.user.userId,
+        req.user.role,
+        req.body.content.trim()
+      );
+      res.status(200).json({ success: true, message: "Comment updated", data: comment });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteComment(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      const comment = await this.discussionService.deleteComment(
+        String(req.params.id),
+        req.user.userId,
+        req.user.role
+      );
+      res.status(200).json({ success: true, message: "Comment deleted", data: comment });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getComments(req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = req.params;
-      const comments = await this.discussionService.getComments(String(id));
+      const comments = await this.discussionService.getComments(
+        String(id),
+        isStaffRole(req.user?.role)
+      );
       res.status(200).json({ success: true, data: comments });
     } catch (error) {
       next(error);

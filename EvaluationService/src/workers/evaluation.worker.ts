@@ -52,7 +52,7 @@ async function updateSubmissionResult(
     payload.output = result.output;
   }
 
-  const url = `${serverConfig.SUBMISSION_SERVICE}/submissions/${submissionId}`;
+  const url = `${serverConfig.SUBMISSION_SERVICE}/submissions/internal/${submissionId}`;
   await axios.put(url, payload, { timeout: 10000 });
 }
 

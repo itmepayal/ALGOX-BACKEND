@@ -2,11 +2,18 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { serverConfig } from "../config";
 import { UnauthorizedError, ForbiddenError } from "../utils/errors/app.error";
+import {
+  hasAnyPermission,
+  isStaffRole,
+  normalizeRole,
+  type Permission,
+  type UserRole,
+} from "../rbac/permissions";
 
 export interface JwtUser {
   userId: string;
   email: string;
-  role: string;
+  role: UserRole | string;
 }
 
 export interface AuthenticatedRequest extends Request {
@@ -15,9 +22,6 @@ export interface AuthenticatedRequest extends Request {
 
 export interface AuthenticatedAdminRequest extends AuthenticatedRequest {}
 
-/**
- * Require a valid access token. User id is taken from JWT only — never from body.
- */
 export const authenticateJwt = (
   req: AuthenticatedRequest,
   _res: Response,
@@ -39,7 +43,7 @@ export const authenticateJwt = (
     req.user = {
       userId: decoded.userId,
       email: decoded.email,
-      role: decoded.role,
+      role: normalizeRole(decoded.role),
     };
     next();
   } catch {
@@ -47,9 +51,6 @@ export const authenticateJwt = (
   }
 };
 
-/**
- * Attach user if token present; otherwise continue anonymously.
- */
 export const optionalAuthenticateJwt = (
   req: AuthenticatedRequest,
   _res: Response,
@@ -66,7 +67,7 @@ export const optionalAuthenticateJwt = (
       req.user = {
         userId: decoded.userId,
         email: decoded.email,
-        role: decoded.role,
+        role: normalizeRole(decoded.role),
       };
     }
   } catch {
@@ -75,6 +76,7 @@ export const optionalAuthenticateJwt = (
   next();
 };
 
+/** @deprecated Prefer requirePermission — kept for backward-compatible imports. */
 export const authenticateAdmin = (
   req: AuthenticatedAdminRequest,
   _res: Response,
@@ -82,11 +84,37 @@ export const authenticateAdmin = (
 ): void => {
   authenticateJwt(req, _res, (err?: any) => {
     if (err) return next(err);
-    if (req.user?.role !== "admin") {
+    if (!isStaffRole(req.user?.role) || !hasAnyPermission(req.user?.role, ["problems:view"])) {
       return next(
-        new ForbiddenError("Forbidden. Only Admin users can perform this action.")
+        new ForbiddenError("Forbidden. Insufficient permissions for this action.")
       );
     }
     next();
   });
+};
+
+export const requirePermission = (...permissions: Permission[]) => {
+  return (req: AuthenticatedRequest, _res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      return next(new UnauthorizedError("Authentication required"));
+    }
+    if (!hasAnyPermission(req.user.role, permissions)) {
+      return next(new ForbiddenError("Access forbidden: Insufficient permissions"));
+    }
+    return next();
+  };
+};
+
+export const requireStaff = (
+  req: AuthenticatedRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
+  if (!req.user) {
+    return next(new UnauthorizedError("Authentication required"));
+  }
+  if (!isStaffRole(req.user.role)) {
+    return next(new ForbiddenError("Access forbidden: Staff only"));
+  }
+  return next();
 };

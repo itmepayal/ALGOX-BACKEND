@@ -83,6 +83,14 @@ export class AuthService {
       throw new UnauthorizedError(AUTH_MESSAGES.ACCOUNT_LOCKED);
     }
 
+    const status = (user as any).status || "active";
+    if (status === "suspended") {
+      throw new UnauthorizedError(AUTH_MESSAGES.ACCOUNT_SUSPENDED);
+    }
+    if (status === "banned") {
+      throw new UnauthorizedError(AUTH_MESSAGES.ACCOUNT_BANNED);
+    }
+
     console.log(`[AuthService.login] Verifying password for email: ${data.email}`);
     const isMatch = await user.comparePassword(data.password);
     if (!isMatch) {
@@ -105,6 +113,7 @@ export class AuthService {
     console.log(`[AuthService.login] Password matched. Resetting login attempts.`);
     user.loginAttempts = 0;
     user.lockUntil = undefined;
+    (user as any).lastActiveAt = new Date();
     await user.save();
 
     if (user.twoFactorEnabled) {

@@ -2,14 +2,19 @@ import express from "express";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import discussionRouter from "./routers/v1/discussion.router";
-
+import { errorHandler } from "./middlewares/error.middleware";
 import cors from "cors";
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
+
+app.get("/health", (_req, res) => {
+  res.json({ success: true, service: "DiscussionService", status: "ok" });
+});
 
 app.use("/api/v1/discussions", discussionRouter);
+app.use(errorHandler);
 
 const startServer = async () => {
   try {

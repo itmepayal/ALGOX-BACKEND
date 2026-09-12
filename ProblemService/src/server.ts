@@ -7,6 +7,7 @@ import v2Router from "./routers/v2/index.router";
 import { errorHandler } from "./middlewares/error.middleware";
 import logger from "./config/logger.config";
 import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middleware";
+import { sheetService } from "./services/sheet.service";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();
+    await sheetService.ensureDefaultCatalogSeeded();
     app.listen(serverConfig.PORT, () => {
       logger.info(`Server is running on http://localhost:${serverConfig.PORT}`);
       logger.info(`Press Ctrl+C to stop the server.`);

@@ -27,6 +27,13 @@ export interface IProblemDetails {
   tags: string[];
   testcases: ITestCase[];
 
+  functionName?: string;
+  className?: string;
+  returnType?: string;
+  parameters?: Array<{ name: string; type: string }>;
+  timeLimitMs?: number;
+  memoryLimitMb?: number;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -84,5 +91,27 @@ export async function getProblemById(
       error: error.message,
     });
     throw new InternalServerError("Unexpected error occurred");
+  }
+}
+
+/** Throws BadRequestError/NotFoundError if contest is outside LIVE window. */
+export async function assertContestAllowsSubmission(
+  contestId: string
+): Promise<void> {
+  try {
+    await axios.get(
+      `${serverConfig.PROBLEM_SERVICE}/contests/internal/${contestId}/allows-submission`,
+      { timeout: 5000 }
+    );
+  } catch (err) {
+    const error = err as AxiosError<any>;
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      "Contest submission check failed";
+    if (status === 404) throw new NotFoundError(message);
+    if (status === 400) throw new BadRequestError(message);
+    throw new BadRequestError(message);
   }
 }
