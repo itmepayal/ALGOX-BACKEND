@@ -51,6 +51,9 @@ export async function getProblemById(
       `${serverConfig.PROBLEM_SERVICE}/problems/internal/${problemId}`,
       {
         timeout: 5000,
+        headers: {
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+        },
       },
     );
 
@@ -101,7 +104,12 @@ export async function assertContestAllowsSubmission(
   try {
     await axios.get(
       `${serverConfig.PROBLEM_SERVICE}/contests/internal/${contestId}/allows-submission`,
-      { timeout: 5000 }
+      {
+        timeout: 5000,
+        headers: {
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+        },
+      }
     );
   } catch (err) {
     const error = err as AxiosError<any>;

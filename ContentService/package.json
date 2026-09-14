@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.19",
+    "@types/jsonwebtoken": "^9.0.10",
     "@upstash/redis": "^1.37.0",
     "cors": "^2.8.6",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.5.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",

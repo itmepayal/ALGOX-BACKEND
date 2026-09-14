@@ -43,9 +43,10 @@ export async function writeAdminAudit(input: AuditWriteInput): Promise<void> {
 
   try {
     const res = await axios.post(url, payload, {
-      headers: input.authorization
-        ? { Authorization: input.authorization }
-        : {},
+      headers: {
+        ...(input.authorization ? { Authorization: input.authorization } : {}),
+        "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+      },
       timeout: 3000,
       validateStatus: (s) => s >= 200 && s < 300,
     });

@@ -13,10 +13,19 @@ export interface JwtUser {
   userId: string;
   email: string;
   role: UserRole | string;
+  permissions?: string[];
 }
 
 export interface AuthenticatedRequest extends Request {
   user?: JwtUser;
+}
+
+function userHasAny(user: JwtUser, permissions: Permission[]): boolean {
+  if (user.permissions && user.permissions.length > 0) {
+    const set = new Set(user.permissions);
+    return permissions.some((p) => set.has(p));
+  }
+  return hasAnyPermission(user.role, permissions);
 }
 
 export const authenticateJwt = (
@@ -41,6 +50,9 @@ export const authenticateJwt = (
       userId: decoded.userId,
       email: decoded.email,
       role: normalizeRole(decoded.role),
+      permissions: Array.isArray(decoded.permissions)
+        ? decoded.permissions
+        : undefined,
     };
     next();
   } catch {
@@ -49,13 +61,38 @@ export const authenticateJwt = (
 };
 
 export const requirePermission = (...permissions: Permission[]) => {
-  return (req: AuthenticatedRequest, _res: Response, next: NextFunction): void => {
+  return (
+    req: AuthenticatedRequest,
+    _res: Response,
+    next: NextFunction
+  ): void => {
     if (!req.user) {
       return next(new UnauthorizedError("Authentication required"));
     }
-    if (!hasAnyPermission(req.user.role, permissions)) {
-      return next(new ForbiddenError("Access forbidden: Insufficient permissions"));
+    if (!userHasAny(req.user, permissions)) {
+      return next(
+        new ForbiddenError("Access forbidden: Insufficient permissions")
+      );
     }
     return next();
   };
+};
+
+export const requireInternalSecret = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): void => {
+  const provided =
+    req.headers["x-internal-secret"] || req.headers["x-realtime-secret"];
+  const expected = serverConfig.INTERNAL_SERVICE_SECRET;
+  if (!expected) {
+    return next(
+      new UnauthorizedError("Internal service authentication is not configured")
+    );
+  }
+  if (typeof provided === "string" && provided === expected) {
+    return next();
+  }
+  return next(new UnauthorizedError("Invalid or missing internal service secret"));
 };

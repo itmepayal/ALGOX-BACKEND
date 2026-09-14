@@ -43,6 +43,7 @@ export async function writeAuthAdminAudit(
             ? { Authorization: input.authorizationHeader }
             : {}),
           "Content-Type": "application/json",
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
         },
       }
     );

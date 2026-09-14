@@ -28,6 +28,19 @@ app.use(errorHandler);
 const startServer = async () => {
     try {
         await connectDB();
+        const { loadRolePermissionCache } = await import(
+          "./services/rolePermission.service"
+        );
+        await loadRolePermissionCache();
+        const { adminNotificationService } = await import(
+          "./services/adminNotification.service"
+        );
+        setInterval(() => {
+          void adminNotificationService.processDueCampaigns().catch((err) => {
+            logger.error("Notification campaign processor failed", err);
+          });
+        }, 30_000);
+
         app.listen(serverConfig.PORT, () => {
             logger.info(`Server is running on http://localhost:${serverConfig.PORT}`);
             logger.info(`Press Ctrl+C to stop the server.`);

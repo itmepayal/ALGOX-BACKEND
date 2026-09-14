@@ -6,6 +6,7 @@ export interface JwtPayload {
   userId: string;
   email: string;
   role: UserRole | string;
+  permissions?: string[];
 }
 
 export const verifyAccessToken = (token: string): JwtPayload => {

@@ -9,6 +9,7 @@ import {
   optionalAuthenticateJwt,
   requirePermission,
 } from "../../middlewares/auth.middleware";
+import { requireFeatureFlag } from "../../middlewares/featureFlag.middleware";
 
 const discussionRepository = new DiscussionRepository();
 const discussionService = new DiscussionService(discussionRepository);
@@ -22,22 +23,26 @@ const discussionRouter = Router();
 discussionRouter.get(
   "/posts",
   optionalAuthenticateJwt,
+  requireFeatureFlag("discussions"),
   discussionController.getPosts.bind(discussionController)
 );
 discussionRouter.get(
   "/posts/:id",
   optionalAuthenticateJwt,
+  requireFeatureFlag("discussions"),
   discussionController.getPostById.bind(discussionController)
 );
 discussionRouter.get(
   "/posts/:id/comments",
   optionalAuthenticateJwt,
+  requireFeatureFlag("discussions"),
   discussionController.getComments.bind(discussionController)
 );
 
 discussionRouter.post(
   "/posts",
   authenticateJwt,
+  requireFeatureFlag("discussions"),
   discussionController.createPost.bind(discussionController)
 );
 discussionRouter.patch(

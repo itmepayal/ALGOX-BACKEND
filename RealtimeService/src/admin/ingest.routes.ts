@@ -22,21 +22,26 @@ const bodySchema = z.object({
 
 /**
  * Service-to-service event ingest for submission/execution/worker events.
- * Auth: x-realtime-secret (if INTERNAL_SECRET set) OR staff JWT.
+ * Auth: x-realtime-secret / x-internal-secret required (fail closed).
  */
 export const ingestRouter = Router();
 
 ingestRouter.post(
   "/events",
   (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const secret = req.headers["x-realtime-secret"];
+    const secret =
+      req.headers["x-realtime-secret"] || req.headers["x-internal-secret"];
     const configured = serverConfig.INTERNAL_SECRET;
-    if (configured) {
-      if (secret && secret === configured) return next();
-      return authenticateJwt(req, res, next);
+    if (!configured) {
+      return next(
+        new BadRequestError(
+          "Internal realtime secret is not configured — refusing ingest"
+        )
+      );
     }
-    // No shared secret configured — accept service ingest (dev). Set INTERNAL_REALTIME_SECRET in production.
-    return next();
+    if (secret && secret === configured) return next();
+    // Staff JWT fallback for admin tooling only
+    return authenticateJwt(req, res, next);
   },
   (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {

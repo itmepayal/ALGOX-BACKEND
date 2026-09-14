@@ -17,6 +17,7 @@ import { NotFoundError } from "../utils/errors/app.error";
 import { pushEvent } from "../events/eventStream";
 import type { RedisAdapterStatus } from "../config/redis.adapter";
 import { isMongoReady } from "../config/db.config";
+import { onlinePresenceService } from "../services/onlinePresence.service";
 
 let redisStatus: RedisAdapterStatus = { enabled: false, reason: "pending" };
 
@@ -25,8 +26,14 @@ export function setRedisStatus(status: RedisAdapterStatus): void {
 }
 
 export class RealtimeAdminService {
-  overview(io: SocketIOServer) {
+  async overview(io: SocketIOServer) {
     const m = metrics.snapshot();
+    let onlineUsers = listOnlineUsers().length;
+    try {
+      onlineUsers = await onlinePresenceService.getOnlineCount();
+    } catch {
+      /* keep memory count */
+    }
     return {
       service: "RealtimeService",
       adapter: redisStatus.enabled ? "redis" : "memory",
@@ -34,7 +41,7 @@ export class RealtimeAdminService {
       mongoBroadcastLogs: isMongoReady(),
       activeConnections: m.activeConnections,
       peakConnections: m.peakConnections,
-      onlineUsers: listOnlineUsers().length,
+      onlineUsers,
       rooms: io.sockets.adapter.rooms.size,
       eventBufferSize: eventBufferSize(),
       eventsPerSecond: m.eventsPerSecond,

@@ -6,11 +6,13 @@ export interface JwtPayload {
   userId: string;
   email: string;
   role: UserRole | string;
+  /** Auth-resolved permissions snapshot (source of truth at token issue time). */
+  permissions?: string[];
 }
 
 export const generateAccessToken = (payload: JwtPayload): string => {
   return jwt.sign(payload, serverConfig.JWT_SECRET, {
-    expiresIn: "15m",
+    expiresIn: "2h",
   });
 };
 

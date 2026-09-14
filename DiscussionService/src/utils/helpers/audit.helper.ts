@@ -4,6 +4,11 @@ const AUTH_AUDIT_URL =
   process.env.AUTH_AUDIT_URL ||
   "http://localhost:3001/api/v1/auth/admin/audit";
 
+const INTERNAL_SECRET =
+  process.env.INTERNAL_SERVICE_SECRET ||
+  process.env.INTERNAL_REALTIME_SECRET ||
+  "dev-internal-service-secret";
+
 export async function forwardAdminAudit(opts: {
   authorizationHeader?: string;
   action: string;
@@ -24,7 +29,10 @@ export async function forwardAdminAudit(opts: {
         after: opts.after,
       },
       {
-        headers: { Authorization: opts.authorizationHeader },
+        headers: {
+          Authorization: opts.authorizationHeader,
+          "x-internal-secret": INTERNAL_SECRET,
+        },
         timeout: 4000,
       }
     );

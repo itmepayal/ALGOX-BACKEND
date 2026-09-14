@@ -23,6 +23,12 @@ export interface IUser extends Document {
 
   passwordChangedAt?: Date;
 
+  /** Soft-delete timestamp — excluded from default listings when set. */
+  deletedAt?: Date | null;
+
+  /** When true, user should change password on next login. */
+  mustChangePassword?: boolean;
+
   lastActiveAt?: Date;
 
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -102,6 +108,17 @@ const userSchema = new Schema<IUser>(
 
     passwordChangedAt: Date,
 
+    deletedAt: {
+      type: Date,
+      default: null,
+      index: true,
+    },
+
+    mustChangePassword: {
+      type: Boolean,
+      default: false,
+    },
+
     lastActiveAt: {
       type: Date,
       default: Date.now,
@@ -112,6 +129,10 @@ const userSchema = new Schema<IUser>(
 
 userSchema.index({ email: 1 });
 userSchema.index({ role: 1, status: 1 });
+userSchema.index({ createdAt: -1 });
+userSchema.index({ lastActiveAt: -1 });
+userSchema.index({ isEmailVerified: 1 });
+userSchema.index({ status: 1, lastActiveAt: -1 });
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;
@@ -130,7 +151,11 @@ userSchema.methods.isLocked = function () {
 };
 
 userSchema.methods.isAccountActive = function () {
-  return this.status === "active" && !this.isLocked();
+  return (
+    this.status === "active" &&
+    !this.isLocked() &&
+    !this.deletedAt
+  );
 };
 
 export const User = mongoose.model<IUser>("User", userSchema);

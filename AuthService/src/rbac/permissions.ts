@@ -42,6 +42,12 @@ export type Permission =
   | "announcements:publish"
   | "announcements:view"
   | "notifications:view"
+  | "notifications:create"
+  | "notifications:manage"
+  | "content:view"
+  | "content:create"
+  | "content:update"
+  | "content:delete"
   | "contests:create"
   | "contests:manage"
   | "sheets:create"
@@ -91,6 +97,12 @@ export const ALL_PERMISSIONS: Permission[] = [
   "announcements:publish",
   "announcements:view",
   "notifications:view",
+  "notifications:create",
+  "notifications:manage",
+  "content:view",
+  "content:create",
+  "content:update",
+  "content:delete",
   "contests:create",
   "contests:manage",
   "sheets:create",
@@ -137,13 +149,19 @@ const CONTENT_MANAGER_PERMS: Permission[] = [
   "submissions:view",
   "analytics:view",
   "health:view",
+  "content:view",
+  "content:create",
+  "content:update",
+  "content:delete",
 ];
 
 const ADMIN_PERMS: Permission[] = [
   ...CONTENT_MANAGER_PERMS,
   "problems:delete",
   "users:view",
+  "users:create",
   "users:update",
+  "users:delete",
   "submissions:update",
   "submissions:delete",
   "discussions:view",
@@ -155,6 +173,9 @@ const ADMIN_PERMS: Permission[] = [
   "announcements:create",
   "announcements:publish",
   "announcements:view",
+  "notifications:view",
+  "notifications:create",
+  "notifications:manage",
   "sheets:create",
   "sheets:manage",
   "contests:create",

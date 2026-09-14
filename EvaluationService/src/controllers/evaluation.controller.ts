@@ -93,7 +93,12 @@ export class EvaluationController {
 
       const problemRes = await axios.get(
         `${serverConfig.PROBLEM_SERVICE}/problems/internal/${validated.problemId}`,
-        { timeout: 5000 }
+        {
+          timeout: 5000,
+          headers: {
+            "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+          },
+        }
       );
       const problem = problemRes.data?.data;
       const official = (problem?.testcases || []).map((tc: any) => ({

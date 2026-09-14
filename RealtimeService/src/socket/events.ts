@@ -10,9 +10,13 @@ export const RealtimeEvents = {
 
   // Client → server
   PRESENCE_UPDATE: "user.presence.update",
+  PRESENCE_GET: "presence:get",
   ROOM_JOIN: "room.join",
   ROOM_LEAVE: "room.leave",
   HEARTBEAT: "user.heartbeat",
+
+  // Server → client presence broadcast (unique online users)
+  PRESENCE_COUNT: "presence:count",
 
   // user.*
   USER_ONLINE: "user.online",

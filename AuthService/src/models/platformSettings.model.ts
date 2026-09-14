@@ -29,6 +29,16 @@ export interface IPlatformSettings extends Document {
   emailNotificationsEnabled: boolean;
   announceNewSheets: boolean;
   announceMaintenance: boolean;
+  /** Feature flags map — toggles for product surfaces. */
+  featureFlags: {
+    contests: boolean;
+    discussions: boolean;
+    submissions: boolean;
+    registration: boolean;
+    maintenance: boolean;
+    newEditor: boolean;
+    notifications: boolean;
+  };
   updatedBy?: string | null;
   createdAt: Date;
   updatedAt: Date;
@@ -64,6 +74,15 @@ export const DEFAULT_PLATFORM_SETTINGS: Omit<
   emailNotificationsEnabled: false,
   announceNewSheets: true,
   announceMaintenance: true,
+  featureFlags: {
+    contests: true,
+    discussions: true,
+    submissions: true,
+    registration: true,
+    maintenance: false,
+    newEditor: true,
+    notifications: true,
+  },
   updatedBy: null,
 };
 
@@ -105,6 +124,15 @@ const platformSettingsSchema = new Schema<IPlatformSettings>(
     emailNotificationsEnabled: { type: Boolean, default: false },
     announceNewSheets: { type: Boolean, default: true },
     announceMaintenance: { type: Boolean, default: true },
+    featureFlags: {
+      contests: { type: Boolean, default: true },
+      discussions: { type: Boolean, default: true },
+      submissions: { type: Boolean, default: true },
+      registration: { type: Boolean, default: true },
+      maintenance: { type: Boolean, default: false },
+      newEditor: { type: Boolean, default: true },
+      notifications: { type: Boolean, default: true },
+    },
     updatedBy: { type: String, default: null },
   },
   { timestamps: true }

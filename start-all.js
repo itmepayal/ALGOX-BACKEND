@@ -8,7 +8,12 @@ const services = [
   { name: "AuthService", port: 3001, path: "AuthService" },
   { name: "ProblemService", port: 3003, path: "ProblemService" },
   { name: "SubmissionService", port: 3004, path: "SubmissionService" },
+  { name: "LeaderboardService", port: 3005, path: "LeaderboardService" },
   { name: "EvaluationService", port: 3006, path: "EvaluationService" },
+  { name: "AnalyticsService", port: 3007, path: "AnalyticsService" },
+  { name: "DiscussionService", port: 3008, path: "DiscussionService" },
+  { name: "ContentService", port: 3009, path: "ContentService" },
+  { name: "RealtimeService", port: 3010, path: "RealtimeService" },
 ];
 
 function freePort(port) {

@@ -1,0 +1,41 @@
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-13-2026 11:40:07","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-13-2026 11:40:09","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-13-2026 11:40:10","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-13-2026 11:40:10","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-13-2026 11:40:10","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-13-2026 11:40:10","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-13-2026 11:41:03","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-13-2026 11:41:04","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-13-2026 11:41:06","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-13-2026 11:41:06","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-13-2026 11:41:06","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-13-2026 11:41:06","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:41:24","data":{"socketId":"3WZls0hKLTxeXOZaAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:43:50","data":{"socketId":"U43PsDKQd3M3soOZAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:43:50","data":{"socketId":"xRYZZy3qghOvFfxHAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:47:08","data":{"socketId":"w-n1xNjOyOGf0VC0AAAD","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:47:08","data":{"socketId":"Eu9CVJ5kGxrsraCwAAAE","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:49:14","data":{"socketId":"rjB85sbT0o-g4Wj-AAAI","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:49:14","data":{"socketId":"NvUkxoprgwjKxC_UAAAH","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:49:27","data":{"socketId":"6fKUGTyp8skCkXX2AAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:49:27","data":{"socketId":"jtGdYgFj8A2GGVVWAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:52:28","data":{"socketId":"S1j-qo7CRG59ujdeAAAK","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:52:28","data":{"socketId":"JfjyzzftYvJq-l98AAAJ","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:52:46","data":{"socketId":"OfQW2GU4EYpuP-WXAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 11:52:46","data":{"socketId":"bLbEpgBiZNUDh46IAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:22","data":{"socketId":"jHPuvS48I2tfmwbnAAAN","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"OluGaPnqN6nncf54AAAS","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"8A3fjuGJiO96ehUdAAAR","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"inaARUb7Tr3YmbZ0AAAQ","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"aqEvEKQpypgVW_mJAAAP","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"gsbQJqnIsKRZjScGAAAO","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"YsPtm9jhPj9hEyzfAAAT","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:00:23","data":{"socketId":"N9Vf4MjEji1jhj3SAAAU","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:01:28","data":{"socketId":"be3UGL-L7pnb_bw8AAAV","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:01:28","data":{"socketId":"J06dykgqFPfa7h5-AAAW","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:01:28","data":{"socketId":"8B1KbCGFBBYUn42LAAAX","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:01:28","data":{"socketId":"vkZEZpiF2wRyAVcwAAAY","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:09:48","data":{"socketId":"YNO8ZEc120uMug57AAAa","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:09:48","data":{"socketId":"WjbW-2bI8KnjpQnLAAAZ","userId":"6aa63f0454a5485854db09bc","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:09:48","data":{"socketId":"dc2kzd3OF_nzDUM1AAAb","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-13-2026 12:09:48","data":{"socketId":"0dWtYxRE9sqdK5xwAAAc","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}

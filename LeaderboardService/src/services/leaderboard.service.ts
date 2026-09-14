@@ -1,6 +1,7 @@
 import { LeaderboardRepository } from "../repositories/leaderboard.repository";
 import { NotFoundError, BadRequestError } from "../utils/errors/app.error";
 import redis from "../config/redis.config";
+import { UserStats } from "../models/userStats.model";
 
 const PERIODS = new Set(["global", "daily", "weekly", "monthly", "contest"]);
 
@@ -132,5 +133,72 @@ export class LeaderboardService {
     }
 
     return stats;
+  }
+
+  async rebuildRedisLeaderboard() {
+    const all = await UserStats.find({
+      rankingSuspended: { $ne: true },
+    }).lean();
+    try {
+      await redis.del("global_leaderboard");
+      if (all.length) {
+        const members = all.map((s) => {
+          const score =
+            (s.solvedEasy || 0) * 10 +
+            (s.solvedMedium || 0) * 20 +
+            (s.solvedHard || 0) * 30 +
+            (s.rating || 1500);
+          return { score, member: String(s.userId) };
+        });
+        // zadd accepts multiple; Upstash may take array — fall back to loop
+        for (const m of members) {
+          await redis.zadd("global_leaderboard", m);
+        }
+      }
+    } catch {
+      // Redis optional — Mongo remains source of truth for admin rebuild report
+    }
+    return { rebuilt: all.length };
+  }
+
+  async resetUserRanking(userId: string) {
+    const before = await this.leaderboardRepository.getUserStats(userId);
+    const stats = await this.leaderboardRepository.upsertUserStats(userId, {
+      solvedEasy: 0,
+      solvedMedium: 0,
+      solvedHard: 0,
+      totalSolved: 0,
+      rating: 1500,
+    } as any);
+    try {
+      await redis.zrem("global_leaderboard", userId);
+    } catch {}
+    return { before, after: stats };
+  }
+
+  async setRankingSuspended(userId: string, suspended: boolean) {
+    const before = await this.leaderboardRepository.getUserStats(userId);
+    const stats = await UserStats.findOneAndUpdate(
+      { userId },
+      { $set: { rankingSuspended: suspended } },
+      { new: true }
+    );
+    if (!stats) throw new NotFoundError("User stats not found");
+    try {
+      if (suspended) {
+        await redis.zrem("global_leaderboard", userId);
+      } else {
+        const score =
+          (stats.solvedEasy || 0) * 10 +
+          (stats.solvedMedium || 0) * 20 +
+          (stats.solvedHard || 0) * 30 +
+          (stats.rating || 1500);
+        await redis.zadd("global_leaderboard", {
+          score,
+          member: userId,
+        });
+      }
+    } catch {}
+    return { before, after: stats.toObject() };
   }
 }

@@ -17,13 +17,18 @@ export interface RemoteAuditInput {
 export async function forwardAdminAudit(
   input: RemoteAuditInput
 ): Promise<boolean> {
-  const url = `${serverConfig.AUTH_SERVICE_URL.replace(/\/$/, "")}/auth/admin/audit`;
+  const root = serverConfig.AUTH_SERVICE_URL.replace(/\/$/, "").replace(
+    /\/api\/v1$/,
+    ""
+  );
+  const url = `${root}/api/v1/auth/admin/audit`;
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${input.token}`,
+        "x-internal-secret": serverConfig.INTERNAL_SECRET,
       },
       body: JSON.stringify({
         action: input.action,

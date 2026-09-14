@@ -2,11 +2,28 @@ import axios from "axios";
 import { AnalyticsRepository } from "../repositories/analytics.repository";
 import { serverConfig } from "../config";
 
+function rangeToDays(range: string): number {
+  switch (range) {
+    case "today":
+      return 1;
+    case "7d":
+      return 7;
+    case "90d":
+      return 90;
+    case "1y":
+    case "365d":
+      return 365;
+    case "30d":
+    default:
+      return 30;
+  }
+}
+
 /** Prefer HTTP internal stats endpoints on sibling services (auth via forwarded JWT). */
 async function fetchInternal(
   url: string,
   token?: string,
-  timeoutMs = 8000
+  timeoutMs = 4000
 ): Promise<any> {
   try {
     const res = await axios.get(url, {
@@ -59,15 +76,14 @@ export class AnalyticsService {
    * Fan-in via Auth/Problem/Submission thin `/internal-*` HTTP endpoints.
    */
   async getPlatformOverview(range: string, authHeader?: string) {
-    const days =
-      range === "7d" ? 7 : range === "90d" ? 90 : range === "today" ? 1 : 30;
+    const days = rangeToDays(range);
     const token = authHeader?.startsWith("Bearer ")
       ? authHeader.slice(7)
       : authHeader;
 
     const [users, problems, submissions] = await Promise.all([
       fetchInternal(
-        `${serverConfig.AUTH_SERVICE_URL}/api/v1/auth/admin/internal/user-stats`,
+        `${serverConfig.AUTH_SERVICE_URL}/api/v1/auth/admin/internal/user-stats?days=${days}`,
         token
       ),
       fetchInternal(
@@ -80,8 +96,16 @@ export class AnalyticsService {
       ),
     ]);
 
+    const sources = {
+      users: Boolean(users),
+      problems: Boolean(problems),
+      submissions: Boolean(submissions),
+    };
+
     return {
       range,
+      sources,
+      degraded: !sources.users || !sources.problems || !sources.submissions,
       users: users || {
         totalUsers: 0,
         activeUsers: 0,
@@ -98,6 +122,7 @@ export class AnalyticsService {
         archived: 0,
         today: 0,
         byDifficulty: { easy: 0, medium: 0, hard: 0 },
+        byTopic: {},
       },
       submissions: submissions || {
         total: 0,
@@ -109,31 +134,45 @@ export class AnalyticsService {
         series: [],
         topProblems: [],
         mostActiveUsers: [],
+        avgExecutionTime: null,
+        avgMemory: null,
+        solvedProblems: 0,
       },
       kpis: {
         totalUsers: users?.totalUsers ?? 0,
         dau: users?.dau ?? 0,
         wau: users?.wau ?? 0,
         mau: users?.mau ?? 0,
+        activeUsers: users?.activeUsers ?? users?.dau ?? 0,
+        totalProblems: problems?.total ?? 0,
         publishedProblems: problems?.published ?? 0,
         draftProblems: problems?.draft ?? 0,
         totalSubmissions: submissions?.total ?? 0,
         todaySubmissions: submissions?.today ?? 0,
         successRate: submissions?.successRate ?? 0,
+        solvedProblems: submissions?.solvedProblems ?? 0,
+        acceptedSubmissions: submissions?.accepted ?? 0,
+        newUsersTrendPct: users?.newUsersTrendPct ?? null,
       },
     };
   }
 
   async getChartSeries(range: string, authHeader?: string) {
+    // Reuse overview so we do not double fan-in (was causing 8s+8s timeouts).
     const overview = await this.getPlatformOverview(range, authHeader);
     return {
       userGrowth: overview.users.growth || [],
       submissionsByStatus: overview.submissions.byStatus || {},
       submissionSeries: overview.submissions.series || [],
       difficultyDistribution: overview.problems.byDifficulty || {},
+      topicDistribution: (overview.problems as any).byTopic || {},
       languageUsage: overview.submissions.byLanguage || {},
       topProblems: overview.submissions.topProblems || [],
       mostActiveUsers: overview.submissions.mostActiveUsers || [],
+      avgExecutionTime: (overview.submissions as any).avgExecutionTime ?? null,
+      avgMemory: (overview.submissions as any).avgMemory ?? null,
+      sources: overview.sources,
+      degraded: overview.degraded,
     };
   }
 }

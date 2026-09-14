@@ -2,16 +2,20 @@ import { Router } from "express";
 import {
   authenticateJwt,
   requirePermission,
-  requireStaff,
+  requireInternalSecret,
 } from "../../middlewares/auth.middleware";
+import { adminMutationRateLimit } from "../../middlewares/rateLimit.middleware";
 import { adminUserController } from "../../controllers/adminUser.controller";
 import { platformSettingsController } from "../../controllers/platformSettings.controller";
 import { announcementController } from "../../controllers/announcement.controller";
 import { auditIngestController } from "../../controllers/auditIngest.controller";
+import { adminNotificationController } from "../../controllers/adminNotification.controller";
+import { rolePermissionController } from "../../controllers/rolePermission.controller";
 
 const adminRouter = Router();
 
 adminRouter.use(authenticateJwt);
+adminRouter.use(adminMutationRateLimit());
 
 adminRouter.get(
   "/me/permissions",
@@ -43,10 +47,58 @@ adminRouter.get(
   adminUserController.listUsers.bind(adminUserController)
 );
 
+adminRouter.post(
+  "/users",
+  requirePermission("users:create"),
+  adminUserController.createUser.bind(adminUserController)
+);
+
 adminRouter.get(
   "/users/:id",
   requirePermission("users:view"),
   adminUserController.getUser.bind(adminUserController)
+);
+
+adminRouter.delete(
+  "/users/:id",
+  requirePermission("users:delete"),
+  adminUserController.softDeleteUser.bind(adminUserController)
+);
+
+adminRouter.post(
+  "/users/:id/reset-password",
+  requirePermission("users:update"),
+  adminUserController.resetPassword.bind(adminUserController)
+);
+
+adminRouter.get(
+  "/users/:id/activity",
+  requirePermission("users:view"),
+  adminUserController.getUserActivity.bind(adminUserController)
+);
+
+adminRouter.get(
+  "/users/:id/progress",
+  requirePermission("users:view"),
+  adminUserController.getUserProgress.bind(adminUserController)
+);
+
+adminRouter.get(
+  "/users/:id/sessions",
+  requirePermission("users:view"),
+  adminUserController.listUserSessions.bind(adminUserController)
+);
+
+adminRouter.delete(
+  "/users/:id/sessions/:sessionId",
+  requirePermission("users:update"),
+  adminUserController.revokeUserSession.bind(adminUserController)
+);
+
+adminRouter.delete(
+  "/users/:id/sessions",
+  requirePermission("users:update"),
+  adminUserController.revokeAllUserSessions.bind(adminUserController)
 );
 
 adminRouter.patch(
@@ -67,10 +119,10 @@ adminRouter.get(
   adminUserController.listAuditLogs.bind(adminUserController)
 );
 
-/** Cross-service audit intake (Realtime, Discussion, Sheets, etc.). Staff JWT required. */
+/** Cross-service audit intake — JWT (401 without) + internal secret (403 if forged staff). */
 adminRouter.post(
   "/audit",
-  requireStaff,
+  requireInternalSecret,
   auditIngestController.ingest.bind(auditIngestController)
 );
 
@@ -128,6 +180,56 @@ adminRouter.post(
   "/announcements/:id/archive",
   requirePermission("announcements:publish"),
   announcementController.archive.bind(announcementController)
+);
+
+// ── Admin notifications (inbox fan-out) ───────────────────────────────
+adminRouter.get(
+  "/notifications",
+  requirePermission("notifications:view"),
+  adminNotificationController.list.bind(adminNotificationController)
+);
+
+adminRouter.post(
+  "/notifications",
+  requirePermission("notifications:create"),
+  adminNotificationController.create.bind(adminNotificationController)
+);
+
+adminRouter.get(
+  "/notifications/campaigns",
+  requirePermission("notifications:view"),
+  adminNotificationController.listCampaigns.bind(adminNotificationController)
+);
+
+adminRouter.post(
+  "/notifications/campaigns/:id/cancel",
+  requirePermission("notifications:manage"),
+  adminNotificationController.cancelCampaign.bind(adminNotificationController)
+);
+
+adminRouter.delete(
+  "/notifications/:id",
+  requirePermission("notifications:manage"),
+  adminNotificationController.remove.bind(adminNotificationController)
+);
+
+// ── Roles & permissions matrix ───────────────────────────────────────
+adminRouter.get(
+  "/roles/matrix",
+  requirePermission("admin:view"),
+  rolePermissionController.getMatrix.bind(rolePermissionController)
+);
+
+adminRouter.put(
+  "/roles/:role/permissions",
+  requirePermission("admin:view"),
+  rolePermissionController.updateRole.bind(rolePermissionController)
+);
+
+adminRouter.post(
+  "/roles/:role/reset",
+  requirePermission("admin:view"),
+  rolePermissionController.resetRole.bind(rolePermissionController)
 );
 
 export default adminRouter;

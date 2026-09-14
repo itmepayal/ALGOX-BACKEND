@@ -6,6 +6,7 @@ import { serverConfig } from "./config";
 import logger from "./config/logger.config";
 import { connectDBOptional } from "./config/db.config";
 import { tryAttachRedisAdapter } from "./config/redis.adapter";
+import { initPresenceRedis } from "./config/presenceRedis";
 import { errorHandler } from "./middlewares/error.middleware";
 import realtimeAdminRouter from "./admin/realtime.routes";
 import { ingestRouter } from "./admin/ingest.routes";
@@ -14,6 +15,8 @@ import { setRedisStatus } from "./admin/realtime.service";
 import { sendResponse } from "./utils/helpers/response.helper";
 import { HTTP_STATUS, REALTIME_MESSAGES } from "./utils/constants";
 import { getActiveConnectionCount } from "./socket/presence";
+import { onlinePresenceService } from "./services/onlinePresence.service";
+import { isPresenceRedisReady } from "./config/presenceRedis";
 
 const app = express();
 
@@ -29,7 +32,13 @@ app.use(
 app.use(express.json({ limit: "1mb" }));
 
 /** Minimal health — no auth */
-app.get("/health", (_req, res) => {
+app.get("/health", async (_req, res) => {
+  let onlineUsers = getActiveConnectionCount();
+  try {
+    onlineUsers = await onlinePresenceService.getOnlineCount();
+  } catch {
+    /* keep connection count as rough fallback for health only */
+  }
   sendResponse({
     res,
     statusCode: HTTP_STATUS.OK,
@@ -38,6 +47,8 @@ app.get("/health", (_req, res) => {
       service: "RealtimeService",
       port: serverConfig.PORT,
       activeConnections: getActiveConnectionCount(),
+      onlineUsers,
+      presenceRedis: isPresenceRedisReady(),
       uptimeSec: Math.floor(process.uptime()),
     },
   });
@@ -58,6 +69,7 @@ app.use(errorHandler);
 
 async function start() {
   await connectDBOptional();
+  await initPresenceRedis();
 
   const httpServer = http.createServer(app);
   const io = new SocketIOServer(httpServer, {
@@ -81,7 +93,7 @@ async function start() {
       `RealtimeService listening on http://localhost:${serverConfig.PORT}`
     );
     logger.info(
-      `Socket.IO ready (adapter=${redis.enabled ? "redis" : "memory"})`
+      `Socket.IO ready (adapter=${redis.enabled ? "redis" : "memory"}; presenceRedis=${isPresenceRedisReady()})`
     );
     logger.info("Client env: VITE_REALTIME_URL=http://localhost:3010");
   });

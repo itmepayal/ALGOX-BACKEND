@@ -27,6 +27,17 @@ import {
   TIME_CONSTANTS,
   SECURITY_ACTIONS,
 } from "../utils/constants";
+import { permissionsForRoleResolved } from "./rolePermission.service";
+
+function tokenPayload(user: { _id: any; email: string; role: string }) {
+  const role = user.role;
+  return {
+    userId: user._id.toString(),
+    email: user.email,
+    role,
+    permissions: permissionsForRoleResolved(role),
+  };
+}
 
 export class AuthService {
   private async logSecurityAction(
@@ -130,11 +141,7 @@ export class AuthService {
     }
 
     console.log(`[AuthService.login] 2FA disabled. Generating JWT Access & Refresh Tokens...`);
-    const payload = {
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    };
+    const payload = tokenPayload(user);
 
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
@@ -173,11 +180,7 @@ export class AuthService {
     await verifyOTP(`2fa:${userId}`, data.otp);
     console.log(`[AuthService.verify2FALogin] OTP matched successfully!`);
 
-    const payload = {
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    };
+    const payload = tokenPayload(user);
 
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
@@ -217,11 +220,14 @@ export class AuthService {
       throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND);
     }
 
-    const payload = {
-      userId: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    };
+    if (!user.isAccountActive()) {
+      await sessionRepository.deleteByUser(user._id.toString());
+      throw new UnauthorizedError(
+        "Account is suspended or banned. Contact support."
+      );
+    }
+
+    const payload = tokenPayload(user);
 
     const newAccessToken = generateAccessToken(payload);
     const newRefreshToken = generateRefreshToken(payload);
@@ -255,6 +261,11 @@ export class AuthService {
     const user = await User.findById(userId);
     if (!user) {
       throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND);
+    }
+    if (!user.isAccountActive()) {
+      throw new UnauthorizedError(
+        "Account is suspended or banned. Contact support."
+      );
     }
     return user;
   }

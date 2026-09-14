@@ -10,6 +10,7 @@ export interface IUserStats extends Document {
   totalSolved: number;
   rating: number;
   globalRank?: number;
+  rankingSuspended?: boolean;
 }
 
 const userStatsSchema = new Schema<IUserStats>(
@@ -28,6 +29,7 @@ const userStatsSchema = new Schema<IUserStats>(
     totalSolved: { type: Number, default: 0, index: true },
     rating: { type: Number, default: 1500, index: true },
     globalRank: Number,
+    rankingSuspended: { type: Boolean, default: false, index: true },
   },
   { timestamps: true }
 );

@@ -37,12 +37,14 @@ export interface ISubmissionRepository {
     page?: number;
     limit?: number;
     status?: string;
+    statuses?: string;
     language?: string;
     problemId?: string;
     userId?: string;
     from?: string;
     to?: string;
     source?: string;
+    search?: string;
   }): Promise<{
     submissions: ISubmission[];
     total: number;
@@ -51,6 +53,12 @@ export interface ISubmissionRepository {
     totalPages: number;
   }>;
   internalStats(rangeDays?: number): Promise<Record<string, unknown>>;
+  problemStats(problemId: string, rangeDays?: number): Promise<Record<string, unknown>>;
+  countActiveByUser(userId: string): Promise<number>;
+  countInLastHourByUser(
+    userId: string,
+    source: "run" | "submit"
+  ): Promise<number>;
 }
 
 export class SubmissionRepository implements ISubmissionRepository {
@@ -146,19 +154,30 @@ export class SubmissionRepository implements ISubmissionRepository {
     page?: number;
     limit?: number;
     status?: string;
+    /** Comma-separated statuses, e.g. failed group */
+    statuses?: string;
     language?: string;
     problemId?: string;
     userId?: string;
     from?: string;
     to?: string;
     source?: string;
+    search?: string;
   }) {
     const page = Math.max(1, filters.page || 1);
     const limit = Math.min(100, Math.max(1, filters.limit || 20));
     const skip = (page - 1) * limit;
     const filter: any = {};
 
-    if (filters.status && filters.status !== "all") filter.status = filters.status;
+    if (filters.statuses?.trim()) {
+      const list = filters.statuses
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      if (list.length) filter.status = { $in: list };
+    } else if (filters.status && filters.status !== "all") {
+      filter.status = filters.status;
+    }
     if (filters.language && filters.language !== "all") {
       filter.language = filters.language;
     }
@@ -169,6 +188,18 @@ export class SubmissionRepository implements ISubmissionRepository {
       filter.createdAt = {};
       if (filters.from) filter.createdAt.$gte = new Date(filters.from);
       if (filters.to) filter.createdAt.$lte = new Date(filters.to);
+    }
+    if (filters.search?.trim()) {
+      const q = filters.search.trim();
+      const or: any[] = [
+        { language: new RegExp(q, "i") },
+        { status: new RegExp(q, "i") },
+      ];
+      if (/^[a-f\d]{24}$/i.test(q)) {
+        or.push({ problemId: q });
+        or.push({ userId: q });
+      }
+      filter.$or = or;
     }
 
     const [submissions, total] = await Promise.all([
@@ -186,10 +217,11 @@ export class SubmissionRepository implements ISubmissionRepository {
   }
 
   async internalStats(rangeDays = 30): Promise<Record<string, unknown>> {
+    const days = Math.min(Math.max(Number(rangeDays) || 30, 1), 366);
     const now = new Date();
     const startOfDay = new Date(now);
     startOfDay.setHours(0, 0, 0, 0);
-    const rangeStart = new Date(now.getTime() - rangeDays * 24 * 60 * 60 * 1000);
+    const rangeStart = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
 
     const [
       total,
@@ -197,10 +229,13 @@ export class SubmissionRepository implements ISubmissionRepository {
       accepted,
       byStatus,
       byLanguage,
-      byDifficultyProxy,
       series,
-      topProblems,
+      topProblemsAgg,
       activeUsers,
+      avgMetrics,
+      rangeTotal,
+      rangeAccepted,
+      uniqueSolved,
     ] = await Promise.all([
       Submission.countDocuments({}),
       Submission.countDocuments({ createdAt: { $gte: startOfDay } }),
@@ -211,14 +246,14 @@ export class SubmissionRepository implements ISubmissionRepository {
       Submission.aggregate([
         { $group: { _id: "$language", count: { $sum: 1 } } },
       ]),
-      // placeholder — difficulty lives on problems; return empty map for fan-in
-      Promise.resolve([] as any[]),
       Submission.aggregate([
         { $match: { createdAt: { $gte: rangeStart } } },
         {
           $group: {
             _id: {
-              date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+              date: {
+                $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+              },
               status: "$status",
             },
             count: { $sum: 1 },
@@ -228,15 +263,81 @@ export class SubmissionRepository implements ISubmissionRepository {
       ]),
       Submission.aggregate([
         { $match: { createdAt: { $gte: rangeStart } } },
-        { $group: { _id: "$problemId", count: { $sum: 1 } } },
-        { $sort: { count: -1 } },
-        { $limit: 10 },
+        {
+          $group: {
+            _id: "$problemId",
+            attempts: { $sum: 1 },
+            accepted: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [
+                      { $eq: ["$status", "ACCEPTED"] },
+                      { $ne: ["$source", "run"] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+          },
+        },
+        { $sort: { attempts: -1 } },
+        { $limit: 25 },
       ]),
       Submission.aggregate([
-        { $match: { createdAt: { $gte: rangeStart }, userId: { $exists: true } } },
+        {
+          $match: {
+            createdAt: { $gte: rangeStart },
+            userId: { $exists: true },
+          },
+        },
         { $group: { _id: "$userId", count: { $sum: 1 } } },
         { $sort: { count: -1 } },
-        { $limit: 10 },
+        { $limit: 15 },
+      ]),
+      Submission.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: rangeStart },
+            status: {
+              $in: [
+                "ACCEPTED",
+                "WRONG_ANSWER",
+                "TIME_LIMIT_EXCEEDED",
+                "MEMORY_LIMIT_EXCEEDED",
+                "RUNTIME_ERROR",
+              ],
+            },
+            executionTime: { $exists: true, $ne: null },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            avgExecutionTime: { $avg: "$executionTime" },
+            avgMemory: { $avg: "$memory" },
+            samples: { $sum: 1 },
+          },
+        },
+      ]),
+      Submission.countDocuments({ createdAt: { $gte: rangeStart } }),
+      Submission.countDocuments({
+        createdAt: { $gte: rangeStart },
+        status: "ACCEPTED",
+        source: { $ne: "run" },
+      }),
+      Submission.aggregate([
+        {
+          $match: {
+            status: "ACCEPTED",
+            source: { $ne: "run" },
+            problemId: { $exists: true },
+          },
+        },
+        { $group: { _id: "$problemId" } },
+        { $count: "count" },
       ]),
     ]);
 
@@ -247,12 +348,47 @@ export class SubmissionRepository implements ISubmissionRepository {
 
     const successRate =
       total > 0 ? Math.round((accepted / total) * 10000) / 100 : 0;
+    const rangeSuccessRate =
+      rangeTotal > 0
+        ? Math.round((rangeAccepted / rangeTotal) * 10000) / 100
+        : 0;
+
+    const avgRow = avgMetrics[0];
+    const avgExecutionTime =
+      avgRow?.avgExecutionTime != null
+        ? Math.round(Number(avgRow.avgExecutionTime) * 100) / 100
+        : null;
+    const avgMemory =
+      avgRow?.avgMemory != null
+        ? Math.round(Number(avgRow.avgMemory) * 100) / 100
+        : null;
+
+    const topProblems = topProblemsAgg.map((r) => {
+      const attempts = r.attempts || 0;
+      const acceptedCount = r.accepted || 0;
+      return {
+        problemId: r._id?.toString?.() || r._id,
+        count: attempts,
+        attempts,
+        accepted: acceptedCount,
+        acceptanceRate:
+          attempts > 0
+            ? Math.round((acceptedCount / attempts) * 10000) / 100
+            : 0,
+      };
+    });
 
     return {
       total,
       today,
       accepted,
       successRate,
+      rangeTotal,
+      rangeAccepted,
+      rangeSuccessRate,
+      solvedProblems: uniqueSolved[0]?.count ?? 0,
+      avgExecutionTime,
+      avgMemory,
       byStatus: statusMap,
       byLanguage: languageMap,
       series: series.map((r) => ({
@@ -260,15 +396,147 @@ export class SubmissionRepository implements ISubmissionRepository {
         status: r._id.status,
         count: r.count,
       })),
-      topProblems: topProblems.map((r) => ({
-        problemId: r._id?.toString?.() || r._id,
-        count: r.count,
-      })),
+      topProblems,
       mostActiveUsers: activeUsers.map((r) => ({
         userId: r._id?.toString?.() || r._id,
         count: r.count,
       })),
-      byDifficultyProxy,
+      byDifficultyProxy: [],
     };
+  }
+
+  async problemStats(problemId: string, rangeDays = 30) {
+    const days = Math.min(Math.max(Number(rangeDays) || 30, 1), 366);
+    const rangeStart = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    const pid = problemId;
+    const base = {
+      problemId: pid,
+      source: { $ne: "run" },
+    };
+    const ranged = { ...base, createdAt: { $gte: rangeStart } };
+
+    const FAIL = [
+      "WRONG_ANSWER",
+      "RUNTIME_ERROR",
+      "TIME_LIMIT_EXCEEDED",
+      "MEMORY_LIMIT_EXCEEDED",
+      "COMPILATION_ERROR",
+    ];
+
+    const [
+      totalAttempts,
+      totalAccepted,
+      failedCount,
+      byStatus,
+      byLanguage,
+      series,
+      avgMetrics,
+      mostCommonFail,
+    ] = await Promise.all([
+      Submission.countDocuments(base),
+      Submission.countDocuments({ ...base, status: "ACCEPTED" }),
+      Submission.countDocuments({ ...base, status: { $in: FAIL } }),
+      Submission.aggregate([
+        { $match: base },
+        { $group: { _id: "$status", count: { $sum: 1 } } },
+      ]),
+      Submission.aggregate([
+        { $match: base },
+        { $group: { _id: "$language", count: { $sum: 1 } } },
+      ]),
+      Submission.aggregate([
+        { $match: ranged },
+        {
+          $group: {
+            _id: {
+              date: {
+                $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+              },
+              status: "$status",
+            },
+            count: { $sum: 1 },
+          },
+        },
+        { $sort: { "_id.date": 1 } },
+      ]),
+      Submission.aggregate([
+        {
+          $match: {
+            ...base,
+            executionTime: { $exists: true, $ne: null },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            avgExecutionTime: { $avg: "$executionTime" },
+            avgMemory: { $avg: "$memory" },
+          },
+        },
+      ]),
+      Submission.aggregate([
+        { $match: { ...base, status: { $in: FAIL } } },
+        { $group: { _id: "$status", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 1 },
+      ]),
+    ]);
+
+    const statusMap: Record<string, number> = {};
+    for (const s of byStatus) statusMap[String(s._id)] = s.count;
+    const languageMap: Record<string, number> = {};
+    for (const s of byLanguage) languageMap[String(s._id || "unknown")] = s.count;
+
+    const acceptanceRate =
+      totalAttempts > 0
+        ? Math.round((totalAccepted / totalAttempts) * 10000) / 100
+        : 0;
+    const avgRow = avgMetrics[0];
+
+    return {
+      problemId: pid,
+      rangeDays: days,
+      totalAttempts,
+      totalAccepted,
+      failedCount,
+      acceptanceRate,
+      solveRate: acceptanceRate,
+      avgExecutionTime:
+        avgRow?.avgExecutionTime != null
+          ? Math.round(Number(avgRow.avgExecutionTime) * 100) / 100
+          : null,
+      avgMemory:
+        avgRow?.avgMemory != null
+          ? Math.round(Number(avgRow.avgMemory) * 100) / 100
+          : null,
+      byStatus: statusMap,
+      byLanguage: languageMap,
+      mostCommonFailureStatus: mostCommonFail[0]?._id || null,
+      series: series.map((r) => ({
+        date: r._id.date,
+        status: r._id.status,
+        count: r.count,
+      })),
+    };
+  }
+
+  async countActiveByUser(userId: string): Promise<number> {
+    return Submission.countDocuments({
+      userId,
+      source: "submit",
+      status: { $in: ["PENDING", "RUNNING"] },
+    });
+  }
+
+  async countInLastHourByUser(
+    userId: string,
+    source: "run" | "submit"
+  ): Promise<number> {
+    const since = new Date(Date.now() - 60 * 60 * 1000);
+    return Submission.countDocuments({
+      userId,
+      source,
+      createdAt: { $gte: since },
+    });
   }
 }

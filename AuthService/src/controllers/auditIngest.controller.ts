@@ -8,7 +8,7 @@ import { ingestAuditSchema } from "../validators/announcement.validator";
 
 /**
  * Internal audit ingest for other services (Problem/Submission/Discussion/etc.).
- * Caller must be authenticated staff; body is written via writeAdminAudit.
+ * Requires JWT (router) + x-internal-secret; body is written via writeAdminAudit.
  */
 export class AuditIngestController {
   async ingest(req: AuthenticatedRequest, res: Response, next: NextFunction) {

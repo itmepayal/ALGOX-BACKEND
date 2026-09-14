@@ -1,9 +1,9 @@
 import axios from "axios";
+import { serverConfig } from "../../config";
 
 const REALTIME_INGEST =
   process.env.REALTIME_INGEST_URL ||
   "http://localhost:3010/api/v1/realtime/ingest/events";
-const SECRET = process.env.INTERNAL_REALTIME_SECRET || "";
 
 /** Fire-and-forget submission lifecycle events to RealtimeService. */
 export function emitRealtimeEvent(input: {
@@ -26,7 +26,10 @@ export function emitRealtimeEvent(input: {
       },
       {
         timeout: 2000,
-        headers: SECRET ? { "x-realtime-secret": SECRET } : {},
+        headers: {
+          "x-realtime-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+        },
       }
     )
     .catch(() => {

@@ -137,4 +137,159 @@ export class ContentRepository {
   async getUserNotes(userId: string): Promise<IProblemNote[]> {
     return await ProblemNote.find({ userId }).sort({ updatedAt: -1 });
   }
+
+  /** Admin: list articles including drafts. */
+  async adminListArticles(params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    published?: string;
+    category?: string;
+  }) {
+    const page = Math.max(1, params.page || 1);
+    const limit = Math.min(100, Math.max(1, params.limit || 20));
+    const query: Record<string, unknown> = {};
+    if (params.category) query.category = params.category;
+    if (params.published === "true") query.isPublished = true;
+    if (params.published === "false") query.isPublished = false;
+    if (params.search?.trim()) {
+      query.$or = [
+        { title: { $regex: params.search.trim(), $options: "i" } },
+        { slug: { $regex: params.search.trim(), $options: "i" } },
+      ];
+    }
+    const [articles, total] = await Promise.all([
+      Article.find(query)
+        .sort({ updatedAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      Article.countDocuments(query),
+    ]);
+    return {
+      articles,
+      total,
+      page,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+    };
+  }
+
+  async updateArticle(id: string, data: Partial<IArticle>) {
+    const article = await Article.findByIdAndUpdate(
+      id,
+      { $set: data },
+      { new: true }
+    );
+    if (!article) throw new Error("Article not found");
+    return article;
+  }
+
+  async deleteArticle(id: string) {
+    const article = await Article.findByIdAndDelete(id);
+    if (!article) throw new Error("Article not found");
+    return article;
+  }
+
+  async adminListStudyPlans(params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+  }) {
+    const page = Math.max(1, params.page || 1);
+    const limit = Math.min(100, Math.max(1, params.limit || 20));
+    const query: Record<string, unknown> = {};
+    if (params.search?.trim()) {
+      query.$or = [
+        { title: { $regex: params.search.trim(), $options: "i" } },
+        { slug: { $regex: params.search.trim(), $options: "i" } },
+      ];
+    }
+    const [items, total] = await Promise.all([
+      StudyPlan.find(query)
+        .sort({ updatedAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      StudyPlan.countDocuments(query),
+    ]);
+    return {
+      studyPlans: items,
+      total,
+      page,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+    };
+  }
+
+  async updateStudyPlan(id: string, data: Partial<IStudyPlan>) {
+    const plan = await StudyPlan.findByIdAndUpdate(
+      id,
+      { $set: data },
+      { new: true }
+    );
+    if (!plan) throw new Error("Study plan not found");
+    return plan;
+  }
+
+  async deleteStudyPlan(id: string) {
+    const plan = await StudyPlan.findByIdAndDelete(id);
+    if (!plan) throw new Error("Study plan not found");
+    return plan;
+  }
+
+  async adminListEditorials(params: { page?: number; limit?: number }) {
+    const page = Math.max(1, params.page || 1);
+    const limit = Math.min(100, Math.max(1, params.limit || 20));
+    const [items, total] = await Promise.all([
+      ProblemEditorial.find({})
+        .sort({ updatedAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      ProblemEditorial.countDocuments({}),
+    ]);
+    return {
+      editorials: items,
+      total,
+      page,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+    };
+  }
+
+  async deleteEditorial(id: string) {
+    const doc = await ProblemEditorial.findByIdAndDelete(id);
+    if (!doc) throw new Error("Editorial not found");
+    try {
+      await redis.del(`editorial:problem:${doc.problemId}`);
+    } catch {}
+    return doc;
+  }
+
+  async adminListNotes(params: {
+    page?: number;
+    limit?: number;
+    userId?: string;
+    problemId?: string;
+  }) {
+    const page = Math.max(1, params.page || 1);
+    const limit = Math.min(100, Math.max(1, params.limit || 20));
+    const query: Record<string, unknown> = {};
+    if (params.userId) query.userId = params.userId;
+    if (params.problemId) query.problemId = params.problemId;
+    const [notes, total] = await Promise.all([
+      ProblemNote.find(query)
+        .sort({ updatedAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit),
+      ProblemNote.countDocuments(query),
+    ]);
+    return {
+      notes,
+      total,
+      page,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+    };
+  }
+
+  async deleteNote(id: string) {
+    const note = await ProblemNote.findByIdAndDelete(id);
+    if (!note) throw new Error("Note not found");
+    return note;
+  }
 }

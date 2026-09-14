@@ -22,6 +22,7 @@ export const SENSITIVE_SETTING_KEYS = new Set([
   "concurrentSubmissionCap",
   "defaultTimeoutMs",
   "defaultMemoryMb",
+  "featureFlags",
 ]);
 
 export type PlatformSettingsDto = ReturnType<typeof toDto>;
@@ -53,12 +54,21 @@ function toDto(doc: IPlatformSettings) {
     emailNotificationsEnabled: doc.emailNotificationsEnabled,
     announceNewSheets: doc.announceNewSheets,
     announceMaintenance: doc.announceMaintenance,
+    featureFlags: {
+      contests: doc.featureFlags?.contests ?? true,
+      discussions: doc.featureFlags?.discussions ?? true,
+      submissions: doc.featureFlags?.submissions ?? true,
+      registration: doc.featureFlags?.registration ?? true,
+      maintenance: doc.featureFlags?.maintenance ?? false,
+      newEditor: doc.featureFlags?.newEditor ?? true,
+      notifications: doc.featureFlags?.notifications ?? true,
+    },
     updatedBy: doc.updatedBy || null,
     updatedAt: doc.updatedAt?.toISOString?.() || null,
   };
 }
 
-/** Safe subset for product clients — no internal rate-limit ceilings. */
+/** Public product settings — includes submission ceilings for service enforcement. */
 export function toPublicDto(doc: IPlatformSettings) {
   return {
     platformName: doc.platformName,
@@ -68,6 +78,10 @@ export function toPublicDto(doc: IPlatformSettings) {
     supportEmail: doc.supportEmail,
     defaultLanguage: doc.defaultLanguage,
     supportedLanguages: [...(doc.supportedLanguages || [])],
+    maxSubmissionsPerHour: doc.maxSubmissionsPerHour,
+    maxRunPerHour: doc.maxRunPerHour,
+    maxCodeLength: doc.maxCodeLength,
+    concurrentSubmissionCap: doc.concurrentSubmissionCap,
     maintenanceMode: doc.maintenanceMode,
     maintenanceMessage: doc.maintenanceMessage,
     allowAdminBypass: doc.allowAdminBypass,
@@ -75,6 +89,16 @@ export function toPublicDto(doc: IPlatformSettings) {
     requireEmailVerification: doc.requireEmailVerification,
     discussionsEnabled: doc.discussionsEnabled,
     requireAuthToPost: doc.requireAuthToPost,
+    featureFlags: {
+      contests: doc.featureFlags?.contests ?? true,
+      discussions: doc.featureFlags?.discussions ?? doc.discussionsEnabled ?? true,
+      submissions: doc.featureFlags?.submissions ?? true,
+      registration:
+        doc.featureFlags?.registration ?? doc.registrationEnabled ?? true,
+      maintenance: doc.featureFlags?.maintenance ?? doc.maintenanceMode ?? false,
+      newEditor: doc.featureFlags?.newEditor ?? true,
+      notifications: doc.featureFlags?.notifications ?? true,
+    },
   };
 }
 
@@ -182,6 +206,39 @@ export class PlatformSettingsService {
     bool("emailNotificationsEnabled");
     bool("announceNewSheets");
     bool("announceMaintenance");
+
+    if (patch.featureFlags && typeof patch.featureFlags === "object") {
+      const ff = patch.featureFlags as Record<string, unknown>;
+      const keys = [
+        "contests",
+        "discussions",
+        "submissions",
+        "registration",
+        "maintenance",
+        "newEditor",
+        "notifications",
+      ] as const;
+      if (!doc.featureFlags) {
+        (doc as any).featureFlags = {
+          ...DEFAULT_PLATFORM_SETTINGS.featureFlags,
+        };
+      }
+      for (const k of keys) {
+        if (ff[k] !== undefined) {
+          (doc.featureFlags as any)[k] = Boolean(ff[k]);
+        }
+      }
+      // Keep legacy booleans in sync where they overlap
+      if (ff.discussions !== undefined) {
+        doc.discussionsEnabled = Boolean(ff.discussions);
+      }
+      if (ff.registration !== undefined) {
+        doc.registrationEnabled = Boolean(ff.registration);
+      }
+      if (ff.maintenance !== undefined) {
+        doc.maintenanceMode = Boolean(ff.maintenance);
+      }
+    }
 
     if (typeof patch.maintenanceMessage === "string") {
       doc.maintenanceMessage = patch.maintenanceMessage.trim();

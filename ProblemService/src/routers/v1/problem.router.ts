@@ -7,6 +7,8 @@ import {
   authenticateJwt,
   optionalAuthenticateJwt,
   requirePermission,
+  requireInternalSecret,
+  requireTestcaseWritePermission,
 } from "../../middlewares/auth.middleware";
 import { sheetProgressController } from "../../controllers/sheetProgress.controller";
 
@@ -34,6 +36,12 @@ problemRouter.post(
   authenticateJwt,
   requirePermission("problems:update"),
   problemController.bulkUpdate.bind(problemController)
+);
+problemRouter.post(
+  "/admin/import",
+  authenticateJwt,
+  requirePermission("problems:create"),
+  problemController.bulkImport.bind(problemController)
 );
 problemRouter.get(
   "/admin/:id",
@@ -131,8 +139,10 @@ problemRouter.delete(
 );
 
 // Internal before bare /:id so "internal" is not treated as an id
+// Returns FULL problem including hidden testcases — service secret required
 problemRouter.get(
   "/internal/:id",
+  requireInternalSecret,
   problemController.getInternalProblemById.bind(problemController)
 );
 
@@ -143,12 +153,14 @@ problemRouter.post(
   "/",
   authenticateJwt,
   requirePermission("problems:create"),
+  requireTestcaseWritePermission,
   problemController.createProblem.bind(problemController)
 );
 problemRouter.put(
   "/:id",
   authenticateJwt,
   requirePermission("problems:update"),
+  requireTestcaseWritePermission,
   problemController.updateProblem.bind(problemController)
 );
 problemRouter.delete(

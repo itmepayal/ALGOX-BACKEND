@@ -49,6 +49,19 @@ export const requirePermission = (...permissions: Permission[]) => {
     if (!req.user) {
       return next(new UnauthorizedError("Authentication required"));
     }
+    const user = req.user as {
+      role?: string;
+      permissions?: string[];
+    };
+    if (user.permissions && user.permissions.length > 0) {
+      const set = new Set(user.permissions);
+      if (!permissions.some((p) => set.has(p))) {
+        return next(
+          new ForbiddenError("Access forbidden: Insufficient permissions")
+        );
+      }
+      return next();
+    }
     if (!hasAnyPermission(req.user.role, permissions)) {
       return next(
         new ForbiddenError("Access forbidden: Insufficient permissions")

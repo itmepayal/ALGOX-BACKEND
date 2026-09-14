@@ -23,7 +23,14 @@ export class ContentService {
   }
 
   async createStudyPlan(data: Partial<IStudyPlan>) {
-    return await this.contentRepository.createStudyPlan(data);
+    const payload: any = { ...data };
+    if (!payload.slug && payload.title) {
+      payload.slug = String(payload.title)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+    return await this.contentRepository.createStudyPlan(payload);
   }
 
   async getStudyPlans(category?: string) {
@@ -55,7 +62,14 @@ export class ContentService {
   }
 
   async createArticle(data: any) {
-    return await this.contentRepository.createArticle(data);
+    const payload = { ...data };
+    if (!payload.slug && payload.title) {
+      payload.slug = String(payload.title)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+    return await this.contentRepository.createArticle(payload);
   }
 
   async getArticles(category?: string, searchQuery?: string, page?: number, limit?: number) {
@@ -80,5 +94,60 @@ export class ContentService {
 
   async getUserNotes(userId: string) {
     return await this.contentRepository.getUserNotes(userId);
+  }
+
+  async adminListArticles(params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    published?: string;
+    category?: string;
+  }) {
+    return this.contentRepository.adminListArticles(params);
+  }
+
+  async updateArticle(id: string, data: any) {
+    return this.contentRepository.updateArticle(id, data);
+  }
+
+  async deleteArticle(id: string) {
+    return this.contentRepository.deleteArticle(id);
+  }
+
+  async adminListStudyPlans(params: {
+    page?: number;
+    limit?: number;
+    search?: string;
+  }) {
+    return this.contentRepository.adminListStudyPlans(params);
+  }
+
+  async updateStudyPlan(id: string, data: any) {
+    return this.contentRepository.updateStudyPlan(id, data);
+  }
+
+  async deleteStudyPlan(id: string) {
+    return this.contentRepository.deleteStudyPlan(id);
+  }
+
+  async adminListEditorials(params: { page?: number; limit?: number }) {
+    return this.contentRepository.adminListEditorials(params);
+  }
+
+  async deleteEditorial(id: string) {
+    return this.contentRepository.deleteEditorial(id);
+  }
+
+  async adminListNotes(params: {
+    page?: number;
+    limit?: number;
+    userId?: string;
+    problemId?: string;
+  }) {
+    return this.contentRepository.adminListNotes(params);
+  }
+
+  async deleteNote(id: string) {
+    return this.contentRepository.deleteNote(id);
   }
 }

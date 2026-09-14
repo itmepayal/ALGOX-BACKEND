@@ -9,6 +9,7 @@ import { SUBMISSION_MESSAGES } from "../utils/constants";
 import { CreateSubmissionDto } from "../validators/submission.validator";
 import { scheduleSuspiciousAnalysis } from "./suspiciousHeuristic.service";
 import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
+import { enforceSubmissionLimits } from "../utils/platformLimits";
 
 const TERMINAL_STATUSES: SubmissionStatus[] = [
   "ACCEPTED",
@@ -20,7 +21,10 @@ const TERMINAL_STATUSES: SubmissionStatus[] = [
 ];
 
 export interface ISubmissionService {
-  createSubmission(submission: CreateSubmissionDto): Promise<ISubmission>;
+  createSubmission(
+    submission: CreateSubmissionDto,
+    options?: { role?: string }
+  ): Promise<ISubmission>;
   getByProblemId(problemId: string): Promise<ISubmission[]>;
   getByUserId(userId: string): Promise<ISubmission[]>;
   getImportSourceByUserId(userId: string): Promise<
@@ -56,12 +60,14 @@ export interface ISubmissionService {
     page?: number;
     limit?: number;
     status?: string;
+    statuses?: string;
     language?: string;
     problemId?: string;
     userId?: string;
     from?: string;
     to?: string;
     source?: string;
+    search?: string;
   }): Promise<{
     submissions: ISubmission[];
     total: number;
@@ -70,13 +76,15 @@ export interface ISubmissionService {
     totalPages: number;
   }>;
   internalStats(rangeDays?: number): Promise<Record<string, unknown>>;
+  problemStats(problemId: string, rangeDays?: number): Promise<Record<string, unknown>>;
 }
 
 export class SubmissionService implements ISubmissionService {
   constructor(private submissionRepository: ISubmissionRepository) { }
 
   async createSubmission(
-    dto: CreateSubmissionDto
+    dto: CreateSubmissionDto,
+    options?: { role?: string }
   ): Promise<ISubmission> {
     if (!dto.problemId || !dto.code || !dto.language) {
       throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
@@ -84,6 +92,28 @@ export class SubmissionService implements ISubmissionService {
 
     const problemId = dto.problemId.toString();
     const source = dto.source === "run" ? "run" : "submit";
+
+    if (!dto.userId) {
+      throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
+    }
+
+    const concurrentActive =
+      source === "submit"
+        ? await this.submissionRepository.countActiveByUser(dto.userId)
+        : 0;
+    const hourlyCount = await this.submissionRepository.countInLastHourByUser(
+      dto.userId,
+      source
+    );
+
+    await enforceSubmissionLimits({
+      userId: dto.userId,
+      code: dto.code,
+      source,
+      role: options?.role,
+      concurrentActive,
+      hourlyCount,
+    });
 
     if (dto.contestId) {
       await assertContestAllowsSubmission(dto.contestId);
@@ -400,17 +430,24 @@ export class SubmissionService implements ISubmissionService {
     page?: number;
     limit?: number;
     status?: string;
+    statuses?: string;
     language?: string;
     problemId?: string;
     userId?: string;
     from?: string;
     to?: string;
     source?: string;
+    search?: string;
   }) {
     return this.submissionRepository.adminList(filters);
   }
 
   async internalStats(rangeDays = 30) {
     return this.submissionRepository.internalStats(rangeDays);
+  }
+
+  async problemStats(problemId: string, rangeDays = 30) {
+    if (!problemId) throw new BadRequestError("problemId is required");
+    return this.submissionRepository.problemStats(problemId, rangeDays);
   }
 }

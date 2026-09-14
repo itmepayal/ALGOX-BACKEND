@@ -45,6 +45,8 @@ export interface IProblem extends Document {
   examples?: IProblemExample[];
   codeStubs: ICodeStub[];
   starterCode?: Record<string, string>;
+  /** Optional language → full reference solution for admin test execution. */
+  referenceSolutions?: Record<string, string>;
   testcases: ITestcase[];
   functionName?: string;
   className?: string;
@@ -151,6 +153,7 @@ const problemSchema = new Schema<IProblem>(
     examples: [exampleSchema],
     codeStubs: [codeStubSchema],
     starterCode: { type: Schema.Types.Mixed },
+    referenceSolutions: { type: Schema.Types.Mixed },
     testcases: [testcaseSchema],
     functionName: { type: String },
     className: { type: String },
@@ -205,5 +208,6 @@ problemSchema.index({ difficulty: 1 });
 problemSchema.index({ category: 1, difficulty: 1 });
 problemSchema.index({ status: 1, difficulty: 1 });
 problemSchema.index({ status: 1, createdAt: -1 });
+problemSchema.index({ tags: 1 });
 
 export const Problem = mongoose.model<IProblem>("Problem", problemSchema);

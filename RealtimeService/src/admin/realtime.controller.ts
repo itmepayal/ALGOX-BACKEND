@@ -10,9 +10,9 @@ import { broadcastBodySchema } from "../broadcast/broadcast.service";
 import { UnauthorizedError } from "../utils/errors/app.error";
 
 export class RealtimeAdminController {
-  overview(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  async overview(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      const data = realtimeAdminService.overview(getIO());
+      const data = await realtimeAdminService.overview(getIO());
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,

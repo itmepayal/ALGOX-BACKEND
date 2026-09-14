@@ -1,0 +1,83 @@
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 18:24:04","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 18:24:09","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 18:24:11","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 18:24:11","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 18:24:11","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 18:24:11","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:27:52","data":{"socketId":"uy-eo612YYptiUT-AAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:27:52","data":{"socketId":"0QXW-xYD58Wr6XtIAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:30:43","data":{"socketId":"cdWBlx3m5VZ3XyMIAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:30:43","data":{"socketId":"bD9-a_a-Oe-1Hm36AAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:33:33","data":{"socketId":"2s82SsL3FPBP8WtVAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:33:33","data":{"socketId":"Wq361J8bQOiza-mHAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:35:48","data":{"socketId":"_o9M-p7RV85DBbfVAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:35:48","data":{"socketId":"7HaQGgJOGmo7OS2FAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:36:26","data":{"socketId":"nZV3ZWQ6sRJnlXwaAAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:36:26","data":{"socketId":"RXJObEEZQowYxhCAAAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:47:46","data":{"socketId":"lgKhuIW2dF9QdlqHAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 18:47:46","data":{"socketId":"l3LM59xJMgAmaYztAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 19:08:43","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 19:08:45","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 19:08:46","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 19:08:46","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 19:08:46","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 19:08:46","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 19:15:09","data":{"socketId":"zSJ1czZOch3lTUCQAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 19:15:09","data":{"socketId":"yKKRBexqgfgtR1gAAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 19:15:10","data":{"socketId":"497VhZcdhXt-ciCcAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 19:15:23","data":{"socketId":"6KM4neRhlt4U5bGzAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 19:15:40","data":{"socketId":"q9IvKueR0eS73FbQAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:10:29","data":{"socketId":"SGVPTe8HRs1Txt3DAAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:10:29","data":{"socketId":"4DBbEtZD4Hfd2Ef6AAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:12:07","data":{"socketId":"uKa3QMGu2AK448g5AAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:12:07","data":{"socketId":"GMT4GYUuFPi-dY9PAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:52","data":{"socketId":"IUz9YH_v6_i5SfoVAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:52","data":{"socketId":"ojBXicwkipwB38c6AAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:53","data":{"socketId":"x5ekhLqlANBnEIt9AAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:53","data":{"socketId":"br9VlbqCG5XxFWt8AAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:53","data":{"socketId":"qUoudhvvF8xPBS99AAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 20:17:54","data":{"socketId":"E7MdznSi5dOfqlJ_AAAP","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 20:28:30","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 20:29:02","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 20:29:04","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 20:29:05","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 20:29:05","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 20:29:05","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 20:29:05","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 20:56:57","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 20:57:01","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 20:57:03","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 20:57:03","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 20:57:03","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 20:57:03","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 21:14:33","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 21:14:40","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 21:14:41","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 21:14:41","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 21:14:41","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 21:14:41","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Invalid or expired token","timestamp":"09-14-2026 21:42:14","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:46:18","data":{"socketId":"4XERK9j541R0owWkAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:46:18","data":{"socketId":"1qQ0BD4wNov7ktJaAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:47:09","data":{"socketId":"pZ_8zRN5AEe3lNFtAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:47:09","data":{"socketId":"0L6QO36Uc5FmqfyhAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 21:50:04","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 21:50:06","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 21:50:07","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 21:50:07","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 21:50:07","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 21:50:07","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:50:24","data":{"socketId":"2BuQ4u40spZPvBt2AAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:50:24","data":{"socketId":"T1h-FWhTI86l3ynmAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:50:32","data":{"socketId":"Byvg8ncDB7MqaZtdAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:51:12","data":{"socketId":"INX5J-K92Qvbsnc9AAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:57:38","data":{"socketId":"lAAhP33Csoo9ang1AAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:57:38","data":{"socketId":"V4gFnL-gDZiTpNNtAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:58:14","data":{"socketId":"dSwHZAl3fJFyB0KxAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 21:58:14","data":{"socketId":"q2A_8XS-aKHklPcRAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-14-2026 21:59:23","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-14-2026 21:59:25","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-14-2026 21:59:27","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 21:59:27","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 21:59:27","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 21:59:27","data":{}}

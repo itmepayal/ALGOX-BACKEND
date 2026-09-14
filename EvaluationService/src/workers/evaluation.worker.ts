@@ -53,7 +53,12 @@ async function updateSubmissionResult(
   }
 
   const url = `${serverConfig.SUBMISSION_SERVICE}/submissions/internal/${submissionId}`;
-  await axios.put(url, payload, { timeout: 10000 });
+  await axios.put(url, payload, {
+    timeout: 10000,
+    headers: {
+      "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+    },
+  });
 }
 
 async function setupEvaluationWorker() {
@@ -116,22 +121,38 @@ async function setupEvaluationWorker() {
       const jobData = job.data as any;
 
       axios
-        .post("http://localhost:3007/api/v1/analytics/record-submission", {
-          userId: jobData.userId || "anonymous",
-          status: result.status,
-          difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
-          topics: jobData.problem?.tags || [],
-        })
+        .post(
+          `${serverConfig.ANALYTICS_SERVICE}/analytics/record-submission`,
+          {
+            userId: jobData.userId || "anonymous",
+            status: result.status,
+            difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
+            topics: jobData.problem?.tags || [],
+          },
+          {
+            headers: {
+              "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+            },
+          }
+        )
         .catch(() => {});
 
       if (result.status === "ACCEPTED" && jobData.userId) {
         axios
-          .post("http://localhost:3005/api/v1/leaderboard/record-solved", {
-            userId: jobData.userId,
-            userName: jobData.userName || "User",
-            userEmail: jobData.userEmail || "user@leetcode.com",
-            difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
-          })
+          .post(
+            `${serverConfig.LEADERBOARD_SERVICE}/leaderboard/record-solved`,
+            {
+              userId: jobData.userId,
+              userName: jobData.userName || "User",
+              userEmail: jobData.userEmail || "user@leetcode.com",
+              difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
+            },
+            {
+              headers: {
+                "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+              },
+            }
+          )
           .catch(() => {});
       }
     } catch {

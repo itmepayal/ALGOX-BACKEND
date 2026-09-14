@@ -10,6 +10,26 @@ import {
 import { sendResponse } from "../utils/helpers/response.helper";
 import { HTTP_STATUS, PROBLEM_MESSAGES } from "../utils/constants";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware";
+import { writeAdminAudit } from "../utils/helpers/audit.helper";
+
+async function auditProblem(
+  req: AuthenticatedRequest,
+  action: string,
+  resourceId?: string,
+  after?: Record<string, unknown>
+) {
+  await writeAdminAudit({
+    actorId: req.user!.userId,
+    actorEmail: req.user!.email,
+    action,
+    resource: "problem",
+    resourceId,
+    after,
+    ip: req.ip,
+    userAgent: req.get("user-agent") || undefined,
+    authorization: req.headers.authorization,
+  });
+}
 
 export class ProblemController {
   constructor(private problemService: IProblemService) {}
@@ -23,6 +43,11 @@ export class ProblemController {
       const validated = createProblemSchema.parse(req.body);
       const problem = await this.problemService.createProblem(validated, {
         userId: req.user!.userId,
+      });
+
+      await auditProblem(req, "problem.create", String((problem as any)._id || (problem as any).id), {
+        title: validated.title,
+        status: (problem as any).status,
       });
 
       sendResponse({
@@ -180,6 +205,10 @@ export class ProblemController {
         userId: req.user!.userId,
       });
 
+      await auditProblem(req, "problem.update", id, {
+        fields: Object.keys(validated),
+      });
+
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
@@ -199,6 +228,8 @@ export class ProblemController {
     try {
       const { id } = req.params;
       await this.problemService.deleteProblem(id);
+
+      await auditProblem(req, "problem.delete", id);
 
       sendResponse({
         res,
@@ -221,6 +252,8 @@ export class ProblemController {
       const updated = await this.problemService.setStatus(id, body.status, {
         userId: req.user!.userId,
       });
+
+      await auditProblem(req, "problem.publish", id, { status: body.status });
 
       sendResponse({
         res,
@@ -271,6 +304,94 @@ export class ProblemController {
         statusCode: HTTP_STATUS.OK,
         message: "Bulk update applied",
         data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Import many problems (JSON array). Validates each row; creates drafts.
+   * Returns per-row success/error — partial import allowed.
+   */
+  async bulkImport(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const raw = req.body?.problems ?? req.body;
+      if (!Array.isArray(raw) || raw.length === 0) {
+        res.status(400).json({
+          success: false,
+          message: "Body must include a non-empty problems array",
+        });
+        return;
+      }
+      if (raw.length > 100) {
+        res.status(400).json({
+          success: false,
+          message: "Import limited to 100 problems per request",
+        });
+        return;
+      }
+
+      const results: Array<{
+        index: number;
+        ok: boolean;
+        id?: string;
+        title?: string;
+        error?: string;
+      }> = [];
+
+      for (let i = 0; i < raw.length; i++) {
+        const parsed = createProblemSchema.safeParse({
+          ...raw[i],
+          status: raw[i]?.status || "draft",
+        });
+        if (!parsed.success) {
+          results.push({
+            index: i,
+            ok: false,
+            title: raw[i]?.title,
+            error: parsed.error.issues
+              .map((x) => `${x.path.join(".")}: ${x.message}`)
+              .join("; "),
+          });
+          continue;
+        }
+        try {
+          const problem = await this.problemService.createProblem(parsed.data, {
+            userId: req.user!.userId,
+          });
+          const id =
+            (problem as any).id ||
+            (problem as any)._id?.toString?.() ||
+            undefined;
+          results.push({
+            index: i,
+            ok: true,
+            id,
+            title: parsed.data.title,
+          });
+        } catch (err: any) {
+          results.push({
+            index: i,
+            ok: false,
+            title: parsed.data.title,
+            error: err?.message || "Create failed",
+          });
+        }
+      }
+
+      const created = results.filter((r) => r.ok).length;
+      const failed = results.length - created;
+
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: `Import finished: ${created} created, ${failed} failed`,
+        data: { created, failed, results },
       });
     } catch (error) {
       next(error);

@@ -206,7 +206,7 @@ export class ProblemRepository implements IProblemRepository {
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
-    const [total, draft, published, archived, today, byDifficulty] =
+    const [total, draft, published, archived, today, byDifficulty, byTopic] =
       await Promise.all([
         Problem.countDocuments({}),
         Problem.countDocuments({ status: "draft" }),
@@ -217,11 +217,24 @@ export class ProblemRepository implements IProblemRepository {
           { $match: { status: "published" } },
           { $group: { _id: "$difficulty", count: { $sum: 1 } } },
         ]),
+        Problem.aggregate([
+          { $match: { status: "published", tags: { $exists: true, $ne: [] } } },
+          { $unwind: "$tags" },
+          { $group: { _id: "$tags", count: { $sum: 1 } } },
+          { $sort: { count: -1 } },
+          { $limit: 20 },
+        ]),
       ]);
 
     const difficulty: Record<string, number> = { easy: 0, medium: 0, hard: 0 };
     for (const row of byDifficulty) {
       difficulty[row._id] = row.count;
+    }
+
+    const topicMap: Record<string, number> = {};
+    for (const row of byTopic) {
+      const key = String(row._id || "").trim();
+      if (key) topicMap[key] = row.count;
     }
 
     return {
@@ -231,6 +244,7 @@ export class ProblemRepository implements IProblemRepository {
       archived,
       today,
       byDifficulty: difficulty,
+      byTopic: topicMap,
     };
   }
 }

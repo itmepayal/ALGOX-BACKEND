@@ -5,7 +5,9 @@ import { SubmissionRepository } from "../../repositories/submission.repository";
 import {
   authenticateJwt,
   requirePermission,
+  requireInternalSecret,
 } from "../../middlewares/auth.middleware";
+import { requireFeatureFlag } from "../../middlewares/featureFlag.middleware";
 
 const submissionRouter = express.Router();
 
@@ -13,9 +15,11 @@ const submissionRepository = new SubmissionRepository();
 const submissionService = new SubmissionService(submissionRepository);
 const submissionController = new SubmissionController(submissionService);
 
-// Product: create + poll + user/problem scoped lists
+// Product: create + poll + user/problem scoped lists (JWT + ownership)
 submissionRouter.post(
   "/",
+  authenticateJwt,
+  requireFeatureFlag("submissions"),
   submissionController.createSubmission.bind(submissionController)
 );
 submissionRouter.get(
@@ -25,10 +29,12 @@ submissionRouter.get(
 );
 submissionRouter.get(
   "/problem/:problemId",
+  authenticateJwt,
   submissionController.getByProblemId.bind(submissionController)
 );
 submissionRouter.get(
   "/user/:userId",
+  authenticateJwt,
   submissionController.getByUserId.bind(submissionController)
 );
 
@@ -40,10 +46,22 @@ submissionRouter.get(
   submissionController.adminList.bind(submissionController)
 );
 submissionRouter.get(
+  "/admin/failed",
+  authenticateJwt,
+  requirePermission("submissions:view"),
+  submissionController.adminFailedList.bind(submissionController)
+);
+submissionRouter.get(
   "/admin/internal-stats",
   authenticateJwt,
   requirePermission("analytics:view"),
   submissionController.internalStats.bind(submissionController)
+);
+submissionRouter.get(
+  "/admin/problem-stats/:problemId",
+  authenticateJwt,
+  requirePermission("analytics:view"),
+  submissionController.problemStats.bind(submissionController)
 );
 submissionRouter.get(
   "/admin/:id",
@@ -52,7 +70,7 @@ submissionRouter.get(
   submissionController.getSubmissionById.bind(submissionController)
 );
 
-// Legacy list-all / filters — now staff-only
+// Legacy list-all / filters — staff-only
 submissionRouter.get(
   "/",
   authenticateJwt,
@@ -78,15 +96,17 @@ submissionRouter.get(
   submissionController.getByLanguage.bind(submissionController)
 );
 
-// Polling for product UI (single submission)
+// Polling for product UI (owner or staff)
 submissionRouter.get(
   "/:id",
+  authenticateJwt,
   submissionController.getSubmissionById.bind(submissionController)
 );
 
-/** Evaluation worker callback — service-to-service, no JWT. Triggers suspicious re-analysis on terminal status. */
+/** Evaluation worker callback — internal secret required. */
 submissionRouter.put(
   "/internal/:id",
+  requireInternalSecret,
   submissionController.updateSubmission.bind(submissionController)
 );
 

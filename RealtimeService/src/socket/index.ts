@@ -12,6 +12,7 @@ import {
 import { joinRoom, leaveRoom } from "./rooms";
 import { clearSocketRateLimits, withRateLimit } from "./rateLimit";
 import { pushEvent } from "../events/eventStream";
+import { onlinePresenceService } from "../services/onlinePresence.service";
 import logger from "../config/logger.config";
 
 const presenceSchema = z.object({
@@ -25,15 +26,38 @@ const roomSchema = z.object({
 });
 
 let ioRef: SocketIOServer | null = null;
+let lastBroadcastCount = -1;
 
 export function getIO(): SocketIOServer {
   if (!ioRef) throw new Error("Socket.IO not initialized");
   return ioRef;
 }
 
+async function broadcastPresenceCount(
+  io: SocketIOServer,
+  force = false
+): Promise<number> {
+  const onlineUsers = await onlinePresenceService.getOnlineCount();
+  if (!force && onlineUsers === lastBroadcastCount) return onlineUsers;
+  lastBroadcastCount = onlineUsers;
+  io.emit(RealtimeEvents.PRESENCE_COUNT, { onlineUsers });
+  return onlineUsers;
+}
+
 export function attachSocketHandlers(io: SocketIOServer): void {
   ioRef = io;
   io.use(socketAuthMiddleware);
+
+  // Periodic stale presence cleanup (Redis TTL safety net)
+  setInterval(() => {
+    void onlinePresenceService.cleanupStaleUsers().then(async () => {
+      try {
+        await broadcastPresenceCount(io, false);
+      } catch {
+        /* ignore */
+      }
+    });
+  }, 45_000).unref?.();
 
   io.on(RealtimeEvents.CONNECTION, (socket: Socket) => {
     const user = socket.data.user;
@@ -53,6 +77,16 @@ export function attachSocketHandlers(io: SocketIOServer): void {
     void socket.join(`user:${user.userId}`);
     void socket.join(`role:${user.role}`);
 
+    void (async () => {
+      const onlineUsers = await onlinePresenceService.addSocket(
+        user.userId,
+        socket.id
+      );
+      lastBroadcastCount = onlineUsers;
+      socket.emit(RealtimeEvents.PRESENCE_COUNT, { onlineUsers });
+      io.emit(RealtimeEvents.PRESENCE_COUNT, { onlineUsers });
+    })();
+
     pushEvent({
       name: RealtimeEvents.USER_ONLINE,
       direction: "system",
@@ -68,10 +102,35 @@ export function attachSocketHandlers(io: SocketIOServer): void {
     });
 
     socket.on(
+      RealtimeEvents.PRESENCE_GET,
+      withRateLimit(
+        socket,
+        RealtimeEvents.PRESENCE_GET,
+        async (_raw, ack?: (r: unknown) => void) => {
+          try {
+            const onlineUsers = await onlinePresenceService.getOnlineCount();
+            const payload = { onlineUsers };
+            socket.emit(RealtimeEvents.PRESENCE_COUNT, payload);
+            ack?.(payload);
+          } catch {
+            ack?.({ onlineUsers: null, error: "unavailable" });
+          }
+        },
+        { max: 20, windowMs: 10_000 }
+      )
+    );
+
+    socket.on(
       RealtimeEvents.HEARTBEAT,
-      withRateLimit(socket, RealtimeEvents.HEARTBEAT, async () => {
-        touchActivity(socket.id);
-      }, { max: 30, windowMs: 10_000 })
+      withRateLimit(
+        socket,
+        RealtimeEvents.HEARTBEAT,
+        async () => {
+          touchActivity(socket.id);
+          await onlinePresenceService.heartbeat(user.userId);
+        },
+        { max: 30, windowMs: 10_000 }
+      )
     );
 
     socket.on(
@@ -83,6 +142,7 @@ export function attachSocketHandlers(io: SocketIOServer): void {
           const parsed = presenceSchema.safeParse(raw);
           if (!parsed.success) return;
           updatePresence(socket.id, parsed.data);
+          await onlinePresenceService.heartbeat(user.userId);
           pushEvent({
             name: RealtimeEvents.PRESENCE_UPDATE,
             direction: "in",
@@ -160,13 +220,22 @@ export function attachSocketHandlers(io: SocketIOServer): void {
         payload: { reason },
       });
 
-      // Only emit offline if no remaining sockets for user
-      if (getSocketsForUser(user.userId).length === 0) {
-        io.to(`user:${user.userId}`).emit(RealtimeEvents.USER_OFFLINE, {
-          userId: user.userId,
-          at: Date.now(),
-        });
-      }
+      void (async () => {
+        const onlineUsers = await onlinePresenceService.removeSocket(
+          user.userId,
+          socket.id
+        );
+        lastBroadcastCount = onlineUsers;
+        io.emit(RealtimeEvents.PRESENCE_COUNT, { onlineUsers });
+
+        // Only emit offline if no remaining sockets for user
+        if (getSocketsForUser(user.userId).length === 0) {
+          io.to(`user:${user.userId}`).emit(RealtimeEvents.USER_OFFLINE, {
+            userId: user.userId,
+            at: Date.now(),
+          });
+        }
+      })();
 
       logger.info("Socket disconnected", {
         socketId: socket.id,

@@ -5,6 +5,7 @@ import { AnalyticsRepository } from "../../repositories/analytics.repository";
 import {
   authenticateJwt,
   requirePermission,
+  requireInternalSecret,
 } from "../../middlewares/auth.middleware";
 
 const analyticsRepository = new AnalyticsRepository();
@@ -13,12 +14,17 @@ const analyticsController = new AnalyticsController(analyticsService);
 
 const analyticsRouter = Router();
 
+// Own analytics only — staff can view any via permission
 analyticsRouter.get(
   "/user/:userId",
+  authenticateJwt,
   analyticsController.getUserAnalytics.bind(analyticsController)
 );
+
+// Evaluation worker only
 analyticsRouter.post(
   "/record-submission",
+  requireInternalSecret,
   analyticsController.recordSubmissionEvent.bind(analyticsController)
 );
 

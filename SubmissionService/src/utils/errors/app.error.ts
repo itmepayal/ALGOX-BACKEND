@@ -65,6 +65,14 @@ export class ConflictError extends AppError {
   }
 }
 
+export class TooManyRequestsError extends AppError {
+  statusCode = 429;
+  constructor(message: string = "Too Many Requests", details?: any) {
+    super(message, details);
+    this.name = "TooManyRequestsError";
+  }
+}
+
 export class NotImplementedError extends AppError {
   statusCode = 501;
   constructor(message: string = "Not Implemented", details?: any) {

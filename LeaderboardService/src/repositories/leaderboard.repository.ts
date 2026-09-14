@@ -87,8 +87,11 @@ export class LeaderboardRepository {
 
     const skip = (page - 1) * limit;
     const [rankings, total] = await Promise.all([
-      UserStats.find().sort({ totalSolved: -1, rating: -1 }).skip(skip).limit(limit),
-      UserStats.countDocuments(),
+      UserStats.find({ rankingSuspended: { $ne: true } })
+        .sort({ totalSolved: -1, rating: -1 })
+        .skip(skip)
+        .limit(limit),
+      UserStats.countDocuments({ rankingSuspended: { $ne: true } }),
     ]);
 
     const formattedRankings = rankings.map((user: IUserStats, idx: number) => ({

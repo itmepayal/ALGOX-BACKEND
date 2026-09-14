@@ -1,0 +1,8 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts", "node_modules", "dist"],
+  "exec": "node --enable-source-maps -r ts-node/register/transpile-only src/server.ts",
+  "delay": 750,
+  "signal": "SIGTERM"
+}
