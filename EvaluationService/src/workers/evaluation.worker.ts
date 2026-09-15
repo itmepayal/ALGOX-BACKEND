@@ -146,6 +146,7 @@ async function setupEvaluationWorker() {
               userName: jobData.userName || "User",
               userEmail: jobData.userEmail || "user@leetcode.com",
               difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
+              problemId: jobData.problemId || jobData.problem?.id || undefined,
             },
             {
               headers: {

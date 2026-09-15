@@ -8,6 +8,7 @@ import {
 } from "../../utils/constants";
 import { submissionQueue } from "../../queues/submission.queue";
 import logger from "../../config/logger.config";
+import { blockWhenMaintenance } from "../../middlewares/featureFlag.middleware";
 
 const v1Router = express.Router();
 
@@ -60,6 +61,8 @@ v1Router.get("/health", async (_req, res) => {
     },
   });
 });
+
+v1Router.use(blockWhenMaintenance);
 
 v1Router.use("/evaluation", evaluationRouter);
 

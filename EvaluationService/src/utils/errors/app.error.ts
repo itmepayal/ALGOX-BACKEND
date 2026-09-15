@@ -57,6 +57,14 @@ export class ForbiddenError extends AppError {
   }
 }
 
+export class TooManyRequestsError extends AppError {
+  statusCode = 429;
+  constructor(message: string = "Too Many Requests", details?: any) {
+    super(message, details);
+    this.name = "TooManyRequestsError";
+  }
+}
+
 export class ConflictError extends AppError {
   statusCode = 409;
   constructor(message: string = "Conflict", details?: any) {

@@ -5,6 +5,24 @@ import { sendResponse } from "../utils/helpers/response.helper";
 import { HTTP_STATUS } from "../utils/constants";
 
 export class ContestController {
+  listPublic = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const data = await contestService.listPublicContests();
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Contests retrieved",
+        data,
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
+
   getBySlug = async (
     req: AuthenticatedRequest,
     res: Response,
@@ -12,7 +30,10 @@ export class ContestController {
   ) => {
     try {
       const slug = String(req.params.slug);
-      const data = await contestService.getPublicBySlug(slug);
+      const data = await contestService.getPublicBySlug(
+        slug,
+        req.user?.userId
+      );
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,

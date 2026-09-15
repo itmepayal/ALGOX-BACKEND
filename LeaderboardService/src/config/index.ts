@@ -7,6 +7,7 @@ type ServerConfig = {
   REDIS_TOKEN: string;
   INTERNAL_SERVICE_SECRET: string;
   JWT_SECRET: string;
+  AUTH_SERVICE_URL: string;
 };
 
 function loadEnv() {
@@ -55,4 +56,5 @@ export const serverConfig: ServerConfig = {
   REDIS_TOKEN: getEnvVariable("REDIS_TOKEN"),
   INTERNAL_SERVICE_SECRET: resolveInternalSecret(),
   JWT_SECRET: secretEnv("JWT_SECRET", "super_secret_jwt_access_key"),
+  AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL || "http://localhost:3001",
 };

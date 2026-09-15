@@ -2,6 +2,7 @@ import express from "express";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import contentRouter from "./routers/v1/content.router";
+import { blockWhenMaintenance } from "./middlewares/featureFlag.middleware";
 
 import cors from "cors";
 
@@ -25,7 +26,7 @@ app.get("/api/v1/health", (_req, res) => {
   });
 });
 
-app.use("/api/v1/content", contentRouter);
+app.use("/api/v1/content", blockWhenMaintenance, contentRouter);
 
 app.use(
   (

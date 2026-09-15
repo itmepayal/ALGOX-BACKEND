@@ -7,6 +7,7 @@ import redis from "../config/redis.config";
 import { serverConfig } from "../config";
 import {
   BadRequestError,
+  ForbiddenError,
   TooManyRequestsError,
 } from "./errors/app.error";
 import { SUBMISSION_MESSAGES } from "./constants";
@@ -20,6 +21,7 @@ export type PlatformSubmissionLimits = {
   maxCodeLength: number;
   concurrentSubmissionCap: number;
   allowAdminBypass: boolean;
+  requireEmailVerification: boolean;
 };
 
 const DEFAULT_LIMITS: PlatformSubmissionLimits = {
@@ -28,6 +30,7 @@ const DEFAULT_LIMITS: PlatformSubmissionLimits = {
   maxCodeLength: 64_000,
   concurrentSubmissionCap: 3,
   allowAdminBypass: true,
+  requireEmailVerification: false,
 };
 
 let cache: { limits: PlatformSubmissionLimits; fetchedAt: number } | null =
@@ -61,6 +64,7 @@ function normalize(data: any): PlatformSubmissionLimits {
     allowAdminBypass: Boolean(
       data?.allowAdminBypass ?? DEFAULT_LIMITS.allowAdminBypass
     ),
+    requireEmailVerification: Boolean(data?.requireEmailVerification),
   };
 }
 
@@ -186,8 +190,19 @@ export async function enforceSubmissionLimits(params: {
   concurrentActive: number;
   /** Rolling 1h count from DB (used when Redis unavailable, or always as secondary). */
   hourlyCount: number;
+  isEmailVerified?: boolean;
 }): Promise<void> {
   const limits = await getPlatformSubmissionLimits();
+
+  if (
+    limits.requireEmailVerification &&
+    !(limits.allowAdminBypass && isStaffRole(params.role)) &&
+    params.isEmailVerified !== true
+  ) {
+    throw new ForbiddenError(
+      "Email verification is required before submitting code."
+    );
+  }
 
   if (limits.allowAdminBypass && isStaffRole(params.role)) {
     assertCodeLength(params.code, limits.maxCodeLength);

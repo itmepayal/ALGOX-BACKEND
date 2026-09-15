@@ -16,6 +16,13 @@ contestRouter.get(
 );
 
 contestRouter.get(
+  "/",
+  optionalAuthenticateJwt,
+  requireFeatureFlag("contests"),
+  contestController.listPublic
+);
+
+contestRouter.get(
   "/:slug",
   optionalAuthenticateJwt,
   requireFeatureFlag("contests"),

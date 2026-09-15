@@ -13,6 +13,7 @@ import { sendResponse } from "../utils/helpers/response.helper";
 import { HTTP_STATUS, EVALUATION_MESSAGES } from "../utils/constants";
 import { serverConfig } from "../config";
 import logger from "../config/logger.config";
+import { enforceRunLimits } from "../utils/platformRunLimits";
 
 const evaluationService = new EvaluationService();
 
@@ -30,6 +31,13 @@ export class EvaluationController {
       logger.info("VALIDATION SUCCESS", {
         language: validated.language,
         inputType: typeof validated.input,
+      });
+
+      const user = (req as any).user;
+      await enforceRunLimits({
+        userId: String(user?.userId || user?.id || "anonymous"),
+        code: validated.code,
+        role: user?.role ? String(user.role) : undefined,
       });
 
       const stdin = formatJudgeInput(validated.input);

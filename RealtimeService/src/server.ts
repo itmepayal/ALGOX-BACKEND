@@ -8,6 +8,7 @@ import { connectDBOptional } from "./config/db.config";
 import { tryAttachRedisAdapter } from "./config/redis.adapter";
 import { initPresenceRedis } from "./config/presenceRedis";
 import { errorHandler } from "./middlewares/error.middleware";
+import { blockWhenMaintenance } from "./middlewares/featureFlag.middleware";
 import realtimeAdminRouter from "./admin/realtime.routes";
 import { ingestRouter } from "./admin/ingest.routes";
 import { attachSocketHandlers } from "./socket";
@@ -62,6 +63,7 @@ app.get("/api/v1/health", (_req, res) => {
   });
 });
 
+app.use(blockWhenMaintenance);
 app.use("/api/v1/admin/realtime", realtimeAdminRouter);
 app.use("/api/v1/realtime/ingest", ingestRouter);
 

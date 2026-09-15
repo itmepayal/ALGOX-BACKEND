@@ -9,7 +9,10 @@ import {
   optionalAuthenticateJwt,
   requirePermission,
 } from "../../middlewares/auth.middleware";
-import { requireFeatureFlag } from "../../middlewares/featureFlag.middleware";
+import {
+  blockWhenMaintenance,
+  requireFeatureFlag,
+} from "../../middlewares/featureFlag.middleware";
 
 const discussionRepository = new DiscussionRepository();
 const discussionService = new DiscussionService(discussionRepository);
@@ -19,71 +22,83 @@ const reportController = new ReportController(reportService);
 
 const discussionRouter = Router();
 
+discussionRouter.use(blockWhenMaintenance);
+
+const discussionsOn = requireFeatureFlag("discussions");
+
 // Public / user — JWT required for mutations; list/get allow optional auth for staff filters
 discussionRouter.get(
   "/posts",
   optionalAuthenticateJwt,
-  requireFeatureFlag("discussions"),
+  discussionsOn,
   discussionController.getPosts.bind(discussionController)
 );
 discussionRouter.get(
   "/posts/:id",
   optionalAuthenticateJwt,
-  requireFeatureFlag("discussions"),
+  discussionsOn,
   discussionController.getPostById.bind(discussionController)
 );
 discussionRouter.get(
   "/posts/:id/comments",
   optionalAuthenticateJwt,
-  requireFeatureFlag("discussions"),
+  discussionsOn,
   discussionController.getComments.bind(discussionController)
 );
 
 discussionRouter.post(
   "/posts",
   authenticateJwt,
-  requireFeatureFlag("discussions"),
+  discussionsOn,
   discussionController.createPost.bind(discussionController)
 );
 discussionRouter.patch(
   "/posts/:id",
   authenticateJwt,
+  discussionsOn,
   discussionController.updatePost.bind(discussionController)
 );
 discussionRouter.delete(
   "/posts/:id",
   authenticateJwt,
+  discussionsOn,
   discussionController.deletePost.bind(discussionController)
 );
 discussionRouter.post(
   "/posts/:id/vote",
   authenticateJwt,
+  discussionsOn,
   discussionController.votePost.bind(discussionController)
 );
 discussionRouter.post(
   "/posts/:id/bookmark",
   authenticateJwt,
+  discussionsOn,
   discussionController.bookmarkPost.bind(discussionController)
 );
 discussionRouter.post(
   "/comments",
   authenticateJwt,
+  discussionsOn,
   discussionController.addComment.bind(discussionController)
 );
 discussionRouter.patch(
   "/comments/:id",
   authenticateJwt,
+  discussionsOn,
   discussionController.updateComment.bind(discussionController)
 );
 discussionRouter.delete(
   "/comments/:id",
   authenticateJwt,
+  discussionsOn,
   discussionController.deleteComment.bind(discussionController)
 );
 
 discussionRouter.post(
   "/reports",
   authenticateJwt,
+  discussionsOn,
   reportController.create.bind(reportController)
 );
 

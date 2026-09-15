@@ -13,6 +13,10 @@ app.get("/health", (_req, res) => {
   res.json({ success: true, service: "DiscussionService", status: "ok" });
 });
 
+app.get("/api/v1/health", (_req, res) => {
+  res.json({ success: true, service: "DiscussionService", status: "ok" });
+});
+
 app.use("/api/v1/discussions", discussionRouter);
 app.use(errorHandler);
 

@@ -2,6 +2,7 @@ import express from "express";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import analyticsRouter from "./routers/v1/analytics.router";
+import { blockWhenMaintenance } from "./middlewares/featureFlag.middleware";
 import cors from "cors";
 
 const app = express();
@@ -15,7 +16,7 @@ app.get("/api/v1/health", (_req, res) => {
   });
 });
 
-app.use("/api/v1/analytics", analyticsRouter);
+app.use("/api/v1/analytics", blockWhenMaintenance, analyticsRouter);
 
 // Basic error handler so JWT middleware errors return proper status codes
 app.use(

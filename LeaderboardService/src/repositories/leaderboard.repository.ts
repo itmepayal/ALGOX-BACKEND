@@ -211,14 +211,26 @@ export class LeaderboardRepository {
   async recordSolveEvent(
     userId: string,
     difficulty: "easy" | "medium" | "hard",
-    solvedAt: Date = new Date()
+    solvedAt: Date = new Date(),
+    problemId?: string | null
   ) {
     if (!Types.ObjectId.isValid(userId)) return null;
     return SolveEvent.create({
       userId: new Types.ObjectId(userId),
       difficulty,
       solvedAt,
+      ...(problemId ? { problemId: String(problemId) } : {}),
     });
+  }
+
+  /** True if this user already has a unique solve credit for the problem. */
+  async hasSolvedProblem(userId: string, problemId: string): Promise<boolean> {
+    if (!Types.ObjectId.isValid(userId) || !problemId) return false;
+    const existing = await SolveEvent.exists({
+      userId: new Types.ObjectId(userId),
+      problemId: String(problemId),
+    });
+    return Boolean(existing);
   }
 
   async getUserStats(userId: string): Promise<(Record<string, any>) | null> {

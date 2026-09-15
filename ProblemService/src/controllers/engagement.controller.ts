@@ -10,6 +10,24 @@ const reactionBodySchema = z.object({
   reaction: z.enum(["like", "dislike"]),
 });
 
+function favouritePayload(data: {
+  isBookmarked: boolean;
+  bookmarkCount: number;
+  likeCount: number;
+  dislikeCount: number;
+  currentUserReaction: "like" | "dislike" | null;
+}) {
+  return {
+    isFavourite: data.isBookmarked,
+    isBookmarked: data.isBookmarked,
+    bookmarkCount: data.bookmarkCount,
+    favouriteCount: data.bookmarkCount,
+    likeCount: data.likeCount,
+    dislikeCount: data.dislikeCount,
+    currentUserReaction: data.currentUserReaction,
+  };
+}
+
 export class EngagementController {
   async getEngagement(
     req: AuthenticatedRequest,
@@ -26,7 +44,11 @@ export class EngagementController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: "Engagement retrieved",
-        data,
+        data: {
+          ...data,
+          isFavourite: data.isBookmarked,
+          favouriteCount: data.bookmarkCount,
+        },
       });
     } catch (error) {
       next(error);
@@ -54,13 +76,7 @@ export class EngagementController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: "Reaction updated",
-        data: {
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
-          isBookmarked: data.isBookmarked,
-          bookmarkCount: data.bookmarkCount,
-        },
+        data: favouritePayload(data),
       });
     } catch (error) {
       next(error);
@@ -83,13 +99,7 @@ export class EngagementController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: "Reaction removed",
-        data: {
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
-          isBookmarked: data.isBookmarked,
-          bookmarkCount: data.bookmarkCount,
-        },
+        data: favouritePayload(data),
       });
     } catch (error) {
       next(error);
@@ -111,14 +121,8 @@ export class EngagementController {
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
-        message: "Bookmarked",
-        data: {
-          isBookmarked: data.isBookmarked,
-          bookmarkCount: data.bookmarkCount,
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
-        },
+        message: "Added to favourites",
+        data: favouritePayload(data),
       });
     } catch (error) {
       next(error);
@@ -140,14 +144,8 @@ export class EngagementController {
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
-        message: "Bookmark removed",
-        data: {
-          isBookmarked: data.isBookmarked,
-          bookmarkCount: data.bookmarkCount,
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
-        },
+        message: "Removed from favourites",
+        data: favouritePayload(data),
       });
     } catch (error) {
       next(error);
@@ -169,20 +167,22 @@ export class EngagementController {
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
-        message: data.isBookmarked ? "Bookmarked" : "Bookmark removed",
-        data: {
-          isBookmarked: data.isBookmarked,
-          bookmarkCount: data.bookmarkCount,
-          likeCount: data.likeCount,
-          dislikeCount: data.dislikeCount,
-          currentUserReaction: data.currentUserReaction,
-        },
+        message: data.isBookmarked
+          ? "Added to favourites"
+          : "Removed from favourites",
+        data: favouritePayload(data),
       });
     } catch (error) {
       next(error);
     }
   }
 
+  /**
+   * GET favourites / bookmarks for the authenticated user.
+   * Supports page, limit, search, difficulty, category, solved, accessType, sort.
+   * When `paginated=1` or any filter/page param is present, returns { items, stats, filters } + meta.
+   * Otherwise returns a flat array for backward compatibility with existing clients.
+   */
   async listMyBookmarks(
     req: AuthenticatedRequest,
     res: Response,
@@ -192,11 +192,68 @@ export class EngagementController {
       const userId = req.user?.userId;
       if (!userId) throw new UnauthorizedError("Authentication required");
 
-      const data = await engagementService.listBookmarkedProblems(userId);
+      const q = req.query || {};
+      const wantsPaged =
+        q.paginated === "1" ||
+        q.paginated === "true" ||
+        q.page != null ||
+        q.limit != null ||
+        q.search != null ||
+        q.difficulty != null ||
+        q.category != null ||
+        q.solved != null ||
+        q.accessType != null ||
+        q.sort != null;
+
+      if (!wantsPaged) {
+        const data = await engagementService.listBookmarkedProblems(userId);
+        sendResponse({
+          res,
+          statusCode: HTTP_STATUS.OK,
+          message: "Favourites retrieved",
+          data,
+        });
+        return;
+      }
+
+      const result = await engagementService.listFavourites(userId, {
+        page: q.page ? Number(q.page) : 1,
+        limit: q.limit ? Number(q.limit) : 20,
+        search: q.search ? String(q.search) : undefined,
+        difficulty: q.difficulty ? String(q.difficulty) : undefined,
+        category: q.category ? String(q.category) : undefined,
+        solved: q.solved ? String(q.solved) : undefined,
+        accessType: q.accessType ? String(q.accessType) : undefined,
+        sort: q.sort ? String(q.sort) : undefined,
+      });
+
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
-        message: "Bookmarks retrieved",
+        message: "Favourites retrieved",
+        data: {
+          items: result.items,
+          stats: result.stats,
+          filters: result.filters,
+        },
+        meta: result.meta,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getFavouriteAnalytics(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const data = await engagementService.getFavouriteAnalytics();
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Favourite analytics retrieved",
         data,
       });
     } catch (error) {

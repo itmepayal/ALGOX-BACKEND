@@ -15,6 +15,29 @@ import {
   FALLBACK_SHEETS,
   STRIVER_A2Z_SHEET_ID,
 } from "../constants/sheets";
+import axios from "axios";
+import { serverConfig } from "../config";
+
+async function announceSheetPublished(sheetId: string, title: string) {
+  try {
+    const base = String(serverConfig.AUTH_SERVICE_URL || "http://localhost:3001").replace(
+      /\/$/,
+      ""
+    );
+    await axios.post(
+      `${base}/api/v1/auth/admin/internal/announce-sheet`,
+      { sheetId, title },
+      {
+        timeout: 3000,
+        headers: {
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+        },
+      }
+    );
+  } catch {
+    /* non-blocking */
+  }
+}
 
 export type ActorCtx = {
   userId: string;
@@ -208,10 +231,14 @@ export class SheetService {
   async setStatus(sheetId: string, status: SheetStatus, actor: ActorCtx) {
     const sheet = await Sheet.findOne({ sheetId });
     if (!sheet) throw new NotFoundError("Sheet not found");
+    const wasPublished = sheet.status === "PUBLISHED";
     sheet.status = status;
     sheet.updatedBy = actor.userId;
     if (status === "PUBLISHED") sheet.publishedAt = new Date();
     await sheet.save();
+    if (status === "PUBLISHED" && !wasPublished) {
+      void announceSheetPublished(sheet.sheetId, sheet.title);
+    }
     return sheet.toJSON();
   }
 

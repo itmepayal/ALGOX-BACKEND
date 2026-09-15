@@ -43,6 +43,13 @@ problemRouter.post(
   requirePermission("problems:create"),
   problemController.bulkImport.bind(problemController)
 );
+// Must be registered before /admin/:id or "favourite-analytics" is cast as ObjectId
+problemRouter.get(
+  "/admin/favourite-analytics",
+  authenticateJwt,
+  requirePermission("analytics:view"),
+  engagementController.getFavouriteAnalytics.bind(engagementController)
+);
 problemRouter.get(
   "/admin/:id",
   authenticateJwt,
@@ -87,8 +94,14 @@ problemRouter.post(
 );
 
 // Engagement — register before bare /:id
+// Favourites reuse ProblemBookmark (unique userId+problemId). Bookmark routes kept for compat.
 problemRouter.get(
   "/bookmarks/me",
+  authenticateJwt,
+  engagementController.listMyBookmarks.bind(engagementController)
+);
+problemRouter.get(
+  "/favourites/me",
   authenticateJwt,
   engagementController.listMyBookmarks.bind(engagementController)
 );
@@ -126,6 +139,21 @@ problemRouter.post(
   "/:id/bookmark/toggle",
   authenticateJwt,
   engagementController.toggleBookmark.bind(engagementController)
+);
+problemRouter.post(
+  "/:id/favourite",
+  authenticateJwt,
+  engagementController.toggleBookmark.bind(engagementController)
+);
+problemRouter.post(
+  "/:id/favourite/toggle",
+  authenticateJwt,
+  engagementController.toggleBookmark.bind(engagementController)
+);
+problemRouter.delete(
+  "/:id/favourite",
+  authenticateJwt,
+  engagementController.removeBookmark.bind(engagementController)
 );
 problemRouter.post(
   "/:id/revision/toggle",

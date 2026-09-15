@@ -70,12 +70,13 @@ export class LeaderboardController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { userId, userName, userEmail, difficulty } = req.body;
+      const { userId, userName, userEmail, difficulty, problemId } = req.body;
       const stats = await this.leaderboardService.recordSolvedProblem(
         userId,
         userName,
         userEmail,
-        difficulty
+        difficulty,
+        problemId
       );
 
       sendResponse({

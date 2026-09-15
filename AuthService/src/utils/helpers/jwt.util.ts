@@ -8,6 +8,7 @@ export interface JwtPayload {
   role: UserRole | string;
   /** Auth-resolved permissions snapshot (source of truth at token issue time). */
   permissions?: string[];
+  isEmailVerified?: boolean;
 }
 
 export const generateAccessToken = (payload: JwtPayload): string => {

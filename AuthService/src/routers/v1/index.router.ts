@@ -3,6 +3,7 @@ import authRouter from './auth.router';
 import adminRouter from './admin.router';
 import { sendResponse } from '../../utils/helpers/response.helper';
 import { HTTP_STATUS } from '../../utils/constants';
+import { blockWhenMaintenance } from '../../middlewares/featureFlag.middleware';
 
 const v1Router = express.Router();
 
@@ -14,6 +15,9 @@ v1Router.get('/health', (req, res) => {
     message: "AuthService is healthy",
   });
 });
+
+// Centralized maintenance gate (exempts health/admin/login/public settings)
+v1Router.use(blockWhenMaintenance);
 
 v1Router.use('/auth', authRouter);
 v1Router.use('/auth/admin', adminRouter);

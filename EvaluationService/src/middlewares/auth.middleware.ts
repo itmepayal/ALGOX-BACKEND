@@ -60,3 +60,18 @@ export const authenticateJwtOrInternal = (
   }
   return authenticateJwt(req, _res, next);
 };
+
+/** Service-to-service only — clients must use /run or SubmissionService. */
+export const requireInternalSecret = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): void => {
+  const provided =
+    req.headers["x-internal-secret"] || req.headers["x-realtime-secret"];
+  const expected = serverConfig.INTERNAL_SERVICE_SECRET;
+  if (typeof provided === "string" && expected && provided === expected) {
+    return next();
+  }
+  return next(new UnauthorizedError("Internal service authentication required"));
+};

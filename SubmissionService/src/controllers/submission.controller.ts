@@ -98,9 +98,13 @@ export class SubmissionController implements ISubmissionController {
         userId,
       });
       const role = (req as AuthenticatedRequest).user?.role;
+      const isEmailVerified = (req as AuthenticatedRequest).user?.isEmailVerified;
       const submission = await this.submissionService.createSubmission(
         validated,
-        { role: typeof role === "string" ? role : undefined }
+        {
+          role: typeof role === "string" ? role : undefined,
+          isEmailVerified: Boolean(isEmailVerified),
+        }
       );
 
       sendResponse({

@@ -81,3 +81,16 @@
 {"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-14-2026 21:59:27","data":{}}
 {"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-14-2026 21:59:27","data":{}}
 {"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-14-2026 21:59:27","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:04:02","data":{"socketId":"2d2MtmXBdtAdModTAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:05:45","data":{"socketId":"t_jJLv2rQhhaysJLAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:05:45","data":{"socketId":"JJGq2rTZ1qKQ-jiZAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:09:11","data":{"socketId":"Lq09qOv_AcS-NUTaAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:09:11","data":{"socketId":"BQA_RfaknpS0BiptAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:13:45","data":{"socketId":"v3IicIdg1MNEoHZVAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:13:45","data":{"socketId":"9vJ3XwU0nEh-9dCzAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:15:08","data":{"socketId":"AuPTQVRiDjkk0jgiAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:15:08","data":{"socketId":"zBc7rjlwJeCCtECJAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:54:16","data":{"socketId":"6zGh2bEfs7Lytnb5AAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:54:16","data":{"socketId":"c-fxEg4E9PcxqBAtAAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:56:50","data":{"socketId":"yucrjIXPZqKhBcE3AAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-14-2026 22:56:50","data":{"socketId":"Ea2pPly-uBii0xPAAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}

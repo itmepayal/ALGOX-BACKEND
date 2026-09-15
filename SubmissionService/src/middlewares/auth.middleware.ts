@@ -14,6 +14,7 @@ export interface JwtUser {
   email: string;
   role: UserRole | string;
   permissions?: string[];
+  isEmailVerified?: boolean;
 }
 
 export interface AuthenticatedRequest extends Request {
@@ -53,6 +54,7 @@ export const authenticateJwt = (
       permissions: Array.isArray(decoded.permissions)
         ? decoded.permissions
         : undefined,
+      isEmailVerified: Boolean((decoded as any).isEmailVerified),
     };
     next();
   } catch {

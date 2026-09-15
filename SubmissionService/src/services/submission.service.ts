@@ -23,7 +23,7 @@ const TERMINAL_STATUSES: SubmissionStatus[] = [
 export interface ISubmissionService {
   createSubmission(
     submission: CreateSubmissionDto,
-    options?: { role?: string }
+    options?: { role?: string; isEmailVerified?: boolean }
   ): Promise<ISubmission>;
   getByProblemId(problemId: string): Promise<ISubmission[]>;
   getByUserId(userId: string): Promise<ISubmission[]>;
@@ -84,7 +84,7 @@ export class SubmissionService implements ISubmissionService {
 
   async createSubmission(
     dto: CreateSubmissionDto,
-    options?: { role?: string }
+    options?: { role?: string; isEmailVerified?: boolean }
   ): Promise<ISubmission> {
     if (!dto.problemId || !dto.code || !dto.language) {
       throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
@@ -113,6 +113,7 @@ export class SubmissionService implements ISubmissionService {
       role: options?.role,
       concurrentActive,
       hourlyCount,
+      isEmailVerified: options?.isEmailVerified,
     });
 
     if (dto.contestId) {

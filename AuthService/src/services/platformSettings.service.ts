@@ -207,8 +207,35 @@ export class PlatformSettingsService {
     bool("announceNewSheets");
     bool("announceMaintenance");
 
-    if (patch.featureFlags && typeof patch.featureFlags === "object") {
-      const ff = patch.featureFlags as Record<string, unknown>;
+    // Sync legacy → featureFlags when legacy was patched without an explicit flag override
+    const ffPatch =
+      patch.featureFlags && typeof patch.featureFlags === "object"
+        ? (patch.featureFlags as Record<string, unknown>)
+        : null;
+
+    if (!doc.featureFlags) {
+      (doc as any).featureFlags = {
+        ...DEFAULT_PLATFORM_SETTINGS.featureFlags,
+      };
+    }
+
+    if (patch.maintenanceMode !== undefined && ffPatch?.maintenance === undefined) {
+      doc.featureFlags.maintenance = Boolean(patch.maintenanceMode);
+    }
+    if (
+      patch.registrationEnabled !== undefined &&
+      ffPatch?.registration === undefined
+    ) {
+      doc.featureFlags.registration = Boolean(patch.registrationEnabled);
+    }
+    if (
+      patch.discussionsEnabled !== undefined &&
+      ffPatch?.discussions === undefined
+    ) {
+      doc.featureFlags.discussions = Boolean(patch.discussionsEnabled);
+    }
+
+    if (ffPatch) {
       const keys = [
         "contests",
         "discussions",
@@ -218,25 +245,20 @@ export class PlatformSettingsService {
         "newEditor",
         "notifications",
       ] as const;
-      if (!doc.featureFlags) {
-        (doc as any).featureFlags = {
-          ...DEFAULT_PLATFORM_SETTINGS.featureFlags,
-        };
-      }
       for (const k of keys) {
-        if (ff[k] !== undefined) {
-          (doc.featureFlags as any)[k] = Boolean(ff[k]);
+        if (ffPatch[k] !== undefined) {
+          (doc.featureFlags as any)[k] = Boolean(ffPatch[k]);
         }
       }
       // Keep legacy booleans in sync where they overlap
-      if (ff.discussions !== undefined) {
-        doc.discussionsEnabled = Boolean(ff.discussions);
+      if (ffPatch.discussions !== undefined) {
+        doc.discussionsEnabled = Boolean(ffPatch.discussions);
       }
-      if (ff.registration !== undefined) {
-        doc.registrationEnabled = Boolean(ff.registration);
+      if (ffPatch.registration !== undefined) {
+        doc.registrationEnabled = Boolean(ffPatch.registration);
       }
-      if (ff.maintenance !== undefined) {
-        doc.maintenanceMode = Boolean(ff.maintenance);
+      if (ffPatch.maintenance !== undefined) {
+        doc.maintenanceMode = Boolean(ffPatch.maintenance);
       }
     }
 
@@ -245,8 +267,18 @@ export class PlatformSettingsService {
     }
 
     doc.updatedBy = actor.userId;
+    const maintenanceJustEnabled =
+      Boolean(doc.maintenanceMode) && !Boolean(before.maintenanceMode);
+
     await doc.save();
     const after = toDto(doc);
+
+    if (maintenanceJustEnabled) {
+      const { maybeAnnounceMaintenance } = await import(
+        "../utils/helpers/systemAnnounce"
+      );
+      void maybeAnnounceMaintenance(doc.maintenanceMessage || "");
+    }
 
     await writeAdminAudit({
       actorId: actor.userId,

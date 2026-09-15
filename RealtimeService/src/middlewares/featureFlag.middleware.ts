@@ -37,9 +37,15 @@ function isMaintenanceExempt(req: Request): boolean {
   if (url.includes("/health")) return true;
   if (url.includes("/admin")) return true;
   if (url.includes("/internal")) return true;
+  if (url.includes("/ingest")) return true;
   return false;
 }
 
+/**
+ * Block normal product traffic when Auth reports maintenance ON.
+ * Admin + health + internal routes remain available.
+ * Staff may bypass when allowAdminBypass is enabled (JWT peeked; never trusted from body).
+ */
 export const blockWhenMaintenance = async (
   req: Request,
   res: Response,

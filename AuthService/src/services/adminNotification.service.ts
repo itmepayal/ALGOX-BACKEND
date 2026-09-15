@@ -135,6 +135,22 @@ export class AdminNotificationService {
       read: false,
     }));
     await Notification.insertMany(docs, { ordered: false });
+
+    // Push to connected clients (REST remains source of truth)
+    const { emitRealtimeEvent } = await import("../utils/helpers/realtimeEmit");
+    for (const uid of userIds) {
+      emitRealtimeEvent({
+        event: "notification.created",
+        userId: uid,
+        room: `user:${uid}`,
+        payload: {
+          type,
+          title: input.title,
+          message: input.message,
+        },
+      });
+    }
+
     return { recipientCount: userIds.length, type, title: input.title };
   }
 

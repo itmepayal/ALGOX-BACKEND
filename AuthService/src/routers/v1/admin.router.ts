@@ -126,6 +126,29 @@ adminRouter.post(
   auditIngestController.ingest.bind(auditIngestController)
 );
 
+/** S2S: ProblemService announces newly published learning sheets when setting enabled. */
+adminRouter.post(
+  "/internal/announce-sheet",
+  requireInternalSecret,
+  async (req, res, next) => {
+    try {
+      const sheetId = String(req.body?.sheetId || "").trim();
+      const title = String(req.body?.title || "").trim() || sheetId;
+      if (!sheetId) {
+        res.status(400).json({ success: false, message: "sheetId required" });
+        return;
+      }
+      const { maybeAnnounceNewSheet } = await import(
+        "../../utils/helpers/systemAnnounce"
+      );
+      await maybeAnnounceNewSheet({ sheetId, title });
+      res.status(200).json({ success: true, message: "Sheet announce processed" });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
 /** Internal KPI fan-in — protected by shared internal secret or staff JWT. */
 adminRouter.get(
   "/internal/user-stats",

@@ -100,12 +100,53 @@ export class LeaderboardService {
     userId: string,
     userName: string,
     userEmail: string,
-    difficulty: "easy" | "medium" | "hard"
+    difficulty: "easy" | "medium" | "hard",
+    problemId?: string | null
   ) {
+    // Dedup: ONE USER + ONE PROBLEM = ONE UNIQUE SOLVE
+    if (problemId) {
+      const already = await this.leaderboardRepository.hasSolvedProblem(
+        userId,
+        String(problemId)
+      );
+      if (already) {
+        const existing = await this.leaderboardRepository.getUserStats(userId);
+        return {
+          ...(existing || {}),
+          alreadyCounted: true,
+          credited: false,
+        };
+      }
+    }
+
+    // Insert unique solve event first — duplicate key means no credit
+    try {
+      await this.leaderboardRepository.recordSolveEvent(
+        userId,
+        difficulty,
+        new Date(),
+        problemId || null
+      );
+    } catch (err: any) {
+      if (err?.code === 11000 && problemId) {
+        const existing = await this.leaderboardRepository.getUserStats(userId);
+        return {
+          ...(existing || {}),
+          alreadyCounted: true,
+          credited: false,
+        };
+      }
+      // Legacy path without problemId — continue with stats update best-effort
+      if (problemId) throw err;
+    }
+
     const existing = await this.leaderboardRepository.getUserStats(userId);
-    const solvedEasy = (existing?.solvedEasy || 0) + (difficulty === "easy" ? 1 : 0);
-    const solvedMedium = (existing?.solvedMedium || 0) + (difficulty === "medium" ? 1 : 0);
-    const solvedHard = (existing?.solvedHard || 0) + (difficulty === "hard" ? 1 : 0);
+    const solvedEasy =
+      (existing?.solvedEasy || 0) + (difficulty === "easy" ? 1 : 0);
+    const solvedMedium =
+      (existing?.solvedMedium || 0) + (difficulty === "medium" ? 1 : 0);
+    const solvedHard =
+      (existing?.solvedHard || 0) + (difficulty === "hard" ? 1 : 0);
     const totalSolved = solvedEasy + solvedMedium + solvedHard;
 
     const stats = await this.leaderboardRepository.upsertUserStats(userId, {
@@ -117,13 +158,6 @@ export class LeaderboardService {
       totalSolved,
     });
 
-    // Period boards: append SolveEvent for daily/weekly/monthly windows
-    try {
-      await this.leaderboardRepository.recordSolveEvent(userId, difficulty);
-    } catch {
-      // Non-blocking — global stats already updated
-    }
-
     try {
       await redis.del("leaderboard_page:1:limit:10");
       await redis.del("leaderboard_page:daily:1:limit:10");
@@ -132,7 +166,7 @@ export class LeaderboardService {
     } catch {
     }
 
-    return stats;
+    return { ...stats.toObject?.() ?? stats, alreadyCounted: false, credited: true };
   }
 
   async rebuildRedisLeaderboard() {

@@ -40,6 +40,19 @@ export const verifyOTP = async (userId: string, otp: string) => {
 };
 
 export const sendOTPEmail = async (toEmail: string, otp: string, subject = "Your 2FA Verification Code") => {
+  try {
+    const { PlatformSettings } = await import("../../models/platformSettings.model");
+    const settings = await PlatformSettings.findOne({ key: "default" }).lean();
+    if (settings && settings.emailNotificationsEnabled === false) {
+      console.log(
+        `[Mailer] emailNotificationsEnabled=false — OTP for ${toEmail} not emailed (dev log only): ${otp}`
+      );
+      return;
+    }
+  } catch {
+    /* proceed if settings unavailable */
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.log(`[Dev Mailer] RESEND_API_KEY missing. OTP for ${toEmail}: ${otp}`);

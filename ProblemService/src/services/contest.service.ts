@@ -71,7 +71,16 @@ export class ContestService {
     return { ...contest.toJSON(), problems };
   }
 
-  async getPublicBySlug(slug: string) {
+  async listPublicContests() {
+    return Contest.find({
+      status: { $in: ["SCHEDULED", "LIVE", "ENDED"] },
+    })
+      .sort({ startTime: -1 })
+      .select("title slug description status startTime endTime durationMinutes rules")
+      .lean({ virtuals: true });
+  }
+
+  async getPublicBySlug(slug: string, viewerUserId?: string) {
     const contest = await Contest.findOne({
       slug: slug.toLowerCase().trim(),
       status: { $in: ["SCHEDULED", "LIVE", "ENDED"] },
@@ -87,10 +96,22 @@ export class ContestService {
       contestId: contest._id,
     });
 
+    let isRegistered = false;
+    if (viewerUserId) {
+      const part = await ContestParticipant.findOne({
+        contestId: contest._id,
+        userId: String(viewerUserId),
+      })
+        .select("_id")
+        .lean();
+      isRegistered = Boolean(part);
+    }
+
     return {
       ...contest.toJSON(),
       problems,
       participantCount,
+      isRegistered,
     };
   }
 

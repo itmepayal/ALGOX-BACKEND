@@ -6,6 +6,11 @@ import {
 } from "../models/problemReaction.model";
 import { ProblemBookmark } from "../models/problemBookmark.model";
 import { ProblemRevision } from "../models/problemRevision.model";
+import { UserProblemProgress } from "../models/userProblemProgress.model";
+import {
+  PROBLEM_PROGRESS_STATUS,
+  type ProblemProgressStatus,
+} from "../constants/progressStatus";
 import { BadRequestError, NotFoundError } from "../utils/errors/app.error";
 import logger from "../config/logger.config";
 
@@ -15,11 +20,67 @@ export interface EngagementState {
   bookmarkCount: number;
   currentUserReaction: "like" | "dislike" | null;
   isBookmarked: boolean;
+  /** Alias of isBookmarked — Favourite Questions product surface. */
+  isFavourite: boolean;
   isRevision: boolean;
 }
 
+export interface FavouriteListQuery {
+  page?: number;
+  limit?: number;
+  search?: string;
+  difficulty?: string;
+  category?: string;
+  /** all | solved | attempted | unsolved */
+  solved?: string;
+  /** all | free | premium — based on resources[].isPremium */
+  accessType?: string;
+  /** recent | oldest | title_asc | title_desc | difficulty */
+  sort?: string;
+}
+
+const DIFFICULTY_RANK: Record<string, number> = {
+  easy: 0,
+  medium: 1,
+  hard: 2,
+};
+
 function clampNonNeg(n: number): number {
   return Math.max(0, n | 0);
+}
+
+function isPremiumProblem(p: any): boolean {
+  return Array.isArray(p?.resources) && p.resources.some((r: any) => r?.isPremium);
+}
+
+function sanitizePublicProblem(p: any, favouritedAt?: Date | string | null) {
+  const id = p._id?.toString?.() || String(p._id || p.id);
+  return {
+    id,
+    _id: id,
+    title: p.title,
+    slug: p.slug,
+    difficulty: p.difficulty,
+    category: p.category,
+    tags: Array.isArray(p.tags) ? p.tags : [],
+    resources: Array.isArray(p.resources)
+      ? p.resources.map((r: any) => ({
+          type: r.type,
+          url: r.url,
+          label: r.label,
+          isPremium: Boolean(r.isPremium),
+        }))
+      : [],
+    likeCount: clampNonNeg(p.likeCount ?? 0),
+    dislikeCount: clampNonNeg(p.dislikeCount ?? 0),
+    bookmarkCount: clampNonNeg(p.bookmarkCount ?? 0),
+    isBookmarked: true,
+    isFavourite: true,
+    isPremium: isPremiumProblem(p),
+    favouritedAt: favouritedAt || null,
+    createdAt: p.createdAt,
+    updatedAt: p.updatedAt,
+  };
 }
 
 async function ensureProblemExists(problemId: string) {
@@ -28,6 +89,19 @@ async function ensureProblemExists(problemId: string) {
   }
   const exists = await Problem.exists({ _id: problemId });
   if (!exists) throw new NotFoundError("Problem not found");
+}
+
+/** Favouriting is only allowed for publicly available problems. */
+async function ensureProblemFavouritable(problemId: string) {
+  if (!mongoose.Types.ObjectId.isValid(problemId)) {
+    throw new BadRequestError("Invalid problem id");
+  }
+  const problem = await Problem.findById(problemId).select("status").lean();
+  if (!problem) throw new NotFoundError("Problem not found");
+  const status = (problem as any).status;
+  if (status && status !== "published") {
+    throw new BadRequestError("Problem is not available");
+  }
 }
 
 async function readCounts(problemId: string): Promise<{
@@ -72,6 +146,7 @@ export class EngagementService {
       ...counts,
       currentUserReaction,
       isBookmarked,
+      isFavourite: isBookmarked,
       isRevision,
     };
   }
@@ -175,7 +250,7 @@ export class EngagementService {
     problemId: string,
     userId: string
   ): Promise<EngagementState> {
-    await ensureProblemExists(problemId);
+    await ensureProblemFavouritable(problemId);
     try {
       await ProblemBookmark.create({ userId, problemId });
       await Problem.findByIdAndUpdate(problemId, {
@@ -216,6 +291,7 @@ export class EngagementService {
     problemId: string,
     userId: string
   ): Promise<EngagementState> {
+    await ensureProblemFavouritable(problemId);
     const existing = await ProblemBookmark.findOne({ userId, problemId });
     if (existing) return this.removeBookmark(problemId, userId);
     return this.addBookmark(problemId, userId);
@@ -268,30 +344,217 @@ export class EngagementService {
     return rows.map((r) => r.problemId.toString());
   }
 
+  /**
+   * Paginated favourites (= bookmarks) with filters, progress, and stats.
+   * Does not return testcases / solutions / editorial bodies.
+   */
+  async listFavourites(userId: string, query: FavouriteListQuery = {}) {
+    const page = Math.max(1, Number(query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(query.limit) || 20));
+    const search = String(query.search || "").trim();
+    const difficulty = String(query.difficulty || "")
+      .trim()
+      .toLowerCase();
+    const category = String(query.category || "").trim();
+    const solvedFilter = String(query.solved || "all").trim().toLowerCase();
+    const accessType = String(query.accessType || "all")
+      .trim()
+      .toLowerCase();
+    const sort = String(query.sort || "recent").trim().toLowerCase();
+
+    const bookmarks = await ProblemBookmark.find({ userId })
+      .select("problemId createdAt")
+      .lean();
+
+    const emptyStats = {
+      total: 0,
+      solved: 0,
+      unsolved: 0,
+      attempted: 0,
+      easy: 0,
+      medium: 0,
+      hard: 0,
+    };
+
+    if (!bookmarks.length) {
+      return {
+        items: [] as any[],
+        meta: { total: 0, page, limit, totalPages: 0 },
+        stats: emptyStats,
+        filters: { categories: [] as string[] },
+      };
+    }
+
+    const favouritedAtById = new Map(
+      bookmarks.map((b) => [b.problemId.toString(), b.createdAt])
+    );
+    const ids = bookmarks.map((b) => b.problemId);
+
+    const problems = await Problem.find({
+      _id: { $in: ids },
+      $or: [{ status: "published" }, { status: { $exists: false } }],
+    })
+      .select(
+        "title slug difficulty category tags resources likeCount dislikeCount bookmarkCount createdAt updatedAt"
+      )
+      .lean();
+
+    const idStrings = problems.map((p: any) => p._id.toString());
+    const progressRows = await UserProblemProgress.find({
+      userId: String(userId),
+      problemId: { $in: idStrings },
+    })
+      .select("problemId status")
+      .lean();
+
+    const progressById = new Map(
+      progressRows.map((r) => [
+        String(r.problemId),
+        (r.status || PROBLEM_PROGRESS_STATUS.NOT_STARTED) as ProblemProgressStatus,
+      ])
+    );
+
+    type Row = ReturnType<typeof sanitizePublicProblem> & {
+      progressStatus: ProblemProgressStatus;
+      solvedStatus: "solved" | "attempted" | "unsolved";
+    };
+
+    let rows: Row[] = problems.map((p: any) => {
+      const id = p._id.toString();
+      const progressStatus =
+        progressById.get(id) || PROBLEM_PROGRESS_STATUS.NOT_STARTED;
+      const solvedStatus =
+        progressStatus === PROBLEM_PROGRESS_STATUS.SOLVED
+          ? ("solved" as const)
+          : progressStatus === PROBLEM_PROGRESS_STATUS.ATTEMPTED
+            ? ("attempted" as const)
+            : ("unsolved" as const);
+      return {
+        ...sanitizePublicProblem(p, favouritedAtById.get(id) || null),
+        progressStatus,
+        solvedStatus,
+      };
+    });
+
+    const categories = [
+      ...new Set(
+        rows
+          .map((r) => String(r.category || "").trim())
+          .filter(Boolean)
+      ),
+    ].sort((a, b) => a.localeCompare(b));
+
+    // Stats over all favourites (before list filters except published already applied)
+    const stats = {
+      total: rows.length,
+      solved: rows.filter((r) => r.solvedStatus === "solved").length,
+      attempted: rows.filter((r) => r.solvedStatus === "attempted").length,
+      unsolved: rows.filter((r) => r.solvedStatus === "unsolved").length,
+      easy: rows.filter((r) => String(r.difficulty).toLowerCase() === "easy")
+        .length,
+      medium: rows.filter(
+        (r) => String(r.difficulty).toLowerCase() === "medium"
+      ).length,
+      hard: rows.filter((r) => String(r.difficulty).toLowerCase() === "hard")
+        .length,
+    };
+
+    if (search) {
+      const re = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+      rows = rows.filter(
+        (r) =>
+          re.test(r.title || "") ||
+          re.test(r.slug || "") ||
+          re.test(r.category || "") ||
+          (r.tags || []).some((t: string) => re.test(String(t)))
+      );
+    }
+
+    if (difficulty && difficulty !== "all") {
+      rows = rows.filter(
+        (r) => String(r.difficulty).toLowerCase() === difficulty
+      );
+    }
+
+    if (category && category.toLowerCase() !== "all") {
+      const catRe = new RegExp(
+        category.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        "i"
+      );
+      rows = rows.filter((r) => catRe.test(String(r.category || "")));
+    }
+
+    if (solvedFilter === "solved") {
+      rows = rows.filter((r) => r.solvedStatus === "solved");
+    } else if (solvedFilter === "attempted") {
+      rows = rows.filter((r) => r.solvedStatus === "attempted");
+    } else if (solvedFilter === "unsolved") {
+      rows = rows.filter((r) => r.solvedStatus === "unsolved");
+    }
+
+    if (accessType === "premium") {
+      rows = rows.filter((r) => r.isPremium);
+    } else if (accessType === "free") {
+      rows = rows.filter((r) => !r.isPremium);
+    }
+
+    rows.sort((a, b) => {
+      switch (sort) {
+        case "oldest": {
+          const ta = a.favouritedAt
+            ? new Date(a.favouritedAt).getTime()
+            : 0;
+          const tb = b.favouritedAt
+            ? new Date(b.favouritedAt).getTime()
+            : 0;
+          return ta - tb;
+        }
+        case "title_asc":
+          return String(a.title).localeCompare(String(b.title));
+        case "title_desc":
+          return String(b.title).localeCompare(String(a.title));
+        case "difficulty": {
+          const da =
+            DIFFICULTY_RANK[String(a.difficulty).toLowerCase()] ?? 99;
+          const db =
+            DIFFICULTY_RANK[String(b.difficulty).toLowerCase()] ?? 99;
+          if (da !== db) return da - db;
+          return String(a.title).localeCompare(String(b.title));
+        }
+        case "recent":
+        default: {
+          const ta = a.favouritedAt
+            ? new Date(a.favouritedAt).getTime()
+            : 0;
+          const tb = b.favouritedAt
+            ? new Date(b.favouritedAt).getTime()
+            : 0;
+          return tb - ta;
+        }
+      }
+    });
+
+    const total = rows.length;
+    const totalPages = total === 0 ? 0 : Math.ceil(total / limit);
+    const start = (page - 1) * limit;
+    const items = rows.slice(start, start + limit);
+
+    return {
+      items,
+      meta: { total, page, limit, totalPages },
+      stats,
+      filters: { categories },
+    };
+  }
+
+  /** Backward-compatible flat list (all favourites, no pagination). */
   async listBookmarkedProblems(userId: string) {
-    const ids = await this.listBookmarkedProblemIds(userId);
-    if (ids.length === 0) return [];
-
-    const problems = await Problem.find({ _id: { $in: ids } }).lean();
-    const byId = new Map(problems.map((p: any) => [p._id.toString(), p]));
-
-    return ids
-      .map((id) => {
-        const p = byId.get(id);
-        if (!p) return null;
-        return {
-          ...p,
-          id,
-          _id: id,
-          isBookmarked: true,
-          likeCount: clampNonNeg(p.likeCount ?? 0),
-          dislikeCount: clampNonNeg(p.dislikeCount ?? 0),
-          testcases: Array.isArray(p.testcases)
-            ? p.testcases.filter((tc: any) => !tc.isHidden)
-            : [],
-        };
-      })
-      .filter(Boolean);
+    const result = await this.listFavourites(userId, {
+      page: 1,
+      limit: 500,
+      sort: "recent",
+    });
+    return result.items;
   }
 
   async getBookmarkSetForUser(
@@ -306,6 +569,112 @@ export class EngagementService {
       .select("problemId")
       .lean();
     return new Set(rows.map((r) => r.problemId.toString()));
+  }
+
+  /** Admin analytics — most favourited problems (real bookmarkCount). */
+  async getMostFavourited(limit = 10) {
+    const take = Math.min(50, Math.max(1, Number(limit) || 10));
+    const rows = await Problem.find({
+      bookmarkCount: { $gt: 0 },
+      $or: [{ status: "published" }, { status: { $exists: false } }],
+    })
+      .select("title slug difficulty category bookmarkCount resources")
+      .sort({ bookmarkCount: -1 })
+      .limit(take)
+      .lean();
+
+    return rows.map((p: any) => ({
+      id: p._id.toString(),
+      title: p.title,
+      slug: p.slug,
+      difficulty: p.difficulty,
+      category: p.category,
+      favouriteCount: clampNonNeg(p.bookmarkCount ?? 0),
+      isPremium: isPremiumProblem(p),
+    }));
+  }
+
+  /** Admin analytics — daily favourite creates over the last N days. */
+  async getFavouriteTrends(days = 30) {
+    const takeDays = Math.min(90, Math.max(1, Number(days) || 30));
+    const since = new Date();
+    since.setHours(0, 0, 0, 0);
+    since.setDate(since.getDate() - (takeDays - 1));
+
+    const rows = await ProblemBookmark.aggregate([
+      { $match: { createdAt: { $gte: since } } },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+    const byDate = new Map(rows.map((r) => [String(r._id), Number(r.count)]));
+    const series: { date: string; count: number }[] = [];
+    for (let i = 0; i < takeDays; i++) {
+      const d = new Date(since);
+      d.setDate(since.getDate() + i);
+      const key = d.toISOString().slice(0, 10);
+      series.push({ date: key, count: byDate.get(key) || 0 });
+    }
+    return series;
+  }
+
+  async getFavouriteAnalytics() {
+    const [mostFavourited, trends, freePremium] = await Promise.all([
+      this.getMostFavourited(10),
+      this.getFavouriteTrends(30),
+      Problem.aggregate([
+        { $match: { bookmarkCount: { $gt: 0 } } },
+        {
+          $project: {
+            bookmarkCount: 1,
+            isPremium: {
+              $gt: [
+                {
+                  $size: {
+                    $filter: {
+                      input: { $ifNull: ["$resources", []] },
+                      as: "r",
+                      cond: { $eq: ["$$r.isPremium", true] },
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+          },
+        },
+        {
+          $group: {
+            _id: "$isPremium",
+            totalFavourites: { $sum: "$bookmarkCount" },
+            problemCount: { $sum: 1 },
+          },
+        },
+      ]),
+    ]);
+
+    let freeFavourites = 0;
+    let premiumFavourites = 0;
+    for (const row of freePremium) {
+      if (row._id) premiumFavourites = row.totalFavourites;
+      else freeFavourites = row.totalFavourites;
+    }
+
+    return {
+      mostFavourited,
+      trends,
+      freeFavourites,
+      premiumFavourites,
+      mostFavouritedFree: mostFavourited.filter((p) => !p.isPremium),
+      mostFavouritedPremium: mostFavourited.filter((p) => p.isPremium),
+    };
   }
 }
 

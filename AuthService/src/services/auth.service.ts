@@ -29,13 +29,19 @@ import {
 } from "../utils/constants";
 import { permissionsForRoleResolved } from "./rolePermission.service";
 
-function tokenPayload(user: { _id: any; email: string; role: string }) {
+function tokenPayload(user: {
+  _id: any;
+  email: string;
+  role: string;
+  isEmailVerified?: boolean;
+}) {
   const role = user.role;
   return {
     userId: user._id.toString(),
     email: user.email,
     role,
     permissions: permissionsForRoleResolved(role),
+    isEmailVerified: Boolean(user.isEmailVerified),
   };
 }
 
