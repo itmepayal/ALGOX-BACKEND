@@ -15,6 +15,12 @@ contestRouter.get(
   contestController.assertAllowsSubmission
 );
 
+contestRouter.post(
+  "/internal/:contestId/record-submission",
+  requireInternalSecret,
+  contestController.recordAcceptedSubmission
+);
+
 contestRouter.get(
   "/",
   optionalAuthenticateJwt,

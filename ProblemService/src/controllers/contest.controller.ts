@@ -86,6 +86,39 @@ export class ContestController {
       next(e);
     }
   };
+
+  /** Service-to-service: Evaluation worker records ACCEPTED contest submissions. */
+  recordAcceptedSubmission = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const contestId = String(req.params.contestId);
+      const { submissionId, userId, problemId } = req.body || {};
+      if (!submissionId || !userId || !problemId) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+          success: false,
+          message: "submissionId, userId, and problemId are required",
+        });
+        return;
+      }
+      const data = await contestService.recordAcceptedSubmission({
+        contestId,
+        submissionId: String(submissionId),
+        userId: String(userId),
+        problemId: String(problemId),
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Contest submission recorded",
+        data,
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
 }
 
 export const contestController = new ContestController();

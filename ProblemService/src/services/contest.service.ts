@@ -480,6 +480,48 @@ export class ContestService {
 
     return entries;
   }
+
+  /**
+   * S2S: persist an ACCEPTED contest submission (idempotent on contestId+submissionId)
+   * then recompute the contest leaderboard.
+   */
+  async recordAcceptedSubmission(input: {
+    contestId: string;
+    submissionId: string;
+    userId: string;
+    problemId: string;
+  }) {
+    const contest = await findContestOrThrow(input.contestId);
+    const problemOid = oid(input.problemId, "problemId");
+    const cp = await ContestProblem.findOne({
+      contestId: contest._id,
+      problemId: problemOid,
+    }).lean();
+    const score = cp?.points ?? 100;
+
+    const doc = await ContestSubmission.findOneAndUpdate(
+      {
+        contestId: contest._id,
+        submissionId: String(input.submissionId),
+      },
+      {
+        $set: {
+          userId: String(input.userId),
+          problemId: problemOid,
+          status: "ACCEPTED",
+          score,
+        },
+        $setOnInsert: {
+          contestId: contest._id,
+          submissionId: String(input.submissionId),
+        },
+      },
+      { upsert: true, new: true }
+    );
+
+    await this.recomputeLeaderboard(input.contestId);
+    return doc;
+  }
 }
 
 export const contestService = new ContestService();

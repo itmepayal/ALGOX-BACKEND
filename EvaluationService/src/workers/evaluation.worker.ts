@@ -155,6 +155,24 @@ async function setupEvaluationWorker() {
             }
           )
           .catch(() => {});
+
+        if (jobData.contestId && jobData.submissionId && jobData.problemId) {
+          axios
+            .post(
+              `${serverConfig.PROBLEM_SERVICE}/contests/internal/${jobData.contestId}/record-submission`,
+              {
+                submissionId: jobData.submissionId,
+                userId: jobData.userId,
+                problemId: jobData.problemId,
+              },
+              {
+                headers: {
+                  "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+                },
+              }
+            )
+            .catch(() => {});
+        }
       }
     } catch {
       // analytics/leaderboard are best-effort

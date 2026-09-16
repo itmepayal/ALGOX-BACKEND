@@ -21,3 +21,9 @@
 {"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"YiLHtuB8njwkpjYFAAAP","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"ROBPHSLxdDkPGWTNAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"p2nvFSW-fEz5mn9RAAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:44:23","data":{"socketId":"jMX3J-i061b2xUKSAAAQ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:44:23","data":{"socketId":"3H6Y5HP8OoKb_Hi_AAAT","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:44:23","data":{"socketId":"InvJ-9jvep8juYR6AAAS","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:44:23","data":{"socketId":"L19F74Xe7MM-IJ3hAAAR","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'submission.accepted' is not allowed for ingest","timestamp":"09-16-2026 13:47:25","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'submission.accepted' is not allowed for ingest","timestamp":"09-16-2026 13:47:26","data":{}}

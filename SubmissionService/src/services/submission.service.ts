@@ -272,6 +272,7 @@ export class SubmissionService implements ISubmissionService {
       className: (problem as any).className,
       returnType: (problem as any).returnType,
       parameters: (problem as any).parameters,
+      ...(dto.contestId ? { contestId: dto.contestId } : {}),
     };
 
     try {
