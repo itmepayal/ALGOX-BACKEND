@@ -18,6 +18,7 @@ import {
   COOKIE_NAME,
   TIME_CONSTANTS,
 } from "../utils/constants";
+import { allowDevOtpExposure } from "../utils/helpers/otp.util";
 
 const authService = new AuthService();
 
@@ -73,15 +74,22 @@ export class AuthController {
       });
 
       if (result.require2FA) {
-        console.log(`[Login Step] 2FA is ENABLED for User ID: ${result.userId}. OTP Required.`);
+        const twoFa = result as {
+          require2FA: true;
+          userId: string;
+          otp?: string;
+        };
+        console.log(
+          `[Login Step] 2FA is ENABLED for User ID: ${twoFa.userId}. OTP Required.`
+        );
         sendResponse({
           res,
           statusCode: HTTP_STATUS.OK,
           message: AUTH_MESSAGES.TWO_FACTOR_REQUIRED,
           data: {
             require2FA: true,
-            userId: result.userId,
-            ...(result.otp && { otp: result.otp }),
+            userId: twoFa.userId,
+            ...(allowDevOtpExposure() && twoFa.otp ? { otp: twoFa.otp } : {}),
           },
         });
         console.log("=== [LOGIN API COMPLETED (2FA Required)] ===");
@@ -130,7 +138,6 @@ export class AuthController {
   ): Promise<void> {
     try {
       console.log("=== [VERIFY 2FA LOGIN API START] ===");
-      console.log("[Verify 2FA Request Body]:", req.body);
       const { userId } = req.body;
       const validated = verify2FASchema.parse(req.body);
       console.log("[Verify 2FA Schema Validated Successfully]");
@@ -141,7 +148,9 @@ export class AuthController {
           userAgent: req.headers["user-agent"],
         });
 
-      console.log(`[Verify 2FA Service Success] OTP Verified for User ID: ${user._id}`);
+      console.log(
+        `[Verify 2FA Service Success] OTP verified for User ID: ${user._id}`
+      );
 
       res.cookie(COOKIE_NAME, refreshToken, {
         httpOnly: true,
@@ -320,9 +329,9 @@ export class AuthController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: result.message,
-        ...(process.env.NODE_ENV !== "production" && {
-          data: { otp: result.otp },
-        }),
+        ...(allowDevOtpExposure() && result.otp
+          ? { data: { otp: result.otp } }
+          : {}),
       });
     } catch (error) {
       next(error);
@@ -439,13 +448,11 @@ export class AuthController {
       const validated = resetPasswordRequestSchema.parse(req.body);
       const result = await authService.requestPasswordReset(validated.email);
 
+      // Never include OTP — would reveal account existence even in non-production.
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
         message: result.message,
-        ...(process.env.NODE_ENV !== "production" && {
-          data: { otp: result.otp },
-        }),
       });
     } catch (error) {
       next(error);

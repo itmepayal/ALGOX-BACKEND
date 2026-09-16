@@ -21,7 +21,12 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/helpers/jwt.util";
-import { saveOTP, verifyOTP, sendOTPEmail } from "../utils/helpers/otp.util";
+import {
+  saveOTP,
+  verifyOTP,
+  sendOTPEmail,
+  allowDevOtpExposure,
+} from "../utils/helpers/otp.util";
 import {
   AUTH_MESSAGES,
   TIME_CONSTANTS,
@@ -134,15 +139,18 @@ export class AuthService {
     await user.save();
 
     if (user.twoFactorEnabled) {
-      console.log(`[AuthService.login] 2FA is ENABLED for User: ${user._id}. Generating OTP code...`);
+      console.log(
+        `[AuthService.login] 2FA is ENABLED for User: ${user._id}. Generating OTP and dispatching email...`
+      );
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       await saveOTP(`2fa:${user._id.toString()}`, otp);
-      console.log(`[AuthService.login] 2FA OTP Generated: ${otp}. Dispatching Email via Resend...`);
-      sendOTPEmail(user.email, otp, "Your LeetCode 2FA Login Code").catch(err => console.error("Email error:", err));
+      sendOTPEmail(user.email, otp, "Your LeetCode 2FA Login Code").catch((err) =>
+        console.error("Email error:", err)
+      );
       return {
         require2FA: true,
         userId: user._id.toString(),
-        otp: process.env.NODE_ENV !== "production" ? otp : undefined,
+        ...(allowDevOtpExposure() ? { otp } : {}),
       };
     }
 
@@ -182,9 +190,9 @@ export class AuthService {
       throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND);
     }
 
-    console.log(`[AuthService.verify2FALogin] Verifying OTP: ${data.otp} for User: ${userId}`);
+    console.log(`[AuthService.verify2FALogin] Verifying OTP for User: ${userId}`);
     await verifyOTP(`2fa:${userId}`, data.otp);
-    console.log(`[AuthService.verify2FALogin] OTP matched successfully!`);
+    console.log(`[AuthService.verify2FALogin] OTP verification succeeded for User: ${userId}`);
 
     const payload = tokenPayload(user);
 
@@ -315,8 +323,14 @@ export class AuthService {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     await saveOTP(`emailVerify:${userId}`, otp);
+    sendOTPEmail(user.email, otp, "Verify your AlgoPath email").catch((err) =>
+      console.error("Email error:", err)
+    );
 
-    return { message: AUTH_MESSAGES.EMAIL_VERIFICATION_SENT, otp };
+    return {
+      message: AUTH_MESSAGES.EMAIL_VERIFICATION_SENT,
+      ...(allowDevOtpExposure() ? { otp } : {}),
+    };
   }
 
   async verifyEmailOtp(userId: string, data: VerifyEmailOtpDto) {
@@ -377,15 +391,17 @@ export class AuthService {
   }
 
   async requestPasswordReset(email: string) {
+    // Always return the same message — never reveal whether the email exists.
+    // Never include OTP in the response (would leak account existence).
     const user = await User.findOne({ email });
-    if (!user) {
-      throw new NotFoundError(AUTH_MESSAGES.USER_NOT_FOUND_EMAIL);
+    if (user) {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      await saveOTP(`reset:${user._id.toString()}`, otp);
+      sendOTPEmail(user.email, otp, "AlgoPath password reset code").catch((err) =>
+        console.error("Email error:", err)
+      );
     }
-
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    await saveOTP(`reset:${user._id.toString()}`, otp);
-
-    return { message: AUTH_MESSAGES.PASSWORD_RESET_OTP_SENT, otp };
+    return { message: AUTH_MESSAGES.PASSWORD_RESET_OTP_SENT };
   }
 
   async resetPassword(data: ResetPasswordConfirmDto) {

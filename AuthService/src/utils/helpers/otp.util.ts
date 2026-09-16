@@ -4,6 +4,14 @@ import { TIME_CONSTANTS, AUTH_MESSAGES } from "../constants";
 
 const inMemoryOtpStore = new Map<string, { otp: string; expiresAt: number }>();
 
+/** Production never exposes OTPs. Dev/test may opt in via explicit env flag. */
+export function allowDevOtpExposure(): boolean {
+  return (
+    process.env.NODE_ENV !== "production" &&
+    process.env.ALLOW_DEV_OTP_EXPOSURE === "true"
+  );
+}
+
 export const saveOTP = async (userId: string, otp: string) => {
   try {
     await redis.set(`otp:${userId}`, otp, { ex: TIME_CONSTANTS.OTP_EXPIRY_SECONDS });
@@ -39,13 +47,17 @@ export const verifyOTP = async (userId: string, otp: string) => {
   }
 };
 
-export const sendOTPEmail = async (toEmail: string, otp: string, subject = "Your 2FA Verification Code") => {
+export const sendOTPEmail = async (
+  toEmail: string,
+  otp: string,
+  subject = "Your 2FA Verification Code"
+) => {
   try {
     const { PlatformSettings } = await import("../../models/platformSettings.model");
     const settings = await PlatformSettings.findOne({ key: "default" }).lean();
     if (settings && settings.emailNotificationsEnabled === false) {
       console.log(
-        `[Mailer] emailNotificationsEnabled=false — OTP for ${toEmail} not emailed (dev log only): ${otp}`
+        `[Mailer] emailNotificationsEnabled=false — OTP email skipped for ${toEmail}`
       );
       return;
     }
@@ -55,7 +67,7 @@ export const sendOTPEmail = async (toEmail: string, otp: string, subject = "Your
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    console.log(`[Dev Mailer] RESEND_API_KEY missing. OTP for ${toEmail}: ${otp}`);
+    console.log(`[Mailer] RESEND_API_KEY missing — OTP email not sent to ${toEmail}`);
     return;
   }
 
@@ -67,7 +79,7 @@ export const sendOTPEmail = async (toEmail: string, otp: string, subject = "Your
       method: "POST",
       signal: controller.signal,
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

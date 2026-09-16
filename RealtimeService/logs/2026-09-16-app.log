@@ -1,0 +1,23 @@
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 13:27:23","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 13:27:24","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 13:27:26","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 13:27:26","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 13:27:26","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 13:27:26","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"0SQKU1KkIPKR7gYdAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"jUv8s696zrgPc8vJAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"cwrSWULg0g5lCv0-AAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"OuU9TRktjlbG74mfAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"f0_jymEIc-BhaexMAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"drRgZz305AYXtxupAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"wjw4VGMv5r18joNZAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:27:37","data":{"socketId":"x_JbvJPPzhmbhz7EAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:30:49","data":{"socketId":"CgQeBu5FrGB2VMPQAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:30:49","data":{"socketId":"8DAJLsy8D-VoELQ3AAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:30:49","data":{"socketId":"oF8GeAqrSuW3sjngAAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:30:49","data":{"socketId":"gT_Asor26dRSKU4eAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 13:31:54","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"T19v332QGhruJ-FYAAAO","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"YiLHtuB8njwkpjYFAAAP","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"ROBPHSLxdDkPGWTNAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:32:17","data":{"socketId":"p2nvFSW-fEz5mn9RAAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
