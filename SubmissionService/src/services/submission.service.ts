@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
-import { getProblemById, assertContestAllowsSubmission } from "../apis/problem.api";
+import { getProblemById, assertContestAllowsSubmission, assertMockInterviewAllowsSubmission, assertVirtualContestAllowsSubmission, assertProblemSolveAccess } from "../apis/problem.api";
+
 import logger from "../config/logger.config";
 import { ISubmission, SubmissionStatus } from "../models/submission.model";
 import { addSubmissionJob } from "../producers/submission.producer";
@@ -23,7 +24,11 @@ const TERMINAL_STATUSES: SubmissionStatus[] = [
 export interface ISubmissionService {
   createSubmission(
     submission: CreateSubmissionDto,
-    options?: { role?: string; isEmailVerified?: boolean }
+    options?: {
+      role?: string;
+      isEmailVerified?: boolean;
+      authorization?: string | null;
+    }
   ): Promise<ISubmission>;
   getByProblemId(problemId: string): Promise<ISubmission[]>;
   getByUserId(userId: string): Promise<ISubmission[]>;
@@ -77,6 +82,16 @@ export interface ISubmissionService {
   }>;
   internalStats(rangeDays?: number): Promise<Record<string, unknown>>;
   problemStats(problemId: string, rangeDays?: number): Promise<Record<string, unknown>>;
+  userSubmissionAnalytics(filters: {
+    userId: string;
+    from?: string;
+    to?: string;
+    status?: string;
+    language?: string;
+    source?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<Record<string, unknown>>;
 }
 
 export class SubmissionService implements ISubmissionService {
@@ -84,7 +99,11 @@ export class SubmissionService implements ISubmissionService {
 
   async createSubmission(
     dto: CreateSubmissionDto,
-    options?: { role?: string; isEmailVerified?: boolean }
+    options?: {
+      role?: string;
+      isEmailVerified?: boolean;
+      authorization?: string | null;
+    }
   ): Promise<ISubmission> {
     if (!dto.problemId || !dto.code || !dto.language) {
       throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
@@ -96,6 +115,9 @@ export class SubmissionService implements ISubmissionService {
     if (!dto.userId) {
       throw new BadRequestError(SUBMISSION_MESSAGES.MISSING_REQUIRED_FIELDS);
     }
+
+    // Server-side premium gate (FREE Learning Sheet problems allowed)
+    await assertProblemSolveAccess(problemId, options?.authorization);
 
     const concurrentActive =
       source === "submit"
@@ -117,7 +139,29 @@ export class SubmissionService implements ISubmissionService {
     });
 
     if (dto.contestId) {
-      await assertContestAllowsSubmission(dto.contestId);
+      await assertContestAllowsSubmission(dto.contestId, dto.userId);
+    }
+    if (dto.mockInterviewSessionId) {
+      await assertMockInterviewAllowsSubmission(
+        dto.mockInterviewSessionId,
+        dto.userId
+      );
+    }
+    if (dto.virtualContestSessionId) {
+      if (dto.contestId) {
+        throw new BadRequestError(
+          "Cannot attach both contestId and virtualContestSessionId"
+        );
+      }
+      if (source === "run") {
+        throw new BadRequestError(
+          "Virtual contest submissions must use source=submit"
+        );
+      }
+      await assertVirtualContestAllowsSubmission(
+        dto.virtualContestSessionId,
+        dto.userId
+      );
     }
 
     const problem = await getProblemById(problemId);
@@ -145,6 +189,12 @@ export class SubmissionService implements ISubmissionService {
         problemId: new Types.ObjectId(dto.problemId),
         ...(dto.userId && { userId: new Types.ObjectId(dto.userId) }),
         ...(dto.contestId && { contestId: new Types.ObjectId(dto.contestId) }),
+        ...(dto.mockInterviewSessionId && {
+          mockInterviewSessionId: new Types.ObjectId(dto.mockInterviewSessionId),
+        }),
+        ...(dto.virtualContestSessionId && {
+          virtualContestSessionId: new Types.ObjectId(dto.virtualContestSessionId),
+        }),
         language: dto.language,
         code: dto.code,
         source: "run",
@@ -173,6 +223,7 @@ export class SubmissionService implements ISubmissionService {
         payload: {
           submissionId: String(runSaved._id),
           problemId,
+          language: dto.language,
           source: "run",
         },
       });
@@ -184,6 +235,12 @@ export class SubmissionService implements ISubmissionService {
       problemId: new Types.ObjectId(dto.problemId),
       ...(dto.userId && { userId: new Types.ObjectId(dto.userId) }),
       ...(dto.contestId && { contestId: new Types.ObjectId(dto.contestId) }),
+      ...(dto.mockInterviewSessionId && {
+        mockInterviewSessionId: new Types.ObjectId(dto.mockInterviewSessionId),
+      }),
+      ...(dto.virtualContestSessionId && {
+        virtualContestSessionId: new Types.ObjectId(dto.virtualContestSessionId),
+      }),
       language: dto.language,
       code: dto.code,
       source: "submit",
@@ -206,6 +263,7 @@ export class SubmissionService implements ISubmissionService {
       payload: {
         submissionId: String(response._id),
         problemId,
+        language: dto.language,
         source: "submit",
       },
     });
@@ -273,6 +331,12 @@ export class SubmissionService implements ISubmissionService {
       returnType: (problem as any).returnType,
       parameters: (problem as any).parameters,
       ...(dto.contestId ? { contestId: dto.contestId } : {}),
+      ...(dto.mockInterviewSessionId
+        ? { mockInterviewSessionId: dto.mockInterviewSessionId }
+        : {}),
+      ...(dto.virtualContestSessionId
+        ? { virtualContestSessionId: dto.virtualContestSessionId }
+        : {}),
     };
 
     try {
@@ -339,6 +403,9 @@ export class SubmissionService implements ISubmissionService {
 
   async getSubmissionById(id: string): Promise<ISubmission | null> {
     if (!id) throw new BadRequestError("Submission ID is required");
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestError("Invalid submission ID");
+    }
 
     const submission = await this.submissionRepository.getSubmissionById(id);
 
@@ -371,17 +438,18 @@ export class SubmissionService implements ISubmissionService {
     // Re-analyze on terminal verdicts (acceptance-rate spike needs final status)
     if (updated.status && TERMINAL_STATUSES.includes(updated.status)) {
       scheduleSuspiciousAnalysis(updated);
-      const accepted = updated.status === "ACCEPTED";
+      // Use allowlisted RealtimeEvents only (submission.accepted is not registered).
       emitRealtimeEvent({
-        event: accepted ? "submission.accepted" : "submission.completed",
+        event: "submission.completed",
         userId: updated.userId?.toString(),
         status: updated.status,
         payload: {
           submissionId: String(updated._id),
           problemId: updated.problemId?.toString(),
+          language: updated.language,
         },
       });
-      if (!accepted) {
+      if (updated.status !== "ACCEPTED") {
         emitRealtimeEvent({
           event: "submission.failed",
           userId: updated.userId?.toString(),
@@ -451,5 +519,36 @@ export class SubmissionService implements ISubmissionService {
   async problemStats(problemId: string, rangeDays = 30) {
     if (!problemId) throw new BadRequestError("problemId is required");
     return this.submissionRepository.problemStats(problemId, rangeDays);
+  }
+
+  async userSubmissionAnalytics(filters: {
+    userId: string;
+    from?: string;
+    to?: string;
+    status?: string;
+    language?: string;
+    source?: string;
+    page?: number;
+    limit?: number;
+  }) {
+    if (!filters.userId) throw new BadRequestError("userId is required");
+    const from = filters.from ? new Date(filters.from) : undefined;
+    const to = filters.to ? new Date(filters.to) : undefined;
+    if (from && Number.isNaN(from.getTime())) {
+      throw new BadRequestError("Invalid from date");
+    }
+    if (to && Number.isNaN(to.getTime())) {
+      throw new BadRequestError("Invalid to date");
+    }
+    return this.submissionRepository.userSubmissionAnalytics({
+      userId: filters.userId,
+      from,
+      to,
+      status: filters.status,
+      language: filters.language,
+      source: filters.source,
+      page: filters.page,
+      limit: filters.limit,
+    });
   }
 }

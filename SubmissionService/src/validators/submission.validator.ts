@@ -20,6 +20,10 @@ export const createSubmissionSchema = z.object({
   source: z.enum(["run", "submit"]).optional().default("submit"),
   /** When set, ProblemService must confirm contest is LIVE and in window. */
   contestId: z.string().optional(),
+  /** When set, ProblemService must confirm mock interview is in window. */
+  mockInterviewSessionId: z.string().optional(),
+  /** When set, ProblemService must confirm virtual contest session is in window. */
+  virtualContestSessionId: z.string().optional(),
   /** Final verdict for source=run (ignored for submit — set by worker). */
   status: submissionStatusEnum.optional(),
   output: z.string().optional(),

@@ -39,6 +39,12 @@ export interface IProblem extends Document {
   status: ProblemStatus;
   category: string;
   tags: string[];
+  /**
+   * Problem-level access classification.
+   * FREE (false) — solving payload is public; editorial/hints still entitlement-gated.
+   * PREMIUM (true) — full payload requires premium.problems entitlement.
+   */
+  isPremium?: boolean;
   editorial?: string;
   hints?: string[];
   constraints?: string;
@@ -64,6 +70,8 @@ export interface IProblem extends Document {
   likeCount?: number;
   dislikeCount?: number;
   bookmarkCount?: number;
+  favoriteCount?: number;
+  importantCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -145,6 +153,11 @@ const problemSchema = new Schema<IProblem>(
       default: [],
       index: true,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
     editorial: {
       type: String,
     },
@@ -180,6 +193,10 @@ const problemSchema = new Schema<IProblem>(
     likeCount: { type: Number, default: 0, min: 0, index: true },
     dislikeCount: { type: Number, default: 0, min: 0 },
     bookmarkCount: { type: Number, default: 0, min: 0 },
+    /** Distinct from bookmarkCount — preferred problems. */
+    favoriteCount: { type: Number, default: 0, min: 0 },
+    /** Aggregate users who marked Important. */
+    importantCount: { type: Number, default: 0, min: 0 },
   },
   {
     timestamps: true,
@@ -209,5 +226,6 @@ problemSchema.index({ category: 1, difficulty: 1 });
 problemSchema.index({ status: 1, difficulty: 1 });
 problemSchema.index({ status: 1, createdAt: -1 });
 problemSchema.index({ tags: 1 });
+problemSchema.index({ status: 1, isPremium: 1 });
 
 export const Problem = mongoose.model<IProblem>("Problem", problemSchema);

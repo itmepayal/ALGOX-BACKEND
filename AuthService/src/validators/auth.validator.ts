@@ -1,10 +1,19 @@
 import { z } from "zod";
 
-export const signupSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(50),
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-});
+export const updateProfileSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters").max(50).optional(),
+    avatar: z.string().optional(),
+  })
+  .strict();
+
+export const signupSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters").max(50),
+    email: z.string().email("Invalid email format"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+  })
+  .strict();
 
 export const loginSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -40,11 +49,6 @@ export const verifyEmailOtpSchema = z.object({
 
 export const verify2FASchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
-});
-
-export const updateProfileSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(50).optional(),
-  avatar: z.string().optional(),
 });
 
 export type SignupDto = z.infer<typeof signupSchema>;

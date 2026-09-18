@@ -132,6 +132,7 @@ const announcementSchema = new Schema<IAnnouncement>(
 announcementSchema.index({ status: 1, publishedAt: -1 });
 announcementSchema.index({ status: 1, type: 1, createdAt: -1 });
 announcementSchema.index({ expiresAt: 1 });
+announcementSchema.index({ status: 1, scheduledAt: 1 });
 
 export const Announcement = mongoose.model<IAnnouncement>(
   "Announcement",

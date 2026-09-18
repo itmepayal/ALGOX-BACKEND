@@ -99,3 +99,23 @@ export const requirePermission = (...permissions: Permission[]) => {
     return next();
   };
 };
+
+/** Service-to-service auth — fail closed if secret unset or mismatch. Never log secrets. */
+export const requireInternalSecret = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): void => {
+  const provided =
+    req.headers["x-internal-secret"] || req.headers["x-realtime-secret"];
+  const expected = (serverConfig.INTERNAL_SERVICE_SECRET || "").trim();
+  if (!expected) {
+    return next(
+      new UnauthorizedError("Internal service authentication is not configured")
+    );
+  }
+  if (typeof provided === "string" && provided === expected) {
+    return next();
+  }
+  return next(new UnauthorizedError("Invalid or missing internal service secret"));
+};

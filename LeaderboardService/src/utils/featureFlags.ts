@@ -27,6 +27,11 @@ let cache: {
 
 const TTL_MS = 15_000;
 
+/** Drop in-memory feature-flag cache after Auth maintenance toggle. */
+export function invalidateFeatureFlagsCache(): void {
+  cache = null;
+}
+
 export async function getRemoteFeatureFlags(authServiceUrl: string): Promise<{
   flags: FeatureFlags;
   allowAdminBypass: boolean;

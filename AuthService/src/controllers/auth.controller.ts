@@ -16,11 +16,25 @@ import {
   HTTP_STATUS,
   AUTH_MESSAGES,
   COOKIE_NAME,
-  TIME_CONSTANTS,
+  REFRESH_COOKIE_OPTIONS,
 } from "../utils/constants";
 import { allowDevOtpExposure } from "../utils/helpers/otp.util";
+import { toPublicAuthUser } from "../subscription/publicAuthUser";
 
 const authService = new AuthService();
+
+function setRefreshCookie(res: Response, refreshToken: string): void {
+  res.cookie(COOKIE_NAME, refreshToken, REFRESH_COOKIE_OPTIONS);
+}
+
+function clearRefreshCookie(res: Response): void {
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: REFRESH_COOKIE_OPTIONS.httpOnly,
+    secure: REFRESH_COOKIE_OPTIONS.secure,
+    sameSite: REFRESH_COOKIE_OPTIONS.sameSite,
+    path: REFRESH_COOKIE_OPTIONS.path,
+  });
+}
 
 export class AuthController {
   async register(
@@ -44,15 +58,7 @@ export class AuthController {
         res,
         statusCode: HTTP_STATUS.CREATED,
         message: AUTH_MESSAGES.USER_REGISTERED,
-        data: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          avatar: user.avatar,
-          isEmailVerified: user.isEmailVerified,
-          twoFactorEnabled: user.twoFactorEnabled,
-        },
+        data: toPublicAuthUser(user),
       });
       console.log("=== [REGISTER API COMPLETED] ===");
     } catch (error) {
@@ -98,13 +104,11 @@ export class AuthController {
 
       console.log("[Login Step] Standard Login Direct Success. Issuing Tokens...");
       const { user, accessToken, refreshToken } = result;
+      if (!accessToken || !refreshToken) {
+        throw new Error("Login succeeded without tokens");
+      }
 
-      res.cookie(COOKIE_NAME, refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: TIME_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
-      });
+      setRefreshCookie(res, refreshToken);
 
       sendResponse({
         res,
@@ -112,16 +116,7 @@ export class AuthController {
         message: AUTH_MESSAGES.LOGIN_SUCCESS,
         data: {
           accessToken,
-          refreshToken,
-          user: {
-            id: user?._id,
-            name: user?.name,
-            email: user?.email,
-            role: user?.role,
-            avatar: user?.avatar,
-            isEmailVerified: user?.isEmailVerified,
-            twoFactorEnabled: user?.twoFactorEnabled,
-          },
+          user: toPublicAuthUser(user),
         },
       });
       console.log("=== [LOGIN API COMPLETED (Success)] ===");
@@ -152,12 +147,7 @@ export class AuthController {
         `[Verify 2FA Service Success] OTP verified for User ID: ${user._id}`
       );
 
-      res.cookie(COOKIE_NAME, refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: TIME_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
-      });
+      setRefreshCookie(res, refreshToken);
 
       sendResponse({
         res,
@@ -165,16 +155,7 @@ export class AuthController {
         message: AUTH_MESSAGES.TWO_FACTOR_LOGIN_SUCCESS,
         data: {
           accessToken,
-          refreshToken,
-          user: {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            avatar: user.avatar,
-            isEmailVerified: user.isEmailVerified,
-            twoFactorEnabled: user.twoFactorEnabled,
-          },
+          user: toPublicAuthUser(user),
         },
       });
       console.log("=== [VERIFY 2FA LOGIN API COMPLETED] ===");
@@ -196,18 +177,13 @@ export class AuthController {
 
       const result = await authService.refresh(refreshToken);
 
-      res.cookie(COOKIE_NAME, result.refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: TIME_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
-      });
+      setRefreshCookie(res, result.refreshToken);
 
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
         message: AUTH_MESSAGES.TOKENS_REFRESHED,
-        data: result,
+        data: { accessToken: result.accessToken },
       });
     } catch (error) {
       next(error);
@@ -224,7 +200,7 @@ export class AuthController {
         req.cookies?.[COOKIE_NAME] || req.body?.refreshToken;
       await authService.logout(refreshToken, req.user?.userId);
 
-      res.clearCookie(COOKIE_NAME);
+      clearRefreshCookie(res);
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
@@ -243,7 +219,7 @@ export class AuthController {
     try {
       const userId = req.user!.userId;
       const result = await authService.logoutAllSessions(userId);
-      res.clearCookie(COOKIE_NAME);
+      clearRefreshCookie(res);
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
@@ -276,16 +252,7 @@ export class AuthController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: AUTH_MESSAGES.PROFILE_RETRIEVED,
-        data: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          status: (user as any).status || "active",
-          avatar: user.avatar,
-          isEmailVerified: user.isEmailVerified,
-          twoFactorEnabled: user.twoFactorEnabled,
-        },
+        data: toPublicAuthUser(user),
       });
     } catch (error) {
       next(error);
@@ -305,7 +272,7 @@ export class AuthController {
         userAgent: req.headers["user-agent"],
       });
 
-      res.clearCookie(COOKIE_NAME);
+      clearRefreshCookie(res);
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,

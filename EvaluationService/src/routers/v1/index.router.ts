@@ -6,9 +6,11 @@ import {
   EVALUATION_MESSAGES,
   DEFAULT_LIMITS,
 } from "../../utils/constants";
-import { submissionQueue } from "../../queues/submission.queue";
+import { submissionQueue, getCachedQueueRedisSafety } from "../../queues/submission.queue";
 import logger from "../../config/logger.config";
 import { blockWhenMaintenance } from "../../middlewares/featureFlag.middleware";
+import { requireInternalSecret } from "../../middlewares/auth.middleware";
+import { invalidateFeatureFlagsCache } from "../../utils/featureFlags";
 
 const v1Router = express.Router();
 
@@ -16,7 +18,7 @@ v1Router.get("/health", async (_req, res) => {
   let queue: Record<string, unknown> | null = null;
   let redisOk = false;
   try {
-    const counts = await submissionQueue.getJobCounts(
+    const countsPromise = submissionQueue.getJobCounts(
       "waiting",
       "active",
       "completed",
@@ -24,6 +26,10 @@ v1Router.get("/health", async (_req, res) => {
       "delayed",
       "paused"
     );
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Queue query timeout")), 2000)
+    );
+    const counts: any = await Promise.race([countsPromise, timeoutPromise]);
     redisOk = true;
     const waiting =
       Number(counts.waiting || 0) + Number(counts.delayed || 0);
@@ -31,6 +37,7 @@ v1Router.get("/health", async (_req, res) => {
     const failed = Number(counts.failed || 0);
     let status: "healthy" | "degraded" | "unavailable" = "healthy";
     if (waiting > 100 || failed > 50) status = "degraded";
+    const safety = getCachedQueueRedisSafety();
     queue = {
       ...counts,
       waiting,
@@ -38,15 +45,20 @@ v1Router.get("/health", async (_req, res) => {
       failed,
       configuredWorkers: DEFAULT_LIMITS.CONCURRENCY_WORKERS,
       status,
+      evictionPolicy: safety?.policy ?? "unknown",
+      evictionSafe: safety?.ok ?? false,
     };
   } catch (err: any) {
     logger.warn("Evaluation health: queue metrics unavailable", {
       error: err?.message || err,
     });
+    const safety = getCachedQueueRedisSafety();
     queue = {
       status: "unavailable",
       configuredWorkers: DEFAULT_LIMITS.CONCURRENCY_WORKERS,
       error: "Queue metrics unavailable",
+      evictionPolicy: safety?.policy ?? "unknown",
+      evictionSafe: safety?.ok ?? false,
     };
   }
 
@@ -61,6 +73,16 @@ v1Router.get("/health", async (_req, res) => {
     },
   });
 });
+
+
+v1Router.post(
+  "/internal/feature-flags/invalidate",
+  requireInternalSecret,
+  (_req, res) => {
+    invalidateFeatureFlagsCache();
+    res.status(200).json({ success: true });
+  }
+);
 
 v1Router.use(blockWhenMaintenance);
 

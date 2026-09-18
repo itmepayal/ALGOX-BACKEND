@@ -6,8 +6,10 @@ import {
   memoryBroadcastLogs,
   pushMemoryBroadcast,
   type BroadcastTargetType,
+  type MemoryBroadcastRecord,
 } from "../models/broadcastLog.model";
 import { isMongoReady } from "../config/db.config";
+import logger from "../config/logger.config";
 import {
   getActiveConnectionCount,
   getSocketsForRoles,
@@ -42,8 +44,26 @@ export interface BroadcastResult {
   sent: number;
   delivered: number;
   failed: number;
+  /** Honest persistence mode — never claims mongo unless write succeeded. */
   persisted: "mongo" | "memory";
 }
+
+export type RecentBroadcastView = {
+  id: string;
+  event: string;
+  message: string;
+  targetType: BroadcastTargetType;
+  targetIds: string[];
+  actorId: string;
+  actorEmail?: string;
+  sent: number;
+  delivered: number;
+  failed: number;
+  payload?: Record<string, unknown>;
+  createdAt: number | string | Date;
+  /** Source of the row — admin UI can show durable vs session-only. */
+  source: "mongo" | "memory";
+};
 
 function resolveTargets(
   io: SocketIOServer,
@@ -80,6 +100,10 @@ function resolveTargets(
     default:
       throw new BadRequestError("Invalid broadcast target");
   }
+}
+
+function toMemoryView(rec: MemoryBroadcastRecord): RecentBroadcastView {
+  return { ...rec, source: "memory" };
 }
 
 export async function executeBroadcast(
@@ -137,44 +161,10 @@ export async function executeBroadcast(
   });
 
   const id = uuidv4();
-  let persisted: "mongo" | "memory" = "memory";
-
-  if (isMongoReady()) {
-    try {
-      const doc = await BroadcastLog.create({
-        event: parsed.event,
-        message: parsed.message,
-        targetType: parsed.target,
-        targetIds:
-          parsed.userIds ||
-          parsed.roles ||
-          (parsed.contestId ? [parsed.contestId] : []),
-        actorId: actor.userId,
-        actorEmail: actor.email,
-        sent,
-        delivered,
-        failed,
-        payload: envelope,
-      });
-      return {
-        id: String(doc._id),
-        event: parsed.event,
-        targetType: parsed.target,
-        sent,
-        delivered,
-        failed,
-        persisted: "mongo",
-      };
-    } catch {
-      persisted = "memory";
-    }
-  }
-
-  pushMemoryBroadcast({
-    id,
+  const recordBase = {
     event: parsed.event,
     message: parsed.message,
-    targetType: parsed.target,
+    targetType: parsed.target as BroadcastTargetType,
     targetIds:
       parsed.userIds ||
       parsed.roles ||
@@ -185,6 +175,30 @@ export async function executeBroadcast(
     delivered,
     failed,
     payload: envelope,
+  };
+
+  if (isMongoReady()) {
+    try {
+      const doc = await BroadcastLog.create(recordBase);
+      return {
+        id: String(doc._id),
+        event: parsed.event,
+        targetType: parsed.target,
+        sent,
+        delivered,
+        failed,
+        persisted: "mongo",
+      };
+    } catch (err) {
+      logger.warn("BroadcastLog Mongo write failed — falling back to memory", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
+
+  pushMemoryBroadcast({
+    id,
+    ...recordBase,
     createdAt: Date.now(),
   });
 
@@ -195,10 +209,47 @@ export async function executeBroadcast(
     sent,
     delivered,
     failed,
-    persisted,
+    persisted: "memory",
   };
 }
 
-export function listRecentBroadcasts(limit = 50) {
-  return memoryBroadcastLogs.slice(0, limit);
+/**
+ * Prefer durable Mongo logs when connected; otherwise in-memory session logs.
+ * Never merges sources in a way that implies Mongo durability for memory rows.
+ */
+export async function listRecentBroadcasts(
+  limit = 50
+): Promise<RecentBroadcastView[]> {
+  const cap = Math.min(Math.max(limit, 1), 200);
+
+  if (isMongoReady()) {
+    try {
+      const docs = await BroadcastLog.find()
+        .sort({ createdAt: -1 })
+        .limit(cap)
+        .lean()
+        .exec();
+      return docs.map((d) => ({
+        id: String(d._id),
+        event: d.event,
+        message: d.message,
+        targetType: d.targetType,
+        targetIds: d.targetIds || [],
+        actorId: d.actorId,
+        actorEmail: d.actorEmail,
+        sent: d.sent,
+        delivered: d.delivered,
+        failed: d.failed,
+        payload: d.payload as Record<string, unknown> | undefined,
+        createdAt: d.createdAt,
+        source: "mongo" as const,
+      }));
+    } catch (err) {
+      logger.warn("BroadcastLog Mongo list failed — using memory", {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
+
+  return memoryBroadcastLogs.slice(0, cap).map(toMemoryView);
 }

@@ -55,7 +55,7 @@ export class SheetProgressService {
           attemptedCached: 0,
         },
       },
-      { upsert: true, new: true, setDefaultsOnInsert: true }
+      { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
     );
 
     console.info("[SheetProgress] RESET_SHEET_PROGRESS", {

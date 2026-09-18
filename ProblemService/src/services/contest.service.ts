@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import axios from "axios";
 import {
   Contest,
   type ContestStatus,
@@ -9,11 +10,14 @@ import { ContestParticipant } from "../models/contestParticipant.model";
 import { ContestSubmission } from "../models/contestSubmission.model";
 import { ContestLeaderboardEntry } from "../models/contestLeaderboardEntry.model";
 import { Problem } from "../models/problem.model";
+import { serverConfig } from "../config";
 import {
   BadRequestError,
   ConflictError,
+  ForbiddenError,
   NotFoundError,
 } from "../utils/errors/app.error";
+import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 
 export type ActorCtx = {
   userId: string;
@@ -23,9 +27,15 @@ export type ActorCtx = {
   userAgent?: string;
 };
 
+/** System actor for timestamp-driven lifecycle automation (not an admin override). */
+export const CONTEST_SYSTEM_ACTOR: ActorCtx = {
+  userId: "system:contest-lifecycle",
+};
+
 const ALLOWED_TRANSITIONS: Record<ContestStatus, ContestStatus[]> = {
   DRAFT: ["SCHEDULED", "ARCHIVED"],
-  SCHEDULED: ["LIVE", "DRAFT", "ARCHIVED"],
+  // ENDED: miss the window (never went live) — automation only path via processDue
+  SCHEDULED: ["LIVE", "DRAFT", "ARCHIVED", "ENDED"],
   LIVE: ["ENDED", "ARCHIVED"],
   ENDED: ["ARCHIVED"],
   ARCHIVED: [],
@@ -54,6 +64,53 @@ async function findContestOrThrow(contestId: string): Promise<IContest> {
   const contest = await Contest.findById(oid(contestId, "contestId"));
   if (!contest) throw new NotFoundError("Contest not found");
   return contest;
+}
+
+function contestRoom(contestId: string | Types.ObjectId): string {
+  return `contest:${String(contestId)}`;
+}
+
+function emitContestStatus(
+  contest: { _id: unknown; slug: string; status: ContestStatus },
+  event: "contest.started" | "contest.ended" | "contest.status_changed",
+  extra?: Record<string, unknown>
+) {
+  const id = String(contest._id);
+  emitRealtimeEvent({
+    event,
+    room: contestRoom(id),
+    status: contest.status,
+    payload: {
+      contestId: id,
+      slug: contest.slug,
+      status: contest.status,
+      ...(extra || {}),
+    },
+  });
+}
+
+function emitContestLeaderboard(
+  contestId: string | Types.ObjectId,
+  slug: string,
+  entries: Array<{ rank?: number; userId?: string; score?: number }>
+) {
+  const id = String(contestId);
+  emitRealtimeEvent({
+    event: "leaderboard.updated",
+    room: contestRoom(id),
+    status: "ok",
+    payload: {
+      contestId: id,
+      slug,
+      kind: "contest",
+      total: entries.length,
+      top: entries.slice(0, 10).map((e) => ({
+        rank: e.rank,
+        userId: e.userId,
+        score: e.score,
+      })),
+    },
+  });
 }
 
 export class ContestService {
@@ -253,13 +310,204 @@ export class ContestService {
     }
     contest.updatedBy = actor.userId;
     await contest.save();
+    emitContestStatus(contest, "contest.started", { via: "admin" });
+    emitContestStatus(contest, "contest.status_changed", { via: "admin" });
     return contest;
   }
 
   async end(contestId: string, actor: ActorCtx) {
     const contest = await this.transition(contestId, "ENDED", actor);
-    await this.recomputeLeaderboard(contestId);
+    const board = await this.recomputeLeaderboard(contestId);
+    emitContestStatus(contest, "contest.ended", { via: "admin" });
+    emitContestStatus(contest, "contest.status_changed", { via: "admin" });
+    // Server-side rating only — never trust client. Virtual contests do not call this.
+    void this.pushContestRatings(contestId, board).catch(() => undefined);
     return contest;
+  }
+
+  /**
+   * Timestamp-driven automation: SCHEDULED→LIVE when startTime reached,
+   * LIVE→ENDED when endTime reached. Idempotent via atomic status filters.
+   * Admin start/end remain available as overrides.
+   */
+  async processDueLifecycleTransitions(): Promise<{
+    started: number;
+    ended: number;
+    expiredScheduled: number;
+  }> {
+    const now = new Date();
+    let started = 0;
+    let ended = 0;
+    let expiredScheduled = 0;
+
+    // Missed window: SCHEDULED but already past endTime → ENDED (never went live)
+    const expiredIds = await Contest.find({
+      status: "SCHEDULED",
+      endTime: { $lte: now },
+    })
+      .select("_id")
+      .limit(50)
+      .lean();
+
+    for (const row of expiredIds) {
+      const claimed = await Contest.findOneAndUpdate(
+        { _id: row._id, status: "SCHEDULED", endTime: { $lte: now } },
+        { $set: { status: "ENDED", updatedBy: CONTEST_SYSTEM_ACTOR.userId } },
+        { returnDocument: 'after' }
+      );
+      if (!claimed) continue;
+      expiredScheduled += 1;
+      emitContestStatus(claimed, "contest.ended", { via: "scheduler", reason: "missed_window" });
+      emitContestStatus(claimed, "contest.status_changed", {
+        via: "scheduler",
+        reason: "missed_window",
+      });
+    }
+
+    // Due starts: SCHEDULED and startTime reached (still before end)
+    const dueStart = await Contest.find({
+      status: "SCHEDULED",
+      startTime: { $lte: now },
+      endTime: { $gt: now },
+    })
+      .select("_id")
+      .limit(50)
+      .lean();
+
+    for (const row of dueStart) {
+      const claimed = await Contest.findOneAndUpdate(
+        {
+          _id: row._id,
+          status: "SCHEDULED",
+          startTime: { $lte: now },
+          endTime: { $gt: now },
+        },
+        { $set: { status: "LIVE", updatedBy: CONTEST_SYSTEM_ACTOR.userId } },
+        { returnDocument: 'after' }
+      );
+      if (!claimed) continue;
+      started += 1;
+      emitContestStatus(claimed, "contest.started", { via: "scheduler" });
+      emitContestStatus(claimed, "contest.status_changed", { via: "scheduler" });
+    }
+
+    // Due ends: LIVE and endTime reached
+    const dueEnd = await Contest.find({
+      status: "LIVE",
+      endTime: { $lte: now },
+    })
+      .select("_id")
+      .limit(50)
+      .lean();
+
+    for (const row of dueEnd) {
+      const claimed = await Contest.findOneAndUpdate(
+        { _id: row._id, status: "LIVE", endTime: { $lte: now } },
+        { $set: { status: "ENDED", updatedBy: CONTEST_SYSTEM_ACTOR.userId } },
+        { returnDocument: 'after' }
+      );
+      if (!claimed) continue;
+      ended += 1;
+      const id = String(claimed._id);
+      const board = await this.recomputeLeaderboard(id);
+      emitContestStatus(claimed, "contest.ended", { via: "scheduler" });
+      emitContestStatus(claimed, "contest.status_changed", { via: "scheduler" });
+      void this.pushContestRatings(id, board).catch(() => undefined);
+    }
+
+    return { started, ended, expiredScheduled };
+  }
+
+  /**
+   * Fan-in to LeaderboardService with final ranks (idempotent per contest+user).
+   */
+  private async pushContestRatings(contestId: string, board: any[]) {
+    const entries = (board || [])
+      .map((e: any) => ({
+        userId: String(e.userId || ""),
+        rank: Number(e.rank) || 0,
+      }))
+      .filter((e: any) => e.userId && e.rank >= 1);
+    if (!entries.length) return;
+
+    const base = String(serverConfig.LEADERBOARD_SERVICE_URL || "").replace(
+      /\/$/,
+      ""
+    );
+    await axios.post(
+      `${base}/leaderboard/internal/contest-rating`,
+      { contestId: String(contestId), entries },
+      {
+        timeout: 8000,
+        headers: {
+          "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
+          "Content-Type": "application/json",
+        },
+        validateStatus: () => true,
+      }
+    );
+  }
+
+  /** Public leaderboard for LIVE/ENDED contests (no client recompute flag). */
+  async getPublicLeaderboard(
+    slug: string,
+    viewerUserId?: string,
+    opts?: { page?: number; limit?: number }
+  ) {
+    const contest = await Contest.findOne({
+      slug: slug.toLowerCase().trim(),
+    });
+    if (!contest) throw new NotFoundError("Contest not found");
+    if (
+      contest.status !== "LIVE" &&
+      contest.status !== "ENDED" &&
+      contest.status !== "ARCHIVED"
+    ) {
+      throw new BadRequestError("Leaderboard unavailable for this contest status");
+    }
+
+    const page = Math.max(1, Number(opts?.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(opts?.limit) || 50));
+    let entries = await ContestLeaderboardEntry.find({ contestId: contest._id })
+      .sort({ rank: 1 })
+      .lean();
+    if (!entries.length && contest.status === "LIVE") {
+      entries = (await this.recomputeLeaderboard(String(contest._id))) as any;
+    }
+
+    const total = entries.length;
+    const slice = entries.slice((page - 1) * limit, page * limit).map((e: any) => ({
+      rank: e.rank,
+      userId: e.userId,
+      score: e.score,
+      solvedCount: e.solvedCount,
+      penalty: e.penalty,
+    }));
+
+    let myEntry: any = null;
+    if (viewerUserId) {
+      const mine = entries.find((e: any) => String(e.userId) === String(viewerUserId));
+      if (mine) {
+        myEntry = {
+          rank: (mine as any).rank,
+          userId: (mine as any).userId,
+          score: (mine as any).score,
+          solvedCount: (mine as any).solvedCount,
+          penalty: (mine as any).penalty,
+        };
+      }
+    }
+
+    return {
+      contestId: String(contest._id),
+      slug: contest.slug,
+      status: contest.status,
+      page,
+      limit,
+      total,
+      entries: slice,
+      myEntry,
+    };
   }
 
   async archive(contestId: string, actor: ActorCtx) {
@@ -442,6 +690,8 @@ export class ContestService {
       await ContestLeaderboardEntry.insertMany(entries);
     }
 
+    emitContestLeaderboard(cid, contest.slug, entries);
+
     // Sync participant aggregates
     await Promise.all(
       ranked.map((r) =>
@@ -482,6 +732,74 @@ export class ContestService {
   }
 
   /**
+   * Own contest participation summary — real ContestParticipant rows only.
+   * No fabricated ranks/scores.
+   */
+  async getMyContestSummary(userId: string) {
+    const uid = String(userId || "").trim();
+    if (!uid) {
+      return {
+        contestsEntered: 0,
+        totalScore: 0,
+        totalSolved: 0,
+        items: [] as Array<Record<string, unknown>>,
+      };
+    }
+
+    const parts = await ContestParticipant.find({ userId: uid })
+      .sort({ registeredAt: -1 })
+      .limit(50)
+      .lean();
+
+    const contestIds = parts.map((p) => p.contestId);
+    const contests = contestIds.length
+      ? await Contest.find({ _id: { $in: contestIds } })
+          .select("title slug status startTime endTime")
+          .lean()
+      : [];
+    const byId = new Map(contests.map((c) => [String(c._id), c]));
+
+    const leaderboardRanks = await ContestLeaderboardEntry.find({
+      userId: uid,
+      contestId: { $in: contestIds },
+    })
+      .select("contestId rank score solvedCount")
+      .lean();
+    const rankByContest = new Map(
+      leaderboardRanks.map((e) => [String(e.contestId), e])
+    );
+
+    let totalScore = 0;
+    let totalSolved = 0;
+    const items = parts.map((p) => {
+      const c = byId.get(String(p.contestId));
+      const lb = rankByContest.get(String(p.contestId));
+      totalScore += Number(p.score) || 0;
+      totalSolved += Number(p.solvedCount) || 0;
+      return {
+        contestId: String(p.contestId),
+        title: c?.title || null,
+        slug: c?.slug || null,
+        status: c?.status || null,
+        startTime: c?.startTime || null,
+        endTime: c?.endTime || null,
+        score: Number(p.score) || 0,
+        solvedCount: Number(p.solvedCount) || 0,
+        penalty: Number(p.penalty) || 0,
+        registeredAt: p.registeredAt,
+        rank: lb?.rank != null ? Number(lb.rank) : null,
+      };
+    });
+
+    return {
+      contestsEntered: parts.length,
+      totalScore,
+      totalSolved,
+      items,
+    };
+  }
+
+  /**
    * S2S: persist an ACCEPTED contest submission (idempotent on contestId+submissionId)
    * then recompute the contest leaderboard.
    */
@@ -492,11 +810,25 @@ export class ContestService {
     problemId: string;
   }) {
     const contest = await findContestOrThrow(input.contestId);
+    const uid = String(input.userId || "").trim();
+    if (!uid) throw new BadRequestError("userId is required");
+
+    const participant = await ContestParticipant.findOne({
+      contestId: contest._id,
+      userId: uid,
+    }).lean();
+    if (!participant) {
+      throw new ForbiddenError("User is not registered for this contest");
+    }
+
     const problemOid = oid(input.problemId, "problemId");
     const cp = await ContestProblem.findOne({
       contestId: contest._id,
       problemId: problemOid,
     }).lean();
+    if (!cp) {
+      throw new BadRequestError("Problem is not part of this contest");
+    }
     const score = cp?.points ?? 100;
 
     const doc = await ContestSubmission.findOneAndUpdate(
@@ -506,7 +838,7 @@ export class ContestService {
       },
       {
         $set: {
-          userId: String(input.userId),
+          userId: uid,
           problemId: problemOid,
           status: "ACCEPTED",
           score,
@@ -516,7 +848,7 @@ export class ContestService {
           submissionId: String(input.submissionId),
         },
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
 
     await this.recomputeLeaderboard(input.contestId);

@@ -28,7 +28,7 @@ export async function forwardAdminAudit(
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${input.token}`,
-        "x-internal-secret": serverConfig.INTERNAL_SECRET,
+        "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET,
       },
       body: JSON.stringify({
         action: input.action,

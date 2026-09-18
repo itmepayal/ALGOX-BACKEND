@@ -29,10 +29,23 @@ contestRouter.get(
 );
 
 contestRouter.get(
+  "/me/summary",
+  authenticateJwt,
+  requireFeatureFlag("contests"),
+  contestController.mySummary
+);
+
+contestRouter.get(
   "/:slug",
   optionalAuthenticateJwt,
   requireFeatureFlag("contests"),
   contestController.getBySlug
+);
+contestRouter.get(
+  "/:slug/leaderboard",
+  optionalAuthenticateJwt,
+  requireFeatureFlag("contests"),
+  contestController.leaderboard
 );
 contestRouter.post(
   "/:slug/register",

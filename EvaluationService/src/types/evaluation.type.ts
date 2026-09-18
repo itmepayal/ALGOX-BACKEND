@@ -31,6 +31,10 @@ export interface EvaluationJobPayload {
   userEmail?: string;
   /** Present when the submission was made inside a contest. */
   contestId?: string;
+  /** Present when the submission was made inside a mock interview. */
+  mockInterviewSessionId?: string;
+  /** Present when the submission was made inside a virtual contest. */
+  virtualContestSessionId?: string;
   mode?: "submit";
   /** Driver metadata for LeetCode-style class/function execution. */
   functionName?: string;

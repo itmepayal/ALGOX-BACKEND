@@ -91,7 +91,7 @@ export class SuspiciousSubmissionRepository
         reviewedAt: new Date(),
         ...(data.resolution !== undefined && { resolution: data.resolution }),
       },
-      { new: true }
+      { returnDocument: "after" }
     );
   }
 }

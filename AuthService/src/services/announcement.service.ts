@@ -11,6 +11,7 @@ import {
   NotFoundError,
 } from "../utils/errors/app.error";
 import { writeAdminAudit } from "../utils/helpers/audit.helper";
+import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 import { normalizeRole } from "../rbac/permissions";
 import type {
   CreateAnnouncementDto,
@@ -20,6 +21,9 @@ import type {
 
 type Actor = { userId: string; email?: string; role: string };
 type RequestMeta = { ip?: string; userAgent?: string };
+
+/** Marker stored on audit `after.via` for timestamp-driven publishes. */
+export const ANNOUNCEMENT_PUBLISH_VIA_SCHEDULER = "scheduler" as const;
 
 const ALL_USERS_FANOUT_CAP = 5000;
 const ALL_USERS_ACTIVE_DAYS = 30;
@@ -285,6 +289,9 @@ export class AnnouncementService {
     if (doc.status === "ARCHIVED" || doc.status === "EXPIRED") {
       throw new BadRequestError(`Cannot publish a ${doc.status} announcement`);
     }
+    if (doc.status === "PUBLISHED") {
+      throw new BadRequestError("Announcement is already published");
+    }
 
     const before = adminShape(doc);
     doc.status = "PUBLISHED";
@@ -292,6 +299,75 @@ export class AnnouncementService {
     doc.updatedBy = new mongoose.Types.ObjectId(actor.userId);
     await doc.save();
 
+    await this.afterPublish(doc, before, actor, meta, "admin");
+    return adminShape(doc);
+  }
+
+  /**
+   * Timestamp-driven auto-publish for SCHEDULED announcements.
+   * Idempotent via atomic status claim — safe under concurrent ticks.
+   * Admin manual publish remains available as an override.
+   */
+  async processDueScheduledAnnouncements(): Promise<number> {
+    const now = new Date();
+    const due = await Announcement.find({
+      status: "SCHEDULED",
+      scheduledAt: { $ne: null, $lte: now },
+    })
+      .select("_id")
+      .limit(20)
+      .lean();
+
+    let published = 0;
+    for (const row of due) {
+      const claimed = await Announcement.findOneAndUpdate(
+        {
+          _id: row._id,
+          status: "SCHEDULED",
+          scheduledAt: { $ne: null, $lte: now },
+        },
+        {
+          $set: {
+            status: "PUBLISHED",
+            publishedAt: now,
+          },
+        },
+        { returnDocument: "after" }
+      );
+      if (!claimed) continue;
+
+      const before = {
+        ...adminShape(claimed),
+        status: "SCHEDULED",
+        publishedAt: null,
+      };
+      // Audit actor = original creator (AdminAuditLog.actorId is ObjectId).
+      // after.via distinguishes scheduler from manual publish.
+      const schedulerActor: Actor = {
+        userId: String(claimed.createdBy || claimed.updatedBy),
+        email: "system:announcement-scheduler",
+        role: "system",
+      };
+      await this.afterPublish(
+        claimed,
+        before,
+        schedulerActor,
+        undefined,
+        ANNOUNCEMENT_PUBLISH_VIA_SCHEDULER
+      );
+      published += 1;
+    }
+    return published;
+  }
+
+  /** Shared post-publish: fan-out, audit, realtime (manual + scheduler). */
+  private async afterPublish(
+    doc: IAnnouncement,
+    before: Record<string, unknown>,
+    actor: Actor,
+    meta: RequestMeta | undefined,
+    via: "admin" | "scheduler"
+  ) {
     await this.fanOutNotifications(doc);
 
     await writeAdminAudit({
@@ -299,14 +375,24 @@ export class AnnouncementService {
       actorEmail: actor.email,
       action: "announcement.publish",
       resource: "announcement",
-      resourceId: id,
+      resourceId: doc._id.toString(),
       before,
-      after: adminShape(doc),
+      after: { ...adminShape(doc), via },
       ip: meta?.ip,
       userAgent: meta?.userAgent,
     });
 
-    return adminShape(doc);
+    emitRealtimeEvent({
+      event: "announcement.published",
+      status: "published",
+      payload: {
+        announcementId: doc._id.toString(),
+        title: doc.title,
+        type: doc.type,
+        audience: doc.audience,
+        via,
+      },
+    });
   }
 
   async expire(actor: Actor, id: string, meta?: RequestMeta) {

@@ -26,6 +26,11 @@ leaderboardRouter.post(
   requireInternalSecret,
   leaderboardController.recordSolvedProblem.bind(leaderboardController)
 );
+leaderboardRouter.post(
+  "/internal/contest-rating",
+  requireInternalSecret,
+  leaderboardController.applyContestRatings.bind(leaderboardController)
+);
 
 leaderboardRouter.post(
   "/admin/rebuild",

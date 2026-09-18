@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import crypto from "crypto";
 import { verifyAccessToken, JwtPayload } from "../utils/helpers/jwt.util";
 import { UnauthorizedError, ForbiddenError } from "../utils/errors/app.error";
 import {
@@ -15,6 +16,18 @@ import { serverConfig } from "../config";
 
 export interface AuthenticatedRequest extends Request {
   user?: JwtPayload;
+}
+
+/** Constant-time compare for internal secrets (length mismatch → not equal). */
+function secretsEqual(provided: string, expected: string): boolean {
+  const a = Buffer.from(provided, "utf8");
+  const b = Buffer.from(expected, "utf8");
+  if (a.length !== b.length) {
+    // Keep work roughly constant; result is always false when lengths differ.
+    crypto.timingSafeEqual(b, b);
+    return false;
+  }
+  return crypto.timingSafeEqual(a, b);
 }
 
 export const authenticateJwt = (
@@ -96,24 +109,28 @@ export const requireStaff = (
   return next();
 };
 
-/** Shared service-to-service secret (x-internal-secret). */
+/** Shared service-to-service secret (x-internal-secret). Fail-closed; never log the value. */
 export const requireInternalSecret = (
   req: AuthenticatedRequest,
   _res: Response,
   next: NextFunction
 ): void => {
-  const provided =
+  const providedRaw =
     req.headers["x-internal-secret"] || req.headers["x-realtime-secret"];
-  const expected = serverConfig.INTERNAL_SERVICE_SECRET;
+  const provided = typeof providedRaw === "string" ? providedRaw.trim() : "";
+  const expected = (serverConfig.INTERNAL_SERVICE_SECRET || "").trim();
+
   if (!expected) {
     return next(
       new UnauthorizedError("Internal service authentication is not configured")
     );
   }
-  if (typeof provided === "string" && provided === expected) {
+
+  if (provided && secretsEqual(provided, expected)) {
     return next();
   }
-  // Authenticated staff without the service secret → forged ingest rejected
+
+  // Authenticated staff without the service secret → forged S2S rejected
   if (req.user) {
     return next(
       new ForbiddenError("Access forbidden: Internal service secret required")

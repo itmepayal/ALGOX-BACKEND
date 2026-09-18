@@ -66,6 +66,7 @@ const MAIN_PATTERNS: Record<string, RegExp> = {
 
 /**
  * Detect whether user source is a full program (has its own entrypoint).
+ * Defaults to "function" only when a Solution-style callable is present or preferred.
  */
 export function detectExecutionMode(
   language: string,
@@ -75,7 +76,22 @@ export function detectExecutionMode(
   if (preferred === "program" || preferred === "function") return preferred;
   const re = MAIN_PATTERNS[language];
   if (re && re.test(code)) return "program";
-  return "function";
+  // Heuristic: top-level Solution class / method → function harness
+  if (
+    /\bclass\s+Solution\b/.test(code) ||
+    (language === "python" && /\bdef\s+\w+\s*\(/.test(code)) ||
+    (language === "javascript" &&
+      (/\bfunction\s+\w+\s*\(/.test(code) ||
+        /(?:var|let|const)\s+\w+\s*=\s*(?:function|\([^)]*\)\s*=>)/.test(code))) ||
+    ((language === "cpp" || language === "java") &&
+      /\b(?:public\s+)?(?:static\s+)?[\w:<>,\s*&]+\s+\w+\s*\([^;{]*\)\s*\{/.test(
+        code
+      ))
+  ) {
+    return "function";
+  }
+  // Raw stdin/stdout scripts (e.g. print(input())) — no callable harness
+  return "program";
 }
 
 /** Extract first Solution method name from C++/Java/Python class bodies. */
@@ -120,12 +136,23 @@ export function resolveJudgeMeta(
   meta?: JudgeMeta
 ): Required<Pick<JudgeMeta, "className" | "functionName">> &
   JudgeMeta & { mode: ExecutionMode } {
-  const mode = detectExecutionMode(language, code, meta?.executionMode);
+  const detectedFn = detectFunctionName(code, language);
+  let mode = detectExecutionMode(language, code, meta?.executionMode);
+
+  // Explicit functionName on the problem forces the function harness.
+  if (meta?.functionName && !meta?.executionMode) {
+    mode = "function";
+  }
+  // No function target in meta or source → always run as a program.
+  if (!meta?.executionMode && !meta?.functionName && !detectedFn) {
+    mode = "program";
+  }
+
   const className = meta?.className || "Solution";
 
   let functionName =
     meta?.functionName ||
-    detectFunctionName(code, language) ||
+    detectedFn ||
     "solution";
 
   // Prefer known signature match if code contains that name

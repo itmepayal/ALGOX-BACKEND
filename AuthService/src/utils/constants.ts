@@ -76,3 +76,12 @@ export const SECURITY_ACTIONS = {
 
 
 export const COOKIE_NAME = "refreshToken";
+
+/** Shared options for set/clear of the httpOnly refresh session cookie. */
+export const REFRESH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict" as const,
+  maxAge: TIME_CONSTANTS.REFRESH_TOKEN_EXPIRY_MS,
+  path: "/",
+};

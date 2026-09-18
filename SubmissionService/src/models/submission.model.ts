@@ -19,6 +19,8 @@ export interface ISubmission extends Document {
   userId?: Types.ObjectId;
   problemId: Types.ObjectId;
   contestId?: Types.ObjectId;
+  mockInterviewSessionId?: Types.ObjectId;
+  virtualContestSessionId?: Types.ObjectId;
 
   language: ProgrammingLanguage;
   code: string;
@@ -54,6 +56,14 @@ const submissionSchema = new Schema<ISubmission>(
       index: true,
     },
     contestId: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
+    mockInterviewSessionId: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
+    virtualContestSessionId: {
       type: Schema.Types.ObjectId,
       index: true,
     },
@@ -112,6 +122,7 @@ const submissionSchema = new Schema<ISubmission>(
 );
 
 submissionSchema.index({ userId: 1, problemId: 1, createdAt: -1 });
+submissionSchema.index({ userId: 1, createdAt: -1 });
 submissionSchema.index({ problemId: 1, createdAt: -1 });
 submissionSchema.index({ createdAt: -1 });
 submissionSchema.index({ status: 1, createdAt: -1 });

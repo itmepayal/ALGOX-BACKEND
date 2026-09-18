@@ -78,13 +78,14 @@ export class RealtimeAdminController {
     }
   }
 
-  analytics(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  async analytics(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
+      const data = await realtimeAdminService.analytics();
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
         message: REALTIME_MESSAGES.ANALYTICS_OK,
-        data: realtimeAdminService.analytics(),
+        data,
       });
     } catch (err) {
       next(err);

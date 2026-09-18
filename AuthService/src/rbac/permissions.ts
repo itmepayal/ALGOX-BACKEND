@@ -35,6 +35,7 @@ export type Permission =
   | "discussions:delete"
   | "settings:view"
   | "settings:update"
+  | "roles:manage"
   | "reports:view"
   | "reports:review"
   | "reports:resolve"
@@ -90,6 +91,7 @@ export const ALL_PERMISSIONS: Permission[] = [
   "discussions:delete",
   "settings:view",
   "settings:update",
+  "roles:manage",
   "reports:view",
   "reports:review",
   "reports:resolve",

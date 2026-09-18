@@ -43,6 +43,38 @@ function normalizeFlags(raw: any): FeatureFlags {
   };
 }
 
+/** Drop in-memory feature-flag cache (e.g. after maintenance toggle). */
+export function invalidateFeatureFlagsCache(): void {
+  cache = null;
+}
+
+/**
+ * Immediately update cached maintenance (and optional bypass) after a successful
+ * settings write so local readers do not wait for TTL.
+ */
+export function updateCachedMaintenance(
+  maintenance: boolean,
+  allowAdminBypass?: boolean
+): void {
+  if (!cache) {
+    cache = {
+      flags: { ...DEFAULTS, maintenance: Boolean(maintenance) },
+      allowAdminBypass:
+        typeof allowAdminBypass === "boolean" ? allowAdminBypass : true,
+      fetchedAt: Date.now(),
+    };
+    return;
+  }
+  cache = {
+    flags: { ...cache.flags, maintenance: Boolean(maintenance) },
+    allowAdminBypass:
+      typeof allowAdminBypass === "boolean"
+        ? allowAdminBypass
+        : cache.allowAdminBypass,
+    fetchedAt: Date.now(),
+  };
+}
+
 /**
  * Fetch public platform feature flags from AuthService (short TTL cache).
  * Fail-open to defaults in non-production so a down Auth doesn't brick the platform;

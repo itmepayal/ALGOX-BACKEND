@@ -21,6 +21,27 @@ analyticsRouter.get(
   analyticsController.getUserAnalytics.bind(analyticsController)
 );
 
+analyticsRouter.get(
+  "/me/overview",
+  authenticateJwt,
+  analyticsController.getMyOverview.bind(analyticsController)
+);
+analyticsRouter.get(
+  "/me/history",
+  authenticateJwt,
+  analyticsController.getMyHistory.bind(analyticsController)
+);
+analyticsRouter.get(
+  "/me/premium",
+  authenticateJwt,
+  analyticsController.getMyPremium.bind(analyticsController)
+);
+analyticsRouter.get(
+  "/me/learning",
+  authenticateJwt,
+  analyticsController.getMyLearning.bind(analyticsController)
+);
+
 // Evaluation worker only
 analyticsRouter.post(
   "/record-submission",
@@ -39,6 +60,18 @@ analyticsRouter.get(
   authenticateJwt,
   requirePermission("analytics:view"),
   analyticsController.getCharts.bind(analyticsController)
+);
+analyticsRouter.get(
+  "/admin/dashboard",
+  authenticateJwt,
+  requirePermission("analytics:view"),
+  analyticsController.getDashboard.bind(analyticsController)
+);
+analyticsRouter.get(
+  "/admin/export",
+  authenticateJwt,
+  requirePermission("analytics:view"),
+  analyticsController.exportDashboard.bind(analyticsController)
 );
 
 export default analyticsRouter;

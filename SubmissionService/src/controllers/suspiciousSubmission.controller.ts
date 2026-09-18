@@ -50,20 +50,6 @@ export class SuspiciousSubmissionController {
     }
   }
 
-  async getById(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-    try {
-      const row = await this.service.getById(String(req.params.id));
-      sendResponse({
-        res,
-        statusCode: HTTP_STATUS.OK,
-        message: "Suspicious submission retrieved",
-        data: row,
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
   async markReviewing(
     req: AuthenticatedRequest,
     res: Response,

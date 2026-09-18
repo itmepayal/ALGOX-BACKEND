@@ -21,12 +21,6 @@ router.get(
   controller.list.bind(controller)
 );
 
-router.get(
-  "/:id",
-  requirePermission("suspicious:view"),
-  controller.getById.bind(controller)
-);
-
 router.post(
   "/:id/review",
   requirePermission("suspicious:review"),

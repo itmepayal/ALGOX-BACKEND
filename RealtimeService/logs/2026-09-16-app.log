@@ -27,3 +27,96 @@
 {"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 13:44:23","data":{"socketId":"L19F74Xe7MM-IJ3hAAAR","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
 {"level":"warn","message":"[AppError] BadRequestError (400): Event 'submission.accepted' is not allowed for ingest","timestamp":"09-16-2026 13:47:25","data":{}}
 {"level":"warn","message":"[AppError] BadRequestError (400): Event 'submission.accepted' is not allowed for ingest","timestamp":"09-16-2026 13:47:26","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 13:52:56","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 13:52:58","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 13:52:59","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 13:52:59","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 13:52:59","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 13:52:59","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 13:53:35","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 13:53:37","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 13:53:39","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 13:53:53","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 14:19:26","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 14:19:30","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 14:19:31","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 14:19:31","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 14:19:31","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 14:19:31","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 14:19:41","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 14:19:43","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 14:19:45","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 14:41:47","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 14:41:49","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 14:41:50","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 14:41:50","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 14:41:50","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 14:41:50","data":{}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-16-2026 15:07:29","data":{"error":"read ETIMEDOUT"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 15:07:31","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 20:18:33","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 20:18:35","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 20:18:37","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 20:18:37","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 20:18:37","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 20:18:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'submission.accepted' is not allowed for ingest","timestamp":"09-16-2026 20:30:11","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:34:08","data":{"socketId":"aMkczPs42M0gwwxOAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:34:08","data":{"socketId":"aUk3WqQ6cGHlWz2kAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:34:08","data":{"socketId":"GgSOaK3269ixe4dFAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:34:08","data":{"socketId":"SWiNVSWFwr65QCvxAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 20:38:08","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 20:38:10","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 20:38:12","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 20:38:12","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 20:38:12","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 20:38:12","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 20:52:41","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 20:52:42","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 20:52:43","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 20:52:43","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 20:52:43","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 20:52:43","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 20:56:05","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 20:56:07","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 20:56:08","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 20:56:08","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 20:56:08","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 20:56:08","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:59:47","data":{"socketId":"TUlzHb3zm0KggbYyAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:59:47","data":{"socketId":"oYi8Zn_k7twacks6AAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:59:47","data":{"socketId":"7G5_9NlEjjOa13kXAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 20:59:47","data":{"socketId":"9idiulmKsOVJinVwAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 21:01:31","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 21:01:33","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 21:01:34","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 21:01:34","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 21:01:34","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 21:01:34","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 21:02:16","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 21:02:17","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 21:02:19","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 21:02:19","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 21:02:19","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 21:02:19","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 21:04:15","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-16-2026 21:49:45","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-16-2026 21:49:46","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-16-2026 21:49:48","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-16-2026 21:49:48","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-16-2026 21:49:48","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-16-2026 21:49:48","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 22:12:52","data":{"socketId":"Cvla21SvdedCittVAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:07:40","data":{"socketId":"Sxq0Ec6WdLIU1sqrAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:07:40","data":{"socketId":"8yOeeo_jAE01CfkWAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:07:40","data":{"socketId":"qwru6YW5DBy-XnHCAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:07:40","data":{"socketId":"uHY_GwZy2vi6MIZEAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:07:40","data":{"socketId":"JjNIl_psvGS_bfUVAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:13:08","data":{"socketId":"SPz5XvS3fSr1EUShAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 23:38:49","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 23:39:33","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 23:40:18","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 23:41:02","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-16-2026 23:41:47","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:51:44","data":{"socketId":"9irsPPq1dcDpV-ciAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-16-2026 23:58:24","data":{"socketId":"jMroJdKrfmCbnkSvAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}

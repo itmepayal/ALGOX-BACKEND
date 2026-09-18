@@ -4,6 +4,16 @@ import {
   type ProblemProgressStatus,
 } from "../constants/progressStatus";
 
+/** User's subjective confidence — never changes official problem.difficulty. */
+export const PERSONAL_CONFIDENCE = {
+  EASY_FOR_ME: "easy_for_me",
+  NEEDS_PRACTICE: "needs_practice",
+  DIFFICULT: "difficult",
+} as const;
+
+export type PersonalConfidence =
+  (typeof PERSONAL_CONFIDENCE)[keyof typeof PERSONAL_CONFIDENCE];
+
 export interface IUserProblemProgress extends Document {
   userId: string;
   problemId: string;
@@ -19,6 +29,8 @@ export interface IUserProblemProgress extends Document {
   imported: boolean;
   lastImportedAt?: Date | null;
   suggestedForRevision: boolean;
+  /** Personal confidence (Easy for me / Need practice / Difficult). */
+  personalConfidence?: PersonalConfidence | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,6 +60,11 @@ const userProblemProgressSchema = new Schema<IUserProblemProgress>(
     imported: { type: Boolean, default: false },
     lastImportedAt: { type: Date, default: null },
     suggestedForRevision: { type: Boolean, default: false, index: true },
+    personalConfidence: {
+      type: String,
+      enum: Object.values(PERSONAL_CONFIDENCE),
+      default: null,
+    },
   },
   { timestamps: true }
 );

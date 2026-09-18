@@ -8,6 +8,34 @@ import {
   ProblemQueryDto,
   BulkProblemDto,
 } from "../validators/problem.validator";
+import {
+  filterPublicProblem,
+  PremiumRequiredError,
+  type PublicProblemViewOpts,
+} from "../utils/problemAccess";
+import type { EntitlementSnapshot } from "../utils/entitlementClient";
+import { hasFeature } from "../utils/entitlementClient";
+import {
+  getFreeSheetProblemIdSet,
+  isProblemOnFreeSheet,
+} from "../utils/sheetFreeAccess";
+
+export type PublicViewContext = {
+  entitlements: EntitlementSnapshot;
+};
+
+async function toPublicOpts(
+  publicCtx?: PublicViewContext
+): Promise<PublicProblemViewOpts> {
+  const freeSheetProblemIds = await getFreeSheetProblemIdSet();
+  return {
+    entitlements: publicCtx?.entitlements || {
+      accessTier: "GUEST",
+      features: new Set<string>(),
+    },
+    freeSheetProblemIds,
+  };
+}
 
 export interface IProblemService {
   createProblem(
@@ -25,27 +53,36 @@ export interface IProblemService {
 
   getProblemById(
     problemId: string,
-    isPublicView?: boolean
-  ): Promise<IProblem | null>;
+    isPublicView?: boolean,
+    publicCtx?: PublicViewContext
+  ): Promise<IProblem | Record<string, unknown> | null>;
 
   getProblemBySlug(
     slug: string,
-    isPublicView?: boolean
-  ): Promise<IProblem | null>;
+    isPublicView?: boolean,
+    publicCtx?: PublicViewContext
+  ): Promise<IProblem | Record<string, unknown> | null>;
 
   getProblems(
     query: ProblemQueryDto,
-    isPublicView?: boolean
+    isPublicView?: boolean,
+    publicCtx?: PublicViewContext
   ): Promise<{
-    problems: IProblem[];
+    problems: Array<IProblem | Record<string, unknown>>;
     total: number;
     page: number;
     limit: number;
     totalPages: number;
   }>;
 
-  findByDifficulty(difficulty: "easy" | "medium" | "hard"): Promise<IProblem[]>;
-  searchProblems(query: string): Promise<IProblem[]>;
+  findByDifficulty(
+    difficulty: "easy" | "medium" | "hard",
+    publicCtx?: PublicViewContext
+  ): Promise<Array<IProblem | Record<string, unknown>>>;
+  searchProblems(
+    query: string,
+    publicCtx?: PublicViewContext
+  ): Promise<Array<IProblem | Record<string, unknown>>>;
   setStatus(
     problemId: string,
     status: ProblemStatus,
@@ -56,11 +93,44 @@ export interface IProblemService {
     actor?: { userId: string }
   ): Promise<IProblem>;
   bulkUpdate(data: BulkProblemDto, actor?: { userId: string }): Promise<{ modified: number }>;
-  internalStats(): Promise<Record<string, unknown>>;
+  internalStats(opts?: { status?: string }): Promise<Record<string, unknown>>;
+  findTitlesByIds(
+    ids: string[]
+  ): Promise<
+    Array<{ id: string; title: string; difficulty?: string; slug?: string }>
+  >;
+  assertSolveAccess(
+    problemId: string,
+    entitlements: EntitlementSnapshot
+  ): Promise<{ allowed: true; isSheetFree: boolean; isPremium: boolean }>;
 }
 
 export class ProblemService implements IProblemService {
   constructor(private problemRepository: IProblemRepository) {}
+
+  /**
+   * Hard gate for run/submit — FREE sheet problems allowed; else premium.problems.
+   */
+  async assertSolveAccess(
+    problemId: string,
+    entitlements: EntitlementSnapshot
+  ): Promise<{ allowed: true; isSheetFree: boolean; isPremium: boolean }> {
+    const problem = await this.problemRepository.getProblemById(problemId);
+    if (!problem) throw new NotFoundError("Problem Not Found");
+    if ((problem as any).status && (problem as any).status !== "published") {
+      throw new NotFoundError("Problem Not Found");
+    }
+
+    const isSheetFree = await isProblemOnFreeSheet(String(problemId));
+    const isPremium = !isSheetFree;
+    if (isPremium && !hasFeature(entitlements, "premium.problems")) {
+      throw new PremiumRequiredError(
+        "Solving this problem requires an active premium subscription.",
+        { accessTier: entitlements.accessTier, isSheetFree: false }
+      );
+    }
+    return { allowed: true, isSheetFree, isPremium };
+  }
 
   async createProblem(
     problem: CreateProblemDto,
@@ -70,6 +140,8 @@ export class ProblemService implements IProblemService {
     const payload: any = {
       ...problem,
       status,
+      isPremium:
+        problem.isPremium !== undefined ? Boolean(problem.isPremium) : true,
       description: await sanitizeMarkdown(problem.description),
       editorial: problem.editorial
         ? await sanitizeMarkdown(problem.editorial)
@@ -112,6 +184,10 @@ export class ProblemService implements IProblemService {
       payload.editorial = await sanitizeMarkdown(problem.editorial);
     }
 
+    if (problem.isPremium !== undefined) {
+      payload.isPremium = Boolean(problem.isPremium);
+    }
+
     return this.problemRepository.updateProblem(problemId, payload);
   }
 
@@ -127,8 +203,9 @@ export class ProblemService implements IProblemService {
 
   async getProblemById(
     problemId: string,
-    isPublicView: boolean = true
-  ): Promise<IProblem | null> {
+    isPublicView: boolean = true,
+    publicCtx?: PublicViewContext
+  ): Promise<IProblem | Record<string, unknown> | null> {
     const problem = await this.problemRepository.getProblemById(problemId);
 
     if (!problem) {
@@ -139,13 +216,16 @@ export class ProblemService implements IProblemService {
       throw new NotFoundError("Problem Not Found");
     }
 
-    return isPublicView ? filterPublicProblem(problem) : problem;
+    return isPublicView
+      ? filterPublicProblem(problem, await toPublicOpts(publicCtx))
+      : problem;
   }
 
   async getProblemBySlug(
     slug: string,
-    isPublicView: boolean = true
-  ): Promise<IProblem | null> {
+    isPublicView: boolean = true,
+    publicCtx?: PublicViewContext
+  ): Promise<IProblem | Record<string, unknown> | null> {
     const problem = await this.problemRepository.getProblemBySlug(slug);
 
     if (!problem) {
@@ -156,32 +236,47 @@ export class ProblemService implements IProblemService {
       throw new NotFoundError("Problem Not Found");
     }
 
-    return isPublicView ? filterPublicProblem(problem) : problem;
+    return isPublicView
+      ? filterPublicProblem(problem, await toPublicOpts(publicCtx))
+      : problem;
   }
 
-  async getProblems(query: ProblemQueryDto, isPublicView: boolean = true) {
+  async getProblems(
+    query: ProblemQueryDto,
+    isPublicView: boolean = true,
+    publicCtx?: PublicViewContext
+  ) {
     const result = await this.problemRepository.getProblems(query, {
       publicOnly: isPublicView,
     });
     if (isPublicView) {
-      result.problems = result.problems.map((p) => filterPublicProblem(p));
+      const opts = await toPublicOpts(publicCtx);
+      result.problems = result.problems.map((p) =>
+        filterPublicProblem(p, opts)
+      ) as any;
     }
     return result;
   }
 
   async findByDifficulty(
-    difficulty: "easy" | "medium" | "hard"
-  ): Promise<IProblem[]> {
+    difficulty: "easy" | "medium" | "hard",
+    publicCtx?: PublicViewContext
+  ): Promise<Array<IProblem | Record<string, unknown>>> {
     const problems = await this.problemRepository.findByDifficulty(difficulty);
-    return problems.map((p) => filterPublicProblem(p));
+    const opts = await toPublicOpts(publicCtx);
+    return problems.map((p) => filterPublicProblem(p, opts));
   }
 
-  async searchProblems(query: string): Promise<IProblem[]> {
+  async searchProblems(
+    query: string,
+    publicCtx?: PublicViewContext
+  ): Promise<Array<IProblem | Record<string, unknown>>> {
     if (!query || query.trim() === "") {
       throw new BadRequestError("Query parameter is required");
     }
     const problems = await this.problemRepository.searchProblems(query, true);
-    return problems.map((p) => filterPublicProblem(p));
+    const opts = await toPublicOpts(publicCtx);
+    return problems.map((p) => filterPublicProblem(p, opts));
   }
 
   async setStatus(
@@ -222,6 +317,11 @@ export class ProblemService implements IProblemService {
     } else if (data.action === "difficulty") {
       if (!data.difficulty) throw new BadRequestError("difficulty is required");
       update.difficulty = data.difficulty;
+    } else if (data.action === "premium") {
+      if (typeof data.isPremium !== "boolean") {
+        throw new BadRequestError("isPremium boolean is required");
+      }
+      update.isPremium = data.isPremium;
     } else if (data.action === "tags") {
       if (!data.tags?.length) throw new BadRequestError("tags are required");
       if (data.tagMode === "replace") {
@@ -237,34 +337,11 @@ export class ProblemService implements IProblemService {
     return { modified };
   }
 
-  async internalStats() {
-    return this.problemRepository.internalStats();
+  async internalStats(opts?: { status?: string }) {
+    return this.problemRepository.internalStats(opts);
   }
-}
 
-function filterPublicProblem(problem: IProblem): IProblem {
-  const pObj = problem.toObject ? problem.toObject() : { ...problem };
-  if (pObj.testcases) {
-    const all = pObj.testcases as any[];
-    (pObj as any).publicTestcaseCount = all.filter((tc) => !tc.isHidden).length;
-    (pObj as any).hiddenTestcaseCount = all.filter((tc) =>
-      Boolean(tc.isHidden)
-    ).length;
-    (pObj as any).totalTestcaseCount = all.length;
-    pObj.testcases = all.filter((tc) => !tc.isHidden);
-  } else {
-    (pObj as any).publicTestcaseCount = 0;
-    (pObj as any).hiddenTestcaseCount = 0;
-    (pObj as any).totalTestcaseCount = 0;
+  async findTitlesByIds(ids: string[]) {
+    return this.problemRepository.findTitlesByIds(ids);
   }
-  (pObj as any).likeCount = Math.max(0, Number((pObj as any).likeCount) || 0);
-  (pObj as any).dislikeCount = Math.max(
-    0,
-    Number((pObj as any).dislikeCount) || 0
-  );
-  (pObj as any).bookmarkCount = Math.max(
-    0,
-    Number((pObj as any).bookmarkCount) || 0
-  );
-  return pObj as IProblem;
 }

@@ -15,12 +15,15 @@ import type { JudgeMeta } from "../execution/types";
 
 function extractJudgeMeta(job: EvaluationJobPayload): JudgeMeta {
   const p = job.problem || {};
+  const functionName = job.functionName || p.functionName || undefined;
+  // LeetCode-style problems set functionName → function harness.
+  // Stdin/stdout problems leave it unset → adapters detect "program" mode.
   return {
-    functionName: job.functionName || p.functionName,
+    functionName,
     className: job.className || p.className || "Solution",
     returnType: job.returnType || p.returnType,
     parameters: (job.parameters || p.parameters) as JudgeMeta["parameters"],
-    executionMode: "function",
+    executionMode: functionName ? "function" : undefined,
   };
 }
 

@@ -53,6 +53,25 @@ adminRouter.post(
   adminUserController.createUser.bind(adminUserController)
 );
 
+/** Platform-wide feeds — must be registered before /users/:id */
+adminRouter.get(
+  "/activity",
+  requirePermission("users:view"),
+  adminUserController.listPlatformActivity.bind(adminUserController)
+);
+
+adminRouter.get(
+  "/sessions",
+  requirePermission("users:view"),
+  adminUserController.listPlatformSessions.bind(adminUserController)
+);
+
+adminRouter.get(
+  "/progress",
+  requirePermission("users:view"),
+  adminUserController.listPlatformProgress.bind(adminUserController)
+);
+
 adminRouter.get(
   "/users/:id",
   requirePermission("users:view"),
@@ -113,6 +132,12 @@ adminRouter.patch(
   adminUserController.updateStatus.bind(adminUserController)
 );
 
+adminRouter.patch(
+  "/users/:id/subscription",
+  requirePermission("users:update"),
+  adminUserController.updateSubscription.bind(adminUserController)
+);
+
 adminRouter.get(
   "/audit-logs",
   requirePermission("audit:view"),
@@ -149,16 +174,18 @@ adminRouter.post(
   }
 );
 
-/** Internal KPI fan-in — protected by shared internal secret or staff JWT. */
+// NOTE: GET /internal/user-stats is mounted outside this router (no JWT) —
+// see v1/index.router.ts — AnalyticsService S2S with requireInternalSecret only.
+
+/** Admin dashboard fallback — JWT + analytics:view (browser-safe; not the S2S secret path). */
 adminRouter.get(
-  "/internal/user-stats",
+  "/user-stats",
   requirePermission("analytics:view"),
   adminUserController.internalStats.bind(adminUserController)
 );
 
 // ── Announcements (admin) ──────────────────────────────────────────────
-adminRouter.get(
-  "/announcements",
+adminRouter.get(  "/announcements",
   requirePermission("announcements:view"),
   announcementController.listAdmin.bind(announcementController)
 );
@@ -245,13 +272,13 @@ adminRouter.get(
 
 adminRouter.put(
   "/roles/:role/permissions",
-  requirePermission("admin:view"),
+  requirePermission("roles:manage"),
   rolePermissionController.updateRole.bind(rolePermissionController)
 );
 
 adminRouter.post(
   "/roles/:role/reset",
-  requirePermission("admin:view"),
+  requirePermission("roles:manage"),
   rolePermissionController.resetRole.bind(rolePermissionController)
 );
 

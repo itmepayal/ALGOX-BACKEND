@@ -486,7 +486,7 @@ export class ProgressImportService {
               resetAt: null,
             },
           },
-          { upsert: true, new: true, setDefaultsOnInsert: true }
+          { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
         );
 
         sheetsSynced.push({

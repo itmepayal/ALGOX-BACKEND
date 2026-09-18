@@ -16,10 +16,6 @@ function loadEnv() {
 
 loadEnv();
 
-function isProduction(): boolean {
-  return (process.env.NODE_ENV || "development") === "production";
-}
-
 function getEnvVariable(key: string, defaultValue?: string): string {
   const value = process.env[key] || defaultValue;
   if (!value) {
@@ -28,25 +24,58 @@ function getEnvVariable(key: string, defaultValue?: string): string {
   return value;
 }
 
+const INSECURE_SECRET_DEFAULTS = new Set([
+  "super_secret_jwt_access_key",
+  "super_secret_jwt_refresh_key",
+  "dev-internal-service-secret",
+]);
+
+function isStrictSecretsMode(): boolean {
+  return (
+    (process.env.NODE_ENV || "").toLowerCase() === "production" ||
+    process.env.REQUIRE_STRICT_SECRETS === "true"
+  );
+}
+
+/**
+ * Dev defaults OK locally. Strict/production rejects missing and known insecure defaults.
+ * Never log resolved secret values.
+ */
 function secretEnv(key: string, devDefault: string): string {
-  const value = process.env[key];
-  if (value) return value;
-  if (isProduction()) {
-    throw new Error(`Missing required environment variable: ${key}`);
+  const value = (process.env[key] || "").trim();
+  if (isStrictSecretsMode()) {
+    if (!value) {
+      throw new Error(`${key} is required in production`);
+    }
+    if (INSECURE_SECRET_DEFAULTS.has(value) || value === devDefault) {
+      throw new Error(
+        `${key} must not use a development/default value in production`
+      );
+    }
+    return value;
   }
-  return devDefault;
+  return value || devDefault;
 }
 
 function resolveInternalSecret(): string {
-  const fromEnv =
+  const DEV_DEFAULT = "dev-internal-service-secret";
+  const fromEnv = (
     process.env.INTERNAL_SERVICE_SECRET ||
     process.env.INTERNAL_REALTIME_SECRET ||
-    "";
-  if (fromEnv) return fromEnv;
-  if (isProduction()) {
-    throw new Error("INTERNAL_SERVICE_SECRET is required in production");
+    ""
+  ).trim();
+  if (isStrictSecretsMode()) {
+    if (!fromEnv) {
+      throw new Error("INTERNAL_SERVICE_SECRET is required in production");
+    }
+    if (INSECURE_SECRET_DEFAULTS.has(fromEnv) || fromEnv === DEV_DEFAULT) {
+      throw new Error(
+        "INTERNAL_SERVICE_SECRET must not use a development/default value in production"
+      );
+    }
+    return fromEnv;
   }
-  return "dev-internal-service-secret";
+  return fromEnv || DEV_DEFAULT;
 }
 
 export const serverConfig: ServerConfig = {

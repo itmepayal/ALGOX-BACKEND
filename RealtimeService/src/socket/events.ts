@@ -47,6 +47,11 @@ export const RealtimeEvents = {
   WORKER_IDLE: "worker.idle",
   WORKER_ERROR: "worker.error",
 
+  // contest.*
+  CONTEST_STARTED: "contest.started",
+  CONTEST_ENDED: "contest.ended",
+  CONTEST_STATUS_CHANGED: "contest.status_changed",
+
   // leaderboard / notifications / announcements
   LEADERBOARD_UPDATED: "leaderboard.updated",
   NOTIFICATION_CREATED: "notification.created",

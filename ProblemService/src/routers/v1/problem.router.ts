@@ -28,7 +28,7 @@ problemRouter.get(
 problemRouter.get(
   "/admin/internal-stats",
   authenticateJwt,
-  requirePermission("analytics:view"),
+  requirePermission("analytics:view", "problems:view"),
   problemController.internalStats.bind(problemController)
 );
 problemRouter.post(
@@ -43,12 +43,18 @@ problemRouter.post(
   requirePermission("problems:create"),
   problemController.bulkImport.bind(problemController)
 );
-// Must be registered before /admin/:id or "favourite-analytics" is cast as ObjectId
+// Must be registered before /admin/:id or static segments are cast as ObjectId
 problemRouter.get(
   "/admin/favourite-analytics",
   authenticateJwt,
   requirePermission("analytics:view"),
   engagementController.getFavouriteAnalytics.bind(engagementController)
+);
+problemRouter.get(
+  "/admin/titles",
+  authenticateJwt,
+  requirePermission("problems:view", "analytics:view"),
+  problemController.lookupTitlesByIds.bind(problemController)
 );
 problemRouter.get(
   "/admin/:id",
@@ -69,15 +75,26 @@ problemRouter.patch(
   problemController.setStatus.bind(problemController)
 );
 
-// Public User Endpoints
-problemRouter.get("/", problemController.getProblems.bind(problemController));
-problemRouter.get("/search", problemController.searchProblems.bind(problemController));
+// Public User Endpoints — optional JWT so entitlement can unlock premium content
+problemRouter.get(
+  "/",
+  optionalAuthenticateJwt,
+  problemController.getProblems.bind(problemController)
+);
+/** REST convenience filters — UI uses GET /problems with query params; keep for API clients. */
+problemRouter.get(
+  "/search",
+  optionalAuthenticateJwt,
+  problemController.searchProblems.bind(problemController)
+);
 problemRouter.get(
   "/difficulty/:difficulty",
+  optionalAuthenticateJwt,
   problemController.findByDifficulty.bind(problemController)
 );
 problemRouter.get(
   "/slug/:slug",
+  optionalAuthenticateJwt,
   problemController.getProblemBySlug.bind(problemController)
 );
 
@@ -94,7 +111,7 @@ problemRouter.post(
 );
 
 // Engagement — register before bare /:id
-// Favourites reuse ProblemBookmark (unique userId+problemId). Bookmark routes kept for compat.
+// Bookmark ≠ Favourite ≠ Important ≠ Revision (independent stores).
 problemRouter.get(
   "/bookmarks/me",
   authenticateJwt,
@@ -103,12 +120,27 @@ problemRouter.get(
 problemRouter.get(
   "/favourites/me",
   authenticateJwt,
-  engagementController.listMyBookmarks.bind(engagementController)
+  engagementController.listMyFavourites.bind(engagementController)
+);
+problemRouter.get(
+  "/favourites/ids",
+  authenticateJwt,
+  engagementController.listMyFavoriteIds.bind(engagementController)
+);
+problemRouter.get(
+  "/important/me",
+  authenticateJwt,
+  engagementController.listMyImportantIds.bind(engagementController)
 );
 problemRouter.get(
   "/revisions/me",
   authenticateJwt,
   engagementController.listMyRevisions.bind(engagementController)
+);
+problemRouter.get(
+  "/personalization/summary",
+  authenticateJwt,
+  engagementController.getPersonalizationSummary.bind(engagementController)
 );
 problemRouter.get(
   "/:id/engagement",
@@ -143,22 +175,37 @@ problemRouter.post(
 problemRouter.post(
   "/:id/favourite",
   authenticateJwt,
-  engagementController.toggleBookmark.bind(engagementController)
+  engagementController.addFavorite.bind(engagementController)
 );
 problemRouter.post(
   "/:id/favourite/toggle",
   authenticateJwt,
-  engagementController.toggleBookmark.bind(engagementController)
+  engagementController.toggleFavorite.bind(engagementController)
 );
 problemRouter.delete(
   "/:id/favourite",
   authenticateJwt,
-  engagementController.removeBookmark.bind(engagementController)
+  engagementController.removeFavorite.bind(engagementController)
+);
+problemRouter.post(
+  "/:id/important/toggle",
+  authenticateJwt,
+  engagementController.toggleImportant.bind(engagementController)
+);
+problemRouter.patch(
+  "/:id/personal-confidence",
+  authenticateJwt,
+  engagementController.setPersonalConfidence.bind(engagementController)
 );
 problemRouter.post(
   "/:id/revision/toggle",
   authenticateJwt,
   engagementController.toggleRevision.bind(engagementController)
+);
+problemRouter.post(
+  "/:id/revision",
+  authenticateJwt,
+  engagementController.addRevision.bind(engagementController)
 );
 problemRouter.delete(
   "/:id/revision",
@@ -174,7 +221,17 @@ problemRouter.get(
   problemController.getInternalProblemById.bind(problemController)
 );
 
-problemRouter.get("/:id", problemController.getProblemById.bind(problemController));
+problemRouter.get(
+  "/internal/:id/solve-access",
+  requireInternalSecret,
+  problemController.assertSolveAccess.bind(problemController)
+);
+
+problemRouter.get(
+  "/:id",
+  optionalAuthenticateJwt,
+  problemController.getProblemById.bind(problemController)
+);
 
 // Admin mutate endpoints
 problemRouter.post(

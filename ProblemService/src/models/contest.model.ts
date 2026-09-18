@@ -61,5 +61,6 @@ const contestSchema = new Schema<IContest>(
 );
 
 contestSchema.index({ status: 1, startTime: 1 });
+contestSchema.index({ status: 1, endTime: 1 });
 
 export const Contest = mongoose.model<IContest>("Contest", contestSchema);

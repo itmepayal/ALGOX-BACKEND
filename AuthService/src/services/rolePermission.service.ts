@@ -88,6 +88,10 @@ export class RolePermissionService {
     if (input.actor.role !== "super_admin") {
       throw new ForbiddenError("Only super_admin can edit role permissions");
     }
+    // Defense in depth — route requires roles:manage (super_admin only).
+    if (!hasPermissionResolved(input.actor.role, "roles:manage")) {
+      throw new ForbiddenError("roles:manage permission required");
+    }
     const role = normalizeRole(input.role);
     if (role === "super_admin") {
       throw new BadRequestError("super_admin always has all permissions");
@@ -97,6 +101,8 @@ export class RolePermissionService {
     }
 
     const allowed = new Set(ALL_PERMISSIONS);
+    // Never grant roles:manage via matrix — reserved for super_admin only.
+    allowed.delete("roles:manage");
     const next = [
       ...new Set(
         (input.permissions || []).filter((p): p is Permission =>
@@ -118,7 +124,7 @@ export class RolePermissionService {
           updatedBy: input.actor.userId,
         },
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
     overrideCache.set(role, next);
     cacheLoaded = true;
@@ -145,6 +151,9 @@ export class RolePermissionService {
   ) {
     if (actor.role !== "super_admin") {
       throw new ForbiddenError("Only super_admin can reset role permissions");
+    }
+    if (!hasPermissionResolved(actor.role, "roles:manage")) {
+      throw new ForbiddenError("roles:manage permission required");
     }
     const role = normalizeRole(roleRaw);
     if (role === "super_admin" || role === "user") {

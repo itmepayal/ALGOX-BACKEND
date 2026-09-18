@@ -22,10 +22,21 @@ submissionRouter.post(
   requireFeatureFlag("submissions"),
   submissionController.createSubmission.bind(submissionController)
 );
+/** Must be registered before /:id so "me" is never treated as an ObjectId. */
+submissionRouter.get(
+  "/me",
+  authenticateJwt,
+  submissionController.getMySubmissions.bind(submissionController)
+);
 submissionRouter.get(
   "/me/import-source",
   authenticateJwt,
   submissionController.getImportSourceForMe.bind(submissionController)
+);
+submissionRouter.get(
+  "/me/analytics",
+  authenticateJwt,
+  submissionController.getMyAnalytics.bind(submissionController)
 );
 submissionRouter.get(
   "/problem/:problemId",

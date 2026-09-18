@@ -120,6 +120,8 @@ export async function runCodeInDocker(
   const container = await docker.createContainer({
     Image: imageName,
     Cmd: cmd,
+    User: DOCKER_CONTAINER_CONFIG.USER,
+    WorkingDir: DOCKER_CONTAINER_CONFIG.WORKING_DIR,
     AttachStdin: true,
     AttachStdout: true,
     AttachStderr: true,
@@ -134,6 +136,9 @@ export async function runCodeInDocker(
       CpuPeriod: DOCKER_CONTAINER_CONFIG.CPU_PERIOD,
       SecurityOpt: [...DOCKER_CONTAINER_CONFIG.SECURITY_OPT],
       NetworkMode: DOCKER_CONTAINER_CONFIG.NETWORK_MODE,
+      CapDrop: [...DOCKER_CONTAINER_CONFIG.CAP_DROP],
+      ReadonlyRootfs: DOCKER_CONTAINER_CONFIG.READONLY_ROOTFS,
+      Tmpfs: { ...DOCKER_CONTAINER_CONFIG.TMPFS },
     },
     // Do not override image PATH/JAVA_HOME — that breaks javac/java on Temurin images.
     // Host secrets are not forwarded; NetworkMode is already "none".

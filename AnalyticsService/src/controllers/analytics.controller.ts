@@ -82,4 +82,155 @@ export class AnalyticsController {
       next(error);
     }
   }
+
+  async getDashboard(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const range = String(req.query.range || "30d");
+      const data = await this.analyticsService.getAdminDashboard(
+        range,
+        req.headers.authorization
+      );
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async exportDashboard(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const range = String(req.query.range || "30d");
+      const format =
+        String(req.query.format || "json").toLowerCase() === "csv"
+          ? "csv"
+          : "json";
+      const exported = await this.analyticsService.exportAdminDashboard(
+        range,
+        req.headers.authorization,
+        format
+      );
+      res.setHeader("Content-Type", exported.contentType);
+      if (format === "csv" && exported.filename) {
+        res.setHeader(
+          "Content-Disposition",
+          `attachment; filename="${exported.filename}"`
+        );
+        res.status(200).send(exported.body);
+        return;
+      }
+      res.status(200).json({ success: true, data: exported.body });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyOverview(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const data = await this.analyticsService.getMyOverview(userId);
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyHistory(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const q = req.query as Record<string, string | undefined>;
+      const data = await this.analyticsService.getMyHistory(
+        userId,
+        req.headers.authorization,
+        q
+      );
+      res.status(200).json({ success: true, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyPremium(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const q = req.query as Record<string, string | undefined>;
+      const data = await this.analyticsService.getMyPremium(
+        userId,
+        req.headers.authorization,
+        q
+      );
+      res.status(200).json({ success: true, data });
+    } catch (error: any) {
+      if (error?.statusCode === 403) {
+        res.status(403).json({
+          success: false,
+          message: error.message,
+          code: error.code || "PREMIUM_REQUIRED",
+        });
+        return;
+      }
+      next(error);
+    }
+  }
+
+  async getMyLearning(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const q = req.query as Record<string, string | undefined>;
+      const data = await this.analyticsService.getMyLearning(
+        userId,
+        req.headers.authorization,
+        q
+      );
+      res.status(200).json({ success: true, data });
+    } catch (error: any) {
+      if (error?.statusCode === 403) {
+        res.status(403).json({
+          success: false,
+          message: error.message,
+          code: error.code || "PREMIUM_REQUIRED",
+        });
+        return;
+      }
+      next(error);
+    }
+  }
 }

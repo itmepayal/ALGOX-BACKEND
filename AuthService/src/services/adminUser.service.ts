@@ -1,5 +1,7 @@
 import { User } from "../models/user.model";
 import { AdminAuditLog } from "../models/adminAuditLog.model";
+import { SecurityLog } from "../models/securityLog.model";
+import { Session } from "../models/session.model";
 import {
   BadRequestError,
   ForbiddenError,
@@ -13,8 +15,49 @@ import {
   STAFF_ROLES,
 } from "../rbac/permissions";
 import { sessionRepository } from "../repositories/session.repository";
+import {
+  toPublicSubscription,
+  type EntitlementSource,
+  type EntitlementStatus,
+  type SubscriptionPlanId,
+} from "../subscription/entitlement";
+import { toPublicEntitlements } from "../subscription/engine";
+import { subscriptionService } from "../subscription/subscription.service";
+import type {
+  SubscriptionProvider,
+  SubscriptionStatus,
+} from "../models/subscription.model";
+
+function entitlementStatusToLedger(
+  status: EntitlementStatus
+): SubscriptionStatus {
+  switch (status) {
+    case "active":
+      return "ACTIVE";
+    case "past_due":
+    case "grace":
+      return "PAST_DUE";
+    case "canceled":
+      return "CANCELLED";
+    case "expired":
+      return "EXPIRED";
+    default:
+      return "ACTIVE";
+  }
+}
+
+function sourceToProvider(source?: EntitlementSource): SubscriptionProvider {
+  if (source === "promo") return "promo";
+  if (source === "billing") return "stripe";
+  return "admin";
+}
 
 function publicUser(u: any) {
+  const subscription = toPublicSubscription(u?.subscription);
+  const entitlements = toPublicEntitlements({
+    subscription: u?.subscription,
+    featureGrants: u?.featureGrants,
+  });
   return {
     id: u._id?.toString?.() || u.id,
     name: u.name,
@@ -29,6 +72,9 @@ function publicUser(u: any) {
     lastActiveAt: u.lastActiveAt,
     createdAt: u.createdAt,
     updatedAt: u.updatedAt,
+    subscription,
+    accessTier: entitlements.accessTier,
+    features: entitlements.features,
   };
 }
 
@@ -184,6 +230,92 @@ export class AdminUserService {
     });
 
     return publicUser(target);
+  }
+
+  /**
+   * Admin grant / revoke via Subscription ledger (SoT), then User.subscription snapshot.
+   * Does not change platform role. Client cannot call this without users:update.
+   */
+  async updateSubscription(
+    actor: { userId: string; email: string; role: string },
+    targetId: string,
+    patch: {
+      plan: SubscriptionPlanId;
+      status: EntitlementStatus;
+      currentPeriodEnd?: string | null;
+      gracePeriodEnd?: string | null;
+      cancelAtPeriodEnd?: boolean;
+      source?: EntitlementSource;
+    },
+    meta?: { ip?: string; userAgent?: string }
+  ) {
+    const target = await User.findById(targetId);
+    if (!target) throw new NotFoundError("User not found");
+
+    const before = toPublicSubscription(target.subscription);
+    const nextPlan = patch.plan;
+    const nextStatus = patch.status;
+    const source = patch.source || "admin_grant";
+
+    if (nextPlan === "FREE") {
+      await subscriptionService.endLiveSubscription(targetId, {
+        status: "CANCELLED",
+        reason: "admin_revoke",
+      });
+    } else {
+      const periodEnd =
+        patch.currentPeriodEnd === undefined
+          ? target.subscription?.currentPeriodEnd ?? null
+          : patch.currentPeriodEnd
+            ? new Date(patch.currentPeriodEnd)
+            : null;
+      if (periodEnd && Number.isNaN(periodEnd.getTime())) {
+        throw new BadRequestError("Invalid currentPeriodEnd");
+      }
+
+      const ledgerStatus = entitlementStatusToLedger(nextStatus);
+      const cancelAtPeriodEnd = Boolean(
+        patch.cancelAtPeriodEnd ?? target.subscription?.cancelAtPeriodEnd
+      );
+
+      await subscriptionService.upsertLiveSubscription({
+        userId: targetId,
+        plan: nextPlan,
+        status: ledgerStatus,
+        provider: sourceToProvider(source),
+        startDate: target.subscription?.currentPeriodStart || new Date(),
+        currentPeriodStart:
+          target.subscription?.currentPeriodStart || new Date(),
+        currentPeriodEnd: periodEnd,
+        cancelAtPeriodEnd,
+        cancelledAt:
+          ledgerStatus === "CANCELLED" ? new Date() : null,
+        endedAt: null,
+        metadata: {
+          adminActorId: actor.userId,
+          entitlementSource: source,
+          gracePeriodEnd: patch.gracePeriodEnd ?? undefined,
+        },
+        eventType: "admin.subscription_change",
+      });
+    }
+
+    const refreshed = await User.findById(targetId);
+    if (!refreshed) throw new NotFoundError("User not found");
+
+    await writeAdminAudit({
+      actorId: actor.userId,
+      actorEmail: actor.email,
+      action: "user.subscription_change",
+      resource: "user",
+      resourceId: targetId,
+      before: { ...before },
+      after: { ...toPublicSubscription(refreshed.subscription) },
+      ip: meta?.ip,
+      userAgent: meta?.userAgent,
+    });
+
+    return publicUser(refreshed);
   }
 
   async listAuditLogs(query: {
@@ -736,6 +868,173 @@ export class AdminUserService {
     });
 
     return { revoked: true };
+  }
+
+  /** Platform-wide activity feed (security + audit). Real Mongo data only. */
+  async listPlatformActivity(query: { page?: number; limit?: number }) {
+    const page = Math.max(1, query.page || 1);
+    const limit = Math.min(100, Math.max(1, query.limit || 30));
+    const fetchCap = Math.min(500, page * limit + limit);
+
+    const [secLogs, auditLogs] = await Promise.all([
+      SecurityLog.find({})
+        .sort({ createdAt: -1 })
+        .limit(fetchCap)
+        .populate("userId", "name email")
+        .lean(),
+      AdminAuditLog.find({})
+        .sort({ createdAt: -1 })
+        .limit(fetchCap)
+        .lean(),
+    ]);
+
+    type Row = {
+      id: string;
+      userId?: string | null;
+      userEmail?: string | null;
+      userName?: string | null;
+      type: string;
+      action: string;
+      detail?: string;
+      ip?: string;
+      createdAt: Date | string;
+    };
+
+    const items: Row[] = [];
+    for (const s of secLogs) {
+      const u = s.userId as any;
+      items.push({
+        id: `sec-${s._id}`,
+        userId: u?._id?.toString?.() || (u ? String(u) : null),
+        userEmail: u?.email || null,
+        userName: u?.name || null,
+        type: "security",
+        action: String(s.action),
+        ip: s.ip,
+        createdAt: (s as any).createdAt,
+      });
+    }
+    for (const a of auditLogs) {
+      items.push({
+        id: `aud-${a._id}`,
+        userId: a.actorId?.toString?.() || null,
+        userEmail: a.actorEmail || null,
+        userName: null,
+        type: "audit",
+        action: String(a.action),
+        detail: `${a.resource}${a.resourceId ? `:${a.resourceId}` : ""}`,
+        ip: a.ip,
+        createdAt: (a as any).createdAt,
+      });
+    }
+
+    items.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    const total = items.length;
+    const slice = items.slice((page - 1) * limit, page * limit);
+    return {
+      activity: slice,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+    };
+  }
+
+  /** All refresh sessions across users (no token values). */
+  async listPlatformSessions(query: { page?: number; limit?: number }) {
+    const page = Math.max(1, query.page || 1);
+    const limit = Math.min(100, Math.max(1, query.limit || 20));
+    const skip = (page - 1) * limit;
+    const now = Date.now();
+
+    const [total, rows] = await Promise.all([
+      Session.countDocuments({}),
+      Session.find({})
+        .select("-refreshToken")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("userId", "name email")
+        .lean(),
+    ]);
+
+    const sessions = rows.map((s: any) => {
+      const u = s.userId;
+      return {
+        id: s._id?.toString?.() || s.id,
+        userId: u?._id?.toString?.() || (u ? String(u) : null),
+        userEmail: u?.email || null,
+        userName: u?.name || null,
+        ip: s.ip || null,
+        userAgent: s.userAgent || null,
+        createdAt: s.createdAt,
+        expiresAt: s.expiresAt,
+        expired: s.expiresAt ? new Date(s.expiresAt).getTime() < now : false,
+      };
+    });
+
+    return {
+      sessions,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+    };
+  }
+
+  /** Per-user progress rows for the current users page (SubmissionService). */
+  async listPlatformProgress(
+    query: { page?: number; limit?: number; search?: string },
+    authHeader?: string
+  ) {
+    const usersResult = await this.listUsers({
+      page: query.page,
+      limit: query.limit || 20,
+      search: query.search,
+    });
+
+    const rows = await Promise.all(
+      usersResult.users.map(async (u) => {
+        try {
+          const progress = await this.getUserProgress(u.id, authHeader);
+          return {
+            userId: u.id,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            status: u.status,
+            submissionCount: progress.submissionCount,
+            acceptedCount: progress.acceptedCount,
+            acceptanceRate: progress.acceptanceRate,
+            problemsAttempted: progress.problemsAttempted,
+            problemsSolved: progress.problemsSolved,
+          };
+        } catch {
+          return {
+            userId: u.id,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            status: u.status,
+            submissionCount: 0,
+            acceptedCount: 0,
+            acceptanceRate: 0,
+            problemsAttempted: 0,
+            problemsSolved: 0,
+          };
+        }
+      })
+    );
+
+    return { rows, meta: usersResult.meta };
   }
 }
 

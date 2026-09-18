@@ -33,6 +33,7 @@ import {
   SECURITY_ACTIONS,
 } from "../utils/constants";
 import { permissionsForRoleResolved } from "./rolePermission.service";
+import { toPublicAuthUser } from "../subscription/publicAuthUser";
 
 function tokenPayload(user: {
   _id: any;
@@ -449,15 +450,7 @@ export class AuthService {
 
     return {
       message: "Profile updated successfully",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        avatar: user.avatar,
-        twoFactorEnabled: user.twoFactorEnabled,
-        isEmailVerified: user.isEmailVerified,
-      },
+      user: toPublicAuthUser(user),
     };
   }
 }

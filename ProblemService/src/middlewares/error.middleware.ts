@@ -24,6 +24,9 @@ export const errorHandler: ErrorRequestHandler = (
 
   if (err instanceof AppError) {
     logger.warn(`[AppError] ${err.name} (${err.statusCode}): ${err.message}`);
+    if (err.statusCode === 429 && err.details?.retryAfterSec) {
+      res.setHeader("Retry-After", String(err.details.retryAfterSec));
+    }
     res.status(err.statusCode).json({
       success: false,
       message: err.message,

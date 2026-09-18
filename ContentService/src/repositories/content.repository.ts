@@ -10,7 +10,7 @@ export class ContentRepository {
     const editorial = await ProblemEditorial.findOneAndUpdate(
       { problemId: data.problemId },
       { $set: data },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
     try {
       await redis.del(`editorial:problem:${data.problemId}`);
@@ -41,14 +41,33 @@ export class ContentRepository {
     return await StudyPlan.create(data);
   }
 
-  async getStudyPlans(category?: string): Promise<IStudyPlan[]> {
+  async getStudyPlans(opts?: {
+    category?: string;
+    publishedOnly?: boolean;
+    access?: string;
+    difficulty?: string;
+    topic?: string;
+  }): Promise<IStudyPlan[]> {
     const query: any = {};
-    if (category) query.category = category;
-    return await StudyPlan.find(query);
+    if (opts?.publishedOnly) query.isPublished = true;
+    if (opts?.category) query.category = opts.category;
+    if (opts?.access === "FREE") {
+      query.$or = [{ isPremium: false }, { access: "FREE" }];
+    } else if (opts?.access === "PREMIUM") {
+      query.$or = [{ isPremium: true }, { access: "PREMIUM" }];
+    }
+    if (opts?.difficulty) query.difficulty = opts.difficulty;
+    if (opts?.topic) query.topics = new RegExp(opts.topic, "i");
+    return await StudyPlan.find(query).sort({ title: 1 });
   }
 
-  async getStudyPlanBySlug(slug: string): Promise<IStudyPlan | null> {
-    return await StudyPlan.findOne({ slug });
+  async getStudyPlanBySlug(
+    slug: string,
+    opts?: { publishedOnly?: boolean }
+  ): Promise<IStudyPlan | null> {
+    const query: any = { slug };
+    if (opts?.publishedOnly) query.isPublished = true;
+    return await StudyPlan.findOne(query);
   }
 
   async updateStudyPlanProgress(
@@ -56,32 +75,118 @@ export class ContentRepository {
     studyPlanSlug: string,
     problemId: string
   ): Promise<IUserStudyPlanProgress> {
+    const { recomputeProgressFields } = await import(
+      "../utils/studyPlanAccess"
+    );
     const studyPlan = await StudyPlan.findOne({ slug: studyPlanSlug });
-    if (!studyPlan) throw new Error("Study plan not found");
+    if (!studyPlan) {
+      const err: any = new Error("Study plan not found");
+      err.statusCode = 404;
+      throw err;
+    }
 
-    let progress = await UserStudyPlanProgress.findOne({ userId, studyPlanSlug });
+    let progress = await UserStudyPlanProgress.findOne({
+      userId,
+      studyPlanSlug,
+    });
 
     if (!progress) {
       progress = new UserStudyPlanProgress({
         userId,
         studyPlanSlug,
+        status: "not_started",
         completedProblemIds: [],
         solvedCount: 0,
-        totalProblemsCount: studyPlan.totalProblemsCount || 50,
+        totalProblemsCount: 0,
         completionPercentage: 0,
+        enrolledAt: new Date(),
       });
     }
 
-    if (!progress.completedProblemIds.includes(problemId)) {
-      progress.completedProblemIds.push(problemId);
-      progress.solvedCount = progress.completedProblemIds.length;
-      progress.completionPercentage = Number(
-        ((progress.solvedCount / (progress.totalProblemsCount || 1)) * 100).toFixed(2)
-      );
+    const ids = [...(progress.completedProblemIds || [])];
+    if (!ids.includes(problemId)) ids.push(problemId);
+    const fields = recomputeProgressFields(studyPlan, ids);
+    Object.assign(progress, fields);
+    progress.lastStudiedAt = new Date();
+    if (fields.status === "completed" && !progress.completedAt) {
+      progress.completedAt = new Date();
     }
+    await progress.save();
+    return progress;
+  }
+
+  async enrollStudyPlan(
+    userId: string,
+    studyPlanSlug: string
+  ): Promise<IUserStudyPlanProgress> {
+    const { recomputeProgressFields } = await import(
+      "../utils/studyPlanAccess"
+    );
+    const studyPlan = await StudyPlan.findOne({
+      slug: studyPlanSlug,
+      isPublished: true,
+    });
+    if (!studyPlan) {
+      const err: any = new Error("Study plan not found");
+      err.statusCode = 404;
+      throw err;
+    }
+
+    let progress = await UserStudyPlanProgress.findOne({
+      userId,
+      studyPlanSlug,
+    });
+    if (progress) return progress;
+
+    const fields = recomputeProgressFields(studyPlan, []);
+    progress = await UserStudyPlanProgress.create({
+      userId,
+      studyPlanSlug,
+      ...fields,
+      status: "not_started",
+      enrolledAt: new Date(),
+      lastStudiedAt: new Date(),
+    });
+    return progress;
+  }
+
+  async completeStudyPlan(
+    userId: string,
+    studyPlanSlug: string
+  ): Promise<IUserStudyPlanProgress> {
+    const { orderedProblemIds } = await import("../models/studyPlan.model");
+    const { recomputeProgressFields } = await import(
+      "../utils/studyPlanAccess"
+    );
+    const studyPlan = await StudyPlan.findOne({ slug: studyPlanSlug });
+    if (!studyPlan) {
+      const err: any = new Error("Study plan not found");
+      err.statusCode = 404;
+      throw err;
+    }
+    let progress = await UserStudyPlanProgress.findOne({
+      userId,
+      studyPlanSlug,
+    });
+    if (!progress) {
+      const err: any = new Error("Not enrolled in this study plan");
+      err.statusCode = 400;
+      throw err;
+    }
+    const allIds = orderedProblemIds(studyPlan);
+    const fields = recomputeProgressFields(studyPlan, allIds);
+    Object.assign(progress, fields);
+    progress.status = "completed";
+    progress.completedAt = new Date();
     progress.lastStudiedAt = new Date();
     await progress.save();
     return progress;
+  }
+
+  async listUserStudyPlanProgress(
+    userId: string
+  ): Promise<IUserStudyPlanProgress[]> {
+    return UserStudyPlanProgress.find({ userId }).sort({ updatedAt: -1 });
   }
 
   async getUserStudyPlanProgress(
@@ -89,6 +194,15 @@ export class ContentRepository {
     studyPlanSlug: string
   ): Promise<IUserStudyPlanProgress | null> {
     return await UserStudyPlanProgress.findOne({ userId, studyPlanSlug });
+  }
+
+  async hasCompletedPlan(userId: string, slug: string): Promise<boolean> {
+    const p = await UserStudyPlanProgress.findOne({
+      userId,
+      studyPlanSlug: slug,
+      status: "completed",
+    }).lean();
+    return Boolean(p);
   }
 
   async createArticle(data: Partial<IArticle>): Promise<IArticle> {
@@ -113,7 +227,7 @@ export class ContentRepository {
     return await Article.findOneAndUpdate(
       { slug, isPublished: true },
       { $inc: { viewsCount: 1 } },
-      { new: true }
+      { returnDocument: "after" }
     );
   }
 
@@ -121,12 +235,32 @@ export class ContentRepository {
     userId: string,
     problemId: string,
     noteText: string,
-    tags: string[] = []
-  ): Promise<IProblemNote> {
+    tags?: string[]
+  ): Promise<IProblemNote | null> {
+    const text = String(noteText ?? "");
+
+    // Empty note = delete (authoritative clear; no orphan local-only docs)
+    if (!text.trim()) {
+      await ProblemNote.deleteOne({ userId, problemId });
+      return null;
+    }
+
+    const $set: Record<string, unknown> = {
+      userId,
+      problemId,
+      noteText: text,
+    };
+    if (tags !== undefined) {
+      $set.tags = (tags || [])
+        .map((t) => String(t || "").trim().toLowerCase())
+        .filter(Boolean)
+        .slice(0, 20);
+    }
+
     return await ProblemNote.findOneAndUpdate(
       { userId, problemId },
-      { userId, problemId, noteText, tags },
-      { upsert: true, new: true }
+      { $set },
+      { upsert: true, returnDocument: "after" }
     );
   }
 
@@ -134,8 +268,19 @@ export class ContentRepository {
     return await ProblemNote.findOne({ userId, problemId });
   }
 
-  async getUserNotes(userId: string): Promise<IProblemNote[]> {
-    return await ProblemNote.find({ userId }).sort({ updatedAt: -1 });
+  async getUserNotes(
+    userId: string,
+    opts?: { tag?: string }
+  ): Promise<IProblemNote[]> {
+    const filter: Record<string, unknown> = { userId };
+    if (opts?.tag?.trim()) {
+      filter.tags = opts.tag.trim().toLowerCase();
+    }
+    return await ProblemNote.find(filter).sort({ updatedAt: -1 });
+  }
+
+  async deleteUserProblemNote(userId: string, problemId: string) {
+    return ProblemNote.deleteOne({ userId, problemId });
   }
 
   /** Admin: list articles including drafts. */
@@ -177,7 +322,7 @@ export class ContentRepository {
     const article = await Article.findByIdAndUpdate(
       id,
       { $set: data },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!article) throw new Error("Article not found");
     return article;
@@ -222,7 +367,7 @@ export class ContentRepository {
     const plan = await StudyPlan.findByIdAndUpdate(
       id,
       { $set: data },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!plan) throw new Error("Study plan not found");
     return plan;

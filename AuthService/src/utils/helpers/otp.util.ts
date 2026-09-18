@@ -1,15 +1,29 @@
 import redis from "../../config/redis.config";
+import { serverConfig, isUsableEmailFrom } from "../../config";
 import { BadRequestError } from "../errors/app.error";
 import { TIME_CONSTANTS, AUTH_MESSAGES } from "../constants";
 
 const inMemoryOtpStore = new Map<string, { otp: string; expiresAt: number }>();
 
-/** Production never exposes OTPs. Dev/test may opt in via explicit env flag. */
-export function allowDevOtpExposure(): boolean {
+function requiresStrictEmailConfig(): boolean {
   return (
-    process.env.NODE_ENV !== "production" &&
-    process.env.ALLOW_DEV_OTP_EXPOSURE === "true"
+    (process.env.NODE_ENV || "").toLowerCase() === "production" ||
+    process.env.REQUIRE_STRICT_SECRETS === "true"
   );
+}
+
+/**
+ * Production / strict mode never exposes OTPs in API responses.
+ * Dev/test may opt in only via explicit ALLOW_DEV_OTP_EXPOSURE=true.
+ */
+export function allowDevOtpExposure(): boolean {
+  if (
+    (process.env.NODE_ENV || "").toLowerCase() === "production" ||
+    process.env.REQUIRE_STRICT_SECRETS === "true"
+  ) {
+    return false;
+  }
+  return process.env.ALLOW_DEV_OTP_EXPOSURE === "true";
 }
 
 export const saveOTP = async (userId: string, otp: string) => {
@@ -65,9 +79,27 @@ export const sendOTPEmail = async (
     /* proceed if settings unavailable */
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = serverConfig.RESEND_API_KEY;
+  const emailFrom = serverConfig.EMAIL_FROM;
+  const strict = requiresStrictEmailConfig();
+
   if (!apiKey) {
+    if (strict) {
+      throw new Error("RESEND_API_KEY is not configured — cannot send Auth email");
+    }
     console.log(`[Mailer] RESEND_API_KEY missing — OTP email not sent to ${toEmail}`);
+    return;
+  }
+
+  if (!isUsableEmailFrom(emailFrom)) {
+    if (strict) {
+      throw new Error(
+        "EMAIL_FROM is not configured or is not a valid sender — cannot send Auth email"
+      );
+    }
+    console.log(
+      `[Mailer] EMAIL_FROM missing or invalid — OTP email not sent to ${toEmail}`
+    );
     return;
   }
 
@@ -83,7 +115,7 @@ export const sendOTPEmail = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "LeetCode Auth <onboarding@resend.dev>",
+        from: emailFrom,
         to: [toEmail],
         subject: subject,
         html: `
@@ -100,10 +132,18 @@ export const sendOTPEmail = async (
     if (!res.ok) {
       const errText = await res.text();
       console.warn("[Resend Email] Failed to send email via Resend:", errText);
+      if (strict) {
+        throw new Error("Auth email provider rejected the send request");
+      }
     } else {
       console.log(`[Resend Email] OTP email successfully sent to ${toEmail}`);
     }
   } catch (err) {
     console.error("[Resend Email Error]:", err);
+    if (strict) {
+      throw err instanceof Error
+        ? err
+        : new Error("Auth email send failed");
+    }
   }
 };

@@ -210,12 +210,101 @@ export class LeaderboardService {
     return { before, after: stats };
   }
 
+  /**
+   * Apply contest rating deltas once per contest+user (idempotent).
+   * Called only from ProblemService after server-side contest end + leaderboard recompute.
+   */
+  async applyContestRatings(input: {
+    contestId: string;
+    entries: Array<{ userId: string; rank: number }>;
+  }) {
+    const { computeContestRatingDeltas } = await import(
+      "../utils/contestRating"
+    );
+    const { ContestRatingEvent } = await import(
+      "../models/contestRatingEvent.model"
+    );
+    const contestId = String(input.contestId || "").trim();
+    if (!contestId) {
+      return { updated: [], skipped: true, reason: "missing contestId" };
+    }
+
+    const deltas = computeContestRatingDeltas(input.entries || []);
+    const updated: Array<{
+      userId: string;
+      rank: number;
+      delta: number;
+      ratingBefore: number;
+      ratingAfter: number;
+    }> = [];
+
+    for (const row of deltas) {
+      try {
+        const existing = await ContestRatingEvent.findOne({
+          contestId,
+          userId: row.userId,
+        }).lean();
+        if (existing) {
+          updated.push({
+            userId: row.userId,
+            rank: existing.rank,
+            delta: existing.delta,
+            ratingBefore: existing.ratingBefore,
+            ratingAfter: existing.ratingAfter,
+          });
+          continue;
+        }
+
+        const stats = await this.leaderboardRepository.getUserStats(row.userId);
+        const before = Number(stats?.rating) || 1500;
+        const after = Math.max(0, before + row.delta);
+        await this.leaderboardRepository.upsertUserStats(row.userId, {
+          userName: stats?.userName || "User",
+          userEmail: stats?.userEmail || "user@leetcode.com",
+          solvedEasy: stats?.solvedEasy || 0,
+          solvedMedium: stats?.solvedMedium || 0,
+          solvedHard: stats?.solvedHard || 0,
+          totalSolved: stats?.totalSolved || 0,
+          rating: after,
+        } as any);
+
+        await ContestRatingEvent.create({
+          contestId,
+          userId: row.userId,
+          rank: row.rank,
+          delta: row.delta,
+          ratingBefore: before,
+          ratingAfter: after,
+        });
+
+        updated.push({
+          userId: row.userId,
+          rank: row.rank,
+          delta: row.delta,
+          ratingBefore: before,
+          ratingAfter: after,
+        });
+      } catch (err: any) {
+        if (err?.code === 11000) continue;
+        throw err;
+      }
+    }
+
+    try {
+      await redis.del("leaderboard_page:1:limit:10");
+    } catch {
+      /* optional */
+    }
+
+    return { contestId, updated, count: updated.length };
+  }
+
   async setRankingSuspended(userId: string, suspended: boolean) {
     const before = await this.leaderboardRepository.getUserStats(userId);
     const stats = await UserStats.findOneAndUpdate(
       { userId },
       { $set: { rankingSuspended: suspended } },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!stats) throw new NotFoundError("User stats not found");
     try {

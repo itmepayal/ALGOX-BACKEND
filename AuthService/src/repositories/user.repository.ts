@@ -14,7 +14,7 @@ export const userRepository = {
   },
 
   updateById: (id: string, data: Partial<IUser>) => {
-    return User.findByIdAndUpdate(id, data, { new: true });
+    return User.findByIdAndUpdate(id, data, { returnDocument: "after" });
   },
 
   incrementLoginAttempts: async (id: string) => {

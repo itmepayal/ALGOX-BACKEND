@@ -1,0 +1,52 @@
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 01:10:49","data":{"socketId":"42ccebQGkwbs2jnFAAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 01:21:58","data":{"socketId":"_dtNVOzgxdmBetKOAAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 01:22:06","data":{"socketId":"PMMvEBSfA3483RXBAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 01:22:48","data":{"socketId":"JMYAxrGHTnly1zS0AAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 02:06:09","data":{"socketId":"HgjKJXSu--GAi_7VAAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 02:07:41","data":{"socketId":"EsnvX3ytkfnUT10cAAAO","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-17-2026 20:09:36","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 20:09:38","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 20:09:40","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 20:09:40","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 20:09:40","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 20:09:40","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"09-17-2026 20:29:20","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 20:29:22","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 20:29:24","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 20:29:24","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 20:29:24","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 20:29:24","data":{}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-17-2026 20:45:02","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-17-2026 22:07:54","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 22:07:55","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 22:07:57","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 22:07:57","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 22:07:57","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 22:07:57","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-17-2026 22:08:43","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 22:08:45","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 22:08:46","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 22:08:46","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 22:08:46","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-17-2026 22:08:46","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 22:08:46","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 22:11:29","data":{"socketId":"TQ5ZOdvmtcvP5tB2AAAA","userId":"e2e-realtime-admin","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 22:11:29","data":{"socketId":"R6TPznPdhiWSHoSRAAAB","userId":"e2e-realtime-admin","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-17-2026 22:30:42","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 22:34:07","data":{"socketId":"RNrq1SKfB4hmkj28AAAC","userId":"audit-ws","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-17-2026 23:02:58","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-17-2026 23:03:17","data":{"socketId":"aeQQDQwuzRUw3JTYAAAD","userId":"verify-ws","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-17-2026 23:49:15","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 23:49:16","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 23:49:17","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 23:49:17","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 23:49:17","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-17-2026 23:49:17","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 23:49:17","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-17-2026 23:53:39","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-17-2026 23:53:40","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-17-2026 23:53:41","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-17-2026 23:53:41","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-17-2026 23:53:41","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-17-2026 23:53:41","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-17-2026 23:53:41","data":{}}

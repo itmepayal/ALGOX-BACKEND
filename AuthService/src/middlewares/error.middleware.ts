@@ -24,10 +24,16 @@ export const errorHandler: ErrorRequestHandler = (
 
   if (err instanceof AppError) {
     logger.warn(`[AppError] ${err.name} (${err.statusCode}): ${err.message}`);
+    const details = err.details;
+    const code =
+      details && typeof details === "object" && "code" in details
+        ? (details as { code?: string }).code
+        : undefined;
     res.status(err.statusCode).json({
       success: false,
       message: err.message,
-      ...(err.details && { details: err.details }),
+      ...(code ? { code } : {}),
+      ...(details && { details }),
     });
     return;
   }

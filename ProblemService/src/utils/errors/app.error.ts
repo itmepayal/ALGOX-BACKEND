@@ -65,6 +65,23 @@ export class ConflictError extends AppError {
   }
 }
 
+export class TooManyRequestsError extends AppError {
+  statusCode = 429;
+  constructor(message: string = "Too Many Requests", details?: any) {
+    super(message, details);
+    this.name = "TooManyRequestsError";
+  }
+}
+
+/** Dependency / external provider not ready (e.g. AI LLM). */
+export class ServiceUnavailableError extends AppError {
+  statusCode = 503;
+  constructor(message: string = "Service Unavailable", details?: any) {
+    super(message, details);
+    this.name = "ServiceUnavailableError";
+  }
+}
+
 export class NotImplementedError extends AppError {
   statusCode = 501;
   constructor(message: string = "Not Implemented", details?: any) {

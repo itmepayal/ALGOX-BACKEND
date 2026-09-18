@@ -36,7 +36,7 @@ ingestRouter.post(
   (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const secret =
       req.headers["x-realtime-secret"] || req.headers["x-internal-secret"];
-    const configured = serverConfig.INTERNAL_SECRET;
+    const configured = serverConfig.INTERNAL_SERVICE_SECRET;
     if (!configured) {
       return next(
         new BadRequestError(
@@ -89,8 +89,10 @@ ingestRouter.post(
       try {
         const io = getIO();
         const data = { userId, status, ...(payload || {}) };
+        // Targeted room (user/contest/…) when provided.
         if (room) io.to(room).emit(event, data);
-        else io.to("admin:realtime").emit(event, data);
+        // Always mirror ingest to admin monitor so Live Submissions / Event Stream see it.
+        io.to("admin:realtime").emit(event, data);
       } catch {
         // Socket not ready — event still buffered for admin stream
       }

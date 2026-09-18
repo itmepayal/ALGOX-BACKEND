@@ -1,0 +1,5083 @@
+{
+  "generatedAt": "2026-09-18T16:09:02.442Z",
+  "counts": {
+    "backendRoutes": 354,
+    "clientAsyncMethods": 297,
+    "clientUsed": 284,
+    "clientLegitimatelyUnused": 13,
+    "clientBroken": 0,
+    "backendUsed": 307,
+    "backendLegitimatelyUnused": 44,
+    "backendMissingConsumer": 3,
+    "backendMissingConsumerAdmin": 1,
+    "backendMissingConsumerUser": 2,
+    "duplicateClientPaths": 2,
+    "duplicateBackendPaths": 5,
+    "obsolete": 0
+  },
+  "clientCategories": {
+    "USED": 284,
+    "LEGITIMATELY UNUSED": 13
+  },
+  "backendCategories": {
+    "LEGITIMATELY UNUSED": 44,
+    "USED": 307,
+    "MISSING CONSUMER": 3
+  },
+  "broken": [],
+  "unusedClient": [
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "updateSection",
+      "line": 178,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/sections/:param",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderSections",
+      "line": 196,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/:param/sections/reorder",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "updateTopic",
+      "line": 218,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/topics/:param",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderTopics",
+      "line": 236,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/sections/:param/topics/reorder",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "bulkAttachProblems",
+      "line": 258,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems/bulk",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderProblems",
+      "line": 269,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems/reorder",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "listMyStudyPlanProgress",
+      "line": 209,
+      "method": "GET",
+      "fullPath": "/api/v1/content/study-plans/progress/me",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "toggleFavorite",
+      "line": 197,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/favourite/toggle",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "addRevision",
+      "line": 287,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/revision",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "removeRevision",
+      "line": 294,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param/revision",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByUserId",
+      "line": 105,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/user/:param",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByStatus",
+      "line": 125,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/status/:param",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByLanguage",
+      "line": 130,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/language/:param",
+      "matchStatus": "MATCH",
+      "consumerCount": 0,
+      "consumers": [],
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    }
+  ],
+  "missingConsumerAdmin": [
+    {
+      "service": "ContentService",
+      "method": "PATCH",
+      "path": "/api/v1/content/admin/companies/:id/questions/:questionId",
+      "file": "server/ContentService/src/routers/v1/content.router.ts",
+      "line": 167,
+      "reason": "Admin route with no matching client API method"
+    }
+  ],
+  "missingConsumerUser": [
+    {
+      "service": "AuthService",
+      "method": "GET",
+      "path": "/api/v1/auth/subscription/history",
+      "file": "server/AuthService/src/routers/v1/auth.router.ts",
+      "line": 86,
+      "reason": "Public/user route with no matching client API method"
+    },
+    {
+      "service": "ProblemService",
+      "method": "GET",
+      "path": "/api/v1/challenges/badges",
+      "file": "server/ProblemService/src/routers/v1/challenge.router.ts",
+      "line": 64,
+      "reason": "Public/user route with no matching client API method"
+    }
+  ],
+  "duplicates": {
+    "dupClients": [
+      {
+        "key": "GET /api/v1/challenges/date/:param",
+        "methods": [
+          "client/src/api/adminChallengeApi.ts::getByDate",
+          "client/src/api/challengeApi.ts::getByDate"
+        ]
+      },
+      {
+        "key": "DELETE /api/v1/submissions/:param",
+        "methods": [
+          "client/src/api/adminSubmissionApi.ts::remove",
+          "client/src/api/submissionApi.ts::deleteSubmission"
+        ]
+      }
+    ],
+    "dupBackend": [
+      {
+        "key": "GET /api/v2/health",
+        "routes": [
+          "AuthService:server/AuthService/src/routers/v1/index.router.ts:13",
+          "ProblemService:server/ProblemService/src/routers/v1/index.router.ts:28",
+          "SubmissionService:server/SubmissionService/src/routers/v1/index.router.ts:17",
+          "EvaluationService:server/EvaluationService/src/routers/v1/index.router.ts:17"
+        ]
+      },
+      {
+        "key": "POST /api/v2/internal/feature-flags/invalidate",
+        "routes": [
+          "ProblemService:server/ProblemService/src/routers/v1/index.router.ts:37",
+          "SubmissionService:server/SubmissionService/src/routers/v1/index.router.ts:76",
+          "EvaluationService:server/EvaluationService/src/routers/v1/index.router.ts:78"
+        ]
+      },
+      {
+        "key": "GET /api/v1/health",
+        "routes": [
+          "LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:11",
+          "AnalyticsService:server/AnalyticsService/src/server.ts:65",
+          "DiscussionService:server/DiscussionService/src/server.ts:69",
+          "ContentService:server/ContentService/src/server.ts:73",
+          "RealtimeService:server/RealtimeService/src/server.ts:74"
+        ]
+      },
+      {
+        "key": "POST /api/v1/internal/feature-flags/invalidate",
+        "routes": [
+          "LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:20",
+          "AnalyticsService:server/AnalyticsService/src/server.ts:73",
+          "DiscussionService:server/DiscussionService/src/server.ts:73",
+          "ContentService:server/ContentService/src/server.ts:82",
+          "RealtimeService:server/RealtimeService/src/server.ts:89"
+        ]
+      },
+      {
+        "key": "GET /health",
+        "routes": [
+          "EvaluationService:server/EvaluationService/src/server.ts:72",
+          "DiscussionService:server/DiscussionService/src/server.ts:65",
+          "ContentService:server/ContentService/src/server.ts:65",
+          "RealtimeService:server/RealtimeService/src/server.ts:49"
+        ]
+      }
+    ]
+  },
+  "clientAll": [
+    {
+      "file": "client/src/api/adminAnalyticsApi.ts",
+      "name": "loadDashboard",
+      "line": 199,
+      "method": null,
+      "matchStatus": "NO_HTTP",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/admin/analytics/AnalyticsPage.tsx",
+        "client/src/components/admin/analytics/UserLanguageAnalyticsPages.tsx",
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx"
+      ],
+      "matchedBackend": null,
+      "reason": "No HTTP call in method body (helper/wrapper)"
+    },
+    {
+      "file": "client/src/api/adminAnalyticsApi.ts",
+      "name": "executionHealth",
+      "line": 264,
+      "method": "GET",
+      "fullPath": "/api/v1/:param/health",
+      "matchStatus": "MATCH_PARTIAL",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/health/SystemHealthPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v2/health",
+      "reason": "Matched GET /api/v2/health"
+    },
+    {
+      "file": "client/src/api/adminAnalyticsApi.ts",
+      "name": "topUsers",
+      "line": 279,
+      "method": "GET",
+      "fullPath": "/api/v1/:param/leaderboard/",
+      "matchStatus": "MATCH_PARTIAL",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/contests/:contestId/leaderboard",
+      "reason": "Matched GET /api/v1/admin/contests/:contestId/leaderboard"
+    },
+    {
+      "file": "client/src/api/adminAnalyticsApi.ts",
+      "name": "pingHealth",
+      "line": 290,
+      "method": null,
+      "matchStatus": "NO_HTTP",
+      "category": "USED",
+      "consumerCount": 6,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/health/SystemHealthPage.tsx"
+      ],
+      "matchedBackend": null,
+      "reason": "No HTTP call in method body (helper/wrapper)"
+    },
+    {
+      "file": "client/src/api/adminAnalyticsApi.ts",
+      "name": "pingHealthDetailed",
+      "line": 307,
+      "method": null,
+      "matchStatus": "NO_HTTP",
+      "category": "USED",
+      "consumerCount": 6,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/health/SystemHealthPage.tsx"
+      ],
+      "matchedBackend": null,
+      "reason": "No HTTP call in method body (helper/wrapper)"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "list",
+      "line": 32,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/announcements",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 203,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/announcements",
+      "reason": "Matched GET /api/v1/auth/admin/announcements"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "create",
+      "line": 41,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/announcements",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 229,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/announcements",
+      "reason": "Matched POST /api/v1/auth/admin/announcements"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "update",
+      "line": 46,
+      "method": "PATCH",
+      "fullPath": "/api/v1/auth/admin/announcements/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 186,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService PATCH /api/v1/auth/admin/announcements/:id",
+      "reason": "Matched PATCH /api/v1/auth/admin/announcements/:id"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "publish",
+      "line": 54,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/announcements/:param/publish",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 124,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx",
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/announcements/:id/publish",
+      "reason": "Matched POST /api/v1/auth/admin/announcements/:id/publish"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "schedule",
+      "line": 61,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/announcements/:param/schedule",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 68,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/contests/ContestListPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/announcements/:id/schedule",
+      "reason": "Matched POST /api/v1/auth/admin/announcements/:id/schedule"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "expire",
+      "line": 69,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/announcements/:param/expire",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 14,
+      "consumers": [
+        "client/src/access/accessModel.ts",
+        "client/src/components/admin/ops/AnnouncementsAdminPage.tsx",
+        "client/src/components/admin/ops/OpsPlaceholderPages.tsx",
+        "client/src/components/admin/shared/StatusBadge.tsx",
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/announcements/:id/expire",
+      "reason": "Matched POST /api/v1/auth/admin/announcements/:id/expire"
+    },
+    {
+      "file": "client/src/api/adminAnnouncementApi.ts",
+      "name": "archive",
+      "line": 74,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/announcements/:param/archive",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 36,
+      "consumers": [
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/contests/ContestListPage.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/learning/LearningAdminPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/announcements/:id/archive",
+      "reason": "Matched POST /api/v1/auth/admin/announcements/:id/archive"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "getMyPermissions",
+      "line": 113,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/me/permissions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/admin/roles/RolesPermissionsPage.tsx",
+        "client/src/context/AuthContext.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/me/permissions",
+      "reason": "Matched GET /api/v1/auth/admin/me/permissions"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "getRoleMatrix",
+      "line": 121,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/roles/matrix",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/roles/RolesPermissionsPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/roles/matrix",
+      "reason": "Matched GET /api/v1/auth/admin/roles/matrix"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "updateRolePermissions",
+      "line": 137,
+      "method": "PUT",
+      "fullPath": "/api/v1/auth/admin/roles/:param/permissions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/roles/RolesPermissionsPage.tsx"
+      ],
+      "matchedBackend": "AuthService PUT /api/v1/auth/admin/roles/:role/permissions",
+      "reason": "Matched PUT /api/v1/auth/admin/roles/:role/permissions"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "resetRolePermissions",
+      "line": 147,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/roles/:param/reset",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/roles/RolesPermissionsPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/roles/:role/reset",
+      "reason": "Matched POST /api/v1/auth/admin/roles/:role/reset"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listUsers",
+      "line": 155,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/users",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/shared/CommandPalette.tsx",
+        "client/src/components/admin/users/UserListPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/users",
+      "reason": "Matched GET /api/v1/auth/admin/users"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "getUser",
+      "line": 166,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/users/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/users/:id",
+      "reason": "Matched GET /api/v1/auth/admin/users/:id"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "createUser",
+      "line": 171,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/users",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserCreatePage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/users",
+      "reason": "Matched POST /api/v1/auth/admin/users"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "deleteUser",
+      "line": 185,
+      "method": "DELETE",
+      "fullPath": "/api/v1/auth/admin/users/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService DELETE /api/v1/auth/admin/users/:id",
+      "reason": "Matched DELETE /api/v1/auth/admin/users/:id"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "resetPassword",
+      "line": 190,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/users/:param/reset-password",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/users/:id/reset-password",
+      "reason": "Matched POST /api/v1/auth/admin/users/:id/reset-password"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "getUserActivity",
+      "line": 200,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/users/:param/activity",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/users/:id/activity",
+      "reason": "Matched GET /api/v1/auth/admin/users/:id/activity"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "getUserProgress",
+      "line": 214,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/users/:param/progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/users/:id/progress",
+      "reason": "Matched GET /api/v1/auth/admin/users/:id/progress"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listUserSessions",
+      "line": 219,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/users/:param/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/users/:id/sessions",
+      "reason": "Matched GET /api/v1/auth/admin/users/:id/sessions"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listPlatformActivity",
+      "line": 224,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/activity",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/OpsPlaceholderPages.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/activity",
+      "reason": "Matched GET /api/v1/auth/admin/activity"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listPlatformSessions",
+      "line": 233,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/OpsPlaceholderPages.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/sessions",
+      "reason": "Matched GET /api/v1/auth/admin/sessions"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listPlatformProgress",
+      "line": 242,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/OpsPlaceholderPages.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/progress",
+      "reason": "Matched GET /api/v1/auth/admin/progress"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "revokeUserSession",
+      "line": 255,
+      "method": "DELETE",
+      "fullPath": "/api/v1/auth/admin/users/:param/sessions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/ops/OpsPlaceholderPages.tsx",
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService DELETE /api/v1/auth/admin/users/:id/sessions/:sessionId",
+      "reason": "Matched DELETE /api/v1/auth/admin/users/:id/sessions/:sessionId"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "revokeAllUserSessions",
+      "line": 262,
+      "method": "DELETE",
+      "fullPath": "/api/v1/auth/admin/users/:param/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService DELETE /api/v1/auth/admin/users/:id/sessions",
+      "reason": "Matched DELETE /api/v1/auth/admin/users/:id/sessions"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "updateRole",
+      "line": 267,
+      "method": "PATCH",
+      "fullPath": "/api/v1/auth/admin/users/:param/role",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/roles/RolesPermissionsPage.tsx",
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService PATCH /api/v1/auth/admin/users/:id/role",
+      "reason": "Matched PATCH /api/v1/auth/admin/users/:id/role"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "updateStatus",
+      "line": 272,
+      "method": "PATCH",
+      "fullPath": "/api/v1/auth/admin/users/:param/status",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService PATCH /api/v1/auth/admin/users/:id/status",
+      "reason": "Matched PATCH /api/v1/auth/admin/users/:id/status"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "updateSubscription",
+      "line": 279,
+      "method": "PATCH",
+      "fullPath": "/api/v1/auth/admin/users/:param/subscription",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService PATCH /api/v1/auth/admin/users/:id/subscription",
+      "reason": "Matched PATCH /api/v1/auth/admin/users/:id/subscription"
+    },
+    {
+      "file": "client/src/api/adminAuthApi.ts",
+      "name": "listAuditLogs",
+      "line": 303,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/audit-logs",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/audit/AuditLogPage.tsx",
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/audit-logs",
+      "reason": "Matched GET /api/v1/auth/admin/audit-logs"
+    },
+    {
+      "file": "client/src/api/adminChallengeApi.ts",
+      "name": "getByDate",
+      "line": 20,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/date/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/date/:dateKey",
+      "reason": "Matched GET /api/v1/challenges/date/:dateKey"
+    },
+    {
+      "file": "client/src/api/adminChallengeApi.ts",
+      "name": "upsert",
+      "line": 27,
+      "method": "PUT",
+      "fullPath": "/api/v1/challenges/admin/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 6,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/admin/content/ContentAdminPage.tsx",
+        "client/src/components/admin/realtime/RealtimeCenterPage.tsx"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/challenges/admin/:dateKey",
+      "reason": "Matched PUT /api/v1/challenges/admin/:dateKey"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listArticles",
+      "line": 9,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/articles",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/articles",
+      "reason": "Matched GET /api/v1/content/admin/articles"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "createArticle",
+      "line": 13,
+      "method": "POST",
+      "fullPath": "/api/v1/content/articles",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/articles",
+      "reason": "Matched POST /api/v1/content/articles"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "updateArticle",
+      "line": 17,
+      "method": "PATCH",
+      "fullPath": "/api/v1/content/admin/articles/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService PATCH /api/v1/content/admin/articles/:id",
+      "reason": "Matched PATCH /api/v1/content/admin/articles/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteArticle",
+      "line": 21,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/articles/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/articles/:id",
+      "reason": "Matched DELETE /api/v1/content/admin/articles/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listStudyPlans",
+      "line": 25,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/study-plans",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/admin/content/StudyPlansAdminPage.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/study-plans",
+      "reason": "Matched GET /api/v1/content/admin/study-plans"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "createStudyPlan",
+      "line": 29,
+      "method": "POST",
+      "fullPath": "/api/v1/content/study-plans",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/StudyPlansAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/study-plans",
+      "reason": "Matched POST /api/v1/content/study-plans"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "updateStudyPlan",
+      "line": 33,
+      "method": "PATCH",
+      "fullPath": "/api/v1/content/admin/study-plans/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/StudyPlansAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService PATCH /api/v1/content/admin/study-plans/:id",
+      "reason": "Matched PATCH /api/v1/content/admin/study-plans/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteStudyPlan",
+      "line": 40,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/study-plans/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/StudyPlansAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/study-plans/:id",
+      "reason": "Matched DELETE /api/v1/content/admin/study-plans/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listEditorials",
+      "line": 44,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/editorials",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ContentAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/editorials",
+      "reason": "Matched GET /api/v1/content/admin/editorials"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "upsertEditorial",
+      "line": 48,
+      "method": "POST",
+      "fullPath": "/api/v1/content/editorials",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ContentAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/editorials",
+      "reason": "Matched POST /api/v1/content/editorials"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteEditorial",
+      "line": 52,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/editorials/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ContentAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/editorials/:id",
+      "reason": "Matched DELETE /api/v1/content/admin/editorials/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listNotes",
+      "line": 56,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/notes",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/ContentAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/notes",
+      "reason": "Matched GET /api/v1/content/admin/notes"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteNote",
+      "line": 60,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/notes/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/admin/content/ContentAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/notes/:id",
+      "reason": "Matched DELETE /api/v1/content/admin/notes/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listCompanies",
+      "line": 66,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/companies",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/companies",
+      "reason": "Matched GET /api/v1/content/admin/companies"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "createCompany",
+      "line": 70,
+      "method": "POST",
+      "fullPath": "/api/v1/content/admin/companies",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/admin/companies",
+      "reason": "Matched POST /api/v1/content/admin/companies"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "updateCompany",
+      "line": 74,
+      "method": "PATCH",
+      "fullPath": "/api/v1/content/admin/companies/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService PATCH /api/v1/content/admin/companies/:id",
+      "reason": "Matched PATCH /api/v1/content/admin/companies/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteCompany",
+      "line": 81,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/companies/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/companies/:id",
+      "reason": "Matched DELETE /api/v1/content/admin/companies/:id"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "listCompanyQuestions",
+      "line": 85,
+      "method": "GET",
+      "fullPath": "/api/v1/content/admin/companies/:param/questions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/admin/companies/:id/questions",
+      "reason": "Matched GET /api/v1/content/admin/companies/:id/questions"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "createCompanyQuestion",
+      "line": 95,
+      "method": "POST",
+      "fullPath": "/api/v1/content/admin/companies/:param/questions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/admin/companies/:id/questions",
+      "reason": "Matched POST /api/v1/content/admin/companies/:id/questions"
+    },
+    {
+      "file": "client/src/api/adminContentApi.ts",
+      "name": "deleteCompanyQuestion",
+      "line": 105,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/admin/companies/:param/questions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/admin/companies/:id/questions/:questionId",
+      "reason": "Matched DELETE /api/v1/content/admin/companies/:id/questions/:questionId"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "list",
+      "line": 65,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/contests",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 198,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/contests/",
+      "reason": "Matched GET /api/v1/admin/contests/"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "get",
+      "line": 72,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/contests/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 747,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/AuthModal.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/contests/:contestId",
+      "reason": "Matched GET /api/v1/admin/contests/:contestId"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "create",
+      "line": 77,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 225,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/",
+      "reason": "Matched POST /api/v1/admin/contests/"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "update",
+      "line": 91,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/contests/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 188,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/contests/:contestId",
+      "reason": "Matched PATCH /api/v1/admin/contests/:contestId"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "remove",
+      "line": 106,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/contests/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 72,
+      "consumers": [
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/EditorSettingsPopover.tsx",
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/contests/:contestId",
+      "reason": "Matched DELETE /api/v1/admin/contests/:contestId"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "publish",
+      "line": 111,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/publish",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 138,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx",
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/publish",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/publish"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "schedule",
+      "line": 116,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/schedule",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 76,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/contests/ContestListPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/schedule",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/schedule"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "start",
+      "line": 121,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/start",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 143,
+      "consumers": [
+        "client/src/App.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/start",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/start"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "end",
+      "line": 126,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/end",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 713,
+      "consumers": [
+        "client/src/App.tsx",
+        "client/src/access/accessModel.ts",
+        "client/src/access/canAccess.ts",
+        "client/src/access/features.ts",
+        "client/src/components/ActiveStudySessionBar.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/end",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/end"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "archive",
+      "line": 131,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/archive",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 33,
+      "consumers": [
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/contests/ContestListPage.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/learning/LearningAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/archive",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/archive"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "addProblem",
+      "line": 136,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/contests/:param/problems",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/contests/ContestDetailPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/contests/:contestId/problems",
+      "reason": "Matched POST /api/v1/admin/contests/:contestId/problems"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "removeProblem",
+      "line": 147,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/contests/:param/problems/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/contests/:contestId/problems/:problemId",
+      "reason": "Matched DELETE /api/v1/admin/contests/:contestId/problems/:problemId"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "listParticipants",
+      "line": 154,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/contests/:param/participants",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/contests/ContestDetailPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/contests/:contestId/participants",
+      "reason": "Matched GET /api/v1/admin/contests/:contestId/participants"
+    },
+    {
+      "file": "client/src/api/adminContestApi.ts",
+      "name": "leaderboard",
+      "line": 161,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/contests/:param/leaderboard",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 75,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/LeaderboardPanel.tsx",
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/AdminShell.tsx",
+        "client/src/components/admin/adminLazy.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/contests/:contestId/leaderboard",
+      "reason": "Matched GET /api/v1/admin/contests/:contestId/leaderboard"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "listPosts",
+      "line": 39,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/admin/posts",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx",
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/admin/posts",
+      "reason": "Matched GET /api/v1/discussions/admin/posts"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "moderate",
+      "line": 47,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/posts/:param/moderate",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx",
+        "client/src/rbac/permissions.ts"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/posts/:id/moderate",
+      "reason": "Matched POST /api/v1/discussions/admin/posts/:id/moderate"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "listReports",
+      "line": 57,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/admin/reports",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/admin/reports",
+      "reason": "Matched GET /api/v1/discussions/admin/reports"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "getReport",
+      "line": 66,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/admin/reports/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/admin/reports/:id",
+      "reason": "Matched GET /api/v1/discussions/admin/reports/:id"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "assignReport",
+      "line": 72,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/reports/:param/assign",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/reports/:id/assign",
+      "reason": "Matched POST /api/v1/discussions/admin/reports/:id/assign"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "reviewReport",
+      "line": 80,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/reports/:param/review",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/reports/:id/review",
+      "reason": "Matched POST /api/v1/discussions/admin/reports/:id/review"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "resolveReport",
+      "line": 85,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/reports/:param/resolve",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/reports/:id/resolve",
+      "reason": "Matched POST /api/v1/discussions/admin/reports/:id/resolve"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "dismissReport",
+      "line": 92,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/reports/:param/dismiss",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/reports/:id/dismiss",
+      "reason": "Matched POST /api/v1/discussions/admin/reports/:id/dismiss"
+    },
+    {
+      "file": "client/src/api/adminDiscussionApi.ts",
+      "name": "reopenReport",
+      "line": 99,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/admin/reports/:param/reopen",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/admin/reports/:id/reopen",
+      "reason": "Matched POST /api/v1/discussions/admin/reports/:id/reopen"
+    },
+    {
+      "file": "client/src/api/adminLeaderboardApi.ts",
+      "name": "rebuild",
+      "line": 9,
+      "method": "POST",
+      "fullPath": "/api/v1/leaderboard/admin/rebuild",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "LeaderboardService POST /api/v1/leaderboard/admin/rebuild",
+      "reason": "Matched POST /api/v1/leaderboard/admin/rebuild"
+    },
+    {
+      "file": "client/src/api/adminLeaderboardApi.ts",
+      "name": "resetUser",
+      "line": 13,
+      "method": "POST",
+      "fullPath": "/api/v1/leaderboard/admin/reset-user/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "LeaderboardService POST /api/v1/leaderboard/admin/reset-user/:userId",
+      "reason": "Matched POST /api/v1/leaderboard/admin/reset-user/:userId"
+    },
+    {
+      "file": "client/src/api/adminLeaderboardApi.ts",
+      "name": "suspendEntry",
+      "line": 19,
+      "method": "POST",
+      "fullPath": "/api/v1/leaderboard/admin/suspend-entry/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "LeaderboardService POST /api/v1/leaderboard/admin/suspend-entry/:userId",
+      "reason": "Matched POST /api/v1/leaderboard/admin/suspend-entry/:userId"
+    },
+    {
+      "file": "client/src/api/adminLeaderboardApi.ts",
+      "name": "listAudit",
+      "line": 30,
+      "method": "GET",
+      "fullPath": "/api/v1/leaderboard/admin/audit",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/admin/audit/AuditLogPage.tsx",
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "LeaderboardService GET /api/v1/leaderboard/admin/audit",
+      "reason": "Matched GET /api/v1/leaderboard/admin/audit"
+    },
+    {
+      "file": "client/src/api/adminLearningApi.ts",
+      "name": "sheetProgress",
+      "line": 33,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/learning/sheet-progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 18,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/admin/learning/LearningAdminPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/learning/sheet-progress",
+      "reason": "Matched GET /api/v1/admin/learning/sheet-progress"
+    },
+    {
+      "file": "client/src/api/adminLearningApi.ts",
+      "name": "topicEngagement",
+      "line": 37,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/learning/topic-engagement",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/LearningAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/learning/topic-engagement",
+      "reason": "Matched GET /api/v1/admin/learning/topic-engagement"
+    },
+    {
+      "file": "client/src/api/adminLearningApi.ts",
+      "name": "weakTopics",
+      "line": 41,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/learning/weak-topics",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/admin/learning/LearningAdminPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/learning/weak-topics",
+      "reason": "Matched GET /api/v1/admin/learning/weak-topics"
+    },
+    {
+      "file": "client/src/api/adminLearningApi.ts",
+      "name": "revisionSummary",
+      "line": 47,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/learning/revision-summary",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/LearningAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/learning/revision-summary",
+      "reason": "Matched GET /api/v1/admin/learning/revision-summary"
+    },
+    {
+      "file": "client/src/api/adminNotificationApi.ts",
+      "name": "list",
+      "line": 17,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/notifications",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 202,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/notifications",
+      "reason": "Matched GET /api/v1/auth/admin/notifications"
+    },
+    {
+      "file": "client/src/api/adminNotificationApi.ts",
+      "name": "create",
+      "line": 38,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/notifications",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 230,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/notifications",
+      "reason": "Matched POST /api/v1/auth/admin/notifications"
+    },
+    {
+      "file": "client/src/api/adminNotificationApi.ts",
+      "name": "remove",
+      "line": 62,
+      "method": "DELETE",
+      "fullPath": "/api/v1/auth/admin/notifications/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 73,
+      "consumers": [
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/EditorSettingsPopover.tsx",
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "AuthService DELETE /api/v1/auth/admin/notifications/:id",
+      "reason": "Matched DELETE /api/v1/auth/admin/notifications/:id"
+    },
+    {
+      "file": "client/src/api/adminNotificationApi.ts",
+      "name": "listCampaigns",
+      "line": 67,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/notifications/campaigns",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/notifications/NotificationsAdminPage.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/notifications/campaigns",
+      "reason": "Matched GET /api/v1/auth/admin/notifications/campaigns"
+    },
+    {
+      "file": "client/src/api/adminNotificationApi.ts",
+      "name": "cancelCampaign",
+      "line": 91,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/notifications/campaigns/:param/cancel",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/notifications/NotificationsAdminPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/notifications/campaigns/:id/cancel",
+      "reason": "Matched POST /api/v1/auth/admin/notifications/campaigns/:id/cancel"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "list",
+      "line": 14,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/admin/list",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 202,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/admin/list",
+      "reason": "Matched GET /api/v1/problems/admin/list"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "getById",
+      "line": 22,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/admin/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 9,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/admin/problems/ProblemAnalyticsPage.tsx",
+        "client/src/components/admin/problems/ProblemEditorPage.tsx",
+        "client/src/components/admin/problems/ProblemOpsPages.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/admin/:id",
+      "reason": "Matched GET /api/v1/problems/admin/:id"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "create",
+      "line": 29,
+      "method": "POST",
+      "fullPath": "/api/v1/problems",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 231,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/",
+      "reason": "Matched POST /api/v1/problems/"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "favouriteAnalytics",
+      "line": 37,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/admin/favourite-analytics",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/admin/favourite-analytics",
+      "reason": "Matched GET /api/v1/problems/admin/favourite-analytics"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "internalStats",
+      "line": 70,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/admin/internal-stats",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/admin/learning/LearningAdminPage.tsx",
+        "client/src/components/admin/submissions/SubmissionAnalyticsPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/admin/internal-stats",
+      "reason": "Matched GET /api/v1/problems/admin/internal-stats"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "lookupTitles",
+      "line": 92,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/admin/titles",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/admin/titles",
+      "reason": "Matched GET /api/v1/problems/admin/titles"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "update",
+      "line": 117,
+      "method": "PUT",
+      "fullPath": "/api/v1/problems/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 185,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/problems/:id",
+      "reason": "Matched PUT /api/v1/problems/:id"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "remove",
+      "line": 125,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 74,
+      "consumers": [
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/EditorSettingsPopover.tsx",
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/problems/:id",
+      "reason": "Matched DELETE /api/v1/problems/:id"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "setStatus",
+      "line": 130,
+      "method": "PATCH",
+      "fullPath": "/api/v1/problems/admin/:param/status",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 42,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/FavouritesPage.tsx",
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService PATCH /api/v1/problems/admin/:id/status",
+      "reason": "Matched PATCH /api/v1/problems/admin/:id/status"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "duplicate",
+      "line": 138,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/admin/:param/duplicate",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 6,
+      "consumers": [
+        "client/src/components/admin/problems/ProblemListPage.tsx",
+        "client/src/components/admin/problems/TestCaseManager.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx",
+        "client/src/realtime/socket.ts",
+        "client/src/utils/workspacePersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/admin/:id/duplicate",
+      "reason": "Matched POST /api/v1/problems/admin/:id/duplicate"
+    },
+    {
+      "file": "client/src/api/adminProblemApi.ts",
+      "name": "bulk",
+      "line": 145,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/admin/bulk",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 15,
+      "consumers": [
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/adminNav.tsx",
+        "client/src/components/admin/problems/ProblemListPage.tsx",
+        "client/src/components/admin/problems/TestCaseManager.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/admin/bulk",
+      "reason": "Matched POST /api/v1/problems/admin/bulk"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "overview",
+      "line": 16,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/overview",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 48,
+      "consumers": [
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/ProfilePanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/overview",
+      "reason": "Matched GET /api/v1/admin/realtime/overview"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "users",
+      "line": 20,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/users",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 175,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/AdminShell.tsx",
+        "client/src/components/admin/adminLazy.tsx",
+        "client/src/components/admin/adminNav.tsx"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/users",
+      "reason": "Matched GET /api/v1/admin/realtime/users"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "connections",
+      "line": 24,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/connections",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 12,
+      "consumers": [
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/adminNav.tsx",
+        "client/src/components/admin/dashboard/AdminDashboardHome.tsx",
+        "client/src/components/admin/realtime/RealtimeCenterPage.tsx",
+        "client/src/rbac/permissions.ts"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/connections",
+      "reason": "Matched GET /api/v1/admin/realtime/connections"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "rooms",
+      "line": 28,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/rooms",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 10,
+      "consumers": [
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/adminNav.tsx",
+        "client/src/components/admin/realtime/RealtimeCenterPage.tsx",
+        "client/src/rbac/permissions.ts"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/rooms",
+      "reason": "Matched GET /api/v1/admin/realtime/rooms"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "events",
+      "line": 32,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/events",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 47,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/AdminShell.tsx",
+        "client/src/components/admin/adminNav.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/events",
+      "reason": "Matched GET /api/v1/admin/realtime/events"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "analytics",
+      "line": 38,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/realtime/analytics",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 125,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "RealtimeService GET /api/v1/admin/realtime/analytics",
+      "reason": "Matched GET /api/v1/admin/realtime/analytics"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "broadcast",
+      "line": 42,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/realtime/broadcast",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 22,
+      "consumers": [
+        "client/src/components/SystemBroadcastListener.tsx",
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/components/admin/AdminShell.tsx",
+        "client/src/components/admin/adminNav.tsx",
+        "client/src/components/admin/notifications/NotificationsAdminPage.tsx"
+      ],
+      "matchedBackend": "RealtimeService POST /api/v1/admin/realtime/broadcast",
+      "reason": "Matched POST /api/v1/admin/realtime/broadcast"
+    },
+    {
+      "file": "client/src/api/adminRealtimeApi.ts",
+      "name": "disconnect",
+      "line": 53,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/realtime/connections/:param/disconnect",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 17,
+      "consumers": [
+        "client/src/components/MonacoCodeEditor.tsx",
+        "client/src/components/admin/realtime/RealtimeCenterPage.tsx",
+        "client/src/components/admin/shared/EventBadge.tsx",
+        "client/src/context/AuthContext.tsx",
+        "client/src/hooks/useOnlineUsers.ts"
+      ],
+      "matchedBackend": "RealtimeService POST /api/v1/admin/realtime/connections/:id/disconnect",
+      "reason": "Matched POST /api/v1/admin/realtime/connections/:id/disconnect"
+    },
+    {
+      "file": "client/src/api/adminSettingsApi.ts",
+      "name": "get",
+      "line": 82,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/admin/settings",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 736,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/AuthModal.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/admin/settings",
+      "reason": "Matched GET /api/v1/auth/admin/settings"
+    },
+    {
+      "file": "client/src/api/adminSettingsApi.ts",
+      "name": "update",
+      "line": 87,
+      "method": "PATCH",
+      "fullPath": "/api/v1/auth/admin/settings",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 185,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService PATCH /api/v1/auth/admin/settings",
+      "reason": "Matched PATCH /api/v1/auth/admin/settings"
+    },
+    {
+      "file": "client/src/api/adminSettingsApi.ts",
+      "name": "reset",
+      "line": 92,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/admin/settings/reset",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 105,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/FavouritesPage.tsx",
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/TimeTracker.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/admin/settings/reset",
+      "reason": "Matched POST /api/v1/auth/admin/settings/reset"
+    },
+    {
+      "file": "client/src/api/adminSettingsApi.ts",
+      "name": "getPublic",
+      "line": 97,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/public/settings",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/context/PlatformSettingsContext.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/public/settings",
+      "reason": "Matched GET /api/v1/auth/public/settings"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "list",
+      "line": 68,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/sheets",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 203,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/sheets/",
+      "reason": "Matched GET /api/v1/admin/sheets/"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "get",
+      "line": 82,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/sheets/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 731,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/AuthModal.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/sheets/:sheetId",
+      "reason": "Matched GET /api/v1/admin/sheets/:sheetId"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "preview",
+      "line": 87,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/sheets/:param/preview",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 61,
+      "consumers": [
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/admin/content/CompaniesAdminPage.tsx",
+        "client/src/components/admin/learning/SheetsAdminPage.tsx",
+        "client/src/components/admin/problems/ProblemBulkImportPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/admin/sheets/:sheetId/preview",
+      "reason": "Matched GET /api/v1/admin/sheets/:sheetId/preview"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "create",
+      "line": 96,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 224,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/",
+      "reason": "Matched POST /api/v1/admin/sheets/"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "update",
+      "line": 108,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 187,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/:sheetId",
+      "reason": "Matched PATCH /api/v1/admin/sheets/:sheetId"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "remove",
+      "line": 124,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/sheets/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 72,
+      "consumers": [
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/EditorSettingsPopover.tsx",
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/sheets/:sheetId",
+      "reason": "Matched DELETE /api/v1/admin/sheets/:sheetId"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "publish",
+      "line": 133,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/:param/publish",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 126,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx",
+        "client/src/components/admin/content/CompaniesAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/:sheetId/publish",
+      "reason": "Matched POST /api/v1/admin/sheets/:sheetId/publish"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "archive",
+      "line": 140,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/:param/archive",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 29,
+      "consumers": [
+        "client/src/components/admin/content/ArticleStatusBadge.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/contests/ContestListPage.tsx",
+        "client/src/components/admin/execution/CodeExecutionPage.tsx",
+        "client/src/components/admin/learning/LearningAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/:sheetId/archive",
+      "reason": "Matched POST /api/v1/admin/sheets/:sheetId/archive"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "syncFromCatalog",
+      "line": 148,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/:param/sync-from-catalog",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/:sheetId/sync-from-catalog",
+      "reason": "Matched POST /api/v1/admin/sheets/:sheetId/sync-from-catalog"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "createSection",
+      "line": 167,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/:param/sections",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/:sheetId/sections",
+      "reason": "Matched POST /api/v1/admin/sheets/:sheetId/sections"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "updateSection",
+      "line": 178,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/sections/:param",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/sections/:sectionId",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "deleteSection",
+      "line": 189,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/sheets/sections/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/sheets/sections/:sectionId",
+      "reason": "Matched DELETE /api/v1/admin/sheets/sections/:sectionId"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderSections",
+      "line": 196,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/:param/sections/reorder",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/:sheetId/sections/reorder",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "createTopic",
+      "line": 207,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/sections/:param/topics",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/sections/:sectionId/topics",
+      "reason": "Matched POST /api/v1/admin/sheets/sections/:sectionId/topics"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "updateTopic",
+      "line": 218,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/topics/:param",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/topics/:topicId",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "deleteTopic",
+      "line": 229,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/sheets/topics/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/sheets/topics/:topicId",
+      "reason": "Matched DELETE /api/v1/admin/sheets/topics/:topicId"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderTopics",
+      "line": 236,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/sections/:param/topics/reorder",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/sections/:sectionId/topics/reorder",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "attachProblem",
+      "line": 247,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/topics/:topicId/problems",
+      "reason": "Matched POST /api/v1/admin/sheets/topics/:topicId/problems"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "bulkAttachProblems",
+      "line": 258,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems/bulk",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService POST /api/v1/admin/sheets/topics/:topicId/problems/bulk",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "reorderProblems",
+      "line": 269,
+      "method": "PATCH",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems/reorder",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService PATCH /api/v1/admin/sheets/topics/:topicId/problems/reorder",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/adminSheetApi.ts",
+      "name": "removeProblem",
+      "line": 280,
+      "method": "DELETE",
+      "fullPath": "/api/v1/admin/sheets/topics/:param/problems/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/learning/SheetsAdminPage.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/admin/sheets/topics/:topicId/problems/:problemId",
+      "reason": "Matched DELETE /api/v1/admin/sheets/topics/:topicId/problems/:problemId"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "list",
+      "line": 14,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/admin/list",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 190,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/admin/list",
+      "reason": "Matched GET /api/v1/submissions/admin/list"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "listFailed",
+      "line": 25,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/admin/failed",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/submissions/FailedExecutionsPage.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/admin/failed",
+      "reason": "Matched GET /api/v1/submissions/admin/failed"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "internalStats",
+      "line": 36,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/admin/internal-stats",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/admin/learning/LearningAdminPage.tsx",
+        "client/src/components/admin/submissions/SubmissionAnalyticsPage.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/admin/internal-stats",
+      "reason": "Matched GET /api/v1/submissions/admin/internal-stats"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "problemStats",
+      "line": 44,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/admin/problem-stats/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/admin/problems/ProblemAnalyticsPage.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/admin/problem-stats/:problemId",
+      "reason": "Matched GET /api/v1/submissions/admin/problem-stats/:problemId"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "getById",
+      "line": 52,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/admin/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 9,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/admin/problems/ProblemAnalyticsPage.tsx",
+        "client/src/components/admin/problems/ProblemEditorPage.tsx",
+        "client/src/components/admin/problems/ProblemOpsPages.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/admin/:id",
+      "reason": "Matched GET /api/v1/submissions/admin/:id"
+    },
+    {
+      "file": "client/src/api/adminSubmissionApi.ts",
+      "name": "remove",
+      "line": 57,
+      "method": "DELETE",
+      "fullPath": "/api/v1/submissions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 75,
+      "consumers": [
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/EditorSettingsPopover.tsx",
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "SubmissionService DELETE /api/v1/submissions/:id",
+      "reason": "Matched DELETE /api/v1/submissions/:id"
+    },
+    {
+      "file": "client/src/api/adminSuspiciousApi.ts",
+      "name": "list",
+      "line": 16,
+      "method": "GET",
+      "fullPath": "/api/v1/admin/suspicious-submissions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 203,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/admin/suspicious-submissions/",
+      "reason": "Matched GET /api/v1/admin/suspicious-submissions/"
+    },
+    {
+      "file": "client/src/api/adminSuspiciousApi.ts",
+      "name": "review",
+      "line": 25,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/suspicious-submissions/:param/review",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 193,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/ProfilePanel.tsx"
+      ],
+      "matchedBackend": "SubmissionService POST /api/v1/admin/suspicious-submissions/:id/review",
+      "reason": "Matched POST /api/v1/admin/suspicious-submissions/:id/review"
+    },
+    {
+      "file": "client/src/api/adminSuspiciousApi.ts",
+      "name": "confirm",
+      "line": 30,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/suspicious-submissions/:param/confirm",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 249,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/DiscussionsPanel.tsx",
+        "client/src/components/ImportProgressSection.tsx"
+      ],
+      "matchedBackend": "SubmissionService POST /api/v1/admin/suspicious-submissions/:id/confirm",
+      "reason": "Matched POST /api/v1/admin/suspicious-submissions/:id/confirm"
+    },
+    {
+      "file": "client/src/api/adminSuspiciousApi.ts",
+      "name": "dismiss",
+      "line": 37,
+      "method": "POST",
+      "fullPath": "/api/v1/admin/suspicious-submissions/:param/dismiss",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 25,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/SystemBroadcastListener.tsx",
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "SubmissionService POST /api/v1/admin/suspicious-submissions/:id/dismiss",
+      "reason": "Matched POST /api/v1/admin/suspicious-submissions/:id/dismiss"
+    },
+    {
+      "file": "client/src/api/aiApi.ts",
+      "name": "getUsage",
+      "line": 53,
+      "method": "GET",
+      "fullPath": "/api/v1/ai/usage",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/ai/usage",
+      "reason": "Matched GET /api/v1/ai/usage"
+    },
+    {
+      "file": "client/src/api/aiApi.ts",
+      "name": "getHistory",
+      "line": 60,
+      "method": "GET",
+      "fullPath": "/api/v1/ai/history",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/ai/history",
+      "reason": "Matched GET /api/v1/ai/history"
+    },
+    {
+      "file": "client/src/api/aiApi.ts",
+      "name": "assist",
+      "line": 75,
+      "method": "POST",
+      "fullPath": "/api/v1/ai/assist",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx",
+        "client/src/components/home/SubscriptionStatusBar.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/ai/assist",
+      "reason": "Matched POST /api/v1/ai/assist"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "signup",
+      "line": 52,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/signup",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 32,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/guest/GuestApp.tsx",
+        "client/src/components/guest/GuestHome.tsx",
+        "client/src/components/guest/GuestNavbar.tsx",
+        "client/src/components/guest/GuestPricing.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/signup",
+      "reason": "Matched POST /api/v1/auth/signup"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "signin",
+      "line": 59,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/login",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/context/AuthContext.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/login",
+      "reason": "Matched POST /api/v1/auth/login"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "verify2FA",
+      "line": 66,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/login/2fa",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/AuthModal.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/login/2fa",
+      "reason": "Matched POST /api/v1/auth/login/2fa"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "requestPasswordReset",
+      "line": 72,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/forgot-password",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/AuthModal.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/forgot-password",
+      "reason": "Matched POST /api/v1/auth/forgot-password"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "resetPassword",
+      "line": 77,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/reset-password",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/admin/users/UserDetailPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/reset-password",
+      "reason": "Matched POST /api/v1/auth/reset-password"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "toggle2FA",
+      "line": 83,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/2fa/toggle",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/2fa/toggle",
+      "reason": "Matched POST /api/v1/auth/2fa/toggle"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "changePassword",
+      "line": 89,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/change-password",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/change-password",
+      "reason": "Matched POST /api/v1/auth/change-password"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "sendEmailVerification",
+      "line": 95,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/email/send-verification",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProfilePanel.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/email/send-verification",
+      "reason": "Matched POST /api/v1/auth/email/send-verification"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "verifyEmailOtp",
+      "line": 101,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/email/verify",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProfilePanel.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/email/verify",
+      "reason": "Matched POST /api/v1/auth/email/verify"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "getActiveSessions",
+      "line": 106,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/sessions",
+      "reason": "Matched GET /api/v1/auth/sessions"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "revokeSession",
+      "line": 112,
+      "method": "DELETE",
+      "fullPath": "/api/v1/auth/sessions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService DELETE /api/v1/auth/sessions/:sessionId",
+      "reason": "Matched DELETE /api/v1/auth/sessions/:sessionId"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "logoutAllSessions",
+      "line": 118,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/logout-all",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/logout-all",
+      "reason": "Matched POST /api/v1/auth/logout-all"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "getSecurityLogs",
+      "line": 124,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/security-logs",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/security-logs",
+      "reason": "Matched GET /api/v1/auth/security-logs"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "getProfile",
+      "line": 130,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx",
+        "client/src/components/home/SubscriptionStatusBar.tsx",
+        "client/src/context/AuthContext.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/me",
+      "reason": "Matched GET /api/v1/auth/me"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "updateProfile",
+      "line": 136,
+      "method": "PUT",
+      "fullPath": "/api/v1/auth/profile",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService PUT /api/v1/auth/profile",
+      "reason": "Matched PUT /api/v1/auth/profile"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "signout",
+      "line": 145,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/logout",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 9,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/admin/AdminApp.tsx",
+        "client/src/context/AuthContext.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/logout",
+      "reason": "Matched POST /api/v1/auth/logout"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "listNotifications",
+      "line": 154,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/notifications",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/NotificationBell.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/notifications",
+      "reason": "Matched GET /api/v1/auth/notifications"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "unreadNotificationCount",
+      "line": 166,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/notifications/unread-count",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/NotificationBell.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/notifications/unread-count",
+      "reason": "Matched GET /api/v1/auth/notifications/unread-count"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "markNotificationRead",
+      "line": 173,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/notifications/:param/read",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/NotificationBell.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/notifications/:id/read",
+      "reason": "Matched POST /api/v1/auth/notifications/:id/read"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "markAllNotificationsRead",
+      "line": 180,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/notifications/read-all",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/NotificationBell.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/notifications/read-all",
+      "reason": "Matched POST /api/v1/auth/notifications/read-all"
+    },
+    {
+      "file": "client/src/api/authApi.ts",
+      "name": "listAnnouncements",
+      "line": 187,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/announcements",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/AnnouncementBanner.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/announcements",
+      "reason": "Matched GET /api/v1/auth/announcements"
+    },
+    {
+      "file": "client/src/api/billingApi.ts",
+      "name": "getConfig",
+      "line": 16,
+      "method": "GET",
+      "fullPath": "/api/v1/auth/subscription/billing",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/home/PremiumPreparationSection.tsx",
+        "client/src/components/home/SubscriptionStatusBar.tsx"
+      ],
+      "matchedBackend": "AuthService GET /api/v1/auth/subscription/billing",
+      "reason": "Matched GET /api/v1/auth/subscription/billing"
+    },
+    {
+      "file": "client/src/api/billingApi.ts",
+      "name": "createCheckout",
+      "line": 24,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/subscription/checkout",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/companies/CompaniesPage.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx",
+        "client/src/components/home/SubscriptionStatusBar.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/subscription/checkout",
+      "reason": "Matched POST /api/v1/auth/subscription/checkout"
+    },
+    {
+      "file": "client/src/api/billingApi.ts",
+      "name": "cancel",
+      "line": 34,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/subscription/cancel",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 196,
+      "consumers": [
+        "client/src/access/accessModel.ts",
+        "client/src/components/AnnouncementBanner.tsx",
+        "client/src/components/ConfirmDialog.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/subscription/cancel",
+      "reason": "Matched POST /api/v1/auth/subscription/cancel"
+    },
+    {
+      "file": "client/src/api/billingApi.ts",
+      "name": "resume",
+      "line": 39,
+      "method": "POST",
+      "fullPath": "/api/v1/auth/subscription/resume",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 16,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/StudySessionsPanel.tsx",
+        "client/src/components/TimeTracker.tsx",
+        "client/src/components/admin/realtime/RealtimeCenterPage.tsx"
+      ],
+      "matchedBackend": "AuthService POST /api/v1/auth/subscription/resume",
+      "reason": "Matched POST /api/v1/auth/subscription/resume"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "getToday",
+      "line": 52,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/today",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/today",
+      "reason": "Matched GET /api/v1/challenges/today"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "getHistory",
+      "line": 59,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/history",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/history",
+      "reason": "Matched GET /api/v1/challenges/history"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "getByDate",
+      "line": 72,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/date/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/admin/challenges/ChallengesAdminPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/date/:dateKey",
+      "reason": "Matched GET /api/v1/challenges/date/:dateKey"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "complete",
+      "line": 83,
+      "method": "POST",
+      "fullPath": "/api/v1/challenges/complete",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 120,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/challenges/complete",
+      "reason": "Matched POST /api/v1/challenges/complete"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "getStreak",
+      "line": 95,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/streak",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/streak",
+      "reason": "Matched GET /api/v1/challenges/streak"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "setTimezone",
+      "line": 102,
+      "method": "PUT",
+      "fullPath": "/api/v1/challenges/streak/timezone",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/challenges/streak/timezone",
+      "reason": "Matched PUT /api/v1/challenges/streak/timezone"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "setGoals",
+      "line": 110,
+      "method": "PUT",
+      "fullPath": "/api/v1/challenges/streak/goals",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 7,
+      "consumers": [
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/challenges/streak/goals",
+      "reason": "Matched PUT /api/v1/challenges/streak/goals"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "useFreeze",
+      "line": 121,
+      "method": "POST",
+      "fullPath": "/api/v1/challenges/streak/freeze",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/challenges/streak/freeze",
+      "reason": "Matched POST /api/v1/challenges/streak/freeze"
+    },
+    {
+      "file": "client/src/api/challengeApi.ts",
+      "name": "getCalendar",
+      "line": 129,
+      "method": "GET",
+      "fullPath": "/api/v1/challenges/calendar",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/challenges/calendar",
+      "reason": "Matched GET /api/v1/challenges/calendar"
+    },
+    {
+      "file": "client/src/api/codeAnalysisApi.ts",
+      "name": "analyze",
+      "line": 28,
+      "method": "POST",
+      "fullPath": "/api/v1/code-analysis/analyze",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/PremiumEditorTools.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/code-analysis/analyze",
+      "reason": "Matched POST /api/v1/code-analysis/analyze"
+    },
+    {
+      "file": "client/src/api/companyApi.ts",
+      "name": "listDirectory",
+      "line": 52,
+      "method": "GET",
+      "fullPath": "/api/v1/content/companies",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/companies/CompaniesPage.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/companies",
+      "reason": "Matched GET /api/v1/content/companies"
+    },
+    {
+      "file": "client/src/api/companyApi.ts",
+      "name": "getCompanyPage",
+      "line": 71,
+      "method": "GET",
+      "fullPath": "/api/v1/content/companies/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/companies/CompaniesPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/companies/:slug",
+      "reason": "Matched GET /api/v1/content/companies/:slug"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "listArticles",
+      "line": 101,
+      "method": "GET",
+      "fullPath": "/api/v1/content/articles",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/admin/content/ArticlesAdminPage.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/articles",
+      "reason": "Matched GET /api/v1/content/articles"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "getArticleBySlug",
+      "line": 114,
+      "method": "GET",
+      "fullPath": "/api/v1/content/articles/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/articles/:slug",
+      "reason": "Matched GET /api/v1/content/articles/:slug"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "listStudyPlans",
+      "line": 119,
+      "method": "GET",
+      "fullPath": "/api/v1/content/study-plans",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/admin/content/StudyPlansAdminPage.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/study-plans",
+      "reason": "Matched GET /api/v1/content/study-plans"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "getStudyPlanBySlug",
+      "line": 128,
+      "method": "GET",
+      "fullPath": "/api/v1/content/study-plans/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/study-plans/:slug",
+      "reason": "Matched GET /api/v1/content/study-plans/:slug"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "enrollStudyPlan",
+      "line": 133,
+      "method": "POST",
+      "fullPath": "/api/v1/content/study-plans/:param/enroll",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/study-plans/:slug/enroll",
+      "reason": "Matched POST /api/v1/content/study-plans/:slug/enroll"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "markStudyPlanProblem",
+      "line": 138,
+      "method": "POST",
+      "fullPath": "/api/v1/content/study-plans/progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/study-plans/progress",
+      "reason": "Matched POST /api/v1/content/study-plans/progress"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "completeStudyPlan",
+      "line": 146,
+      "method": "POST",
+      "fullPath": "/api/v1/content/study-plans/:param/complete",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/study-plans/:slug/complete",
+      "reason": "Matched POST /api/v1/content/study-plans/:slug/complete"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "resumeStudyPlan",
+      "line": 151,
+      "method": "GET",
+      "fullPath": "/api/v1/content/study-plans/:param/resume",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContentLibraryPanel.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/study-plans/:slug/resume",
+      "reason": "Matched GET /api/v1/content/study-plans/:slug/resume"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "getEditorialByProblemId",
+      "line": 163,
+      "method": "GET",
+      "fullPath": "/api/v1/content/editorials/problem/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/editorials/problem/:problemId",
+      "reason": "Matched GET /api/v1/content/editorials/problem/:problemId"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "getProblemNote",
+      "line": 168,
+      "method": "GET",
+      "fullPath": "/api/v1/content/notes/:param/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/notes/:userId/:problemId",
+      "reason": "Matched GET /api/v1/content/notes/:userId/:problemId"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "listUserNotes",
+      "line": 173,
+      "method": "GET",
+      "fullPath": "/api/v1/content/notes/user/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ContentService GET /api/v1/content/notes/user/:userId",
+      "reason": "Matched GET /api/v1/content/notes/user/:userId"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "upsertProblemNote",
+      "line": 180,
+      "method": "POST",
+      "fullPath": "/api/v1/content/notes",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ContentService POST /api/v1/content/notes",
+      "reason": "Matched POST /api/v1/content/notes"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "deleteProblemNote",
+      "line": 198,
+      "method": "DELETE",
+      "fullPath": "/api/v1/content/notes/:param/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ContentService DELETE /api/v1/content/notes/:userId/:problemId",
+      "reason": "Matched DELETE /api/v1/content/notes/:userId/:problemId"
+    },
+    {
+      "file": "client/src/api/contentApi.ts",
+      "name": "listMyStudyPlanProgress",
+      "line": 209,
+      "method": "GET",
+      "fullPath": "/api/v1/content/study-plans/progress/me",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ContentService GET /api/v1/content/study-plans/progress/me",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/contestApi.ts",
+      "name": "listContests",
+      "line": 79,
+      "method": "GET",
+      "fullPath": "/api/v1/contests/",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/contests/",
+      "reason": "Matched GET /api/v1/contests/"
+    },
+    {
+      "file": "client/src/api/contestApi.ts",
+      "name": "getContestBySlug",
+      "line": 84,
+      "method": "GET",
+      "fullPath": "/api/v1/contests/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/contests/:slug",
+      "reason": "Matched GET /api/v1/contests/:slug"
+    },
+    {
+      "file": "client/src/api/contestApi.ts",
+      "name": "register",
+      "line": 89,
+      "method": "POST",
+      "fullPath": "/api/v1/contests/:param/register",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 25,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MonacoCodeEditor.tsx",
+        "client/src/components/admin/analytics/AnalyticsPage.tsx",
+        "client/src/components/admin/contests/ContestDetailPage.tsx",
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/contests/:slug/register",
+      "reason": "Matched POST /api/v1/contests/:slug/register"
+    },
+    {
+      "file": "client/src/api/contestApi.ts",
+      "name": "getLeaderboard",
+      "line": 94,
+      "method": "GET",
+      "fullPath": "/api/v1/contests/:param/leaderboard",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/LeaderboardPanel.tsx",
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/contests/:slug/leaderboard",
+      "reason": "Matched GET /api/v1/contests/:slug/leaderboard"
+    },
+    {
+      "file": "client/src/api/contestApi.ts",
+      "name": "getMySummary",
+      "line": 105,
+      "method": "GET",
+      "fullPath": "/api/v1/contests/me/summary",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/contests/me/summary",
+      "reason": "Matched GET /api/v1/contests/me/summary"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "listPosts",
+      "line": 35,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/posts",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx",
+        "client/src/components/admin/ops/DiscussionsReportsPages.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/posts",
+      "reason": "Matched GET /api/v1/discussions/posts"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "getPost",
+      "line": 43,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/posts/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/posts/:id",
+      "reason": "Matched GET /api/v1/discussions/posts/:id"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "getComments",
+      "line": 48,
+      "method": "GET",
+      "fullPath": "/api/v1/discussions/posts/:param/comments",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService GET /api/v1/discussions/posts/:id/comments",
+      "reason": "Matched GET /api/v1/discussions/posts/:id/comments"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "createPost",
+      "line": 53,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/posts",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/posts",
+      "reason": "Matched POST /api/v1/discussions/posts"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "updatePost",
+      "line": 58,
+      "method": "PATCH",
+      "fullPath": "/api/v1/discussions/posts/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService PATCH /api/v1/discussions/posts/:id",
+      "reason": "Matched PATCH /api/v1/discussions/posts/:id"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "deletePost",
+      "line": 66,
+      "method": "DELETE",
+      "fullPath": "/api/v1/discussions/posts/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService DELETE /api/v1/discussions/posts/:id",
+      "reason": "Matched DELETE /api/v1/discussions/posts/:id"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "votePost",
+      "line": 71,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/posts/:param/vote",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/posts/:id/vote",
+      "reason": "Matched POST /api/v1/discussions/posts/:id/vote"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "bookmarkPost",
+      "line": 76,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/posts/:param/bookmark",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/posts/:id/bookmark",
+      "reason": "Matched POST /api/v1/discussions/posts/:id/bookmark"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "addComment",
+      "line": 81,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/comments",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/comments",
+      "reason": "Matched POST /api/v1/discussions/comments"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "updateComment",
+      "line": 86,
+      "method": "PATCH",
+      "fullPath": "/api/v1/discussions/comments/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService PATCH /api/v1/discussions/comments/:id",
+      "reason": "Matched PATCH /api/v1/discussions/comments/:id"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "deleteComment",
+      "line": 91,
+      "method": "DELETE",
+      "fullPath": "/api/v1/discussions/comments/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService DELETE /api/v1/discussions/comments/:id",
+      "reason": "Matched DELETE /api/v1/discussions/comments/:id"
+    },
+    {
+      "file": "client/src/api/discussionApi.ts",
+      "name": "reportPost",
+      "line": 96,
+      "method": "POST",
+      "fullPath": "/api/v1/discussions/reports",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/DiscussionsPanel.tsx"
+      ],
+      "matchedBackend": "DiscussionService POST /api/v1/discussions/reports",
+      "reason": "Matched POST /api/v1/discussions/reports"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "getEngagement",
+      "line": 140,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/:param/engagement",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/:id/engagement",
+      "reason": "Matched GET /api/v1/problems/:id/engagement"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "setReaction",
+      "line": 147,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/reaction",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/reaction",
+      "reason": "Matched POST /api/v1/problems/:id/reaction"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "clearReaction",
+      "line": 155,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param/reaction",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/problems/:id/reaction",
+      "reason": "Matched DELETE /api/v1/problems/:id/reaction"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "addBookmark",
+      "line": 162,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/bookmark",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/bookmark",
+      "reason": "Matched POST /api/v1/problems/:id/bookmark"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "removeBookmark",
+      "line": 169,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param/bookmark",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/problems/:id/bookmark",
+      "reason": "Matched DELETE /api/v1/problems/:id/bookmark"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "toggleBookmark",
+      "line": 176,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/bookmark/toggle",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/utils/workspacePersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/bookmark/toggle",
+      "reason": "Matched POST /api/v1/problems/:id/bookmark/toggle"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "addFavorite",
+      "line": 183,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/favourite",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/favourite",
+      "reason": "Matched POST /api/v1/problems/:id/favourite"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "removeFavorite",
+      "line": 190,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param/favourite",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/FavouritesPage.tsx",
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService DELETE /api/v1/problems/:id/favourite",
+      "reason": "Matched DELETE /api/v1/problems/:id/favourite"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "toggleFavorite",
+      "line": 197,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/favourite/toggle",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/favourite/toggle",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "toggleImportant",
+      "line": 204,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/important/toggle",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/important/toggle",
+      "reason": "Matched POST /api/v1/problems/:id/important/toggle"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "setPersonalConfidence",
+      "line": 211,
+      "method": "PATCH",
+      "fullPath": "/api/v1/problems/:param/personal-confidence",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx"
+      ],
+      "matchedBackend": "ProblemService PATCH /api/v1/problems/:id/personal-confidence",
+      "reason": "Matched PATCH /api/v1/problems/:id/personal-confidence"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "getPersonalizationSummary",
+      "line": 221,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/personalization/summary",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/FavouritesPage.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/personalization/summary",
+      "reason": "Matched GET /api/v1/problems/personalization/summary"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "listMyBookmarks",
+      "line": 229,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/bookmarks/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/bookmarks/me",
+      "reason": "Matched GET /api/v1/problems/bookmarks/me"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "listMyFavourites",
+      "line": 237,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/favourites/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/FavouritesPage.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/favourites/me",
+      "reason": "Matched GET /api/v1/problems/favourites/me"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "listMyFavoriteIds",
+      "line": 266,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/favourites/ids",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/favourites/ids",
+      "reason": "Matched GET /api/v1/problems/favourites/ids"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "listMyImportantIds",
+      "line": 273,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/important/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/important/me",
+      "reason": "Matched GET /api/v1/problems/important/me"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "toggleRevision",
+      "line": 280,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/revision/toggle",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ProblemWorkspace.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/revision/toggle",
+      "reason": "Matched POST /api/v1/problems/:id/revision/toggle"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "addRevision",
+      "line": 287,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/:param/revision",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService POST /api/v1/problems/:id/revision",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "removeRevision",
+      "line": 294,
+      "method": "DELETE",
+      "fullPath": "/api/v1/problems/:param/revision",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "ProblemService DELETE /api/v1/problems/:id/revision",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/engagementApi.ts",
+      "name": "listMyRevisions",
+      "line": 301,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/revisions/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/revisions/me",
+      "reason": "Matched GET /api/v1/problems/revisions/me"
+    },
+    {
+      "file": "client/src/api/evaluationApi.ts",
+      "name": "runCode",
+      "line": 41,
+      "method": "POST",
+      "fullPath": "/api/v1/evaluation/run",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/admin/problems/ProblemOpsPages.tsx"
+      ],
+      "matchedBackend": "EvaluationService POST /api/v1/evaluation/run",
+      "reason": "Matched POST /api/v1/evaluation/run"
+    },
+    {
+      "file": "client/src/api/leaderboardApi.ts",
+      "name": "getLeaderboard",
+      "line": 32,
+      "method": "GET",
+      "fullPath": "/api/v1/leaderboard/",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/LeaderboardPanel.tsx",
+        "client/src/components/admin/leaderboards/LeaderboardsPage.tsx"
+      ],
+      "matchedBackend": "LeaderboardService GET /api/v1/leaderboard/",
+      "reason": "Matched GET /api/v1/leaderboard/"
+    },
+    {
+      "file": "client/src/api/leaderboardApi.ts",
+      "name": "getUserStats",
+      "line": 55,
+      "method": "GET",
+      "fullPath": "/api/v1/leaderboard/user/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "LeaderboardService GET /api/v1/leaderboard/user/:userId",
+      "reason": "Matched GET /api/v1/leaderboard/user/:userId"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "getGoals",
+      "line": 13,
+      "method": "GET",
+      "fullPath": "/api/v1/learning/goals",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/learning/goals",
+      "reason": "Matched GET /api/v1/learning/goals"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "putGoals",
+      "line": 20,
+      "method": "PUT",
+      "fullPath": "/api/v1/learning/goals",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/learning/goals",
+      "reason": "Matched PUT /api/v1/learning/goals"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "getPlan",
+      "line": 28,
+      "method": "GET",
+      "fullPath": "/api/v1/learning/plans/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/home/FreeHomeDashboard.tsx",
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/learning/plans/:dateKey",
+      "reason": "Matched GET /api/v1/learning/plans/:dateKey"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "listPlans",
+      "line": 35,
+      "method": "GET",
+      "fullPath": "/api/v1/learning/plans",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/LearningCalendarRoadmap.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/learning/plans",
+      "reason": "Matched GET /api/v1/learning/plans"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "putPlan",
+      "line": 43,
+      "method": "PUT",
+      "fullPath": "/api/v1/learning/plans/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/learning/plans/:dateKey",
+      "reason": "Matched PUT /api/v1/learning/plans/:dateKey"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "listSessions",
+      "line": 55,
+      "method": "GET",
+      "fullPath": "/api/v1/learning/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/learning/sessions",
+      "reason": "Matched GET /api/v1/learning/sessions"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "getActiveSession",
+      "line": 63,
+      "method": "GET",
+      "fullPath": "/api/v1/learning/sessions/active",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/learning/sessions/active",
+      "reason": "Matched GET /api/v1/learning/sessions/active"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "startSession",
+      "line": 70,
+      "method": "POST",
+      "fullPath": "/api/v1/learning/sessions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/learning/sessions",
+      "reason": "Matched POST /api/v1/learning/sessions"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "pauseSession",
+      "line": 78,
+      "method": "POST",
+      "fullPath": "/api/v1/learning/sessions/active/pause",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/learning/sessions/active/pause",
+      "reason": "Matched POST /api/v1/learning/sessions/active/pause"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "resumeSession",
+      "line": 85,
+      "method": "POST",
+      "fullPath": "/api/v1/learning/sessions/active/resume",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/learning/sessions/active/resume",
+      "reason": "Matched POST /api/v1/learning/sessions/active/resume"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "endSession",
+      "line": 92,
+      "method": "POST",
+      "fullPath": "/api/v1/learning/sessions/active/end",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/learning/sessions/active/end",
+      "reason": "Matched POST /api/v1/learning/sessions/active/end"
+    },
+    {
+      "file": "client/src/api/learningApi.ts",
+      "name": "recordActivity",
+      "line": 99,
+      "method": "PATCH",
+      "fullPath": "/api/v1/learning/sessions/active/activity",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService PATCH /api/v1/learning/sessions/active/activity",
+      "reason": "Matched PATCH /api/v1/learning/sessions/active/activity"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "start",
+      "line": 73,
+      "method": "POST",
+      "fullPath": "/api/v1/interviews/start",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 187,
+      "consumers": [
+        "client/src/App.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/interviews/start",
+      "reason": "Matched POST /api/v1/interviews/start"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "getActive",
+      "line": 81,
+      "method": "GET",
+      "fullPath": "/api/v1/interviews/active",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/interviews/active",
+      "reason": "Matched GET /api/v1/interviews/active"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "listMine",
+      "line": 88,
+      "method": "GET",
+      "fullPath": "/api/v1/interviews/mine",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/interviews/mine",
+      "reason": "Matched GET /api/v1/interviews/mine"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "getById",
+      "line": 106,
+      "method": "GET",
+      "fullPath": "/api/v1/interviews/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 9,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/admin/problems/ProblemAnalyticsPage.tsx",
+        "client/src/components/admin/problems/ProblemEditorPage.tsx",
+        "client/src/components/admin/problems/ProblemOpsPages.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/interviews/:sessionId",
+      "reason": "Matched GET /api/v1/interviews/:sessionId"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "attachSubmission",
+      "line": 113,
+      "method": "POST",
+      "fullPath": "/api/v1/interviews/:param/attach-submission",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/interviews/:sessionId/attach-submission",
+      "reason": "Matched POST /api/v1/interviews/:sessionId/attach-submission"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "complete",
+      "line": 125,
+      "method": "POST",
+      "fullPath": "/api/v1/interviews/:param/complete",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 139,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/interviews/:sessionId/complete",
+      "reason": "Matched POST /api/v1/interviews/:sessionId/complete"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "getReport",
+      "line": 133,
+      "method": "GET",
+      "fullPath": "/api/v1/interviews/:param/report",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/interviews/:sessionId/report",
+      "reason": "Matched GET /api/v1/interviews/:sessionId/report"
+    },
+    {
+      "file": "client/src/api/mockInterviewApi.ts",
+      "name": "abandon",
+      "line": 140,
+      "method": "POST",
+      "fullPath": "/api/v1/interviews/:param/abandon",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/interviews/:sessionId/abandon",
+      "reason": "Matched POST /api/v1/interviews/:sessionId/abandon"
+    },
+    {
+      "file": "client/src/api/problemApi.ts",
+      "name": "getProblems",
+      "line": 106,
+      "method": "GET",
+      "fullPath": "/api/v1/problems",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/guest/GuestApp.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/",
+      "reason": "Matched GET /api/v1/problems/"
+    },
+    {
+      "file": "client/src/api/problemApi.ts",
+      "name": "getProblemById",
+      "line": 114,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/guest/GuestApp.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/:id",
+      "reason": "Matched GET /api/v1/problems/:id"
+    },
+    {
+      "file": "client/src/api/problemApi.ts",
+      "name": "getProblemBySlug",
+      "line": 120,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/slug/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/guest/GuestApp.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/slug/:slug",
+      "reason": "Matched GET /api/v1/problems/slug/:slug"
+    },
+    {
+      "file": "client/src/api/progressApi.ts",
+      "name": "getStatus",
+      "line": 66,
+      "method": "GET",
+      "fullPath": "/api/v1/progress/import/status",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/progress/import/status",
+      "reason": "Matched GET /api/v1/progress/import/status"
+    },
+    {
+      "file": "client/src/api/progressApi.ts",
+      "name": "previewImport",
+      "line": 73,
+      "method": "POST",
+      "fullPath": "/api/v1/progress/import/preview",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/progress/import/preview",
+      "reason": "Matched POST /api/v1/progress/import/preview"
+    },
+    {
+      "file": "client/src/api/progressApi.ts",
+      "name": "importProgress",
+      "line": 80,
+      "method": "POST",
+      "fullPath": "/api/v1/progress/import",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/progress/import",
+      "reason": "Matched POST /api/v1/progress/import"
+    },
+    {
+      "file": "client/src/api/sheetApi.ts",
+      "name": "listPublished",
+      "line": 45,
+      "method": "GET",
+      "fullPath": "/api/v1/sheets",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/sheets/",
+      "reason": "Matched GET /api/v1/sheets/"
+    },
+    {
+      "file": "client/src/api/sheetApi.ts",
+      "name": "getPreview",
+      "line": 50,
+      "method": "GET",
+      "fullPath": "/api/v1/sheets/:param/preview",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/sheets/:sheetId/preview",
+      "reason": "Matched GET /api/v1/sheets/:sheetId/preview"
+    },
+    {
+      "file": "client/src/api/sheetProgressApi.ts",
+      "name": "getProgress",
+      "line": 28,
+      "method": "GET",
+      "fullPath": "/api/v1/problems/sheets/:param/progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/problems/sheets/:sheetId/progress",
+      "reason": "Matched GET /api/v1/problems/sheets/:sheetId/progress"
+    },
+    {
+      "file": "client/src/api/sheetProgressApi.ts",
+      "name": "resetProgress",
+      "line": 35,
+      "method": "POST",
+      "fullPath": "/api/v1/problems/sheets/:param/reset-progress",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/ProblemsSheet.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/problems/sheets/:sheetId/reset-progress",
+      "reason": "Matched POST /api/v1/problems/sheets/:sheetId/reset-progress"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "getQueue",
+      "line": 55,
+      "method": "GET",
+      "fullPath": "/api/v1/reviews/queue",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/SpacedRepetitionPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/reviews/queue",
+      "reason": "Matched GET /api/v1/reviews/queue"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "enroll",
+      "line": 62,
+      "method": "POST",
+      "fullPath": "/api/v1/reviews/enroll/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 13,
+      "consumers": [
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/guest/GuestApp.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/reviews/enroll/:problemId",
+      "reason": "Matched POST /api/v1/reviews/enroll/:problemId"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "review",
+      "line": 70,
+      "method": "POST",
+      "fullPath": "/api/v1/reviews/:param/review",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 191,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/ProblemsSheet.tsx",
+        "client/src/components/ProfilePanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/reviews/:problemId/review",
+      "reason": "Matched POST /api/v1/reviews/:problemId/review"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "reschedule",
+      "line": 90,
+      "method": "POST",
+      "fullPath": "/api/v1/reviews/:param/reschedule",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/SpacedRepetitionPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/reviews/:problemId/reschedule",
+      "reason": "Matched POST /api/v1/reviews/:problemId/reschedule"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "setStatus",
+      "line": 101,
+      "method": "POST",
+      "fullPath": "/api/v1/reviews/:param/status",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 44,
+      "consumers": [
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/FavouritesPage.tsx",
+        "client/src/components/ImportProgressSection.tsx",
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/reviews/:problemId/status",
+      "reason": "Matched POST /api/v1/reviews/:problemId/status"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "getTimezone",
+      "line": 112,
+      "method": "GET",
+      "fullPath": "/api/v1/reviews/timezone",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/SpacedRepetitionPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/reviews/timezone",
+      "reason": "Matched GET /api/v1/reviews/timezone"
+    },
+    {
+      "file": "client/src/api/srsApi.ts",
+      "name": "setTimezone",
+      "line": 117,
+      "method": "PUT",
+      "fullPath": "/api/v1/reviews/timezone",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/SpacedRepetitionPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService PUT /api/v1/reviews/timezone",
+      "reason": "Matched PUT /api/v1/reviews/timezone"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "createSubmission",
+      "line": 81,
+      "method": "POST",
+      "fullPath": "/api/v1/submissions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService POST /api/v1/submissions/",
+      "reason": "Matched POST /api/v1/submissions/"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getAllSubmissions",
+      "line": 86,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/",
+      "reason": "Matched GET /api/v1/submissions/"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "searchSubmissions",
+      "line": 93,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/search",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/search",
+      "reason": "Matched GET /api/v1/submissions/search"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByProblemId",
+      "line": 100,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/problem/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/problem/:problemId",
+      "reason": "Matched GET /api/v1/submissions/problem/:problemId"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByUserId",
+      "line": 105,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/user/:param",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/user/:userId",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getMySubmissions",
+      "line": 111,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/me",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/me",
+      "reason": "Matched GET /api/v1/submissions/me"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByStatus",
+      "line": 125,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/status/:param",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/status/:status",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getByLanguage",
+      "line": 130,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/language/:param",
+      "matchStatus": "MATCH",
+      "category": "LEGITIMATELY UNUSED",
+      "consumerCount": 0,
+      "consumers": [],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/language/:language",
+      "reason": "Client wrapper exists + backend exists; no UI/caller found"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "getSubmissionById",
+      "line": 135,
+      "method": "GET",
+      "fullPath": "/api/v1/submissions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 2,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService GET /api/v1/submissions/:id",
+      "reason": "Matched GET /api/v1/submissions/:id"
+    },
+    {
+      "file": "client/src/api/submissionApi.ts",
+      "name": "deleteSubmission",
+      "line": 140,
+      "method": "DELETE",
+      "fullPath": "/api/v1/submissions/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "SubmissionService DELETE /api/v1/submissions/:id",
+      "reason": "Matched DELETE /api/v1/submissions/:id"
+    },
+    {
+      "file": "client/src/api/userAnalyticsApi.ts",
+      "name": "getMine",
+      "line": 237,
+      "method": "GET",
+      "fullPath": "/api/v1/analytics/user/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/home/PremiumPreparationSection.tsx"
+      ],
+      "matchedBackend": "AnalyticsService GET /api/v1/analytics/user/:userId",
+      "reason": "Matched GET /api/v1/analytics/user/:userId"
+    },
+    {
+      "file": "client/src/api/userAnalyticsApi.ts",
+      "name": "getOverview",
+      "line": 244,
+      "method": "GET",
+      "fullPath": "/api/v1/analytics/me/overview",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "AnalyticsService GET /api/v1/analytics/me/overview",
+      "reason": "Matched GET /api/v1/analytics/me/overview"
+    },
+    {
+      "file": "client/src/api/userAnalyticsApi.ts",
+      "name": "getHistory",
+      "line": 249,
+      "method": "GET",
+      "fullPath": "/api/v1/analytics/me/history",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 4,
+      "consumers": [
+        "client/src/components/AiAssistantPanel.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx",
+        "client/src/components/home/FreeHomeDashboard.tsx"
+      ],
+      "matchedBackend": "AnalyticsService GET /api/v1/analytics/me/history",
+      "reason": "Matched GET /api/v1/analytics/me/history"
+    },
+    {
+      "file": "client/src/api/userAnalyticsApi.ts",
+      "name": "getPremium",
+      "line": 263,
+      "method": "GET",
+      "fullPath": "/api/v1/analytics/me/premium",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "AnalyticsService GET /api/v1/analytics/me/premium",
+      "reason": "Matched GET /api/v1/analytics/me/premium"
+    },
+    {
+      "file": "client/src/api/userAnalyticsApi.ts",
+      "name": "getLearning",
+      "line": 276,
+      "method": "GET",
+      "fullPath": "/api/v1/analytics/me/learning",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 1,
+      "consumers": [
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "AnalyticsService GET /api/v1/analytics/me/learning",
+      "reason": "Matched GET /api/v1/analytics/me/learning"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "start",
+      "line": 52,
+      "method": "POST",
+      "fullPath": "/api/v1/virtual-contests/start",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 186,
+      "consumers": [
+        "client/src/App.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx",
+        "client/src/components/Dashboard.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/virtual-contests/start",
+      "reason": "Matched POST /api/v1/virtual-contests/start"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "getActive",
+      "line": 60,
+      "method": "GET",
+      "fullPath": "/api/v1/virtual-contests/active",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 5,
+      "consumers": [
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/utils/learningPersistence.ts"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/virtual-contests/active",
+      "reason": "Matched GET /api/v1/virtual-contests/active"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "getById",
+      "line": 65,
+      "method": "GET",
+      "fullPath": "/api/v1/virtual-contests/:param",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 9,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx",
+        "client/src/components/admin/problems/ProblemAnalyticsPage.tsx",
+        "client/src/components/admin/problems/ProblemEditorPage.tsx",
+        "client/src/components/admin/problems/ProblemOpsPages.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/virtual-contests/:sessionId",
+      "reason": "Matched GET /api/v1/virtual-contests/:sessionId"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "complete",
+      "line": 72,
+      "method": "POST",
+      "fullPath": "/api/v1/virtual-contests/:param/complete",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 140,
+      "consumers": [
+        "client/src/components/ActiveStudySessionBar.tsx",
+        "client/src/components/AuthModal.tsx",
+        "client/src/components/ContentLibraryPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/DailyPlannerPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/virtual-contests/:sessionId/complete",
+      "reason": "Matched POST /api/v1/virtual-contests/:sessionId/complete"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "abandon",
+      "line": 79,
+      "method": "POST",
+      "fullPath": "/api/v1/virtual-contests/:param/abandon",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 3,
+      "consumers": [
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/MockInterviewPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService POST /api/v1/virtual-contests/:sessionId/abandon",
+      "reason": "Matched POST /api/v1/virtual-contests/:sessionId/abandon"
+    },
+    {
+      "file": "client/src/api/virtualContestApi.ts",
+      "name": "analytics",
+      "line": 86,
+      "method": "GET",
+      "fullPath": "/api/v1/virtual-contests/:param/analytics",
+      "matchStatus": "MATCH",
+      "category": "USED",
+      "consumerCount": 139,
+      "consumers": [
+        "client/src/access/features.ts",
+        "client/src/components/AdvancedLearningAnalyticsPanel.tsx",
+        "client/src/components/ContestsPanel.tsx",
+        "client/src/components/Dashboard.tsx",
+        "client/src/components/SubmissionAnalyticsPanel.tsx"
+      ],
+      "matchedBackend": "ProblemService GET /api/v1/virtual-contests/:sessionId/analytics",
+      "reason": "Matched GET /api/v1/virtual-contests/:sessionId/analytics"
+    }
+  ]
+}

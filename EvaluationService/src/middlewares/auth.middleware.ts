@@ -70,7 +70,12 @@ export const requireInternalSecret = (
   const provided =
     req.headers["x-internal-secret"] || req.headers["x-realtime-secret"];
   const expected = serverConfig.INTERNAL_SERVICE_SECRET;
-  if (typeof provided === "string" && expected && provided === expected) {
+  if (!expected) {
+    return next(
+      new UnauthorizedError("Internal service authentication is not configured")
+    );
+  }
+  if (typeof provided === "string" && provided === expected) {
     return next();
   }
   return next(new UnauthorizedError("Internal service authentication required"));

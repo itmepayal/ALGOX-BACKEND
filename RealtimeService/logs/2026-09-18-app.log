@@ -1,0 +1,76 @@
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-18-2026 00:10:03","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 00:10:04","data":{}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-18-2026 00:10:11","data":{"error":"read ECONNRESET"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-18-2026 00:10:13","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 00:17:37","data":{"socketId":"PaZ_P82svSgGifMDAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 00:31:22","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-18-2026 00:31:23","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-18-2026 00:31:25","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-18-2026 00:31:25","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-18-2026 00:31:25","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-18-2026 00:31:25","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-18-2026 00:31:25","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 00:33:28","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-18-2026 00:33:29","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-18-2026 00:33:31","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-18-2026 00:33:31","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-18-2026 00:33:31","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-18-2026 00:33:31","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-18-2026 00:33:31","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 00:33:39","data":{"socketId":"72w79htKB9vS7uZ5AAAB","userId":"01a0b0c0bdfdaaaaaaaaaaaa","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 00:33:41","data":{"socketId":"uJpQ94rjHqLeEY_3AAAD","userId":"01a0b0c0bdfdaaaaaaaaaaaa","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 00:33:41","data":{"socketId":"trQDDTpIsXy7HtJGAAAC","userId":"01a0b0c0bdfdbbbbbbbbbbbb","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 11:34:07","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-18-2026 11:34:09","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-18-2026 11:34:11","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-18-2026 11:34:11","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-18-2026 11:34:11","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-18-2026 11:34:11","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-18-2026 11:34:11","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 11:34:56","data":{"socketId":"cRTvyIkmaBCqx4u-AAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 11:37:15","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 18:53:46","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-18-2026 18:53:49","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-18-2026 18:53:52","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-18-2026 18:53:52","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-18-2026 18:53:52","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-18-2026 18:53:52","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-18-2026 18:53:52","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 18:58:55","data":{"socketId":"9goujw_CcIbX2CAsAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-18-2026 18:59:09","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 19:20:31","data":{"socketId":"nGZ3mAmkMz-AAJcIAAAB","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 19:20:40","data":{"socketId":"GDfzgs9pyZPpbwO6AAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 19:35:10","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 19:35:11","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-18-2026 19:35:21","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 19:35:21","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 19:57:03","data":{"socketId":"bQ0Oqe1_4g2KyO4RAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 20:04:54","data":{"socketId":"xM9tziERGaAaq53rAAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 20:05:28","data":{"socketId":"qU17UgoMfIgrfF_WAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 20:05:36","data":{"socketId":"RgygqFH8iKosfanSAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 20:12:51","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 20:12:51","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-18-2026 20:13:04","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 20:13:05","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 20:58:25","data":{"socketId":"MMMEUQSx_4na_vp3AAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 21:02:51","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 21:02:51","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 21:04:23","data":{"socketId":"zKrAfshfcCev_1KNAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-18-2026 21:04:43","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-18-2026 21:05:17","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 21:06:59","data":{"socketId":"E4PrdR10Mx3PsbHAAAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 21:07:09","data":{"socketId":"KEUAfwbA_tURBNMeAAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 21:19:55","data":{"socketId":"IOogPRV68_0PpXtjAAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 21:49:20","data":{"socketId":"7sssc9gVkca4TkUjAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:03:55","data":{"socketId":"Ahktn2FID5u0R1bTAAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:05:25","data":{"socketId":"h8T9NgXiYm4YOb-TAAAO","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:06:03","data":{"socketId":"b0BBgMbY7FYod_dFAAAP","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:22:11","data":{"socketId":"nDhNk7wwq1qEeyUoAAAQ","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:36:21","data":{"socketId":"tLkWUk-olY3nmaAPAAAR","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:36:30","data":{"socketId":"0e6FqVzRJ5SuD6zLAAAS","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:42:49","data":{"socketId":"zDkPhwfw3Bwsd7mgAAAT","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-18-2026 22:43:41","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:50:56","data":{"socketId":"lsEUuuhNgNLRAjTVAAAU","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:52:37","data":{"socketId":"sqU4HDekyQhyZX7cAAAV","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:56:07","data":{"socketId":"0g6p6m29Hcxs6QNfAAAW","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:56:32","data":{"socketId":"QkiIGm6oxq55fBIMAAAX","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}

@@ -13,6 +13,10 @@ export function emitRealtimeEvent(input: {
   status?: string;
   payload?: Record<string, unknown>;
 }): void {
+  const room =
+    input.room ||
+    (input.userId ? `user:${input.userId}` : undefined);
+
   void axios
     .post(
       REALTIME_INGEST,
@@ -20,7 +24,7 @@ export function emitRealtimeEvent(input: {
         event: input.event,
         source: "SubmissionService",
         userId: input.userId,
-        room: input.room,
+        room,
         status: input.status,
         payload: input.payload,
       },

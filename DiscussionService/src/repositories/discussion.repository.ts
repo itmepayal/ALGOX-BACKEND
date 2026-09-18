@@ -88,7 +88,7 @@ export class DiscussionRepository {
     const post = await Post.findByIdAndUpdate(
       postId,
       { $inc: { viewsCount: 1 } },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!post) return null;
     if (!opts?.staff && (post.status === "HIDDEN" || post.status === "DELETED")) {

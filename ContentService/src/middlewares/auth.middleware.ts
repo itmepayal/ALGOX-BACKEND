@@ -24,6 +24,14 @@ export class ForbiddenError extends Error {
   }
 }
 
+export class BadRequestError extends Error {
+  statusCode = 400;
+  constructor(message = "Bad Request") {
+    super(message);
+    this.name = "BadRequestError";
+  }
+}
+
 export interface JwtUser {
   userId: string;
   email: string;
@@ -70,6 +78,35 @@ export const authenticateJwt = (
   } catch {
     next(new UnauthorizedError("Invalid or expired authorization token"));
   }
+};
+
+/** Attach user when Bearer present; never fails the request. */
+export const optionalAuthenticateJwt = (
+  req: AuthenticatedRequest,
+  _res: Response,
+  next: NextFunction
+): void => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return next();
+    }
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, serverConfig.JWT_SECRET) as JwtUser;
+    if (decoded?.userId) {
+      req.user = {
+        userId: decoded.userId,
+        email: decoded.email,
+        role: normalizeRole(decoded.role),
+        permissions: Array.isArray(decoded.permissions)
+          ? decoded.permissions
+          : undefined,
+      };
+    }
+  } catch {
+    // ignore
+  }
+  next();
 };
 
 export const requirePermission = (...permissions: Permission[]) => {

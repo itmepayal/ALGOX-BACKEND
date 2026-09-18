@@ -14,7 +14,16 @@ export const studyPlanCategoryEnum = z.enum([
   "algorithm",
   "data-structure",
   "sql",
+  "system-design",
 ]);
+
+export const studyPlanDifficultyEnum = z.enum([
+  "beginner",
+  "intermediate",
+  "advanced",
+]);
+
+export const studyPlanAccessEnum = z.enum(["FREE", "PREMIUM"]);
 
 export const editorialLanguageEnum = z.enum([
   "cpp",
@@ -30,6 +39,7 @@ const studyCardSchema = z.object({
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(5000),
   problemIds: z.array(z.string().min(1)).optional().default([]),
+  estimatedMinutes: z.number().int().min(0).optional(),
 });
 
 const codeSnippetSchema = z.object({
@@ -74,16 +84,84 @@ export const createStudyPlanSchema = z.object({
   description: z.string().min(1).max(5000),
   coverImage: z.string().url().optional().or(z.literal("")),
   category: studyPlanCategoryEnum.optional().default("interview"),
+  topics: z.array(z.string().min(1).max(80)).optional().default([]),
+  difficulty: studyPlanDifficultyEnum.optional().default("beginner"),
+  estimatedMinutes: z.number().int().min(0).max(100000).optional().default(0),
+  estimatedDays: z.number().int().min(0).max(365).optional(),
+  /** Sections — same shape as historical `cards`. */
   cards: z.array(studyCardSchema).optional().default([]),
+  sections: z.array(studyCardSchema).optional(),
   totalProblemsCount: z.number().int().min(0).optional().default(0),
+  access: studyPlanAccessEnum.optional().default("FREE"),
+  isPremium: z.boolean().optional(),
+  isPublished: z.boolean().optional().default(false),
+  prerequisiteSlugs: z.array(z.string().min(1).max(300)).optional().default([]),
+}).transform((data) => {
+  const cards = data.sections?.length ? data.sections : data.cards;
+  const isPremium =
+    data.isPremium !== undefined
+      ? data.isPremium
+      : data.access === "PREMIUM";
+  const access = isPremium ? "PREMIUM" : data.access || "FREE";
+  const totalFromCards = (cards || []).reduce(
+    (n, c) => n + (c.problemIds?.length || 0),
+    0
+  );
+  return {
+    ...data,
+    cards,
+    sections: undefined,
+    isPremium,
+    access,
+    totalProblemsCount: data.totalProblemsCount || totalFromCards,
+  };
 });
 
 /** Update study plan — partial of create. */
-export const updateStudyPlanSchema = createStudyPlanSchema
-  .partial()
+export const updateStudyPlanSchema = z
+  .object({
+    title: z.string().min(2).max(300).optional(),
+    slug: z.string().min(2).max(300).optional(),
+    description: z.string().min(1).max(5000).optional(),
+    coverImage: z.string().url().optional().or(z.literal("")),
+    category: studyPlanCategoryEnum.optional(),
+    topics: z.array(z.string().min(1).max(80)).optional(),
+    difficulty: studyPlanDifficultyEnum.optional(),
+    estimatedMinutes: z.number().int().min(0).max(100000).optional(),
+    estimatedDays: z.number().int().min(0).max(365).optional(),
+    cards: z.array(studyCardSchema).optional(),
+    sections: z.array(studyCardSchema).optional(),
+    totalProblemsCount: z.number().int().min(0).optional(),
+    access: studyPlanAccessEnum.optional(),
+    isPremium: z.boolean().optional(),
+    isPublished: z.boolean().optional(),
+    prerequisiteSlugs: z.array(z.string().min(1).max(300)).optional(),
+  })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",
+  })
+  .transform((data) => {
+    const out: any = { ...data };
+    if (data.sections) {
+      out.cards = data.sections;
+      delete out.sections;
+    }
+    if (data.isPremium !== undefined) {
+      out.access = data.isPremium ? "PREMIUM" : "FREE";
+    } else if (data.access) {
+      out.isPremium = data.access === "PREMIUM";
+    }
+    return out;
   });
+
+export const enrollStudyPlanSchema = z.object({
+  studyPlanSlug: z.string().min(1).optional(),
+});
+
+export const markStudyPlanProblemSchema = z.object({
+  studyPlanSlug: z.string().min(1),
+  problemId: z.string().min(1),
+});
 
 /** Upsert editorial. */
 export const upsertEditorialSchema = z.object({

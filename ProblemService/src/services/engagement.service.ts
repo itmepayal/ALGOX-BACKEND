@@ -5,8 +5,14 @@ import {
   ReactionType,
 } from "../models/problemReaction.model";
 import { ProblemBookmark } from "../models/problemBookmark.model";
+import { ProblemFavorite } from "../models/problemFavorite.model";
+import { ProblemImportant } from "../models/problemImportant.model";
 import { ProblemRevision } from "../models/problemRevision.model";
-import { UserProblemProgress } from "../models/userProblemProgress.model";
+import {
+  UserProblemProgress,
+  type PersonalConfidence,
+  PERSONAL_CONFIDENCE,
+} from "../models/userProblemProgress.model";
 import {
   PROBLEM_PROGRESS_STATUS,
   type ProblemProgressStatus,
@@ -18,11 +24,16 @@ export interface EngagementState {
   likeCount: number;
   dislikeCount: number;
   bookmarkCount: number;
+  favoriteCount: number;
+  importantCount: number;
   currentUserReaction: "like" | "dislike" | null;
   isBookmarked: boolean;
-  /** Alias of isBookmarked — Favourite Questions product surface. */
+  /** Independent of bookmark — preferred problems. */
   isFavourite: boolean;
+  isImportant: boolean;
   isRevision: boolean;
+  /** Personal confidence; null if unset. Does not alter official difficulty. */
+  personalConfidence: PersonalConfidence | null;
 }
 
 export interface FavouriteListQuery {
@@ -45,15 +56,22 @@ const DIFFICULTY_RANK: Record<string, number> = {
   hard: 2,
 };
 
+const CONFIDENCE_VALUES = new Set<string>(Object.values(PERSONAL_CONFIDENCE));
+
 function clampNonNeg(n: number): number {
   return Math.max(0, n | 0);
 }
 
 function isPremiumProblem(p: any): boolean {
+  if (Boolean(p?.isPremium)) return true;
   return Array.isArray(p?.resources) && p.resources.some((r: any) => r?.isPremium);
 }
 
-function sanitizePublicProblem(p: any, favouritedAt?: Date | string | null) {
+function sanitizePublicProblem(
+  p: any,
+  markedAt?: Date | string | null,
+  flags?: { isBookmarked?: boolean; isFavourite?: boolean; isImportant?: boolean }
+) {
   const id = p._id?.toString?.() || String(p._id || p.id);
   return {
     id,
@@ -74,10 +92,13 @@ function sanitizePublicProblem(p: any, favouritedAt?: Date | string | null) {
     likeCount: clampNonNeg(p.likeCount ?? 0),
     dislikeCount: clampNonNeg(p.dislikeCount ?? 0),
     bookmarkCount: clampNonNeg(p.bookmarkCount ?? 0),
-    isBookmarked: true,
-    isFavourite: true,
+    favoriteCount: clampNonNeg(p.favoriteCount ?? 0),
+    importantCount: clampNonNeg(p.importantCount ?? 0),
+    isBookmarked: Boolean(flags?.isBookmarked),
+    isFavourite: Boolean(flags?.isFavourite),
+    isImportant: Boolean(flags?.isImportant),
     isPremium: isPremiumProblem(p),
-    favouritedAt: favouritedAt || null,
+    favouritedAt: markedAt || null,
     createdAt: p.createdAt,
     updatedAt: p.updatedAt,
   };
@@ -108,15 +129,32 @@ async function readCounts(problemId: string): Promise<{
   likeCount: number;
   dislikeCount: number;
   bookmarkCount: number;
+  favoriteCount: number;
+  importantCount: number;
 }> {
   const problem = await Problem.findById(problemId)
-    .select("likeCount dislikeCount bookmarkCount")
+    .select("likeCount dislikeCount bookmarkCount favoriteCount importantCount")
     .lean();
   return {
     likeCount: clampNonNeg((problem as any)?.likeCount ?? 0),
     dislikeCount: clampNonNeg((problem as any)?.dislikeCount ?? 0),
     bookmarkCount: clampNonNeg((problem as any)?.bookmarkCount ?? 0),
+    favoriteCount: clampNonNeg((problem as any)?.favoriteCount ?? 0),
+    importantCount: clampNonNeg((problem as any)?.importantCount ?? 0),
   };
+}
+
+async function bumpCounter(
+  problemId: string,
+  field: "bookmarkCount" | "favoriteCount" | "importantCount",
+  delta: number
+) {
+  if (delta === 0) return;
+  await Problem.findByIdAndUpdate(problemId, { $inc: { [field]: delta } });
+  await Problem.updateOne(
+    { _id: problemId, [field]: { $lt: 0 } },
+    { $set: { [field]: 0 } }
+  );
 }
 
 export class EngagementService {
@@ -129,25 +167,43 @@ export class EngagementService {
 
     let currentUserReaction: "like" | "dislike" | null = null;
     let isBookmarked = false;
+    let isFavourite = false;
+    let isImportant = false;
     let isRevision = false;
+    let personalConfidence: PersonalConfidence | null = null;
 
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
-      const [reaction, bookmark, revision] = await Promise.all([
-        ProblemReaction.findOne({ userId, problemId }).lean(),
-        ProblemBookmark.findOne({ userId, problemId }).lean(),
-        ProblemRevision.findOne({ userId, problemId }).lean(),
-      ]);
+      const [reaction, bookmark, favorite, important, revision, progress] =
+        await Promise.all([
+          ProblemReaction.findOne({ userId, problemId }).lean(),
+          ProblemBookmark.findOne({ userId, problemId }).lean(),
+          ProblemFavorite.findOne({ userId, problemId }).lean(),
+          ProblemImportant.findOne({ userId, problemId }).lean(),
+          ProblemRevision.findOne({ userId, problemId }).lean(),
+          UserProblemProgress.findOne({ userId: String(userId), problemId })
+            .select("personalConfidence")
+            .lean(),
+        ]);
       currentUserReaction = (reaction?.reaction as ReactionType) || null;
       isBookmarked = Boolean(bookmark);
+      isFavourite = Boolean(favorite);
+      isImportant = Boolean(important);
       isRevision = Boolean(revision);
+      const conf = (progress as any)?.personalConfidence;
+      personalConfidence =
+        conf && CONFIDENCE_VALUES.has(String(conf))
+          ? (String(conf) as PersonalConfidence)
+          : null;
     }
 
     return {
       ...counts,
       currentUserReaction,
       isBookmarked,
-      isFavourite: isBookmarked,
+      isFavourite,
+      isImportant,
       isRevision,
+      personalConfidence,
     };
   }
 
@@ -253,9 +309,7 @@ export class EngagementService {
     await ensureProblemFavouritable(problemId);
     try {
       await ProblemBookmark.create({ userId, problemId });
-      await Problem.findByIdAndUpdate(problemId, {
-        $inc: { bookmarkCount: 1 },
-      });
+      await bumpCounter(problemId, "bookmarkCount", 1);
     } catch (err: any) {
       if (err?.code !== 11000) throw err;
     }
@@ -263,7 +317,7 @@ export class EngagementService {
   }
 
   /**
-   * Remove bookmark only. Never touches ProblemRevision collection.
+   * Remove bookmark only. Never touches Favourite / Important / Revision.
    */
   async removeBookmark(
     problemId: string,
@@ -275,15 +329,8 @@ export class EngagementService {
       problemId,
     });
     if (removed) {
-      await Problem.findByIdAndUpdate(problemId, {
-        $inc: { bookmarkCount: -1 },
-      });
-      await Problem.updateOne(
-        { _id: problemId, bookmarkCount: { $lt: 0 } },
-        { $set: { bookmarkCount: 0 } }
-      );
+      await bumpCounter(problemId, "bookmarkCount", -1);
     }
-    // Re-read engagement so isRevision reflects the untouched revision doc.
     return this.getEngagement(problemId, userId);
   }
 
@@ -297,6 +344,119 @@ export class EngagementService {
     return this.addBookmark(problemId, userId);
   }
 
+  async addFavorite(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemFavouritable(problemId);
+    try {
+      await ProblemFavorite.create({ userId, problemId });
+      await bumpCounter(problemId, "favoriteCount", 1);
+    } catch (err: any) {
+      if (err?.code !== 11000) throw err;
+    }
+    return this.getEngagement(problemId, userId);
+  }
+
+  async removeFavorite(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemExists(problemId);
+    const removed = await ProblemFavorite.findOneAndDelete({
+      userId,
+      problemId,
+    });
+    if (removed) {
+      await bumpCounter(problemId, "favoriteCount", -1);
+    }
+    return this.getEngagement(problemId, userId);
+  }
+
+  async toggleFavorite(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemFavouritable(problemId);
+    const existing = await ProblemFavorite.findOne({ userId, problemId });
+    if (existing) return this.removeFavorite(problemId, userId);
+    return this.addFavorite(problemId, userId);
+  }
+
+  async addImportant(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemExists(problemId);
+    try {
+      await ProblemImportant.create({ userId, problemId });
+      await bumpCounter(problemId, "importantCount", 1);
+    } catch (err: any) {
+      if (err?.code !== 11000) throw err;
+    }
+    return this.getEngagement(problemId, userId);
+  }
+
+  async removeImportant(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemExists(problemId);
+    const removed = await ProblemImportant.findOneAndDelete({
+      userId,
+      problemId,
+    });
+    if (removed) {
+      await bumpCounter(problemId, "importantCount", -1);
+    }
+    return this.getEngagement(problemId, userId);
+  }
+
+  async toggleImportant(
+    problemId: string,
+    userId: string
+  ): Promise<EngagementState> {
+    await ensureProblemExists(problemId);
+    const existing = await ProblemImportant.findOne({ userId, problemId });
+    if (existing) return this.removeImportant(problemId, userId);
+    return this.addImportant(problemId, userId);
+  }
+
+  /**
+   * Set personal confidence. Pass null to clear.
+   * Does not modify official problem.difficulty.
+   */
+  async setPersonalConfidence(
+    problemId: string,
+    userId: string,
+    confidence: PersonalConfidence | null
+  ): Promise<EngagementState> {
+    await ensureProblemExists(problemId);
+    if (confidence !== null && !CONFIDENCE_VALUES.has(confidence)) {
+      throw new BadRequestError(
+        'confidence must be "easy_for_me", "needs_practice", "difficult", or null'
+      );
+    }
+    await UserProblemProgress.findOneAndUpdate(
+      { userId: String(userId), problemId: String(problemId) },
+      {
+        $set: {
+          personalConfidence: confidence,
+          source: "manual",
+        },
+        $setOnInsert: {
+          status: PROBLEM_PROGRESS_STATUS.NOT_STARTED,
+          totalSubmissions: 0,
+          acceptedSubmissions: 0,
+          imported: false,
+          suggestedForRevision: false,
+        },
+      },
+      { upsert: true, returnDocument: "after" }
+    );
+    return this.getEngagement(problemId, userId);
+  }
+
   async addRevision(problemId: string, userId: string): Promise<EngagementState> {
     await ensureProblemExists(problemId);
     try {
@@ -308,7 +468,7 @@ export class EngagementService {
   }
 
   /**
-   * Remove revision only. Never touches ProblemBookmark collection.
+   * Remove revision only. Never touches Bookmark / Favourite / Important.
    */
   async removeRevision(
     problemId: string,
@@ -344,11 +504,63 @@ export class EngagementService {
     return rows.map((r) => r.problemId.toString());
   }
 
+  async listFavoriteProblemIds(userId: string): Promise<string[]> {
+    const rows = await ProblemFavorite.find({ userId })
+      .select("problemId")
+      .sort({ createdAt: -1 })
+      .lean();
+    return rows.map((r) => r.problemId.toString());
+  }
+
+  async listImportantProblemIds(userId: string): Promise<string[]> {
+    const rows = await ProblemImportant.find({ userId })
+      .select("problemId")
+      .sort({ createdAt: -1 })
+      .lean();
+    return rows.map((r) => r.problemId.toString());
+  }
+
+  /** Real counts for My Problems hub — never hardcoded. */
+  async getPersonalizationSummary(userId: string) {
+    const [
+      bookmarked,
+      favourites,
+      important,
+      revision,
+      difficult,
+      needsPractice,
+    ] = await Promise.all([
+      ProblemBookmark.countDocuments({ userId }),
+      ProblemFavorite.countDocuments({ userId }),
+      ProblemImportant.countDocuments({ userId }),
+      ProblemRevision.countDocuments({ userId }),
+      UserProblemProgress.countDocuments({
+        userId: String(userId),
+        personalConfidence: PERSONAL_CONFIDENCE.DIFFICULT,
+      }),
+      UserProblemProgress.countDocuments({
+        userId: String(userId),
+        personalConfidence: PERSONAL_CONFIDENCE.NEEDS_PRACTICE,
+      }),
+    ]);
+    return {
+      bookmarked,
+      favourites,
+      important,
+      revision,
+      difficult,
+      needsPractice,
+    };
+  }
+
   /**
-   * Paginated favourites (= bookmarks) with filters, progress, and stats.
-   * Does not return testcases / solutions / editorial bodies.
+   * Paginated list for a mark collection (favourites or bookmarks).
    */
-  async listFavourites(userId: string, query: FavouriteListQuery = {}) {
+  private async listMarkedProblems(
+    userId: string,
+    mark: "favourite" | "bookmark" | "important",
+    query: FavouriteListQuery = {}
+  ) {
     const page = Math.max(1, Number(query.page) || 1);
     const limit = Math.min(100, Math.max(1, Number(query.limit) || 20));
     const search = String(query.search || "").trim();
@@ -362,7 +574,14 @@ export class EngagementService {
       .toLowerCase();
     const sort = String(query.sort || "recent").trim().toLowerCase();
 
-    const bookmarks = await ProblemBookmark.find({ userId })
+    const Model =
+      mark === "favourite"
+        ? ProblemFavorite
+        : mark === "important"
+          ? ProblemImportant
+          : ProblemBookmark;
+
+    const marks = await Model.find({ userId })
       .select("problemId createdAt")
       .lean();
 
@@ -376,7 +595,7 @@ export class EngagementService {
       hard: 0,
     };
 
-    if (!bookmarks.length) {
+    if (!marks.length) {
       return {
         items: [] as any[],
         meta: { total: 0, page, limit, totalPages: 0 },
@@ -385,17 +604,17 @@ export class EngagementService {
       };
     }
 
-    const favouritedAtById = new Map(
-      bookmarks.map((b) => [b.problemId.toString(), b.createdAt])
+    const markedAtById = new Map(
+      marks.map((b) => [b.problemId.toString(), b.createdAt])
     );
-    const ids = bookmarks.map((b) => b.problemId);
+    const ids = marks.map((b) => b.problemId);
 
     const problems = await Problem.find({
       _id: { $in: ids },
       $or: [{ status: "published" }, { status: { $exists: false } }],
     })
       .select(
-        "title slug difficulty category tags resources likeCount dislikeCount bookmarkCount createdAt updatedAt"
+        "title slug difficulty category tags resources likeCount dislikeCount bookmarkCount favoriteCount importantCount createdAt updatedAt"
       )
       .lean();
 
@@ -404,7 +623,7 @@ export class EngagementService {
       userId: String(userId),
       problemId: { $in: idStrings },
     })
-      .select("problemId status")
+      .select("problemId status personalConfidence")
       .lean();
 
     const progressById = new Map(
@@ -417,6 +636,7 @@ export class EngagementService {
     type Row = ReturnType<typeof sanitizePublicProblem> & {
       progressStatus: ProblemProgressStatus;
       solvedStatus: "solved" | "attempted" | "unsolved";
+      personalConfidence: PersonalConfidence | null;
     };
 
     let rows: Row[] = problems.map((p: any) => {
@@ -429,10 +649,20 @@ export class EngagementService {
           : progressStatus === PROBLEM_PROGRESS_STATUS.ATTEMPTED
             ? ("attempted" as const)
             : ("unsolved" as const);
+      const prog = progressRows.find((r) => String(r.problemId) === id) as any;
+      const conf = prog?.personalConfidence;
       return {
-        ...sanitizePublicProblem(p, favouritedAtById.get(id) || null),
+        ...sanitizePublicProblem(p, markedAtById.get(id) || null, {
+          isBookmarked: mark === "bookmark",
+          isFavourite: mark === "favourite",
+          isImportant: mark === "important",
+        }),
         progressStatus,
         solvedStatus,
+        personalConfidence:
+          conf && CONFIDENCE_VALUES.has(String(conf))
+            ? (String(conf) as PersonalConfidence)
+            : null,
       };
     });
 
@@ -444,7 +674,6 @@ export class EngagementService {
       ),
     ].sort((a, b) => a.localeCompare(b));
 
-    // Stats over all favourites (before list filters except published already applied)
     const stats = {
       total: rows.length,
       solved: rows.filter((r) => r.solvedStatus === "solved").length,
@@ -547,9 +776,24 @@ export class EngagementService {
     };
   }
 
-  /** Backward-compatible flat list (all favourites, no pagination). */
+  /**
+   * Paginated favourites (ProblemFavorite — independent of bookmarks).
+   */
+  async listFavourites(userId: string, query: FavouriteListQuery = {}) {
+    return this.listMarkedProblems(userId, "favourite", query);
+  }
+
+  async listBookmarksPaged(userId: string, query: FavouriteListQuery = {}) {
+    return this.listMarkedProblems(userId, "bookmark", query);
+  }
+
+  async listImportantPaged(userId: string, query: FavouriteListQuery = {}) {
+    return this.listMarkedProblems(userId, "important", query);
+  }
+
+  /** Backward-compatible flat list of bookmarks. */
   async listBookmarkedProblems(userId: string) {
-    const result = await this.listFavourites(userId, {
+    const result = await this.listBookmarksPaged(userId, {
       page: 1,
       limit: 500,
       sort: "recent",
@@ -571,15 +815,25 @@ export class EngagementService {
     return new Set(rows.map((r) => r.problemId.toString()));
   }
 
-  /** Admin analytics — most favourited problems (real bookmarkCount). */
+  /** Admin analytics — most bookmarked / favourited / important (real counters). */
   async getMostFavourited(limit = 10) {
     const take = Math.min(50, Math.max(1, Number(limit) || 10));
     const rows = await Problem.find({
-      bookmarkCount: { $gt: 0 },
-      $or: [{ status: "published" }, { status: { $exists: false } }],
+      $and: [
+        { $or: [{ status: "published" }, { status: { $exists: false } }] },
+        {
+          $or: [
+            { bookmarkCount: { $gt: 0 } },
+            { favoriteCount: { $gt: 0 } },
+            { importantCount: { $gt: 0 } },
+          ],
+        },
+      ],
     })
-      .select("title slug difficulty category bookmarkCount resources")
-      .sort({ bookmarkCount: -1 })
+      .select(
+        "title slug difficulty category bookmarkCount favoriteCount importantCount resources"
+      )
+      .sort({ favoriteCount: -1, bookmarkCount: -1 })
       .limit(take)
       .lean();
 
@@ -589,7 +843,9 @@ export class EngagementService {
       slug: p.slug,
       difficulty: p.difficulty,
       category: p.category,
-      favouriteCount: clampNonNeg(p.bookmarkCount ?? 0),
+      favouriteCount: clampNonNeg(p.favoriteCount ?? 0),
+      bookmarkCount: clampNonNeg(p.bookmarkCount ?? 0),
+      importantCount: clampNonNeg(p.importantCount ?? 0),
       isPremium: isPremiumProblem(p),
     }));
   }
@@ -601,7 +857,7 @@ export class EngagementService {
     since.setHours(0, 0, 0, 0);
     since.setDate(since.getDate() - (takeDays - 1));
 
-    const rows = await ProblemBookmark.aggregate([
+    const rows = await ProblemFavorite.aggregate([
       { $match: { createdAt: { $gte: since } } },
       {
         $group: {
@@ -626,45 +882,25 @@ export class EngagementService {
   }
 
   async getFavouriteAnalytics() {
-    const [mostFavourited, trends, freePremium] = await Promise.all([
+    const [mostFavourited, trends, totals] = await Promise.all([
       this.getMostFavourited(10),
       this.getFavouriteTrends(30),
-      Problem.aggregate([
-        { $match: { bookmarkCount: { $gt: 0 } } },
-        {
-          $project: {
-            bookmarkCount: 1,
-            isPremium: {
-              $gt: [
-                {
-                  $size: {
-                    $filter: {
-                      input: { $ifNull: ["$resources", []] },
-                      as: "r",
-                      cond: { $eq: ["$$r.isPremium", true] },
-                    },
-                  },
-                },
-                0,
-              ],
-            },
-          },
-        },
-        {
-          $group: {
-            _id: "$isPremium",
-            totalFavourites: { $sum: "$bookmarkCount" },
-            problemCount: { $sum: 1 },
-          },
-        },
+      Promise.all([
+        ProblemBookmark.countDocuments({}),
+        ProblemFavorite.countDocuments({}),
+        ProblemImportant.countDocuments({}),
+        ProblemRevision.countDocuments({}),
       ]),
     ]);
 
+    const [bookmarkTotal, favoriteTotal, importantTotal, revisionTotal] =
+      totals;
+
     let freeFavourites = 0;
     let premiumFavourites = 0;
-    for (const row of freePremium) {
-      if (row._id) premiumFavourites = row.totalFavourites;
-      else freeFavourites = row.totalFavourites;
+    for (const p of mostFavourited) {
+      if (p.isPremium) premiumFavourites += p.favouriteCount;
+      else freeFavourites += p.favouriteCount;
     }
 
     return {
@@ -674,6 +910,12 @@ export class EngagementService {
       premiumFavourites,
       mostFavouritedFree: mostFavourited.filter((p) => !p.isPremium),
       mostFavouritedPremium: mostFavourited.filter((p) => p.isPremium),
+      aggregates: {
+        bookmarks: bookmarkTotal,
+        favourites: favoriteTotal,
+        important: importantTotal,
+        revision: revisionTotal,
+      },
     };
   }
 }

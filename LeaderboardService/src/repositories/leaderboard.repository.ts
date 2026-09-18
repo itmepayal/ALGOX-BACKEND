@@ -258,7 +258,7 @@ export class LeaderboardRepository {
     const stats = await UserStats.findOneAndUpdate(
       { userId },
       { $set: data },
-      { new: true, upsert: true }
+      { returnDocument: "after", upsert: true }
     );
 
     try {

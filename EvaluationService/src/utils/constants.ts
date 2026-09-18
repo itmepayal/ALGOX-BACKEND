@@ -14,12 +14,33 @@ export const DEFAULT_LIMITS = {
   COMPILE_TIMEOUT_MS: 10000,
 } as const;
 
+/**
+ * Judge container HostConfig defaults.
+ *
+ * Defense-in-depth (in addition to NetworkMode none + CPU/mem/PID + no-new-privileges):
+ * - CapDrop ALL
+ * - ReadonlyRootfs with tmpfs only where execution needs writes
+ * - Non-root User (nobody / 65534) — verified present on all DOCKER_IMAGES
+ *
+ * Writable mounts:
+ * - /workspace (exec): source, compile outputs, binaries (cwd)
+ * - /tmp (noexec): compile_err and language runtimes that use /tmp
+ */
 export const DOCKER_CONTAINER_CONFIG = {
   PIDS_LIMIT: 100,
   CPU_QUOTA: 50000,
   CPU_PERIOD: 100000,
   SECURITY_OPT: ["no-new-privileges"],
   NETWORK_MODE: "none",
+  CAP_DROP: ["ALL"] as const,
+  READONLY_ROOTFS: true,
+  /** nobody uid:gid — exists on python/node/gcc/temurin judge images. */
+  USER: "65534:65534",
+  WORKING_DIR: "/workspace",
+  TMPFS: {
+    "/tmp": "rw,nosuid,nodev,noexec,size=64m,mode=1777",
+    "/workspace": "rw,nosuid,nodev,exec,size=256m,mode=1777",
+  },
 } as const;
 
 export const HTTP_STATUS = {

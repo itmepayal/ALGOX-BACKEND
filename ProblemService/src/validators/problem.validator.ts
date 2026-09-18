@@ -34,6 +34,12 @@ export const createProblemSchema = z.object({
   status: z.enum(["draft", "published", "archived"]).optional().default("draft"),
   category: z.string().min(2, "Category is required"),
   tags: z.array(z.string()).optional().default([]),
+  /**
+   * Denormalized catalog flag. Runtime access still uses FREE Learning Sheet
+   * membership as the authoritative free catalog.
+   * Default true so non-sheet problems are premium unless attached to a FREE sheet.
+   */
+  isPremium: z.boolean().optional().default(true),
   editorial: z.string().optional(),
   hints: z.array(z.string()).optional().default([]),
   constraints: z.string().optional(),
@@ -75,6 +81,8 @@ export const problemQuerySchema = z.object({
   tag: z.string().optional(),
   search: z.string().optional(),
   status: z.enum(["draft", "published", "archived", "all"]).optional(),
+  /** Catalog access filter: All | Free | Premium */
+  access: z.enum(["all", "free", "premium"]).optional().default("all"),
   from: z.string().optional(),
   to: z.string().optional(),
 });
@@ -85,11 +93,13 @@ export const problemStatusSchema = z.object({
 
 export const bulkProblemSchema = z.object({
   ids: z.array(z.string().min(1)).min(1),
-  action: z.enum(["status", "difficulty", "tags"]),
+  action: z.enum(["status", "difficulty", "tags", "premium"]),
   status: z.enum(["draft", "published", "archived"]).optional(),
   difficulty: z.enum(["easy", "medium", "hard"]).optional(),
   tags: z.array(z.string()).optional(),
   tagMode: z.enum(["replace", "add"]).optional().default("add"),
+  /** Bulk set problem-level premium classification */
+  isPremium: z.boolean().optional(),
 });
 
 export type CreateProblemDto = z.infer<typeof createProblemSchema>;

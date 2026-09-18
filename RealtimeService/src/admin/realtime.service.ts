@@ -16,7 +16,10 @@ import { forwardAdminAudit } from "../utils/helpers/audit.client";
 import { NotFoundError } from "../utils/errors/app.error";
 import { pushEvent } from "../events/eventStream";
 import type { RedisAdapterStatus } from "../config/redis.adapter";
-import { isMongoReady } from "../config/db.config";
+import {
+  getBroadcastPersistenceStatus,
+  isMongoReady,
+} from "../config/db.config";
 import { onlinePresenceService } from "../services/onlinePresence.service";
 
 let redisStatus: RedisAdapterStatus = { enabled: false, reason: "pending" };
@@ -28,30 +31,42 @@ export function setRedisStatus(status: RedisAdapterStatus): void {
 export class RealtimeAdminService {
   async overview(io: SocketIOServer) {
     const m = metrics.snapshot();
-    let onlineUsers = listOnlineUsers().length;
+    const memoryOnline = listOnlineUsers().length;
+    let onlineUsers = memoryOnline;
     try {
-      onlineUsers = await onlinePresenceService.getOnlineCount();
+      const presenceCount = await onlinePresenceService.getOnlineCount();
+      // Prefer the higher of Redis vs this node's memory map so we never
+      // under-report authenticated sockets visible on this gateway.
+      onlineUsers = Math.max(presenceCount, memoryOnline);
     } catch {
       /* keep memory count */
     }
+    const namedRooms = await listRooms(io);
+    const broadcastPersistence = getBroadcastPersistenceStatus();
     return {
       service: "RealtimeService",
       adapter: redisStatus.enabled ? "redis" : "memory",
       adapterReason: redisStatus.reason ?? null,
       mongoBroadcastLogs: isMongoReady(),
+      broadcastPersistence,
       activeConnections: m.activeConnections,
       peakConnections: m.peakConnections,
       onlineUsers,
-      rooms: io.sockets.adapter.rooms.size,
+      /** Named product rooms only (excludes per-socket private rooms). */
+      activeRooms: namedRooms.length,
+      /** Raw Socket.IO adapter room map size — not a product metric. */
+      adapterRoomMapSize: io.sockets.adapter.rooms.size,
       eventBufferSize: eventBufferSize(),
       eventsPerSecond: m.eventsPerSecond,
       totalDisconnects: m.totalDisconnects,
       totalReconnects: m.totalReconnects,
       uptimeMs: m.uptimeMs,
-      latencyP50Ms: m.latencyP50Ms,
-      latencyP95Ms: m.latencyP95Ms,
-      latencyP99Ms: m.latencyP99Ms,
-      workerCpuPercent: m.workerCpuPercent,
+      /** Not measured — clients must show Unavailable / Not tracked. */
+      latencyP50Ms: null,
+      latencyP95Ms: null,
+      latencyP99Ms: null,
+      avgLatencyMs: null,
+      workerCpuPercent: null,
     };
   }
 
@@ -71,18 +86,23 @@ export class RealtimeAdminService {
     return listEvents(limit);
   }
 
-  analytics() {
+  async analytics() {
     const m = metrics.snapshot();
+    const broadcastPersistence = getBroadcastPersistenceStatus();
     return {
       ...m,
       onlineUsers: listOnlineUsers().length,
       activeConnections: getActiveConnectionCount(),
-      recentBroadcasts: listRecentBroadcasts(20),
-      // Explicit nulls for UI "Metric unavailable"
+      recentBroadcasts: await listRecentBroadcasts(20),
+      mongoBroadcastLogs: isMongoReady(),
+      broadcastPersistence,
+      // Explicit nulls for UI "Unavailable / Not tracked"
       latencyP50Ms: null,
       latencyP95Ms: null,
       latencyP99Ms: null,
+      avgLatencyMs: null,
       workerCpuPercent: null,
+      activeRooms: null as null, // use overview.activeRooms (named rooms)
     };
   }
 

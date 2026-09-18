@@ -1,12 +1,20 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export type SheetStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
+/** FREE sheets unlock their problems for free users; PREMIUM sheets require entitlement. */
+export type SheetAccess = "FREE" | "PREMIUM";
 
 export interface ISheet extends Document {
   sheetId: string;
   title: string;
   description: string;
   status: SheetStatus;
+  /**
+   * Authoritative catalog access for problems linked to this sheet.
+   * FREE + PUBLISHED → linked problems are free to solve.
+   * PREMIUM → linked problems still require premium.problems (unless also on a FREE sheet).
+   */
+  access: SheetAccess;
   order: number;
   /** Denormalized unique problem count for progress APIs. */
   totalProblems: number;
@@ -33,6 +41,12 @@ const sheetSchema = new Schema<ISheet>(
       type: String,
       enum: ["DRAFT", "PUBLISHED", "ARCHIVED"],
       default: "DRAFT",
+      index: true,
+    },
+    access: {
+      type: String,
+      enum: ["FREE", "PREMIUM"],
+      default: "FREE",
       index: true,
     },
     order: { type: Number, default: 0, index: true },

@@ -28,6 +28,11 @@ let cache: {
 
 const TTL_MS = 15_000;
 
+/** Drop in-memory feature-flag cache after Auth maintenance toggle. */
+export function invalidateFeatureFlagsCache(): void {
+  cache = null;
+}
+
 function normalize(data: any): FeatureFlags {
   const ff = data?.featureFlags || {};
   const flags: FeatureFlags = {

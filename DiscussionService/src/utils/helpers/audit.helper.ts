@@ -4,10 +4,37 @@ const AUTH_AUDIT_URL =
   process.env.AUTH_AUDIT_URL ||
   "http://localhost:3001/api/v1/auth/admin/audit";
 
-const INTERNAL_SECRET =
-  process.env.INTERNAL_SERVICE_SECRET ||
-  process.env.INTERNAL_REALTIME_SECRET ||
-  "dev-internal-service-secret";
+const DEV_DEFAULT = "dev-internal-service-secret";
+const INSECURE_SECRET_DEFAULTS = new Set([
+  "super_secret_jwt_access_key",
+  "super_secret_jwt_refresh_key",
+  DEV_DEFAULT,
+]);
+
+function resolveInternalSecret(): string {
+  const fromEnv = (
+    process.env.INTERNAL_SERVICE_SECRET ||
+    process.env.INTERNAL_REALTIME_SECRET ||
+    ""
+  ).trim();
+  const strict =
+    (process.env.NODE_ENV || "").toLowerCase() === "production" ||
+    process.env.REQUIRE_STRICT_SECRETS === "true";
+  if (strict) {
+    if (!fromEnv) {
+      throw new Error("INTERNAL_SERVICE_SECRET is required in production");
+    }
+    if (INSECURE_SECRET_DEFAULTS.has(fromEnv) || fromEnv === DEV_DEFAULT) {
+      throw new Error(
+        "INTERNAL_SERVICE_SECRET must not use a development/default value in production"
+      );
+    }
+    return fromEnv;
+  }
+  return fromEnv || DEV_DEFAULT;
+}
+
+const INTERNAL_SECRET = resolveInternalSecret();
 
 export async function forwardAdminAudit(opts: {
   authorizationHeader?: string;

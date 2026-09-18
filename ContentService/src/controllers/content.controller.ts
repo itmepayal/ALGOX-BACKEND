@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ContentService } from "../services/content.service";
 import {
   AuthenticatedRequest,
+  BadRequestError,
   ForbiddenError,
   UnauthorizedError,
 } from "../middlewares/auth.middleware";
@@ -69,7 +70,21 @@ export class ContentController {
   async getEditorialByProblemId(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { problemId } = req.params;
-      const editorial = await this.contentService.getEditorialByProblemId(String(problemId));
+      const { resolveEntitlements, hasFeature } = await import(
+        "../utils/entitlementClient"
+      );
+      const entitlements = await resolveEntitlements(
+        typeof req.headers.authorization === "string"
+          ? req.headers.authorization
+          : null
+      );
+      const editorial = await this.contentService.getEditorialByProblemId(
+        String(problemId),
+        {
+          canEditorial: hasFeature(entitlements, "premium.editorial"),
+          canHints: hasFeature(entitlements, "premium.hints"),
+        }
+      );
       res.status(200).json({ success: true, data: editorial });
     } catch (error) {
       next(error);
@@ -94,8 +109,27 @@ export class ContentController {
 
   async getStudyPlans(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { category } = req.query;
-      const studyPlans = await this.contentService.getStudyPlans(category ? String(category) : undefined);
+      const { category, access, difficulty, topic } = req.query;
+      const { resolveEntitlements, hasFeature } = await import(
+        "../utils/entitlementClient"
+      );
+      const entitlements = await resolveEntitlements(
+        typeof req.headers.authorization === "string"
+          ? req.headers.authorization
+          : null
+      );
+      const studyPlans = await this.contentService.getStudyPlans(
+        {
+          category: category ? String(category) : undefined,
+          access: access ? String(access) : undefined,
+          difficulty: difficulty ? String(difficulty) : undefined,
+          topic: topic ? String(topic) : undefined,
+        },
+        {
+          canPremiumPlans: hasFeature(entitlements, "premium.study_plans"),
+          userId: (req as AuthenticatedRequest).user?.userId,
+        }
+      );
       res.status(200).json({ success: true, data: studyPlans });
     } catch (error) {
       next(error);
@@ -105,9 +139,79 @@ export class ContentController {
   async getStudyPlanBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { slug } = req.params;
-      const studyPlan = await this.contentService.getStudyPlanBySlug(String(slug));
+      const { resolveEntitlements, hasFeature } = await import(
+        "../utils/entitlementClient"
+      );
+      const entitlements = await resolveEntitlements(
+        typeof req.headers.authorization === "string"
+          ? req.headers.authorization
+          : null
+      );
+      const userId = (req as AuthenticatedRequest).user?.userId;
+      const studyPlan = await this.contentService.getStudyPlanBySlug(String(slug), {
+        canPremiumPlans: hasFeature(entitlements, "premium.study_plans"),
+        userId,
+      });
       res.status(200).json({ success: true, data: studyPlan });
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ success: false, message: error.message });
+        return;
+      }
+      next(error);
+    }
+  }
+
+  async enrollStudyPlan(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const actor = actorId(req);
+      if (!actor) throw new UnauthorizedError("Authentication required");
+      const slug = String(req.params.slug || req.body?.studyPlanSlug || "");
+      if (!slug) {
+        res.status(400).json({ success: false, message: "studyPlanSlug required" });
+        return;
+      }
+
+      const plan = await this.contentService.getStudyPlanBySlug(slug, {
+        canPremiumPlans: true,
+        userId: actor,
+      });
+      if ((plan as any).isPremium) {
+        const { resolveEntitlements, hasFeature } = await import(
+          "../utils/entitlementClient"
+        );
+        const entitlements = await resolveEntitlements(
+          typeof req.headers.authorization === "string"
+            ? req.headers.authorization
+            : null
+        );
+        if (!hasFeature(entitlements, "premium.study_plans")) {
+          res.status(403).json({
+            success: false,
+            message: "Premium entitlement required",
+            code: "PREMIUM_REQUIRED",
+            feature: "premium.study_plans",
+          });
+          return;
+        }
+      }
+
+      const result = await this.contentService.enrollStudyPlan(actor, slug);
+      res.status(200).json({
+        success: true,
+        message: "Enrolled",
+        data: result.progress,
+      });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({
+          success: false,
+          message: error.message,
+          code: error.code,
+          prerequisite: error.prerequisite,
+        });
+        return;
+      }
       next(error);
     }
   }
@@ -117,13 +221,59 @@ export class ContentController {
       const actor = actorId(req);
       if (!actor) throw new UnauthorizedError("Authentication required");
       const { studyPlanSlug, problemId } = req.body;
-      // Force JWT user — never trust body userId
       const progress = await this.contentService.updateStudyPlanProgress(
         actor,
         studyPlanSlug,
         problemId
       );
       res.status(200).json({ success: true, message: "Progress updated", data: progress });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ success: false, message: error.message });
+        return;
+      }
+      next(error);
+    }
+  }
+
+  async completeStudyPlan(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const actor = actorId(req);
+      if (!actor) throw new UnauthorizedError("Authentication required");
+      const slug = String(req.params.slug || "");
+      const progress = await this.contentService.completeStudyPlan(actor, slug);
+      res.status(200).json({ success: true, message: "Plan completed", data: progress });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ success: false, message: error.message });
+        return;
+      }
+      next(error);
+    }
+  }
+
+  async resumeStudyPlan(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const actor = actorId(req);
+      if (!actor) throw new UnauthorizedError("Authentication required");
+      const slug = String(req.params.slug || "");
+      const data = await this.contentService.resumeStudyPlan(actor, slug);
+      res.status(200).json({ success: true, data });
+    } catch (error: any) {
+      if (error?.statusCode) {
+        res.status(error.statusCode).json({ success: false, message: error.message });
+        return;
+      }
+      next(error);
+    }
+  }
+
+  async listMyStudyPlanProgress(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const actor = actorId(req);
+      if (!actor) throw new UnauthorizedError("Authentication required");
+      const data = await this.contentService.listMyStudyPlanProgress(actor);
+      res.status(200).json({ success: true, data });
     } catch (error) {
       next(error);
     }
@@ -133,7 +283,10 @@ export class ContentController {
     try {
       const { userId, slug } = req.params;
       assertSelfOrStaff(req, String(userId));
-      const progress = await this.contentService.getUserStudyPlanProgress(String(userId), String(slug));
+      const progress = await this.contentService.getUserStudyPlanProgress(
+        String(userId),
+        String(slug)
+      );
       res.status(200).json({ success: true, data: progress });
     } catch (error) {
       next(error);
@@ -186,13 +339,18 @@ export class ContentController {
       const actor = actorId(req);
       if (!actor) throw new UnauthorizedError("Authentication required");
       const { problemId, noteText, tags } = req.body;
+      if (!problemId) throw new BadRequestError("problemId is required");
       const note = await this.contentService.upsertProblemNote(
         actor,
-        problemId,
-        noteText,
-        tags
+        String(problemId),
+        String(noteText ?? ""),
+        Array.isArray(tags) ? tags.map(String) : undefined
       );
-      res.status(200).json({ success: true, message: "Note saved", data: note });
+      res.status(200).json({
+        success: true,
+        message: note ? "Note saved" : "Note deleted",
+        data: note,
+      });
     } catch (error) {
       next(error);
     }
@@ -213,8 +371,28 @@ export class ContentController {
     try {
       const { userId } = req.params;
       assertSelfOrStaff(req, String(userId));
-      const notes = await this.contentService.getUserNotes(String(userId));
+      const tag = req.query.tag ? String(req.query.tag) : undefined;
+      const notes = await this.contentService.getUserNotes(String(userId), tag);
       res.status(200).json({ success: true, data: notes });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async deleteUserProblemNote(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { userId, problemId } = req.params;
+      assertSelfOrStaff(req, String(userId));
+      // Non-staff may only delete own notes (assertSelfOrStaff already enforces)
+      await this.contentService.deleteUserProblemNote(
+        String(userId),
+        String(problemId)
+      );
+      res.status(200).json({ success: true, message: "Note deleted", data: { deleted: true } });
     } catch (error) {
       next(error);
     }

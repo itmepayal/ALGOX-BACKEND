@@ -11,7 +11,7 @@ const problemNoteSchema = new Schema<IProblemNote>(
   {
     userId: { type: Schema.Types.ObjectId, required: true, index: true },
     problemId: { type: Schema.Types.ObjectId, required: true, index: true },
-    noteText: { type: String, required: true },
+    noteText: { type: String, default: "" },
     tags: [{ type: String }],
   },
   { timestamps: true }

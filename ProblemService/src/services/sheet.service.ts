@@ -17,6 +17,7 @@ import {
 } from "../constants/sheets";
 import axios from "axios";
 import { serverConfig } from "../config";
+import { invalidateFreeSheetProblemCache } from "../utils/sheetFreeAccess";
 
 async function announceSheetPublished(sheetId: string, title: string) {
   try {
@@ -177,6 +178,7 @@ export class SheetService {
       description?: string;
       order?: number;
       status?: SheetStatus;
+      access?: "FREE" | "PREMIUM";
     },
     actor: ActorCtx
   ) {
@@ -190,6 +192,7 @@ export class SheetService {
       description: input.description || "",
       order: input.order ?? 0,
       status: input.status || "DRAFT",
+      access: input.access || "FREE",
       totalProblems: 0,
       createdBy: actor.userId,
       updatedBy: actor.userId,
@@ -204,12 +207,18 @@ export class SheetService {
       order: 0,
     });
 
+    invalidateFreeSheetProblemCache();
     return sheet.toJSON();
   }
 
   async updateSheet(
     sheetId: string,
-    input: { title?: string; description?: string; order?: number },
+    input: {
+      title?: string;
+      description?: string;
+      order?: number;
+      access?: "FREE" | "PREMIUM";
+    },
     actor: ActorCtx
   ) {
     const sheet = await Sheet.findOneAndUpdate(
@@ -219,12 +228,14 @@ export class SheetService {
           ...(input.title !== undefined && { title: input.title }),
           ...(input.description !== undefined && { description: input.description }),
           ...(input.order !== undefined && { order: input.order }),
+          ...(input.access !== undefined && { access: input.access }),
           updatedBy: actor.userId,
         },
       },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!sheet) throw new NotFoundError("Sheet not found");
+    invalidateFreeSheetProblemCache();
     return sheet.toJSON();
   }
 
@@ -239,6 +250,7 @@ export class SheetService {
     if (status === "PUBLISHED" && !wasPublished) {
       void announceSheetPublished(sheet.sheetId, sheet.title);
     }
+    invalidateFreeSheetProblemCache();
     return sheet.toJSON();
   }
 
@@ -251,6 +263,7 @@ export class SheetService {
       SheetSection.deleteMany({ sheetId }),
       Sheet.deleteOne({ sheetId }),
     ]);
+    invalidateFreeSheetProblemCache();
     return { sheetId, deleted: true };
   }
 
@@ -342,7 +355,7 @@ export class SheetService {
           ...(input.order !== undefined && { order: input.order }),
         },
       },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!section) throw new NotFoundError("Section not found");
     return section.toJSON();
@@ -367,6 +380,7 @@ export class SheetService {
     await SheetTopic.deleteMany({ section: section._id });
     await SheetSection.deleteOne({ _id: section._id });
     await recountUniqueProblems(section.sheetId);
+    invalidateFreeSheetProblemCache();
     return { deleted: true, sectionId };
   }
 
@@ -409,7 +423,7 @@ export class SheetService {
           ...(input.order !== undefined && { order: input.order }),
         },
       },
-      { new: true }
+      { returnDocument: "after" }
     );
     if (!topic) throw new NotFoundError("Topic not found");
     return topic.toJSON();
@@ -430,6 +444,7 @@ export class SheetService {
     await SheetProblem.deleteMany({ topic: topic._id });
     await SheetTopic.deleteOne({ _id: topic._id });
     await recountUniqueProblems(topic.sheetId);
+    invalidateFreeSheetProblemCache();
     return { deleted: true, topicId };
   }
 
@@ -491,6 +506,7 @@ export class SheetService {
       order,
     });
     await recountUniqueProblems(topic.sheetId);
+    invalidateFreeSheetProblemCache();
     return {
       ...link.toJSON(),
       problemId: String(problem._id),
@@ -555,6 +571,7 @@ export class SheetService {
     }
 
     await recountUniqueProblems(topic.sheetId);
+    invalidateFreeSheetProblemCache();
     return { attached, skipped, attachedCount: attached.length };
   }
 
@@ -588,6 +605,7 @@ export class SheetService {
     }
     if (!deleted) throw new NotFoundError("Sheet problem link not found");
     await recountUniqueProblems(topic.sheetId);
+    invalidateFreeSheetProblemCache();
     return { deleted: true, topicId, problemId };
   }
 
@@ -696,12 +714,14 @@ export class SheetService {
 
     missingSlugs = [...new Set(missingSlugs)];
     const totalProblems = await recountUniqueProblems(sheetId);
+    invalidateFreeSheetProblemCache();
     const refreshed = await Sheet.findOne({ sheetId }).lean();
 
     return {
       sheetId,
       title: refreshed?.title || title,
       status: refreshed?.status,
+      access: (refreshed as any)?.access || "FREE",
       topicsSynced: catalog.topics.length,
       linksAttached: attached,
       totalProblems,

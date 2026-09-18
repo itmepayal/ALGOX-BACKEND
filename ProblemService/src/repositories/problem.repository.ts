@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Problem, IProblem, ProblemStatus } from "../models/problem.model";
 import { ProblemQueryDto } from "../validators/problem.validator";
 
@@ -26,7 +27,15 @@ export interface IProblemRepository {
     ids: string[],
     update: Partial<IProblem> | { $addToSet?: { tags: { $each: string[] } } }
   ): Promise<number>;
-  internalStats(): Promise<Record<string, unknown>>;
+  internalStats(opts?: {
+    status?: string;
+  }): Promise<Record<string, unknown>>;
+  /** Lightweight title/difficulty lookup for a bounded set of IDs (dashboard enrichment). */
+  findTitlesByIds(
+    ids: string[]
+  ): Promise<
+    Array<{ id: string; title: string; difficulty?: string; slug?: string }>
+  >;
 }
 
 export class ProblemRepository implements IProblemRepository {
@@ -43,7 +52,7 @@ export class ProblemRepository implements IProblemRepository {
     if (problem.title && !problem.slug) {
       updateData.slug = slugify(problem.title);
     }
-    return await Problem.findByIdAndUpdate(id, updateData, { new: true });
+    return await Problem.findByIdAndUpdate(id, updateData, { returnDocument: "after" });
   }
 
   async deleteProblem(id: string): Promise<boolean> {
@@ -95,6 +104,28 @@ export class ProblemRepository implements IProblemRepository {
 
     if (query.tag) {
       filter.tags = { $in: [new RegExp(query.tag, "i")] };
+    }
+
+    if (query.access === "premium") {
+      and.push({
+        $or: [
+          { isPremium: true },
+          { "resources.isPremium": true },
+        ],
+      });
+    } else if (query.access === "free") {
+      and.push({
+        $and: [
+          { $or: [{ isPremium: false }, { isPremium: { $exists: false } }] },
+          {
+            $or: [
+              { resources: { $exists: false } },
+              { resources: { $size: 0 } },
+              { resources: { $not: { $elemMatch: { isPremium: true } } } },
+            ],
+          },
+        ],
+      });
     }
 
     if (query.search) {
@@ -172,7 +203,7 @@ export class ProblemRepository implements IProblemRepository {
     if (status === "published") {
       update.publishedAt = new Date();
     }
-    return await Problem.findByIdAndUpdate(id, update, { new: true });
+    return await Problem.findByIdAndUpdate(id, update, { returnDocument: "after" });
   }
 
   async duplicateProblem(
@@ -202,11 +233,24 @@ export class ProblemRepository implements IProblemRepository {
     return result.modifiedCount || 0;
   }
 
-  async internalStats(): Promise<Record<string, unknown>> {
+  async internalStats(opts?: {
+    status?: string;
+  }): Promise<Record<string, unknown>> {
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
-    const [total, draft, published, archived, today, byDifficulty, byTopic] =
+    const rawStatus = String(opts?.status || "published").toLowerCase().trim();
+    /** Catalog facet match — default published (dashboard). `all` = every status. */
+    const catalogMatch: Record<string, unknown> =
+      rawStatus === "all"
+        ? {}
+        : rawStatus === "draft" ||
+            rawStatus === "published" ||
+            rawStatus === "archived"
+          ? { status: rawStatus }
+          : { status: "published" };
+
+    const [total, draft, published, archived, today, catalog] =
       await Promise.all([
         Problem.countDocuments({}),
         Problem.countDocuments({ status: "draft" }),
@@ -214,27 +258,72 @@ export class ProblemRepository implements IProblemRepository {
         Problem.countDocuments({ status: "archived" }),
         Problem.countDocuments({ createdAt: { $gte: startOfDay } }),
         Problem.aggregate([
-          { $match: { status: "published" } },
-          { $group: { _id: "$difficulty", count: { $sum: 1 } } },
-        ]),
-        Problem.aggregate([
-          { $match: { status: "published", tags: { $exists: true, $ne: [] } } },
-          { $unwind: "$tags" },
-          { $group: { _id: "$tags", count: { $sum: 1 } } },
-          { $sort: { count: -1 } },
-          { $limit: 20 },
+          { $match: catalogMatch },
+          {
+            $facet: {
+              byDifficulty: [
+                { $group: { _id: "$difficulty", count: { $sum: 1 } } },
+              ],
+              byTag: [
+                {
+                  $match: {
+                    tags: { $exists: true, $type: "array", $ne: [] },
+                  },
+                },
+                { $unwind: "$tags" },
+                { $group: { _id: "$tags", count: { $sum: 1 } } },
+                { $sort: { count: -1 } },
+              ],
+              byCategory: [
+                {
+                  $group: {
+                    _id: {
+                      $cond: [
+                        {
+                          $or: [
+                            { $eq: ["$category", null] },
+                            { $eq: ["$category", ""] },
+                          ],
+                        },
+                        "Uncategorized",
+                        "$category",
+                      ],
+                    },
+                    count: { $sum: 1 },
+                  },
+                },
+                { $sort: { count: -1 } },
+              ],
+              matched: [{ $count: "n" }],
+            },
+          },
         ]),
       ]);
 
+    const facet = (catalog?.[0] || {}) as {
+      byDifficulty?: Array<{ _id: string; count: number }>;
+      byTag?: Array<{ _id: string; count: number }>;
+      byCategory?: Array<{ _id: string; count: number }>;
+      matched?: Array<{ n: number }>;
+    };
+
     const difficulty: Record<string, number> = { easy: 0, medium: 0, hard: 0 };
-    for (const row of byDifficulty) {
-      difficulty[row._id] = row.count;
+    for (const row of facet.byDifficulty || []) {
+      const key = String(row._id || "").toLowerCase();
+      if (key in difficulty) difficulty[key] = row.count;
     }
 
-    const topicMap: Record<string, number> = {};
-    for (const row of byTopic) {
+    const byCategory: Record<string, number> = {};
+    for (const row of facet.byCategory || []) {
       const key = String(row._id || "").trim();
-      if (key) topicMap[key] = row.count;
+      if (key) byCategory[key] = row.count;
+    }
+
+    const byTopic: Record<string, number> = { ...byCategory };
+    for (const row of facet.byTag || []) {
+      const key = String(row._id || "").trim();
+      if (!key) continue;
+      byTopic[key] = (byTopic[key] || 0) + row.count;
     }
 
     return {
@@ -243,9 +332,39 @@ export class ProblemRepository implements IProblemRepository {
       published,
       archived,
       today,
+      catalogStatus: rawStatus === "all" ? "all" : catalogMatch.status || "published",
+      matchedProblems: facet.matched?.[0]?.n || 0,
       byDifficulty: difficulty,
-      byTopic: topicMap,
+      byCategory,
+      byTopic,
     };
+  }
+
+  async findTitlesByIds(
+    ids: string[]
+  ): Promise<
+    Array<{ id: string; title: string; difficulty?: string; slug?: string }>
+  > {
+    const unique = [
+      ...new Set(
+        (ids || [])
+          .map((id) => String(id || "").trim())
+          .filter((id) => Types.ObjectId.isValid(id))
+      ),
+    ].slice(0, 100);
+
+    if (unique.length === 0) return [];
+
+    const rows = await Problem.find({ _id: { $in: unique } })
+      .select("title difficulty slug")
+      .lean();
+
+    return rows.map((r: any) => ({
+      id: String(r._id),
+      title: String(r.title || ""),
+      difficulty: r.difficulty ? String(r.difficulty) : undefined,
+      slug: r.slug ? String(r.slug) : undefined,
+    }));
   }
 }
 

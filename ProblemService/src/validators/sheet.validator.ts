@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const sheetStatusSchema = z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]);
+export const sheetAccessSchema = z.enum(["FREE", "PREMIUM"]);
 
 export const createSheetSchema = z.object({
   sheetId: z
@@ -12,12 +13,14 @@ export const createSheetSchema = z.object({
   description: z.string().max(5000).optional().default(""),
   order: z.number().int().min(0).optional().default(0),
   status: sheetStatusSchema.optional().default("DRAFT"),
+  access: sheetAccessSchema.optional().default("FREE"),
 });
 
 export const updateSheetSchema = z.object({
   title: z.string().min(1).max(200).optional(),
   description: z.string().max(5000).optional(),
   order: z.number().int().min(0).optional(),
+  access: sheetAccessSchema.optional(),
 });
 
 export const createSectionSchema = z.object({

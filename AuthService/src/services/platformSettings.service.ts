@@ -6,6 +6,10 @@ import {
 } from "../models/platformSettings.model";
 import { writeAdminAudit } from "../utils/helpers/audit.helper";
 import { BadRequestError, ForbiddenError } from "../utils/errors/app.error";
+import {
+  updateCachedMaintenance,
+} from "../utils/helpers/featureFlags.helper";
+import { broadcastFeatureFlagsInvalidation } from "../utils/helpers/featureFlagsBroadcast.helper";
 
 const LANGS: JudgeLanguage[] = ["cpp", "python", "javascript", "java"];
 
@@ -273,6 +277,20 @@ export class PlatformSettingsService {
     await doc.save();
     const after = toDto(doc);
 
+    const maintenanceChanged =
+      Boolean(before.maintenanceMode) !== Boolean(after.maintenanceMode) ||
+      Boolean(before.featureFlags?.maintenance) !==
+        Boolean(after.featureFlags?.maintenance);
+
+    if (maintenanceChanged) {
+      // Only after successful persist — update local cache + notify product services.
+      updateCachedMaintenance(
+        Boolean(after.maintenanceMode || after.featureFlags?.maintenance),
+        Boolean(after.allowAdminBypass)
+      );
+      broadcastFeatureFlagsInvalidation();
+    }
+
     if (maintenanceJustEnabled) {
       const { maybeAnnounceMaintenance } = await import(
         "../utils/helpers/systemAnnounce"
@@ -312,6 +330,11 @@ export class PlatformSettingsService {
     });
     await doc.save();
     const after = toDto(doc);
+    updateCachedMaintenance(
+      Boolean(after.maintenanceMode || after.featureFlags?.maintenance),
+      Boolean(after.allowAdminBypass)
+    );
+    broadcastFeatureFlagsInvalidation();
     await writeAdminAudit({
       actorId: input.actor.userId,
       actorEmail: input.actor.email,

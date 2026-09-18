@@ -90,6 +90,29 @@ export class LeaderboardController {
     }
   }
 
+  /** S2S: apply contest rating after ProblemService ends a contest. */
+  async applyContestRatings(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { contestId, entries } = req.body || {};
+      const data = await this.leaderboardService.applyContestRatings({
+        contestId: String(contestId || ""),
+        entries: Array.isArray(entries) ? entries : [],
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Contest ratings applied",
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async rebuild(
     req: Request,
     res: Response,

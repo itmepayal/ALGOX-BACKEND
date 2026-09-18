@@ -1,8 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import type { AccountStatus, UserRole } from "../rbac/permissions";
+import type {
+  UserSubscription,
+} from "../subscription/entitlement";
+import { DEFAULT_SUBSCRIPTION } from "../subscription/entitlement";
 
 export type { AccountStatus, UserRole };
+export type { UserSubscription };
 
 export interface IUser extends Document {
   name: string;
@@ -12,6 +17,15 @@ export interface IUser extends Document {
 
   role: UserRole;
   status: AccountStatus;
+
+  /**
+   * Paid/free entitlement — independent of platform role.
+   * Missing docs behave as FREE via normalizeSubscription.
+   */
+  subscription: UserSubscription;
+
+  /** Extra feature ids granted beyond plan (promo / admin). */
+  featureGrants?: string[];
 
   isEmailVerified: boolean;
 
@@ -35,6 +49,34 @@ export interface IUser extends Document {
   isLocked(): boolean;
   isAccountActive(): boolean;
 }
+
+const subscriptionSchema = new Schema(
+  {
+    plan: {
+      type: String,
+      enum: ["FREE", "PREMIUM"],
+      default: "FREE",
+    },
+    status: {
+      type: String,
+      enum: ["none", "active", "canceled", "past_due", "expired", "grace"],
+      default: "none",
+    },
+    currentPeriodStart: { type: Date, default: null },
+    currentPeriodEnd: { type: Date, default: null },
+    cancelAtPeriodEnd: { type: Boolean, default: false },
+    gracePeriodEnd: { type: Date, default: null },
+    source: {
+      type: String,
+      enum: ["default", "admin_grant", "promo", "billing"],
+      default: "default",
+    },
+    /** Billing provider reference — never expose to clients. */
+    externalRef: { type: String, default: null, select: false },
+    updatedAt: { type: Date, default: null },
+  },
+  { _id: false }
+);
 
 const userSchema = new Schema<IUser>(
   {
@@ -79,6 +121,16 @@ const userSchema = new Schema<IUser>(
       enum: ["active", "suspended", "banned"],
       default: "active",
       index: true,
+    },
+
+    subscription: {
+      type: subscriptionSchema,
+      default: () => ({ ...DEFAULT_SUBSCRIPTION }),
+    },
+
+    featureGrants: {
+      type: [String],
+      default: [],
     },
 
     isEmailVerified: {
@@ -133,6 +185,7 @@ userSchema.index({ createdAt: -1 });
 userSchema.index({ lastActiveAt: -1 });
 userSchema.index({ isEmailVerified: 1 });
 userSchema.index({ status: 1, lastActiveAt: -1 });
+userSchema.index({ "subscription.plan": 1, "subscription.status": 1 });
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;

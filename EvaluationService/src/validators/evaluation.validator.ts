@@ -28,6 +28,8 @@ export const runCodeSchema = z.object({
     )
     .optional(),
   problemId: z.string().optional(),
+  /** When true, custom-case premium entitlement + hourly caps apply. */
+  isCustomCase: z.boolean().optional().default(false),
 });
 
 export const evaluateSubmissionSchema = z.object({

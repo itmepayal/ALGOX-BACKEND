@@ -14,6 +14,7 @@ import { HTTP_STATUS, EVALUATION_MESSAGES } from "../utils/constants";
 import { serverConfig } from "../config";
 import logger from "../config/logger.config";
 import { enforceRunLimits } from "../utils/platformRunLimits";
+import { enforceCustomCaseRunAccess } from "../utils/customCaseLimits";
 
 const evaluationService = new EvaluationService();
 
@@ -34,10 +35,20 @@ export class EvaluationController {
       });
 
       const user = (req as any).user;
+      const userId = String(user?.userId || user?.id || "anonymous");
       await enforceRunLimits({
-        userId: String(user?.userId || user?.id || "anonymous"),
+        userId,
         code: validated.code,
         role: user?.role ? String(user.role) : undefined,
+      });
+
+      await enforceCustomCaseRunAccess({
+        authorization:
+          typeof req.headers.authorization === "string"
+            ? req.headers.authorization
+            : null,
+        isCustomCase: Boolean(validated.isCustomCase),
+        userId,
       });
 
       const stdin = formatJudgeInput(validated.input);

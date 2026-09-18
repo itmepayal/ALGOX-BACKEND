@@ -2,9 +2,14 @@ import IORedis from "ioredis";
 import { serverConfig } from "../config";
 import logger from "../config/logger.config";
 
+/**
+ * BullMQ connection. Prefer QUEUE_REDIS_URL (dedicated noeviction Redis);
+ * fall back to REDIS_URL for backwards compatibility.
+ */
 export const createQueueRedisConnection = () => {
-  const useTls = serverConfig.REDIS_URL.startsWith("rediss://");
-  const connection = new IORedis(serverConfig.REDIS_URL, {
+  const url = serverConfig.QUEUE_REDIS_URL;
+  const useTls = url.startsWith("rediss://");
+  const connection = new IORedis(url, {
     maxRetriesPerRequest: null,
     enableReadyCheck: true,
     connectTimeout: 15000,

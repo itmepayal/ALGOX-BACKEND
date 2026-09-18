@@ -69,6 +69,12 @@ export interface ISubmissionController {
     next: NextFunction
   ): Promise<void>;
 
+  getMySubmissions(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void>;
+
   getByStatus(req: Request, res: Response, next: NextFunction): Promise<void>;
 
   getByLanguage(req: Request, res: Response, next: NextFunction): Promise<void>;
@@ -104,6 +110,10 @@ export class SubmissionController implements ISubmissionController {
         {
           role: typeof role === "string" ? role : undefined,
           isEmailVerified: Boolean(isEmailVerified),
+          authorization:
+            typeof req.headers.authorization === "string"
+              ? req.headers.authorization
+              : null,
         }
       );
 
@@ -307,6 +317,100 @@ export class SubmissionController implements ISubmissionController {
         statusCode: HTTP_STATUS.OK,
         message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
         data: { submissions },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Current user's submissions — JWT-scoped only (never trusts query userId).
+   * Supports page/limit/status/language/source filters when provided.
+   */
+  async getMySubmissions(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = actorUserId(req);
+      if (!userId) throw new UnauthorizedError("Authentication required");
+
+      const hasPaging =
+        req.query.page != null ||
+        req.query.limit != null ||
+        req.query.status != null ||
+        req.query.language != null ||
+        req.query.source != null;
+
+      if (hasPaging) {
+        const result = await this.submissionService.adminList({
+          page: req.query.page ? Number(req.query.page) : 1,
+          limit: req.query.limit ? Number(req.query.limit) : 50,
+          status: req.query.status ? String(req.query.status) : undefined,
+          language: req.query.language
+            ? String(req.query.language)
+            : undefined,
+          source: req.query.source ? String(req.query.source) : undefined,
+          // Force own user — ignore any client-supplied userId
+          userId,
+        });
+        sendResponse({
+          res,
+          statusCode: HTTP_STATUS.OK,
+          message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
+          data: result.submissions,
+          meta: {
+            total: result.total,
+            page: result.page,
+            limit: result.limit,
+            totalPages: result.totalPages,
+          },
+        });
+        return;
+      }
+
+      const submissions = await this.submissionService.getByUserId(userId);
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: SUBMISSION_MESSAGES.SUBMISSIONS_RETRIEVED,
+        data: submissions,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Own submission analytics — paginated + aggregated from real Submission docs.
+   */
+  async getMyAnalytics(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = (req as any).user?.userId as string | undefined;
+      if (!userId) {
+        res.status(401).json({ success: false, message: "Authentication required" });
+        return;
+      }
+      const data = await this.submissionService.userSubmissionAnalytics({
+        userId,
+        from: req.query.from ? String(req.query.from) : undefined,
+        to: req.query.to ? String(req.query.to) : undefined,
+        status: req.query.status ? String(req.query.status) : undefined,
+        language: req.query.language ? String(req.query.language) : undefined,
+        source: req.query.source ? String(req.query.source) : undefined,
+        page: req.query.page ? Number(req.query.page) : 1,
+        limit: req.query.limit ? Number(req.query.limit) : 20,
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Submission analytics retrieved",
+        data,
       });
     } catch (error) {
       next(error);

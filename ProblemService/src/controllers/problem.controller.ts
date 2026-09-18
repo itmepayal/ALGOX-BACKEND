@@ -11,6 +11,7 @@ import { sendResponse } from "../utils/helpers/response.helper";
 import { HTTP_STATUS, PROBLEM_MESSAGES } from "../utils/constants";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import { writeAdminAudit } from "../utils/helpers/audit.helper";
+import { resolveEntitlements } from "../utils/entitlementClient";
 
 async function auditProblem(
   req: AuthenticatedRequest,
@@ -29,6 +30,15 @@ async function auditProblem(
     userAgent: req.get("user-agent") || undefined,
     authorization: req.headers.authorization,
   });
+}
+
+async function publicCtx(req: AuthenticatedRequest) {
+  const entitlements = await resolveEntitlements(
+    typeof req.headers.authorization === "string"
+      ? req.headers.authorization
+      : null
+  );
+  return { entitlements };
 }
 
 export class ProblemController {
@@ -68,7 +78,11 @@ export class ProblemController {
   ): Promise<void> {
     try {
       const { id } = req.params;
-      const problem = await this.problemService.getProblemById(id, true);
+      const problem = await this.problemService.getProblemById(
+        id,
+        true,
+        await publicCtx(req)
+      );
 
       sendResponse({
         res,
@@ -108,7 +122,11 @@ export class ProblemController {
   ): Promise<void> {
     try {
       const { slug } = req.params;
-      const problem = await this.problemService.getProblemBySlug(slug, true);
+      const problem = await this.problemService.getProblemBySlug(
+        slug,
+        true,
+        await publicCtx(req)
+      );
 
       sendResponse({
         res,
@@ -141,6 +159,35 @@ export class ProblemController {
     }
   }
 
+  /**
+   * S2S + user Authorization: hard gate for run/submit of premium (non-sheet) problems.
+   */
+  async assertSolveAccess(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { id } = req.params;
+      const entitlements = await resolveEntitlements(
+        typeof req.headers.authorization === "string"
+          ? req.headers.authorization
+          : typeof req.headers["x-user-authorization"] === "string"
+            ? String(req.headers["x-user-authorization"])
+            : null
+      );
+      const data = await this.problemService.assertSolveAccess(id, entitlements);
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Solve access granted",
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getProblems(
     req: AuthenticatedRequest,
     res: Response,
@@ -148,7 +195,11 @@ export class ProblemController {
   ): Promise<void> {
     try {
       const query = problemQuerySchema.parse(req.query);
-      const result = await this.problemService.getProblems(query, true);
+      const result = await this.problemService.getProblems(
+        query,
+        true,
+        await publicCtx(req)
+      );
 
       sendResponse({
         res,
@@ -399,16 +450,49 @@ export class ProblemController {
   }
 
   async internalStats(
-    _req: AuthenticatedRequest,
+    req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      const data = await this.problemService.internalStats();
+      const status =
+        typeof req.query.status === "string" ? req.query.status : undefined;
+      const data = await this.problemService.internalStats({ status });
       sendResponse({
         res,
         statusCode: HTTP_STATUS.OK,
         message: "Internal problem stats",
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Batch title/difficulty lookup for dashboard enrichment.
+   * Accepts `?ids=a,b,c` or repeated `?ids=a&ids=b` (max 100).
+   */
+  async lookupTitlesByIds(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const raw = req.query.ids;
+      let ids: string[] = [];
+      if (Array.isArray(raw)) {
+        ids = raw.flatMap((v) => String(v).split(","));
+      } else if (typeof raw === "string") {
+        ids = raw.split(",");
+      }
+      ids = ids.map((s) => s.trim()).filter(Boolean);
+
+      const data = await this.problemService.findTitlesByIds(ids);
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: PROBLEM_MESSAGES.PROBLEMS_RETRIEVED,
         data,
       });
     } catch (error) {
@@ -423,7 +507,10 @@ export class ProblemController {
   ): Promise<void> {
     try {
       const difficulty = req.params.difficulty as "easy" | "medium" | "hard";
-      const problems = await this.problemService.findByDifficulty(difficulty);
+      const problems = await this.problemService.findByDifficulty(
+        difficulty,
+        await publicCtx(req)
+      );
 
       sendResponse({
         res,
@@ -443,7 +530,10 @@ export class ProblemController {
   ): Promise<void> {
     try {
       const { q } = req.query;
-      const problems = await this.problemService.searchProblems(String(q || ""));
+      const problems = await this.problemService.searchProblems(
+        String(q || ""),
+        await publicCtx(req)
+      );
 
       sendResponse({
         res,
