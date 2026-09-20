@@ -3,13 +3,28 @@ import { Comment, IComment } from "../models/comment.model";
 import redis from "../config/redis.config";
 import { BadRequestError, ForbiddenError, NotFoundError } from "../utils/errors/app.error";
 
+const POSTS_CACHE_PREFIX = "posts:v2:";
+
+async function invalidatePostsListCache(): Promise<void> {
+  try {
+    const keys = (await redis.keys(`${POSTS_CACHE_PREFIX}*`)) as string[];
+    if (Array.isArray(keys) && keys.length > 0) {
+      await redis.del(...keys);
+    }
+  } catch {
+    // Non-blocking
+  }
+}
+
 export class DiscussionRepository {
   async createPost(data: Partial<IPost>): Promise<IPost> {
-    return await Post.create({
+    const post = await Post.create({
       ...data,
       status: data.status || "ACTIVE",
       isLocked: false,
     });
+    await invalidatePostsListCache();
+    return post;
   }
 
   async getPosts(
@@ -20,10 +35,12 @@ export class DiscussionRepository {
     searchQuery?: string,
     sortBy: "latest" | "most_upvoted" | "hot" = "latest",
     page: number = 1,
-    limit: number = 10,
+    limit: number = 20,
     opts?: { includeHidden?: boolean; status?: string }
   ) {
-    const cacheKey = `posts:v2:cat:${category || "all"}:prob:${problemId || "all"}:lang:${language || "all"}:comp:${companyTag || "all"}:sort:${sortBy}:q:${searchQuery || "none"}:p:${page}:st:${opts?.status || "pub"}`;
+    const safeLimit = Math.min(Math.max(Number(limit) || 20, 1), 100);
+    const safePage = Math.max(1, Math.floor(Number(page) || 1));
+    const cacheKey = `${POSTS_CACHE_PREFIX}cat:${category || "all"}:prob:${problemId || "all"}:lang:${language || "all"}:comp:${companyTag || "all"}:sort:${sortBy}:q:${searchQuery || "none"}:p:${safePage}:l:${safeLimit}:st:${opts?.status || "pub"}`;
 
     if (!opts?.includeHidden && !opts?.status) {
       try {
@@ -58,19 +75,27 @@ export class DiscussionRepository {
     if (sortBy === "most_upvoted") sort = { isPinned: -1, upvotes: -1, createdAt: -1 };
     else if (sortBy === "hot") sort = { isPinned: -1, viewsCount: -1, upvotes: -1 };
 
-    const skip = (page - 1) * limit;
-    const safeLimit = Math.min(Math.max(limit, 1), 100);
+    const skip = (safePage - 1) * safeLimit;
 
-    const [posts, total] = await Promise.all([
-      Post.find(query).sort(sort).skip(skip).limit(safeLimit).lean(),
-      Post.countDocuments(query),
-    ]);
+    const total = await Post.countDocuments(query);
+    const totalPages = Math.max(1, Math.ceil(total / safeLimit) || 1);
+    const clampedPage = Math.min(safePage, totalPages);
+    const clampedSkip = (clampedPage - 1) * safeLimit;
+
+    const posts = await Post.find(query)
+      .sort(sort)
+      .skip(clampedSkip)
+      .limit(safeLimit)
+      .lean();
 
     const result = {
       posts,
       total,
-      page,
-      totalPages: Math.ceil(total / safeLimit) || 1,
+      page: clampedPage,
+      limit: safeLimit,
+      totalPages,
+      hasNextPage: clampedPage < totalPages,
+      hasPreviousPage: clampedPage > 1,
     };
 
     if (!opts?.includeHidden && !opts?.status) {
@@ -115,6 +140,7 @@ export class DiscussionRepository {
     if (patch.content !== undefined) post.content = patch.content;
     if (patch.tags !== undefined) post.tags = patch.tags;
     await post.save();
+    await invalidatePostsListCache();
     return post;
   }
 
@@ -126,6 +152,7 @@ export class DiscussionRepository {
     }
     post.status = "DELETED";
     await post.save();
+    await invalidatePostsListCache();
     return post;
   }
 
@@ -165,6 +192,7 @@ export class DiscussionRepository {
         throw new BadRequestError("Invalid moderation action");
     }
     await post.save();
+    await invalidatePostsListCache();
     return post;
   }
 
@@ -204,6 +232,7 @@ export class DiscussionRepository {
     }
 
     await post.save();
+    await invalidatePostsListCache();
     return post;
   }
 
@@ -235,6 +264,7 @@ export class DiscussionRepository {
     }
     const comment = await Comment.create({ ...data, status: "ACTIVE" });
     await Post.findByIdAndUpdate(data.postId, { $inc: { commentCount: 1 } });
+    await invalidatePostsListCache();
     return comment;
   }
 
@@ -266,7 +296,10 @@ export class DiscussionRepository {
     }
     comment.status = "DELETED";
     await comment.save();
-    await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
+    if (comment.postId) {
+      await Post.findByIdAndUpdate(comment.postId, { $inc: { commentCount: -1 } });
+      await invalidatePostsListCache();
+    }
     return comment;
   }
 

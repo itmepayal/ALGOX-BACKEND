@@ -123,10 +123,13 @@ const submissionSchema = new Schema<ISubmission>(
 
 submissionSchema.index({ userId: 1, problemId: 1, createdAt: -1 });
 submissionSchema.index({ userId: 1, createdAt: -1 });
+submissionSchema.index({ userId: 1, source: 1, createdAt: -1 });
 submissionSchema.index({ problemId: 1, createdAt: -1 });
 submissionSchema.index({ createdAt: -1 });
 submissionSchema.index({ status: 1, createdAt: -1 });
 submissionSchema.index({ language: 1, createdAt: -1 });
 submissionSchema.index({ status: 1, source: 1, createdAt: -1 });
+submissionSchema.index({ userId: 1, status: 1, createdAt: -1 });
+submissionSchema.index({ userId: 1, language: 1, createdAt: -1 });
 
 export const Submission = model<ISubmission>("Submission", submissionSchema);

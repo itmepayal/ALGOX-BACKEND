@@ -31,6 +31,7 @@ export const SUBSCRIPTION_PROVIDERS = [
   "admin",
   "promo",
   "stripe",
+  "cashfree",
   "manual",
 ] as const;
 

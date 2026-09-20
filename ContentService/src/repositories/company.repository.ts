@@ -160,6 +160,13 @@ export class CompanyRepository {
     return CompanyQuestion.create(payload);
   }
 
+  async findQuestionByCompanyAndProblem(
+    companyId: string,
+    problemId: string
+  ): Promise<ICompanyQuestion | null> {
+    return CompanyQuestion.findOne({ companyId, problemId });
+  }
+
   async updateQuestion(
     questionId: string,
     data: UpdateCompanyQuestionDto

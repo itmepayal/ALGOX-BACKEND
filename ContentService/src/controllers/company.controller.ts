@@ -43,6 +43,8 @@ function sendError(res: Response, err: any) {
   res.status(status).json({
     success: false,
     message: err?.message || "Request failed",
+    ...(err?.code ? { code: err.code } : {}),
+    ...(err?.feature ? { feature: err.feature } : {}),
     issues: err?.issues,
   });
 }
@@ -123,9 +125,14 @@ export class CompanyController {
   async adminCreateQuestion(req: Request, res: Response, next: NextFunction) {
     try {
       const body = createCompanyQuestionSchema.parse(req.body);
+      const auth =
+        typeof req.headers.authorization === "string"
+          ? req.headers.authorization
+          : null;
       const question = await companyService.createQuestion(
         String(req.params.id),
-        body
+        body,
+        auth
       );
       await audit(req, "company.question.create", String((question as any)._id), {
         companyId: req.params.id,

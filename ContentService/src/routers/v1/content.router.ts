@@ -8,6 +8,7 @@ import {
   optionalAuthenticateJwt,
   requirePermission,
 } from "../../middlewares/auth.middleware";
+import { requireFeature } from "../../middlewares/requireFeature.middleware";
 import { validateRequestBody } from "../../validators";
 import {
   createArticleSchema,
@@ -180,11 +181,14 @@ contentRouter.delete(
 
 contentRouter.get(
   "/companies",
+  authenticateJwt,
+  requireFeature("premium.company_questions"),
   companyController.listDirectory.bind(companyController)
 );
 contentRouter.get(
   "/companies/:slug",
-  optionalAuthenticateJwt,
+  authenticateJwt,
+  requireFeature("premium.company_questions"),
   companyController.getCompanyPage.bind(companyController)
 );
 

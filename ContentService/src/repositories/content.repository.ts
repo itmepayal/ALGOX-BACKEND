@@ -174,6 +174,13 @@ export class ContentRepository {
       throw err;
     }
     const allIds = orderedProblemIds(studyPlan);
+    if (allIds.length === 0) {
+      const err: any = new Error(
+        "This study plan has no published problems to complete."
+      );
+      err.statusCode = 400;
+      throw err;
+    }
     const fields = recomputeProgressFields(studyPlan, allIds);
     Object.assign(progress, fields);
     progress.status = "completed";

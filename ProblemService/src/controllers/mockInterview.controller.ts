@@ -22,6 +22,20 @@ function authHeader(req: AuthenticatedRequest): string | null {
 }
 
 export class MockInterviewController {
+  async config(_req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const data = mockInterviewService.getPublicConfig();
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Mock interview configuration",
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async start(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       // Reject client timer spoof fields

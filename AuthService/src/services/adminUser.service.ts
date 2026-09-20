@@ -79,6 +79,43 @@ function publicUser(u: any) {
 }
 
 export class AdminUserService {
+  /** Dev-only: safe public snapshot of seeded Free/Premium test accounts. */
+  async listDevTestUsers() {
+    const emails = ["algopath@gmail.com", "itme.payalyadav@gmail.com"];
+    const rows = await User.find({ email: { $in: emails } }).lean();
+    const byEmail = new Map(
+      rows.map((u: any) => [String(u.email).toLowerCase(), u])
+    );
+    return emails.map((email) => {
+      const u = byEmail.get(email);
+      if (!u) {
+        return {
+          email,
+          exists: false,
+          plan: null,
+          subscriptionStatus: null,
+          roles: null,
+          accessTier: null,
+          premiumFeatures: [] as string[],
+        };
+      }
+      const subscription = toPublicSubscription(u.subscription);
+      const entitlements = toPublicEntitlements({
+        subscription: u.subscription,
+        featureGrants: u.featureGrants,
+      });
+      return {
+        email,
+        exists: true,
+        plan: subscription.plan,
+        subscriptionStatus: subscription.status,
+        roles: [normalizeRole(u.role)],
+        accessTier: entitlements.accessTier,
+        premiumFeatures: entitlements.features,
+      };
+    });
+  }
+
   async listUsers(query: {
     page?: number;
     limit?: number;
@@ -418,6 +455,7 @@ export class AdminUserService {
       newUsersInRange,
       newUsersPrevRange,
       byRole,
+      planAgg,
     ] = await Promise.all([
       User.countDocuments({}),
       User.countDocuments({ status: "active" }),
@@ -436,6 +474,144 @@ export class AdminUserService {
         createdAt: { $gte: prevRangeStart, $lt: rangeStart },
       }),
       User.aggregate([{ $group: { _id: "$role", count: { $sum: 1 } } }]),
+      User.aggregate([
+        {
+          $project: {
+            plan: { $ifNull: ["$subscription.plan", "FREE"] },
+            status: { $ifNull: ["$subscription.status", "none"] },
+            periodEnd: "$subscription.currentPeriodEnd",
+            graceEnd: "$subscription.gracePeriodEnd",
+            lastActiveAt: 1,
+          },
+        },
+        {
+          $addFields: {
+            isActivePremium: {
+              $and: [
+                { $eq: ["$plan", "PREMIUM"] },
+                {
+                  $or: [
+                    {
+                      $and: [
+                        { $eq: ["$status", "grace"] },
+                        {
+                          $or: [
+                            { $eq: ["$graceEnd", null] },
+                            { $gte: ["$graceEnd", now] },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      $and: [
+                        { $in: ["$status", ["active", "grace"]] },
+                        {
+                          $or: [
+                            { $eq: ["$periodEnd", null] },
+                            { $gte: ["$periodEnd", now] },
+                            {
+                              $and: [
+                                { $lt: ["$periodEnd", now] },
+                                { $ne: ["$graceEnd", null] },
+                                { $gte: ["$graceEnd", now] },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            isExpiredPremium: {
+              $and: [
+                { $eq: ["$plan", "PREMIUM"] },
+                {
+                  $or: [
+                    { $eq: ["$status", "expired"] },
+                    {
+                      $and: [
+                        { $ne: ["$periodEnd", null] },
+                        { $lt: ["$periodEnd", now] },
+                        {
+                          $or: [
+                            { $eq: ["$graceEnd", null] },
+                            { $lt: ["$graceEnd", now] },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            isCancelledPremium: {
+              $and: [
+                { $eq: ["$plan", "PREMIUM"] },
+                { $eq: ["$status", "canceled"] },
+              ],
+            },
+            isPastDue: {
+              $and: [
+                { $eq: ["$plan", "PREMIUM"] },
+                { $eq: ["$status", "past_due"] },
+              ],
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            activePremium: {
+              $sum: { $cond: ["$isActivePremium", 1, 0] },
+            },
+            expiredPremium: {
+              $sum: { $cond: ["$isExpiredPremium", 1, 0] },
+            },
+            cancelledPremium: {
+              $sum: { $cond: ["$isCancelledPremium", 1, 0] },
+            },
+            pastDuePremium: {
+              $sum: { $cond: ["$isPastDue", 1, 0] },
+            },
+            planPremiumDocs: {
+              $sum: { $cond: [{ $eq: ["$plan", "PREMIUM"] }, 1, 0] },
+            },
+            planFreeDocs: {
+              $sum: { $cond: [{ $ne: ["$plan", "PREMIUM"] }, 1, 0] },
+            },
+            premiumDau: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [
+                      "$isActivePremium",
+                      { $gte: ["$lastActiveAt", startOfDay] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+            freeDau: {
+              $sum: {
+                $cond: [
+                  {
+                    $and: [
+                      { $not: ["$isActivePremium"] },
+                      { $gte: ["$lastActiveAt", startOfDay] },
+                    ],
+                  },
+                  1,
+                  0,
+                ],
+              },
+            },
+          },
+        },
+      ]),
     ]);
 
     const growth = await User.aggregate([
@@ -467,6 +643,14 @@ export class AdminUserService {
       newUsersTrendPct = null; // no prior baseline — do not invent
     }
 
+    const planRow = (planAgg && planAgg[0]) || {};
+    const activePremiumUsers = Number(planRow.activePremium || 0);
+    const freeUsers = Math.max(0, totalUsers - activePremiumUsers);
+    const conversionRatePct =
+      totalUsers > 0
+        ? Math.round((activePremiumUsers / totalUsers) * 1000) / 10
+        : null;
+
     return {
       totalUsers,
       activeUsers,
@@ -487,6 +671,19 @@ export class AdminUserService {
       mau,
       byRole: roleMap,
       growth: growth.map((g) => ({ date: g._id, count: g.count })),
+      freeUsers,
+      premiumUsers: activePremiumUsers,
+      activePremiumUsers,
+      expiredPremiumUsers: Number(planRow.expiredPremium || 0),
+      cancelledPremiumUsers: Number(planRow.cancelledPremium || 0),
+      pastDuePremiumUsers: Number(planRow.pastDuePremium || 0),
+      planPremiumDocuments: Number(planRow.planPremiumDocs || 0),
+      planFreeDocuments: Number(planRow.planFreeDocs || 0),
+      premiumDau: Number(planRow.premiumDau || 0),
+      freeDau: Number(planRow.freeDau || 0),
+      conversionRatePct,
+      premiumRule:
+        "PREMIUM plan + status active|grace + period not expired (or within gracePeriodEnd); null periodEnd = open-ended grant",
     };
   }
 

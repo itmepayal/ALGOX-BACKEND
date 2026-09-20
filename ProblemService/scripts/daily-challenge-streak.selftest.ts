@@ -64,6 +64,11 @@ check("applyQualifiedDay consecutive/missed", rules.includes("missed_day") && ru
 check("FREE_HISTORY_DAYS", rules.includes("FREE_HISTORY_DAYS"));
 check("complete rejects client dateKey", controller.includes("dateKey/completedAt/timezone are not accepted"));
 check("verify ACCEPTED via SubmissionService", service.includes("verifyAcceptedSubmission") && service.includes("ACCEPTED"));
+check(
+  "bad submissionId falls through to problem search",
+  service.includes("Fall through") &&
+    service.includes("do not treat a bad client submissionId as definitive")
+);
 check("ensureChallenge deterministic hash", service.includes("hashDateKey") && service.includes("ensureChallengeForDate"));
 check("premium history + advanced + freeze gates", service.includes("premium.challenge_history") && service.includes("premium.daily_challenge_advanced") && service.includes("premium.streak_freeze"));
 check("routes today/complete/streak/freeze/calendar", router.includes("/today") && router.includes("/complete") && router.includes("/streak/freeze") && router.includes("/calendar"));

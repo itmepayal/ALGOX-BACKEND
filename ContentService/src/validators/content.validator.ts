@@ -2,6 +2,38 @@ import { z } from "zod";
 
 const objectId = z.string().regex(/^[a-fA-F0-9]{24}$/, "Invalid ObjectId");
 
+/** Reject accidental UI-chrome spam titles like "Create article"×N. */
+function rejectChromeSpamTitle(title: string, ctx: z.RefinementCtx) {
+  const t = title.trim();
+  const labels = [
+    "Create article",
+    "Create study plan",
+    "Save",
+    "Submit",
+    "Publish",
+  ];
+  for (const label of labels) {
+    if (t.toLowerCase() === label.toLowerCase()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Enter a real title (not a button label).",
+      });
+      return;
+    }
+    // Reject 2+ concatenations of the same chrome label
+    if (t.length >= label.length * 2 && t.length % label.length === 0) {
+      const reps = t.length / label.length;
+      if (reps >= 2 && label.repeat(reps) === t) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Title looks duplicated. Enter the name once.",
+        });
+        return;
+      }
+    }
+  }
+}
+
 export const articleCategoryEnum = z.enum([
   "guide",
   "tutorial",
@@ -56,8 +88,8 @@ const editorialSolutionSchema = z.object({
   codeSnippets: z.array(codeSnippetSchema).optional().default([]),
 });
 
-/** Create article — single source schema for article writes. */
-export const createArticleSchema = z.object({
+/** Article write fields (shared create/update). */
+const articleFieldsSchema = z.object({
   title: z.string().min(2).max(300),
   slug: z.string().min(2).max(300).optional(),
   authorName: z.string().min(1).max(120),
@@ -70,11 +102,19 @@ export const createArticleSchema = z.object({
   tags: z.array(z.string().min(1).max(64)).optional().default([]),
 });
 
+/** Create article — single source schema for article writes. */
+export const createArticleSchema = articleFieldsSchema.superRefine((data, ctx) =>
+  rejectChromeSpamTitle(data.title, ctx)
+);
+
 /** Update article — partial of create (no duplicate field defs). */
-export const updateArticleSchema = createArticleSchema
+export const updateArticleSchema = articleFieldsSchema
   .partial()
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",
+  })
+  .superRefine((data, ctx) => {
+    if (typeof data.title === "string") rejectChromeSpamTitle(data.title, ctx);
   });
 
 /** Create study plan. */
@@ -96,7 +136,7 @@ export const createStudyPlanSchema = z.object({
   isPremium: z.boolean().optional(),
   isPublished: z.boolean().optional().default(false),
   prerequisiteSlugs: z.array(z.string().min(1).max(300)).optional().default([]),
-}).transform((data) => {
+}).superRefine((data, ctx) => rejectChromeSpamTitle(data.title, ctx)).transform((data) => {
   const cards = data.sections?.length ? data.sections : data.cards;
   const isPremium =
     data.isPremium !== undefined
@@ -139,6 +179,9 @@ export const updateStudyPlanSchema = z
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field is required",
+  })
+  .superRefine((data, ctx) => {
+    if (typeof data.title === "string") rejectChromeSpamTitle(data.title, ctx);
   })
   .transform((data) => {
     const out: any = { ...data };

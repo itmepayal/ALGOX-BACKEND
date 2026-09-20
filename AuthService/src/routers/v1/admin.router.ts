@@ -47,6 +47,12 @@ adminRouter.get(
   adminUserController.listUsers.bind(adminUserController)
 );
 
+adminRouter.get(
+  "/test-users",
+  requirePermission("users:view"),
+  adminUserController.listDevTestUsers.bind(adminUserController)
+);
+
 adminRouter.post(
   "/users",
   requirePermission("users:create"),

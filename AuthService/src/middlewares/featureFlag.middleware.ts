@@ -41,7 +41,7 @@ function isMaintenanceExempt(req: Request): boolean {
   if (url.includes("/auth/forgot-password")) return true;
   if (url.includes("/auth/reset-password")) return true;
   if (url.includes("/internal")) return true;
-  if (url.includes("/webhooks/stripe")) return true;
+  if (url.includes("/webhooks/stripe") || url.includes("/webhooks/cashfree")) return true;
   return false;
 }
 

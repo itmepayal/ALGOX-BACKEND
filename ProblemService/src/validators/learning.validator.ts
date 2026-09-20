@@ -33,5 +33,12 @@ export const sessionActivitySchema = z.object({
   solved: z.boolean().optional().default(false),
 });
 
+/** Evaluation worker / S2S — includes userId (not taken from JWT). */
+export const sessionActivityInternalSchema = z.object({
+  userId: z.string().min(1).max(64),
+  problemId: z.string().min(1).max(64),
+  solved: z.boolean().optional().default(false),
+});
+
 export type DailyGoalsDto = z.infer<typeof dailyGoalsSchema>;
 export type DailyPlanDto = z.infer<typeof dailyPlanSchema>;

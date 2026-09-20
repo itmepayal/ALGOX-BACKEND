@@ -1,4 +1,4 @@
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../middlewares/auth.middleware";
 import { learningService } from "../services/learning.service";
 import {
@@ -6,6 +6,7 @@ import {
   dailyPlanSchema,
   startSessionSchema,
   sessionActivitySchema,
+  sessionActivityInternalSchema,
 } from "../validators/learning.validator";
 import { sendResponse } from "../utils/helpers/response.helper";
 import { HTTP_STATUS } from "../utils/constants";
@@ -229,6 +230,35 @@ export class LearningController {
         res,
         statusCode: HTTP_STATUS.OK,
         message: "Study session activity recorded",
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * S2S: Evaluation worker records attempt/ACCEPTED against the user's active
+   * study session (no-op when none). Idempotent via Set semantics on problem IDs.
+   */
+  async recordActivityInternal(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const body = sessionActivityInternalSchema.parse(req.body);
+      const data = await learningService.recordActivity(
+        body.userId,
+        body.problemId,
+        Boolean(body.solved)
+      );
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: data
+          ? "Study session activity recorded"
+          : "No active study session",
         data,
       });
     } catch (err) {

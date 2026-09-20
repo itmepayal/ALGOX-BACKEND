@@ -33,4 +33,10 @@ adminLearningRouter.get(
   adminLearningController.revisionSummary
 );
 
+adminLearningRouter.get(
+  "/product-usage",
+  requirePermission("analytics:view"),
+  adminLearningController.productUsage
+);
+
 export default adminLearningRouter;

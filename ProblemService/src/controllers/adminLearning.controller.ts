@@ -7,6 +7,7 @@ import { UserProblemProgress } from "../models/userProblemProgress.model";
 import { ProblemRevision } from "../models/problemRevision.model";
 import { Problem } from "../models/problem.model";
 import { Sheet } from "../models/sheet.model";
+import { getProductUsageOverview } from "../services/productUsage.service";
 
 export class AdminLearningController {
   /** Cross-user sheet progress overview. */
@@ -261,6 +262,28 @@ export class AdminLearningController {
           usersWithRevision: uniqueUsers.length,
           topProblems: rows,
         },
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  /**
+   * Product feature adoption from real Mongo collections (not invented events).
+   * Requires analytics:view.
+   */
+  productUsage = async (
+    _req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const data = await getProductUsageOverview();
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Product usage overview",
+        data,
       });
     } catch (e) {
       next(e);

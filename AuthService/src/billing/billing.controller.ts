@@ -39,7 +39,7 @@ export class BillingController {
 
   /**
    * Create Premium checkout session (server-side only).
-   * Client must redirect to returned URL — never set premium from client.
+   * Cashfree clients receive paymentSessionId for Cashfree.js checkout().
    */
   async createCheckout(
     req: AuthenticatedRequest,
@@ -101,6 +101,9 @@ export class BillingController {
           sessionId: result.sessionId,
           url: result.url,
           provider: result.provider,
+          ...(result.paymentSessionId
+            ? { paymentSessionId: result.paymentSessionId }
+            : {}),
         },
       });
     } catch (err) {
@@ -137,6 +140,76 @@ export class BillingController {
         duplicate: result.duplicate,
         type: result.type,
         handled: result.handled,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * Cashfree webhook — HMAC on raw body (x-webhook-signature + x-webhook-timestamp).
+   */
+  async cashfreeWebhook(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const signature = req.headers["x-webhook-signature"];
+      const timestamp = req.headers["x-webhook-timestamp"];
+      const raw = Buffer.isBuffer(req.body)
+        ? req.body
+        : Buffer.from(
+            typeof req.body === "string" ? req.body : JSON.stringify(req.body || {})
+          );
+
+      const result = await billingWebhookService.processCashfreeWebhook(
+        raw,
+        typeof signature === "string" ? signature : undefined,
+        typeof timestamp === "string" ? timestamp : undefined
+      );
+
+      res.status(200).json({
+        success: true,
+        received: true,
+        duplicate: result.duplicate,
+        type: result.type,
+        handled: result.handled,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * After Cashfree return_url — confirm order server-side (never trust client paid flag).
+   */
+  async confirmCashfreeReturn(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      if (!req.user?.userId) {
+        throw new UnauthorizedError("Authentication required");
+      }
+      const orderId = String(
+        (req.body as any)?.orderId || (req.query as any)?.order_id || ""
+      ).trim();
+      if (!orderId) {
+        throw new BadRequestError("orderId is required");
+      }
+      const data = await billingWebhookService.confirmCashfreeOrderReturn({
+        userId: req.user.userId,
+        orderId,
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: data.granted
+          ? "Premium entitlement confirmed"
+          : "Payment not completed yet",
+        data,
       });
     } catch (err) {
       next(err);

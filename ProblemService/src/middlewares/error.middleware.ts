@@ -27,10 +27,21 @@ export const errorHandler: ErrorRequestHandler = (
     if (err.statusCode === 429 && err.details?.retryAfterSec) {
       res.setHeader("Retry-After", String(err.details.retryAfterSec));
     }
+    const details = err.details;
+    const code =
+      details && typeof details === "object" && "code" in details
+        ? (details as { code?: string }).code
+        : undefined;
+    const feature =
+      details && typeof details === "object" && "feature" in details
+        ? (details as { feature?: string }).feature
+        : undefined;
     res.status(err.statusCode).json({
       success: false,
       message: err.message,
-      ...(err.details && { details: err.details }),
+      ...(code ? { code } : {}),
+      ...(feature ? { feature } : {}),
+      ...(details && { details }),
     });
     return;
   }

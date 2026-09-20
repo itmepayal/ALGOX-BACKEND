@@ -66,13 +66,18 @@ app.use(cors({
 }));
 
 /**
- * Stripe webhooks require the raw body for signature verification.
+ * Stripe / Cashfree webhooks require the raw body for signature verification.
  * Mount before express.json() so the payload is not pre-parsed.
  */
 app.post(
   "/api/v1/auth/webhooks/stripe",
   express.raw({ type: "application/json" }),
   (req, res, next) => billingController.stripeWebhook(req, res, next)
+);
+app.post(
+  "/api/v1/auth/webhooks/cashfree",
+  express.raw({ type: "application/json" }),
+  (req, res, next) => billingController.cashfreeWebhook(req, res, next)
 );
 
 app.use(express.json());

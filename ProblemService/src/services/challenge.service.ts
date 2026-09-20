@@ -293,6 +293,10 @@ export class ChallengeService {
   /**
    * Verify ACCEPTED official submission for problem via SubmissionService.
    * Client cannot forge this without a real accept.
+   *
+   * If a specific submissionId is provided but does not qualify, fall through
+   * to a problem-scoped search so a stale/wrong client id cannot block a
+   * legitimate Accepted submission for today's challenge problem.
    */
   async verifyAcceptedSubmission(
     userId: string,
@@ -306,6 +310,13 @@ export class ChallengeService {
     );
     if (!base) return { ok: false };
 
+    const qualifies = (s: any) =>
+      s &&
+      String(s.userId) === userId &&
+      String(s.problemId) === String(problemId) &&
+      String(s.status).toUpperCase() === "ACCEPTED" &&
+      s.source !== "run";
+
     try {
       if (submissionId) {
         const res = await axios.get(`${base}/api/v1/submissions/${submissionId}`, {
@@ -314,17 +325,10 @@ export class ChallengeService {
           validateStatus: () => true,
         });
         const s = res.data?.data || res.data;
-        if (
-          res.status === 200 &&
-          s &&
-          String(s.userId) === userId &&
-          String(s.problemId) === String(problemId) &&
-          String(s.status).toUpperCase() === "ACCEPTED" &&
-          s.source !== "run"
-        ) {
+        if (res.status === 200 && qualifies(s)) {
           return { ok: true, submissionId: String(s.id || s._id || submissionId) };
         }
-        return { ok: false };
+        // Fall through — do not treat a bad client submissionId as definitive.
       }
 
       const res = await axios.get(

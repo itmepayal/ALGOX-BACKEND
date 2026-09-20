@@ -1,7 +1,7 @@
 import express from 'express';
 import problemRouter from './problem.router';
 import progressRouter from './progress.router';
-import learningRouter from './learning.router';
+import learningRouter, { mountLearningInternal } from './learning.router';
 import challengeRouter, { mountChallengeInternal } from './challenge.router';
 import mockInterviewRouter, {
   mountMockInterviewInternal,
@@ -15,6 +15,7 @@ import codeAnalysisRouter from './codeAnalysis.router';
 import adminSheetRouter from './adminSheet.router';
 import adminContestRouter from './adminContest.router';
 import adminLearningRouter from './adminLearning.router';
+import adminMockInterviewRouter from './adminMockInterview.router';
 import contestRouter from './contest.router';
 import sheetPublicRouter from './sheetPublic.router';
 import { sendResponse } from '../../utils/helpers/response.helper';
@@ -47,6 +48,7 @@ mountChallengeInternal(v1Router);
 mountMockInterviewInternal(v1Router);
 mountSrsInternal(v1Router);
 mountVirtualContestInternal(v1Router);
+mountLearningInternal(v1Router);
 
 v1Router.use(blockWhenMaintenance);
 
@@ -63,6 +65,7 @@ v1Router.use('/sheets', sheetPublicRouter);
 v1Router.use('/admin/sheets', adminSheetRouter);
 v1Router.use('/admin/contests', adminContestRouter);
 v1Router.use('/admin/learning', adminLearningRouter);
+v1Router.use('/admin/interviews', adminMockInterviewRouter);
 v1Router.use('/contests', contestRouter);
 
 export default v1Router;

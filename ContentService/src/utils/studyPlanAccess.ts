@@ -68,8 +68,10 @@ export function toPublicPlan(
     base.problemSlugs = base.problemIds;
   }
 
-  if (opts?.includeProgress) {
-    base.progress = sanitizeProgress(opts.includeProgress);
+  if (opts && Object.prototype.hasOwnProperty.call(opts, "includeProgress")) {
+    // Pass through null/undefined as "not enrolled" — never pre-sanitize first
+    // (double sanitizeProgress flips enrolled:false → enrolled:true).
+    base.progress = sanitizeProgress(opts.includeProgress ?? null);
   }
 
   return base;
@@ -89,6 +91,19 @@ export function sanitizeProgress(p: any) {
     };
   }
   const o = typeof p.toObject === "function" ? p.toObject() : { ...p };
+  // Explicit public shape with enrolled:false must stay not-enrolled
+  if (o.enrolled === false && !o.enrolledAt && !o._id) {
+    return {
+      status: "not_started" as ProgressStatus,
+      completedProblemIds: [] as string[],
+      solvedCount: 0,
+      totalProblemsCount: Number(o.totalProblemsCount) || 0,
+      completionPercentage: 0,
+      resumeProblemId: null as string | null,
+      resumeSectionIndex: 0,
+      enrolled: false,
+    };
+  }
   return {
     status: (o.status || "not_started") as ProgressStatus,
     completedProblemIds: Array.isArray(o.completedProblemIds)
@@ -123,13 +138,15 @@ export function computeResume(
 }
 
 export function recomputeProgressFields(plan: any, completedIds: string[]) {
-  const total = countPlanProblems(plan) || orderedProblemIds(plan).length || 1;
+  // Never invent a fake completion target when the plan has 0 problems.
+  const total = countPlanProblems(plan) || orderedProblemIds(plan).length || 0;
   const unique = Array.from(new Set(completedIds.map(String)));
   const solvedCount = unique.length;
-  const pct = Number(((solvedCount / total) * 100).toFixed(2));
+  const pct =
+    total <= 0 ? 0 : Number(((solvedCount / total) * 100).toFixed(2));
   const resume = computeResume(plan, unique);
   let status: ProgressStatus = "not_started";
-  if (solvedCount <= 0) status = "not_started";
+  if (total <= 0 || solvedCount <= 0) status = "not_started";
   else if (solvedCount >= total) status = "completed";
   else status = "in_progress";
   return {

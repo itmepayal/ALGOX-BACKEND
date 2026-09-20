@@ -21,6 +21,10 @@ import {
 } from "./stripeStatus.map";
 import type { SubscriptionStatus } from "../models/subscription.model";
 import { assertTrialAllowed } from "../subscription/trialAbuse";
+import {
+  verifyCashfreeWebhookSignature,
+  fetchCashfreeOrder,
+} from "./cashfree.client";
 
 export type WebhookProcessResult = {
   received: true;
@@ -559,6 +563,255 @@ export class BillingWebhookService {
       type,
       handled: Boolean(outcome.handled),
       userId: outcome.userId,
+    };
+  }
+
+  /**
+   * Cashfree PG webhook — HMAC verified on raw body.
+   * Grants PREMIUM for CASHFREE_PREMIUM_DAYS on successful payment.
+   */
+  async processCashfreeWebhook(
+    rawBody: Buffer,
+    signatureHeader: string | undefined,
+    timestampHeader: string | undefined
+  ): Promise<WebhookProcessResult> {
+    const cfg = getBillingConfig();
+    if (!cfg.enabled || cfg.provider !== "cashfree") {
+      throw new BadRequestError("Cashfree webhooks are not enabled", {
+        code: "BILLING_DISABLED",
+      });
+    }
+
+    try {
+      verifyCashfreeWebhookSignature({
+        rawBody,
+        signature: signatureHeader,
+        timestamp: timestampHeader,
+        secretKey: cfg.cashfreeSecretKey,
+        maxAgeSec: cfg.maxEventAgeSec,
+      });
+    } catch (err: any) {
+      if (err?.statusCode) throw err;
+      throw new UnauthorizedError("Invalid Cashfree webhook signature", {
+        code: "WEBHOOK_SIGNATURE_INVALID",
+        detail: err?.message,
+      });
+    }
+
+    let payload: any;
+    try {
+      payload = JSON.parse(rawBody.toString("utf8"));
+    } catch {
+      throw new BadRequestError("Invalid Cashfree webhook JSON", {
+        code: "WEBHOOK_PAYLOAD_INVALID",
+      });
+    }
+
+    const type = String(payload?.type || payload?.event || "cashfree.unknown");
+    const data = payload?.data || {};
+    const order = data.order || data.order_details || {};
+    const payment = data.payment || {};
+    const orderId = String(
+      order.order_id || payload?.order_id || payment.order_id || ""
+    );
+    const paymentId = String(
+      payment.cf_payment_id || payment.payment_id || orderId || type
+    );
+    const providerEventId = `cashfree:${type}:${paymentId}`;
+
+    const paymentStatus = String(
+      payment.payment_status || order.order_status || ""
+    ).toUpperCase();
+    const successTypes = new Set([
+      "PAYMENT_SUCCESS_WEBHOOK",
+      "PAYMENT_SUCCESS",
+      "ORDER_PAID",
+      "PAYMENT_CHARGES_WEBHOOK",
+    ]);
+    const isSuccess =
+      successTypes.has(type.toUpperCase()) ||
+      paymentStatus === "SUCCESS" ||
+      paymentStatus === "PAID" ||
+      String(order.order_status || "").toUpperCase() === "PAID";
+
+    if (!isSuccess) {
+      return {
+        received: true,
+        duplicate: false,
+        type,
+        handled: false,
+      };
+    }
+
+    if (!orderId) {
+      throw new BadRequestError("Cashfree webhook missing order_id", {
+        code: "WEBHOOK_ORDER_MISSING",
+      });
+    }
+
+    let userId =
+      String(order.order_tags?.userId || order.order_tags?.userid || "") ||
+      String(data.customer_details?.customer_id || "");
+
+    // Confirm with Cashfree order API when tags missing
+    if (!userId || !/^[a-f0-9]{24}$/i.test(userId)) {
+      try {
+        const live = await fetchCashfreeOrder(orderId);
+        userId = live.orderTags.userId || live.orderTags.userid || userId;
+        if (
+          live.orderStatus &&
+          !["PAID", "ACTIVE"].includes(live.orderStatus)
+        ) {
+          return {
+            received: true,
+            duplicate: false,
+            type,
+            handled: false,
+          };
+        }
+      } catch {
+        /* use webhook payload only */
+      }
+    }
+
+    if (!userId) {
+      throw new BadRequestError("Cashfree webhook missing user mapping", {
+        code: "WEBHOOK_USER_UNMAPPED",
+      });
+    }
+
+    const user = await User.findById(userId).select("_id");
+    if (!user) {
+      throw new BadRequestError("Cashfree webhook user not found", {
+        code: "WEBHOOK_USER_MISSING",
+      });
+    }
+
+    const now = new Date();
+    const periodEnd = new Date(
+      now.getTime() + cfg.cashfreePremiumDays * 86400000
+    );
+
+    let outcome: { duplicate: boolean; userId: string; handled: boolean };
+    try {
+      const result = await subscriptionService.upsertLiveSubscription({
+        userId: String(userId),
+        plan: "PREMIUM",
+        status: "ACTIVE",
+        provider: "cashfree",
+        providerCustomerId: String(
+          data.customer_details?.customer_id || userId
+        ).slice(0, 200),
+        providerSubscriptionId: orderId,
+        currentPeriodStart: now,
+        currentPeriodEnd: periodEnd,
+        cancelAtPeriodEnd: false,
+        metadata: {
+          cashfreeType: type,
+          paymentId,
+          orderAmount: order.order_amount,
+          premiumDays: cfg.cashfreePremiumDays,
+        },
+        eventType: type,
+        providerEventId,
+      });
+      outcome = {
+        duplicate: result.duplicateEvent,
+        userId: String(userId),
+        handled: true,
+      };
+    } catch (err: any) {
+      if (
+        err?.details?.code === "DUPLICATE_PROVIDER_EVENT" ||
+        err?.code === 11000
+      ) {
+        return {
+          received: true,
+          duplicate: true,
+          type,
+          handled: true,
+          userId: String(userId),
+        };
+      }
+      throw err;
+    }
+
+    if (outcome.handled && !outcome.duplicate) {
+      await writeAdminAudit({
+        actorId: outcome.userId,
+        action: `billing.webhook.cashfree.${type}`,
+        resource: "subscription",
+        resourceId: outcome.userId,
+        after: { eventId: providerEventId, type, orderId },
+      });
+    }
+
+    return {
+      received: true,
+      duplicate: outcome.duplicate,
+      type,
+      handled: outcome.handled,
+      userId: outcome.userId,
+    };
+  }
+
+  /**
+   * Confirm Cashfree return_url: fetch order and grant if PAID (idempotent).
+   * Used when webhooks are delayed — never trusts client "paid" flag alone.
+   */
+  async confirmCashfreeOrderReturn(input: {
+    userId: string;
+    orderId: string;
+  }): Promise<{ granted: boolean; duplicate: boolean; status: string }> {
+    const cfg = getBillingConfig();
+    if (cfg.provider !== "cashfree" || !cfg.enabled) {
+      throw new BadRequestError("Cashfree billing is not enabled", {
+        code: "BILLING_DISABLED",
+      });
+    }
+    const order = await fetchCashfreeOrder(input.orderId);
+    const tagUser = order.orderTags.userId || order.orderTags.userid;
+    if (tagUser && String(tagUser) !== String(input.userId)) {
+      throw new UnauthorizedError("Order does not belong to this user", {
+        code: "WEBHOOK_USER_MISMATCH",
+      });
+    }
+    if (!["PAID", "ACTIVE"].includes(order.orderStatus)) {
+      return {
+        granted: false,
+        duplicate: false,
+        status: order.orderStatus || "UNKNOWN",
+      };
+    }
+
+    const now = new Date();
+    const periodEnd = new Date(
+      now.getTime() + cfg.cashfreePremiumDays * 86400000
+    );
+    const providerEventId = `cashfree:return:${order.orderId}`;
+    const result = await subscriptionService.upsertLiveSubscription({
+      userId: input.userId,
+      plan: "PREMIUM",
+      status: "ACTIVE",
+      provider: "cashfree",
+      providerCustomerId: input.userId,
+      providerSubscriptionId: order.orderId,
+      currentPeriodStart: now,
+      currentPeriodEnd: periodEnd,
+      cancelAtPeriodEnd: false,
+      metadata: {
+        confirmedVia: "return_url",
+        orderStatus: order.orderStatus,
+        premiumDays: cfg.cashfreePremiumDays,
+      },
+      eventType: "cashfree.return_confirm",
+      providerEventId,
+    });
+
+    return {
+      granted: true,
+      duplicate: result.duplicateEvent,
+      status: order.orderStatus,
     };
   }
 }

@@ -8,9 +8,12 @@ export type MockInterviewStatus =
 
 export type MockInterviewDifficulty = "easy" | "medium" | "hard" | "mixed";
 
+export type MockInterviewType = "coding" | "dsa" | "mixed";
+
 export interface IMockInterviewConfig {
   company?: string;
   role?: string;
+  interviewType?: MockInterviewType;
   difficulty: MockInterviewDifficulty;
   durationMinutes: number;
   language: "python" | "javascript" | "cpp" | "java";
@@ -32,6 +35,8 @@ export interface IMockInterviewProblemAttempt {
   memoryMb?: number;
   language?: string;
   submittedAt?: Date;
+  /** Count of official submit/attach attempts for this problem. */
+  attemptCount?: number;
   /** Real signal: source must be submit (never run). */
   source?: string;
 }
@@ -54,6 +59,12 @@ export interface IMockInterviewReport {
   problemsTotal: number;
   problemsAttempted: number;
   problemsAccepted: number;
+  /** Weighted average of available score cells — null if none available. */
+  overallScore: number | null;
+  acceptedSubmissions: number;
+  totalSubmissions: number;
+  strengths: string[];
+  areasToImprove: string[];
   scores: {
     problemSolving: IMockScoreCell;
     correctness: IMockScoreCell;
@@ -62,6 +73,7 @@ export interface IMockInterviewReport {
     codeQuality: IMockScoreCell;
     performance: IMockScoreCell;
     completion: IMockScoreCell;
+    attempts: IMockScoreCell;
   };
   attempts: IMockInterviewProblemAttempt[];
 }
@@ -95,6 +107,11 @@ const configSchema = new Schema<IMockInterviewConfig>(
       enum: ["python", "javascript", "cpp", "java"],
       required: true,
     },
+    interviewType: {
+      type: String,
+      enum: ["coding", "dsa", "mixed"],
+      default: "coding",
+    },
     topics: { type: [String], default: [] },
     problemCount: { type: Number, default: 1, min: 1, max: 5 },
   },
@@ -116,6 +133,7 @@ const attemptSchema = new Schema<IMockInterviewProblemAttempt>(
     memoryMb: { type: Number },
     language: { type: String },
     submittedAt: { type: Date },
+    attemptCount: { type: Number, min: 0 },
     source: { type: String },
   },
   { _id: false }
@@ -142,6 +160,11 @@ const reportSchema = new Schema<IMockInterviewReport>(
     problemsTotal: { type: Number, required: true },
     problemsAttempted: { type: Number, required: true },
     problemsAccepted: { type: Number, required: true },
+    overallScore: { type: Number, default: null },
+    acceptedSubmissions: { type: Number, default: 0 },
+    totalSubmissions: { type: Number, default: 0 },
+    strengths: { type: [String], default: [] },
+    areasToImprove: { type: [String], default: [] },
     scores: {
       problemSolving: { type: scoreCellSchema, required: true },
       correctness: { type: scoreCellSchema, required: true },
@@ -150,6 +173,7 @@ const reportSchema = new Schema<IMockInterviewReport>(
       codeQuality: { type: scoreCellSchema, required: true },
       performance: { type: scoreCellSchema, required: true },
       completion: { type: scoreCellSchema, required: true },
+      attempts: { type: scoreCellSchema, required: true },
     },
     attempts: { type: [attemptSchema], default: [] },
   },

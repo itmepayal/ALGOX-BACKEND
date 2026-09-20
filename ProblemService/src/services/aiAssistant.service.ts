@@ -22,13 +22,31 @@ import {
   TooManyRequestsError,
   ServiceUnavailableError,
 } from "../utils/errors/app.error";
+import { PremiumRequiredError } from "../utils/problemAccess";
 
 function utcDateKey(d = new Date()): string {
   return d.toISOString().slice(0, 10);
 }
 
+/** Strip provider/infra leakage from user-facing failure reasons. */
+function sanitizeFailureReason(raw?: string | null): string | undefined {
+  if (!raw) return undefined;
+  const s = String(raw);
+  if (
+    /api.?key|openai|gemini|provider|ECONN|ETIMEDOUT|ENOTFOUND|BLOCKED|stack|mongo|redis/i.test(
+      s
+    )
+  ) {
+    return "Request couldn't be completed";
+  }
+  return s.slice(0, 160);
+}
+
+/** Free tier: no AI credits (AlgoPath AI is Premium-only). */
 function freeDailyQuota(): number {
-  return Math.max(0, Number(process.env.AI_FREE_DAILY_QUOTA) || 5);
+  // Product rule — ignore AI_FREE_DAILY_QUOTA so free users never receive a usable credit pool.
+  void process.env.AI_FREE_DAILY_QUOTA;
+  return 0;
 }
 
 function premiumDailyQuota(): number {
@@ -46,8 +64,11 @@ function rateWindowMs(): number {
 export class AiAssistantService {
   /**
    * Guest → none.
-   * Free / expired premium → free daily quota.
-   * Active Premium → premium daily quota (premium.ai also unlocks premium-only features).
+   * Free / expired / canceled Premium → no AI (quota 0).
+   * Active Premium (or premium.ai grant) → premium daily quota.
+   *
+   * Entitlement is resolved from AuthService DB via resolveEntitlements —
+   * never from client body/JWT claims alone.
    */
   resolveQuota(snap: EntitlementSnapshot): {
     accessTier: "FREE" | "PREMIUM";
@@ -71,6 +92,18 @@ export class AiAssistantService {
       quota: freeDailyQuota(),
       premiumFeatures: false,
     };
+  }
+
+  /** Reject non-Premium before rate limit, quota burn, or provider call. */
+  assertPremiumAi(snap: EntitlementSnapshot, q: ReturnType<AiAssistantService["resolveQuota"]>) {
+    if (q.premiumFeatures) return;
+    throw new PremiumRequiredError(
+      "AlgoPath AI is available to Premium members only.",
+      {
+        feature: "premium.ai",
+        accessTier: snap.accessTier === "GUEST" ? "GUEST" : q.accessTier,
+      }
+    );
   }
 
   async getOrCreateDaily(userId: string, snap: EntitlementSnapshot) {
@@ -122,19 +155,41 @@ export class AiAssistantService {
     };
   }
 
-  async getHistory(userId: string, authorization?: string | null, limit = 30) {
+  async getHistory(
+    userId: string,
+    authorization?: string | null,
+    opts: { limit?: number; status?: "all" | "success" | "failed" } = {}
+  ) {
     const snap = await resolveEntitlements(authorization);
     if (snap.accessTier === "GUEST") {
       throw new ForbiddenError("Sign in to view AI history");
     }
-    const rows = await AiUsageEvent.find({ userId })
+    const limit = Math.min(50, Math.max(1, Number(opts.limit) || 30));
+    const filter: Record<string, unknown> = { userId };
+    if (opts.status === "success") filter.success = true;
+    if (opts.status === "failed") filter.success = false;
+
+    const rows = await AiUsageEvent.find(filter)
       .sort({ createdAt: -1 })
-      .limit(Math.min(50, limit))
+      .limit(limit)
       .select(
-        "feature dateKey success failureReason problemId hadCodeSnippet codeLength latencyMs provider createdAt"
+        "feature dateKey success failureReason problemId hadCodeSnippet codeLength latencyMs createdAt"
       )
       .lean();
-    return { items: rows };
+
+    return {
+      items: rows.map((r) => ({
+        feature: r.feature,
+        dateKey: r.dateKey,
+        success: r.success,
+        failureReason: sanitizeFailureReason(r.failureReason),
+        problemId: r.problemId || undefined,
+        hadCodeSnippet: Boolean(r.hadCodeSnippet),
+        codeLength: r.codeLength,
+        latencyMs: r.latencyMs,
+        createdAt: r.createdAt,
+      })),
+    };
   }
 
   async assist(
@@ -153,10 +208,12 @@ export class AiAssistantService {
     const feature = body.feature as AiFeatureId;
     const q = this.resolveQuota(snap);
 
+    // Premium entitlement FIRST — before rate limit, quota, or provider
+    this.assertPremiumAi(snap, q);
+
     if (isPremiumOnlyAiFeature(feature) && !q.premiumFeatures) {
-      throw new ForbiddenError(
-        "This AI feature requires premium.ai / active Premium"
-      );
+      // Defense in depth (unreachable when assertPremiumAi holds)
+      this.assertPremiumAi(snap, q);
     }
 
     // Abuse: rate limit (separate from daily quota)
@@ -200,7 +257,7 @@ export class AiAssistantService {
       !getAiProviderConfig().configured
     ) {
       throw new ServiceUnavailableError(
-        "BLOCKED — AI provider API key required (GEMINI_API_KEY or OPENAI_API_KEY)",
+        "AlgoPath AI is temporarily unavailable. Please try again later.",
         { code: "AI_NOT_CONFIGURED" }
       );
     }
@@ -316,7 +373,9 @@ export class AiAssistantService {
         feature,
         dateKey: daily.dateKey,
         success: false,
-        failureReason: String(err?.message || "ai_failure").slice(0, 200),
+        failureReason: sanitizeFailureReason(
+          String(err?.message || "ai_failure")
+        ),
         problemId: body.problemId,
         hadCodeSnippet: Boolean(codeSnippet),
         codeLength: codeSnippet ? codeSnippet.length : 0,

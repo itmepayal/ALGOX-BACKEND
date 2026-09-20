@@ -112,7 +112,7 @@ export class ContentService {
       userId?: string;
     }
   ) {
-    const { toPublicPlan, sanitizeProgress } = await import(
+    const { toPublicPlan } = await import(
       "../utils/studyPlanAccess"
     );
     const studyPlan = await this.contentRepository.getStudyPlanBySlug(slug, {
@@ -136,7 +136,7 @@ export class ContentService {
     }
     return toPublicPlan(studyPlan, {
       locked,
-      includeProgress: progress || sanitizeProgress(null),
+      includeProgress: progress ?? null,
     });
   }
 

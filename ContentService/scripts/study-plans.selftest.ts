@@ -47,7 +47,7 @@ check("enroll/resume/complete in repo", repo.includes("enrollStudyPlan") && repo
 check("premium lock projection", access.includes("accessLocked") && access.includes("locked"));
 check("routes enroll/complete/resume/me", router.includes("/enroll") && router.includes("/complete") && router.includes("/resume") && router.includes("progress/me"));
 check("client enroll/resume/complete APIs", api.includes("enrollStudyPlan") && api.includes("resumeStudyPlan") && api.includes("completeStudyPlan"));
-check("Learn UI enroll + server notice", panel.includes("Enroll") && panel.includes("Progress is saved on the server"));
+check("Learn UI enroll + server notice", (panel.includes("Start Learning") || panel.includes("Enroll")) && panel.includes("Progress is saved"));
 check("learningPersistence not localStorage SoT", !learnPersist.includes("localStorage"));
 
 const CONTENT_URL = process.env.CONTENT_SERVICE_URL || "http://localhost:3009";

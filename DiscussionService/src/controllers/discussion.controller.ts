@@ -13,19 +13,43 @@ export class DiscussionController {
       if (!req.user) throw new UnauthorizedError("Authentication required");
       const { title, content, category, problemId, language, tags, companyTags, authorName, authorAvatar } =
         req.body;
-      if (!title?.trim() || !content?.trim()) {
+      const trimmedTitle = String(title || "").trim();
+      const trimmedContent = String(content || "").trim();
+      if (!trimmedTitle || !trimmedContent) {
         throw new BadRequestError("title and content are required");
       }
+      if (trimmedTitle.length > 200) {
+        throw new BadRequestError("title must be 200 characters or fewer");
+      }
+      if (trimmedContent.length > 50000) {
+        throw new BadRequestError("content is too long");
+      }
+      const allowedCategories = [
+        "interview_experience",
+        "compensation",
+        "solution",
+        "general",
+        "career",
+      ] as const;
+      const safeCategory =
+        category && allowedCategories.includes(category)
+          ? category
+          : "general";
+      const displayName = String(authorName || "")
+        .trim()
+        .slice(0, 80);
       const post = await this.discussionService.createPost({
-        title: title.trim(),
-        content,
-        category,
+        title: trimmedTitle,
+        content: trimmedContent,
+        category: safeCategory,
         problemId,
         language,
-        tags,
+        tags: Array.isArray(tags)
+          ? tags.map((t: unknown) => String(t).trim()).filter(Boolean).slice(0, 12)
+          : undefined,
         companyTags,
         authorId: req.user.userId as any,
-        authorName: authorName || req.user.email || "User",
+        authorName: displayName || req.user.email || "User",
         authorAvatar,
       });
       res.status(201).json({ success: true, message: "Post created successfully", data: post });
@@ -38,15 +62,21 @@ export class DiscussionController {
     try {
       const { category, problemId, language, companyTag, q, sortBy, page, limit, status } = req.query;
       const staff = isStaffRole(req.user?.role);
+      const pageNum = Math.max(1, Math.floor(Number(page) || 1));
+      const limitNum = Math.min(100, Math.max(1, Math.floor(Number(limit) || 20)));
+      const allowedSort = ["latest", "most_upvoted", "hot"] as const;
+      const safeSort = allowedSort.includes(sortBy as (typeof allowedSort)[number])
+        ? (sortBy as (typeof allowedSort)[number])
+        : "latest";
       const result = await this.discussionService.getPosts(
         category ? String(category) : undefined,
         problemId ? String(problemId) : undefined,
         language ? String(language) : undefined,
         companyTag ? String(companyTag) : undefined,
-        q ? String(q) : undefined,
-        sortBy as any,
-        page ? Number(page) : 1,
-        limit ? Number(limit) : 10,
+        q ? String(q).slice(0, 200) : undefined,
+        safeSort,
+        pageNum,
+        limitNum,
         staff && status
           ? { status: String(status), includeHidden: true }
           : staff

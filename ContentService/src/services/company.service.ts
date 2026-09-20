@@ -84,14 +84,56 @@ export class CompanyService {
     return o;
   }
 
-  async createQuestion(companyId: string, data: CreateCompanyQuestionDto) {
+  async createQuestion(
+    companyId: string,
+    data: CreateCompanyQuestionDto,
+    authorization?: string | null
+  ) {
     const company = await companyRepository.getCompanyById(companyId);
     if (!company) {
       const err: any = new Error("Company not found");
       err.statusCode = 404;
       throw err;
     }
-    return companyRepository.createQuestion(companyId, data);
+
+    const { resolveProblemById } = await import("../utils/problemLookup");
+    const problem = await resolveProblemById(data.problemId, authorization);
+    if (!problem) {
+      const err: any = new Error("Problem not found");
+      err.statusCode = 404;
+      throw err;
+    }
+
+    const existing = await companyRepository.findQuestionByCompanyAndProblem(
+      companyId,
+      problem.id
+    );
+    if (existing) {
+      const err: any = new Error("Problem is already attached to this company");
+      err.statusCode = 409;
+      throw err;
+    }
+
+    const enriched: CreateCompanyQuestionDto = {
+      ...data,
+      problemId: problem.id,
+      title: data.title?.trim() || problem.title,
+      slug: data.slug || problem.slug,
+      difficulty: data.difficulty || problem.difficulty,
+      topics:
+        data.topics && data.topics.length > 0 ? data.topics : problem.topics,
+    };
+
+    try {
+      return await companyRepository.createQuestion(companyId, enriched);
+    } catch (e: any) {
+      if (e?.code === 11000) {
+        const err: any = new Error("Problem is already attached to this company");
+        err.statusCode = 409;
+        throw err;
+      }
+      throw e;
+    }
   }
 
   async updateQuestion(questionId: string, data: UpdateCompanyQuestionDto) {

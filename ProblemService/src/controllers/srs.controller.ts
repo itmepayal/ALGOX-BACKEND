@@ -66,6 +66,52 @@ export class SrsController {
     }
   };
 
+  syncFromSolved = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = requireUserId(req);
+      const problemIds = Array.isArray(req.body?.problemIds)
+        ? req.body.problemIds.map((id: unknown) => String(id || ""))
+        : undefined;
+      const data = await srsService.syncFromSolved(userId, authHeader(req), {
+        problemIds,
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Revision cards synced from solved problems",
+        data,
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  importCandidates = async (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = requireUserId(req);
+      const data = await srsService.listImportCandidates(
+        userId,
+        authHeader(req)
+      );
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Import candidates retrieved",
+        data,
+      });
+    } catch (e) {
+      next(e);
+    }
+  };
+
   review = async (
     req: AuthenticatedRequest,
     res: Response,

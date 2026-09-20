@@ -38,10 +38,13 @@ export class AiAssistantController {
   async history(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const limit = Number(req.query.limit) || 30;
+      const statusRaw = String(req.query.status || "all").toLowerCase();
+      const status =
+        statusRaw === "success" || statusRaw === "failed" ? statusRaw : "all";
       const data = await aiAssistantService.getHistory(
         requireUserId(req),
         authHeader(req),
-        limit
+        { limit, status }
       );
       sendResponse({
         res,
@@ -56,12 +59,14 @@ export class AiAssistantController {
 
   async assist(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
-      // Reject client quota / key spoof fields
+      // Reject client quota / entitlement / key spoof fields
       if (
         req.body?.quota !== undefined ||
         req.body?.used !== undefined ||
         req.body?.remaining !== undefined ||
         req.body?.accessTier !== undefined ||
+        req.body?.isPremium !== undefined ||
+        req.body?.premiumFeatures !== undefined ||
         req.body?.apiKey !== undefined ||
         req.body?.OPENAI_API_KEY !== undefined ||
         req.body?.GEMINI_API_KEY !== undefined

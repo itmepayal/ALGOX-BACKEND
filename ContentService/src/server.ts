@@ -122,6 +122,8 @@ app.use(
     res.status(status).json({
       success: false,
       message: err?.message || "Internal server error",
+      ...(err?.code ? { code: err.code } : {}),
+      ...(err?.feature ? { feature: err.feature } : {}),
     });
   }
 );

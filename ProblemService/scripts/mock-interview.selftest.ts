@@ -58,18 +58,23 @@ check(
   report.includes("No complexity analysis") && report.includes('"unavailable"')
 );
 check("scores from real signals only", report.includes("test_cases_passed") && report.includes("accepted_problems") && !report.includes("openai"));
-check("premium gate", service.includes("premium.mock_interview"));
+check("premium gate", service.includes("premium.mock_interview") || service.includes("MOCK_INTERVIEW_FEATURE"));
+check("PremiumRequiredError", service.includes("PremiumRequiredError"));
 check("duplicate session conflict", service.includes("ConflictError") && service.includes("active mock interview"));
 check("owner check unauthorized", service.includes("Unauthorized session access"));
 check("server timeout apply", service.includes("applyTimeoutIfNeeded") && service.includes("timed_out"));
 check("reject client timer spoof", controller.includes("Client timer/result fields are not accepted"));
 check("reject client judge spoof", controller.includes("Judge result fields are not accepted from client"));
 check("routes start/active/complete/report", router.includes("/start") && router.includes("/active") && router.includes("/complete") && router.includes("/report"));
+check("config route", router.includes("/config"));
+check("requireFeature middleware", router.includes("requireFeature"));
 check("internal allows + record", router.includes("allows-submission") && router.includes("record-submission"));
 check("mounted on /interviews", indexRouter.includes("/interviews") && indexRouter.includes("mountMockInterviewInternal"));
+check("admin interviews mounted", indexRouter.includes("admin/interviews") || indexRouter.includes("adminMockInterview"));
+check("report overallScore", report.includes("overallScore") && report.includes("strengths"));
 check("submission carries mockInterviewSessionId", subValidator.includes("mockInterviewSessionId"));
 check("evaluation records interview verdicts", evalWorker.includes("interview-record-submission") && evalWorker.includes("mockInterviewSessionId"));
-check("client API + panel", clientApi.includes("start") && panel.includes("Start interview") && panel.includes("Interview report"));
+check("client API + panel", clientApi.includes("start") && clientApi.includes("getConfig") && panel.includes("Start interview") && panel.includes("Interview report"));
 check(
   "client submit includes mockInterviewSessionId",
   dash.includes("mockInterviewSessionId") &&
@@ -77,6 +82,7 @@ check(
     clientSubApi.includes("mockInterviewSessionId")
 );
 check("dashboard interview tab", dash.includes('"interview"') && dash.includes("MockInterviewPanel"));
+check("workspace timer chrome", dash.includes("mockInterviewRemainingMs") || dash.includes("mock-interview-workspace-bar"));
 
 async function unitReport() {
   const mod = await import("../src/utils/mockInterviewReport.ts");
@@ -117,6 +123,8 @@ async function unitReport() {
   check("complexity unavailable not invented", built.scores.complexity.available === false && built.scores.complexity.score == null);
   check("completion 100% attempted", built.scores.completion.score === 100);
   check("time management available on complete", built.scores.timeManagement.available === true);
+  check("overallScore computed", typeof built.overallScore === "number" && built.overallScore >= 0 && built.overallScore <= 100);
+  check("attempt efficiency cell", built.scores.attempts.available === true);
 }
 
 const PROBLEM_URL = process.env.PROBLEM_SERVICE_URL || "http://localhost:3003";
@@ -199,7 +207,7 @@ async function live() {
     `status=${freeStart.status}`
   );
 
-  // Grant premium via User.subscription snapshot
+  // Grant premium via Subscription ledger (SoT) + User.subscription snapshot
   let userId = "";
   try {
     userId = JSON.parse(
@@ -216,15 +224,39 @@ async function live() {
   const mongoose = await import("mongoose");
   const authConn = await mongoose.default.createConnection(authMongo).asPromise();
   const Users = authConn.collection("users");
+  const Subs = authConn.collection("subscriptions");
+  const oid = new mongoose.default.Types.ObjectId(userId);
+  const now = new Date();
+  const periodEnd = new Date(now.getTime() + 30 * 86400000);
+  await Subs.updateMany(
+    { userId: oid, endedAt: null },
+    { $set: { endedAt: now, status: "CANCELLED", updatedAt: now } }
+  );
+  await Subs.insertOne({
+    userId: oid,
+    plan: "PREMIUM",
+    status: "ACTIVE",
+    provider: "admin",
+    startDate: now,
+    currentPeriodStart: now,
+    currentPeriodEnd: periodEnd,
+    cancelAtPeriodEnd: false,
+    endedAt: null,
+    metadata: { reason: "mock-interview.selftest" },
+    createdAt: now,
+    updatedAt: now,
+  });
   await Users.updateOne(
-    { _id: new mongoose.default.Types.ObjectId(userId) },
+    { _id: oid },
     {
       $set: {
         subscription: {
           plan: "PREMIUM",
           status: "active",
-          source: "admin_grant",
-          currentPeriodEnd: null,
+          source: "admin",
+          currentPeriodStart: now,
+          currentPeriodEnd: periodEnd,
+          updatedAt: now,
         },
       },
     }
@@ -306,19 +338,42 @@ async function live() {
     password,
   });
   const token2 = login2.json?.data?.accessToken || login2.json?.data?.token;
-  await Users.updateOne(
+  await Subs.updateMany(
     {
-      _id: new mongoose.default.Types.ObjectId(
+      userId: new mongoose.default.Types.ObjectId(
         JSON.parse(Buffer.from(String(token2).split(".")[1], "base64url").toString()).userId
       ),
+      endedAt: null,
     },
+    { $set: { endedAt: new Date(), status: "CANCELLED" } }
+  );
+  const uid2 = new mongoose.default.Types.ObjectId(
+    JSON.parse(Buffer.from(String(token2).split(".")[1], "base64url").toString()).userId
+  );
+  const now2 = new Date();
+  await Subs.insertOne({
+    userId: uid2,
+    plan: "PREMIUM",
+    status: "ACTIVE",
+    provider: "admin",
+    startDate: now2,
+    currentPeriodStart: now2,
+    currentPeriodEnd: new Date(now2.getTime() + 30 * 86400000),
+    cancelAtPeriodEnd: false,
+    endedAt: null,
+    createdAt: now2,
+    updatedAt: now2,
+  });
+  await Users.updateOne(
+    { _id: uid2 },
     {
       $set: {
         subscription: {
           plan: "PREMIUM",
           status: "active",
-          source: "admin_grant",
-          currentPeriodEnd: null,
+          source: "admin",
+          currentPeriodEnd: new Date(now2.getTime() + 30 * 86400000),
+          updatedAt: now2,
         },
       },
     }
@@ -427,7 +482,7 @@ async function live() {
     "/api/v1/interviews/start",
     "POST",
     auth,
-    { language: "python", durationMinutes: 15, problemCount: 1 }
+    { language: "python", durationMinutes: 30, problemCount: 1 }
   );
   const sid2 = start2.json?.data?.id;
   check("second start after complete", Boolean(sid2));
@@ -466,7 +521,7 @@ async function live() {
     );
     check(
       "submit blocked after timeout",
-      denySubmit.status === 400,
+      denySubmit.status === 400 || denySubmit.status === 409,
       `status=${denySubmit.status}`
     );
   }

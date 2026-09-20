@@ -74,3 +74,4 @@
 {"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:52:37","data":{"socketId":"sqU4HDekyQhyZX7cAAAV","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:56:07","data":{"socketId":"0g6p6m29Hcxs6QNfAAAW","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-18-2026 22:56:32","data":{"socketId":"QkiIGm6oxq55fBIMAAAX","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-18-2026 23:06:03","data":{}}

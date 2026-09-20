@@ -28,6 +28,16 @@ srsRouter.post(
   srsController.enroll.bind(srsController)
 );
 srsRouter.post(
+  "/sync-from-solved",
+  authenticateJwt,
+  srsController.syncFromSolved.bind(srsController)
+);
+srsRouter.get(
+  "/import-candidates",
+  authenticateJwt,
+  srsController.importCandidates.bind(srsController)
+);
+srsRouter.post(
   "/:problemId/review",
   authenticateJwt,
   srsController.review.bind(srsController)

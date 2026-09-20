@@ -1,0 +1,489 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-19-2026 11:38:08","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-19-2026 11:38:11","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-19-2026 11:38:13","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-19-2026 11:38:13","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-19-2026 11:38:13","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-19-2026 11:38:13","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-19-2026 11:38:13","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 11:38:21","data":{"socketId":"OCHgE2FelX_bOpatAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-19-2026 11:45:30","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-19-2026 15:30:38","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-19-2026 15:30:39","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-19-2026 15:30:40","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-19-2026 15:30:40","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-19-2026 15:30:40","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-19-2026 15:30:40","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-19-2026 15:30:40","data":{}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-19-2026 15:33:52","data":{}}
+{"level":"warn","message":"[AppError] ForbiddenError (403): Access forbidden: Insufficient permissions","timestamp":"09-19-2026 15:34:42","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 15:39:03","data":{"socketId":"AHB44TZS98VEOMxYAAAB","userId":"6aae5e04c9a020f8401d8ccc","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 15:43:17","data":{"socketId":"sezc5GgiXzqdSNstAAAA","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 15:44:15","data":{"socketId":"VNW-y3jBxKehwzuvAAAC","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 15:44:17","data":{"socketId":"W4Or5yRbcC-NPv8gAAAD","userId":"6aa17a0698eb08388c0fa67e","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 15:54:35","data":{"socketId":"Tg2YhdfWWzJpstW2AAAE","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:08:58","data":{"socketId":"381PBjJ1HUPFlOvSAAAG","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:14:40","data":{"socketId":"rQ3dDN3pUtIXxysYAAAH","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:19:22","data":{"socketId":"k0sNSB4XkHSrGRCIAAAF","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-19-2026 16:20:23","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-19-2026 16:20:23","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-19-2026 16:22:19","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-19-2026 16:22:19","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:32:03","data":{"socketId":"EicSbb7sxrbuRnT4AAAJ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:37:55","data":{"socketId":"9jnDL2QkbVzVZB-kAAAI","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:38:02","data":{"socketId":"TkKMEux1UXfux5_2AAAL","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:44:14","data":{"socketId":"u5sWu-SMeHT5nPxxAAAK","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:49:19","data":{"socketId":"fkUtoqAyKtSwAMdwAAAM","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:49:22","data":{"socketId":"Y-ntQPA60Qy_Cd9nAAAN","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:51:17","data":{"socketId":"HzmuFouJ8SL7UEW9AAAO","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:55:32","data":{"socketId":"-ixfsNGq9yGlHVF7AAAP","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:55:39","data":{"socketId":"gW66gOFhXXp0gdX0AAAQ","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:55:47","data":{"socketId":"vS0rVCBWHqRjA2sKAAAR","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 16:56:18","data":{"socketId":"FGDn_ZjCrTS4gdT1AAAS","userId":"6aa17a0698eb08388c0fa67e","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:01:08","data":{"socketId":"ffrH0y5VG738GT_6AAAT","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:02:35","data":{"socketId":"lfkTMEO0wRYdi9-SAAAU","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:02:35","data":{"socketId":"oVZ3guURP3Mq8jXjAAAV","userId":"6aa17a0698eb08388c0fa67e","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:04:14","data":{"socketId":"7J6G8QFyF8darsNsAAAX","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:05:12","data":{"socketId":"1JgehASexkWfKn47AAAW","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:16:42","data":{"socketId":"TfYAmk3yKCn_7NOtAAAY","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:16:42","data":{"socketId":"ogua0zbIzDDwaX2aAAAZ","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:16:44","data":{"socketId":"p2ZAMFnM4mOXn0GpAAAb","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:25:42","data":{"socketId":"l9YA06HTRDAYEBrOAAAd","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:26:26","data":{"socketId":"JDP7qo6zQY6rORRAAAAa","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 17:29:07","data":{"socketId":"hIafRPrEJAAduLHpAAAe","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 18:05:01","data":{"socketId":"FGR6el_jtLRfmEfQAAAf","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 18:05:13","data":{"socketId":"VOUfarjh5OfdpDwSAAAg","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-19-2026 18:15:07","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-19-2026 18:15:07","data":{}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:33","data":{"error":"read ENETUNREACH"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:33","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:34","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"presence.cleanupStaleUsers failed","timestamp":"09-19-2026 18:30:34","data":{"error":"Reached the max retries per request limit (which is 2). Refer to \"maxRetriesPerRequest\" option for details."}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:38","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:43","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:30:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:45","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:50","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:31:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:45","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:50","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:32:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:45","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:50","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:33:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:45","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:50","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:34:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:45","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:50","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:35:55","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:00","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:05","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:10","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:15","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:20","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:25","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:35","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:36:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:37:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:38:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:39:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:40:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:41:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:42:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:43:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:44:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:45:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:11","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:16","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:21","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:26","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:36","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:41","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:46","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:51","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:46:56","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:47:01","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 18:47:06","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"MongoDB unavailable — BroadcastLog persistence disabled (memory fallback only)","timestamp":"09-19-2026 19:15:29","data":{"error":"querySrv ESERVFAIL _mongodb._tcp.cluster0.ojeyznz.mongodb.net"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:29","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis unavailable — in-memory unique-user fallback","timestamp":"09-19-2026 19:15:29","data":{"reason":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Redis adapter unavailable — degrading to in-memory","timestamp":"09-19-2026 19:15:29","data":{"reason":"Connection is closed."}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-19-2026 19:15:29","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"09-19-2026 19:15:29","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MongoDB unavailable — BroadcastLog using in-memory only)","timestamp":"09-19-2026 19:15:29","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-19-2026 19:15:29","data":{}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:30","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:31","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:34","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:40","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:43","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:15:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:16:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:17:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:18:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:19:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:20:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:21:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:22:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:23:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:24:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:25:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:02","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:07","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:12","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:17","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:22","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:27","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:32","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:37","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:42","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:47","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:52","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:26:57","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:03","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:08","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:13","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:18","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:23","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:28","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:33","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:38","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:43","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:48","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-19-2026 19:27:53","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-19-2026 19:27:59","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-19-2026 19:29:19","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-19-2026 19:29:20","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-19-2026 19:29:22","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-19-2026 19:29:22","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-19-2026 19:29:22","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-19-2026 19:29:22","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-19-2026 19:29:22","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:36:25","data":{"socketId":"PmsDrP81HiqXITiIAAAB","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:39:12","data":{"socketId":"qi40CzgVoSPIZoIQAAAC","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:39:14","data":{"socketId":"3i2XdUEJMJcFNJmkAAAD","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:42:12","data":{"socketId":"GYiRZSbUMSlremeMAAAE","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:42:20","data":{"socketId":"9_3x5MCWtXOviKUZAAAF","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 19:58:39","data":{"socketId":"8_WNlzH4cKZOBoNyAAAH","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:00:43","data":{"socketId":"1D-0OYEtIG8A8xsiAAAG","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:00:45","data":{"socketId":"K_x8PdlJd5nyzP1GAAAJ","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:05:34","data":{"socketId":"bNlRbYXp75-aMhOZAAAK","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:09:35","data":{"socketId":"p-wwXLpI5Mw071gnAAAL","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:09:35","data":{"socketId":"IkVG9Oq3mZfgKVqvAAAM","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:14:31","data":{"socketId":"I3lzEQ5bP2CBEX4UAAAN","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:14:34","data":{"socketId":"t4md6nHStHrIB4oiAAAO","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:55:58","data":{"socketId":"q8NPCtZacAv4gP0yAAAP","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 20:57:05","data":{"socketId":"hWjYRXuNgu18qVNfAAAQ","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:00:14","data":{"socketId":"xGRVlQPrkjdk9VhMAAAR","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:02:40","data":{"socketId":"3RTY78fzFJP1k3NaAAAS","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:03:13","data":{"socketId":"Z3tM5boS3qEx4NNsAAAT","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:03:15","data":{"socketId":"02QyAMUYdXIAci-WAAAU","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:03:33","data":{"socketId":"I64dTSxb-DzK4ZVsAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:08:09","data":{"socketId":"zPprj0CU76YAr3w0AAAV","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:08:16","data":{"socketId":"t_wGvhpC8pzH7mGPAAAW","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:43:26","data":{"socketId":"KWLspvjuSRjCzdVHAAAI","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:43:30","data":{"socketId":"6snCUt_TruPYm5UJAAAZ","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:45:37","data":{"socketId":"7YQTsUrnzdGLuqdIAAAa","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:52:25","data":{"socketId":"k-mZmW3YqHHtcYFdAAAY","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:52:41","data":{"socketId":"3KFP3isTZ18cnHchAAAb","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 21:59:43","data":{"socketId":"5K346D9pYfqhvxiqAAAc","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 22:00:09","data":{"socketId":"R_Fs2QK1cEPBjHW1AAAX","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 22:01:57","data":{"socketId":"VR7lffcZqVbWQa8jAAAe","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 22:23:29","data":{"socketId":"QLKbq5UU-2B3uG2lAAAf","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:15:28","data":{"socketId":"OSFz8rFQ4_nBBztjAAAg","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:15:31","data":{"socketId":"TWtQepcT3cijQvKbAAAh","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:16:00","data":{"socketId":"D_uwOyZTslQhArp9AAAi","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:16:02","data":{"socketId":"MuQx5rhHjyOXeromAAAj","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:29:33","data":{"socketId":"NYTi-xgf9c6oH0VuAAAk","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:29:36","data":{"socketId":"ize5rOwGTWf9YTsQAAAl","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:40:37","data":{"socketId":"MlzP93_gJcSINNsZAAAm","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-19-2026 23:55:09","data":{"socketId":"lZPhqV08q1jNUO7rAAAn","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}

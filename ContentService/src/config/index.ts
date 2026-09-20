@@ -63,5 +63,6 @@ export const serverConfig = {
   NODE_ENV: process.env.NODE_ENV || "development",
   JWT_SECRET: secretEnv("JWT_SECRET", "super_secret_jwt_access_key"),
   AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL || "http://localhost:3001",
+  PROBLEM_SERVICE_URL: process.env.PROBLEM_SERVICE_URL || "http://localhost:3003",
   INTERNAL_SERVICE_SECRET: resolveInternalSecret(),
 };

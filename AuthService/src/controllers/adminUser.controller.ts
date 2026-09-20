@@ -6,8 +6,9 @@ import { sendResponse } from "../utils/helpers/response.helper";
 import { AUTH_MESSAGES, HTTP_STATUS } from "../utils/constants";
 import { normalizeRole } from "../rbac/permissions";
 import { permissionsForRoleResolved } from "../services/rolePermission.service";
-import { BadRequestError, UnauthorizedError } from "../utils/errors/app.error";
+import { BadRequestError, UnauthorizedError, ForbiddenError } from "../utils/errors/app.error";
 import { writeAdminAudit } from "../utils/helpers/audit.helper";
+import { isStrictSecretsMode } from "../config";
 
 const roleSchema = z.object({
   role: z.enum([
@@ -40,6 +41,38 @@ const subscriptionSchema = z.object({
 });
 
 export class AdminUserController {
+  /**
+   * Dev-only listing of seeded Free/Premium test accounts.
+   * Never returns passwords, hashes, or tokens.
+   */
+  async listDevTestUsers(
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      if (!req.user) throw new UnauthorizedError("Authentication required");
+      if (
+        isStrictSecretsMode() ||
+        (process.env.NODE_ENV || "").toLowerCase() === "production" ||
+        process.env.ENABLE_TEST_USER_SEED !== "true"
+      ) {
+        throw new ForbiddenError(
+          "Dev test-user listing is disabled (requires ENABLE_TEST_USER_SEED=true in non-production)"
+        );
+      }
+      const users = await adminUserService.listDevTestUsers();
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Dev test users retrieved",
+        data: users,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async listUsers(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const result = await adminUserService.listUsers({

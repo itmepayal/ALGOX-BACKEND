@@ -30,9 +30,14 @@ export class AnalyticsRepository {
     status: "ACCEPTED" | "WRONG_ANSWER" | "TIME_LIMIT_EXCEEDED" | "MEMORY_LIMIT_EXCEEDED" | "RUNTIME_ERROR";
     difficulty?: "easy" | "medium" | "hard";
     topics?: string[];
+    problemId?: string;
   }): Promise<IUserAnalytics> {
-    const { userId, status, difficulty, topics = [] } = eventPayload;
+    const { userId, status, difficulty, topics = [], problemId } = eventPayload;
+    // UTC calendar day — keep streak comparisons in one timezone
     const todayStr = new Date().toISOString().split("T")[0];
+    const yesterdayStr = new Date(Date.now() - 86400000)
+      .toISOString()
+      .split("T")[0];
 
     let analytics = await UserAnalytics.findOne({ userId });
 
@@ -44,6 +49,7 @@ export class AnalyticsRepository {
         solvedEasy: 0,
         solvedMedium: 0,
         solvedHard: 0,
+        solvedProblemIds: [],
         wrongAnswers: 0,
         timeLimitExceeded: 0,
         memoryLimitExceeded: 0,
@@ -56,13 +62,30 @@ export class AnalyticsRepository {
       });
     }
 
+    if (!Array.isArray(analytics.solvedProblemIds)) {
+      analytics.solvedProblemIds = [];
+    }
+
     // 1. Update status & difficulty counters
     analytics.totalSubmissions += 1;
     if (status === "ACCEPTED") {
       analytics.acceptedSubmissions += 1;
-      if (difficulty === "easy") analytics.solvedEasy += 1;
-      else if (difficulty === "medium") analytics.solvedMedium += 1;
-      else if (difficulty === "hard") analytics.solvedHard += 1;
+      const pid = String(problemId || "").trim();
+      const alreadySolved = pid
+        ? analytics.solvedProblemIds.includes(pid)
+        : false;
+      // Unique-problem solved counts when problemId is present
+      if (pid && !alreadySolved) {
+        analytics.solvedProblemIds.push(pid);
+        if (difficulty === "easy") analytics.solvedEasy += 1;
+        else if (difficulty === "medium") analytics.solvedMedium += 1;
+        else if (difficulty === "hard") analytics.solvedHard += 1;
+      } else if (!pid) {
+        // Legacy fan-out without problemId — keep prior increment behavior
+        if (difficulty === "easy") analytics.solvedEasy += 1;
+        else if (difficulty === "medium") analytics.solvedMedium += 1;
+        else if (difficulty === "hard") analytics.solvedHard += 1;
+      }
     } else if (status === "WRONG_ANSWER") analytics.wrongAnswers += 1;
     else if (status === "TIME_LIMIT_EXCEEDED") analytics.timeLimitExceeded += 1;
     else if (status === "MEMORY_LIMIT_EXCEEDED") analytics.memoryLimitExceeded += 1;
@@ -73,7 +96,7 @@ export class AnalyticsRepository {
       ((analytics.acceptedSubmissions / analytics.totalSubmissions) * 100).toFixed(2)
     );
 
-    // 3. Streak Calculation (Strict Calendar Day Check)
+    // 3. Streak Calculation (UTC calendar days)
     const lastDate = analytics.lastSubmissionDate;
     const now = new Date();
 
@@ -82,14 +105,10 @@ export class AnalyticsRepository {
     } else {
       const lastDateStr = lastDate.toISOString().split("T")[0];
       if (lastDateStr !== todayStr) {
-        const yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayStr = yesterday.toISOString().split("T")[0];
-
         if (lastDateStr === yesterdayStr) {
           analytics.currentStreak += 1;
         } else {
-          analytics.currentStreak = 1; // Reset streak if a day was skipped
+          analytics.currentStreak = 1;
         }
       }
     }

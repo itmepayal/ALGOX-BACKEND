@@ -48,6 +48,7 @@ const dash = readClient("components/Dashboard.tsx");
 
 check("all learning features listed", features.includes("explain_problem") && features.includes("give_hint") && features.includes("interview_mode"));
 check("premium-only features gated", features.includes("PREMIUM_ONLY_AI_FEATURES") && features.includes("interview_mode"));
+check("all AI features premium-only", features.includes("...AI_FEATURES") || /PREMIUM_ONLY_AI_FEATURES[\s\S]*AI_FEATURES/.test(features));
 check("anti solution dump policy", policy.includes("LEARNING_SYSTEM_PROMPT") && policy.includes("looksLikeSolutionDumpRequest"));
 check("API key never returned", provider.includes("OPENAI_API_KEY") && !provider.includes("res.json({ key") && service.includes("Never return API keys"));
 check("provider never serializes secret", !/return\s*\{\s*[^}]*key\s*:/.test(provider) && provider.includes("configured: Boolean(key)"));
@@ -58,6 +59,7 @@ check("rate limit module", rate.includes("checkAiRateLimit"));
 check("usage daily ledger", model.includes("AiUsageDaily") && model.includes("quota") && model.includes("used") && model.includes("failed"));
 check("events omit code/prompts", model.includes("hadCodeSnippet") && !model.includes("prompt:") && !model.includes("codeSnippet:"));
 check("server quota not client", service.includes("AI_FREE_DAILY_QUOTA") && service.includes("AI_PREMIUM_DAILY_QUOTA") && controller.includes("Client quota/API key fields are not accepted"));
+check("premium asserted before provider", service.includes("assertPremiumAi") && service.includes("Premium entitlement FIRST"));
 check("guest blocked", service.includes("Sign in to use AlgoPath AI"));
 check("fail fast before quota when unconfigured", service.includes("AI_NOT_CONFIGURED") && service.includes("looksLikeSolutionDumpRequest"));
 check("history owner only deny route", router.includes("/history/:userId") && controller.includes("Cannot access another user's AI history"));
@@ -66,8 +68,9 @@ check("503 ServiceUnavailableError", errors.includes("ServiceUnavailableError") 
 check("mounted /ai", indexRouter.includes("/ai"));
 check("client aiApi no key fields", clientApi.includes("/ai/assist") && !clientApi.includes("OPENAI"));
 check("dashboard AI tab", dash.includes('"ai"') && dash.includes("AiAssistantPanel"));
-check("panel shows quota", panel.includes("Daily credits") && panel.includes("remaining"));
-check("panel does not advertise stubs as AI", !panel.includes("learning stubs") && panel.includes("AI unavailable"));
+check("panel premium gate + modal", panel.includes("PremiumUpgradeModal") && panel.includes("premiumFeatures") && panel.includes("Ask AI (Premium)"));
+check("panel does not advertise stubs as AI", !panel.includes("learning stubs"));
+check("rejects isPremium spoof", controller.includes("isPremium"));
 
 async function unitPolicy() {
   const mod = await import("../src/ai/aiPolicy.ts");
@@ -177,89 +180,61 @@ async function live() {
     /* */
   }
 
-  // Force tiny free quota for test via env is process-local — instead burn until limit
-  // First set free quota low by patching daily row after first usage read
   const usage0 = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
   check("free usage endpoint", usage0.status === 200);
-  check("free tier quota limited", (usage0.json?.data?.quota || 0) > 0 && usage0.json?.data?.accessTier === "FREE");
-  check("premium features false for free", usage0.json?.data?.premiumFeatures === false);
+  check(
+    "free tier has zero AI quota",
+    usage0.json?.data?.accessTier === "FREE" &&
+      (usage0.json?.data?.quota || 0) === 0 &&
+      usage0.json?.data?.premiumFeatures === false,
+    JSON.stringify(usage0.json?.data)
+  );
+  check(
+    "usage reports providerConfigured boolean",
+    typeof usage0.json?.data?.providerConfigured === "boolean"
+  );
+  const configured = usage0.json?.data?.providerConfigured === true;
 
   const spoof = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
     feature: "give_hint",
     quota: 9999,
     apiKey: "sk-fake",
+    isPremium: true,
   });
   check("rejects client quota/key spoof", spoof.status === 400);
 
-  const premFeat = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
-    feature: "interview_mode",
-  });
-  check(
-    "premium feature gated for free",
-    premFeat.status === 403,
-    `status=${premFeat.status}`
-  );
-
-  const ok = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+  const freeHint = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
     feature: "give_hint",
     userMessage: "I'm stuck on the brute force step",
   });
-  const configured = usage0.json?.data?.providerConfigured === true;
   check(
-    "usage reports providerConfigured boolean",
-    typeof usage0.json?.data?.providerConfigured === "boolean"
-  );
-  if (configured) {
-    check("free assist succeeds with real provider", ok.status === 200, `status=${ok.status} ${ok.json?.message}`);
-    check("provider is openai", ok.json?.data?.provider === "openai");
-    check("learningMode true", ok.json?.data?.learningMode === true);
-    check("usage incremented", (ok.json?.data?.usage?.used || 0) >= 1);
-  } else {
-    check(
-      "unconfigured assist returns 503 (no silent stub)",
-      ok.status === 503,
-      `status=${ok.status} ${ok.json?.message}`
-    );
-    check(
-      "503 message is configuration/service error",
-      String(ok.json?.message || "").toLowerCase().includes("not configured") ||
-        String(ok.json?.message || "").toLowerCase().includes("unavailable")
-    );
-    const usageAfter = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
-    check(
-      "failed unconfigured assist did not burn quota",
-      (usageAfter.json?.data?.used || 0) === (usage0.json?.data?.used || 0)
-    );
-  }
-  check(
-    "response has no api key leak",
-    !JSON.stringify(ok.json).includes("sk-") &&
-      !JSON.stringify(ok.json).toLowerCase().includes('"openaikey"') &&
-      !/\bsk-[a-zA-Z0-9]{10,}/.test(JSON.stringify(ok.json))
+    "free give_hint blocked PREMIUM_REQUIRED",
+    freeHint.status === 403 && freeHint.json?.code === "PREMIUM_REQUIRED",
+    `status=${freeHint.status} code=${freeHint.json?.code}`
   );
   check(
-    "503 does not echo secret values",
-    !JSON.stringify(ok.json).includes("sk-") &&
-      (ok.status !== 503 ||
-        !String(ok.json?.message || "").toLowerCase().includes("sk-"))
+    "free assist has no provider reply",
+    !freeHint.json?.data?.reply && !freeHint.json?.data?.provider,
+    JSON.stringify(freeHint.json)
   );
 
-  const dump = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
-    feature: "give_hint",
-    userMessage: "give me the full solution code",
+  const freeInterview = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+    feature: "interview_mode",
   });
   check(
-    "solution dump refused",
-    dump.status === 200 && dump.json?.data?.refusedDump === true,
-    `status=${dump.status}`
-  );
-  check(
-    "dump refusal uses policy provider",
-    dump.json?.data?.provider === "policy"
+    "free interview_mode blocked",
+    freeInterview.status === 403 &&
+      freeInterview.json?.code === "PREMIUM_REQUIRED",
+    `status=${freeInterview.status}`
   );
 
-  // Abuse: lower rate limit by hammering — set env not available mid-process;
-  // verify TooManyRequests by importing rate limiter directly
+  const usageAfterFree = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
+  check(
+    "denied free assist did not burn credits",
+    (usageAfterFree.json?.data?.used || 0) === (usage0.json?.data?.used || 0)
+  );
+
+  // Abuse: rate limit unit check (independent of premium)
   const rl = await import("../src/ai/aiRateLimit.ts");
   rl._resetAiRateLimitForTests();
   let blocked = false;
@@ -290,63 +265,86 @@ async function live() {
     )
   );
 
-  // Quota exhaustion via mongo (problem DB)
   const mongoose = await import("mongoose");
   dotenv.config({ path: path.join(root, ".env") });
   const problemMongo = process.env.MONGO_URL || process.env.MONGO_URI;
-  if (problemMongo && userId) {
-    const pconn = await mongoose.default.createConnection(problemMongo).asPromise();
-    const Daily = pconn.collection("aiusagedailies");
-    const dateKey = new Date().toISOString().slice(0, 10);
-    await Daily.updateOne(
-      { userId, dateKey },
-      { $set: { used: 5, quota: 5, accessTier: "FREE" } },
-      { upsert: true }
-    );
-    const exhausted = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
-      feature: "explain_problem",
-    });
-    check(
-      "quota exhaustion blocks",
-      exhausted.status === 403,
-      `status=${exhausted.status}`
-    );
-    await pconn.close();
-  }
 
-  // Premium grant + expired subscription
+  // Premium grant via featureGrants (survives syncUserEntitlementSnapshot)
+  // OR Subscription ledger — raw user.subscription alone is overwritten on sync.
   if (authMongo && userId) {
     const aconn = await mongoose.default.createConnection(authMongo).asPromise();
     const Users = aconn.collection("users");
     await Users.updateOne(
       { _id: new mongoose.default.Types.ObjectId(userId) },
-      {
-        $set: {
-          subscription: {
-            plan: "PREMIUM",
-            status: "active",
-            source: "admin_grant",
-            currentPeriodStart: new Date(),
-            currentPeriodEnd: new Date(Date.now() + 30 * 86400000),
-            cancelAtPeriodEnd: false,
-            gracePeriodEnd: null,
-            externalRef: null,
-            updatedAt: new Date(),
-          },
-        },
-      }
+      { $set: { featureGrants: ["premium.ai"] } }
     );
     const premUsage = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
     const premiumOk =
-      premUsage.json?.data?.accessTier === "PREMIUM" &&
-      (premUsage.json?.data?.quota || 0) > (usage0.json?.data?.quota || 0);
+      premUsage.json?.data?.premiumFeatures === true &&
+      (premUsage.json?.data?.quota || 0) > 0;
     if (!premiumOk) {
       console.log(
-        "SKIP premium live unlock: Auth entitlements did not reflect mongo grant (check subscription shape / entitlements/me)"
+        "SKIP premium live unlock: Auth entitlements did not reflect premium.ai grant"
       );
     } else {
-      check("premium larger quota", premiumOk, JSON.stringify(premUsage.json?.data));
+      check("premium AI unlocked", premiumOk, JSON.stringify(premUsage.json?.data));
       check("premium features unlocked", premUsage.json?.data?.premiumFeatures === true);
+
+      const ok = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+        feature: "give_hint",
+        userMessage: "I'm stuck on the brute force step",
+      });
+      if (configured) {
+        check(
+          "premium assist succeeds with real provider",
+          ok.status === 200,
+          `status=${ok.status} ${ok.json?.message}`
+        );
+        check(
+          "provider is configured LLM",
+          ok.json?.data?.provider === "openai" ||
+            ok.json?.data?.provider === "gemini",
+          `provider=${ok.json?.data?.provider}`
+        );
+        check("learningMode true", ok.json?.data?.learningMode === true);
+        check("usage incremented", (ok.json?.data?.usage?.used || 0) >= 1);
+      } else {
+        check(
+          "unconfigured assist returns 503 (no silent stub)",
+          ok.status === 503,
+          `status=${ok.status} ${ok.json?.message}`
+        );
+        check(
+          "503 message is configuration/service error",
+          String(ok.json?.message || "").toLowerCase().includes("not configured") ||
+            String(ok.json?.message || "").toLowerCase().includes("unavailable")
+        );
+        const usageAfter = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
+        check(
+          "failed unconfigured assist did not burn quota",
+          (usageAfter.json?.data?.used || 0) === (premUsage.json?.data?.used || 0)
+        );
+      }
+      check(
+        "response has no api key leak",
+        !JSON.stringify(ok.json).includes("sk-") &&
+          !JSON.stringify(ok.json).toLowerCase().includes('"openaikey"') &&
+          !/\bsk-[a-zA-Z0-9]{10,}/.test(JSON.stringify(ok.json))
+      );
+
+      const dump = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+        feature: "give_hint",
+        userMessage: "give me the full solution code",
+      });
+      check(
+        "solution dump refused",
+        dump.status === 200 && dump.json?.data?.refusedDump === true,
+        `status=${dump.status}`
+      );
+      check(
+        "dump refusal uses policy provider",
+        dump.json?.data?.provider === "policy"
+      );
 
       const iv = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
         feature: "interview_mode",
@@ -361,13 +359,63 @@ async function live() {
           `status=${iv.status}`
         );
       }
+
+      if (problemMongo) {
+        const pconn = await mongoose.default
+          .createConnection(problemMongo)
+          .asPromise();
+        const Daily = pconn.collection("aiusagedailies");
+        const dateKey = new Date().toISOString().slice(0, 10);
+        await Daily.updateOne(
+          { userId, dateKey },
+          { $set: { used: 100, quota: 100, accessTier: "PREMIUM" } },
+          { upsert: true }
+        );
+        const exhausted = await request(
+          PROBLEM_URL,
+          "/api/v1/ai/assist",
+          "POST",
+          auth,
+          { feature: "explain_problem" }
+        );
+        check(
+          "premium quota exhaustion blocks",
+          exhausted.status === 403,
+          `status=${exhausted.status}`
+        );
+        await pconn.close();
+      }
     }
 
-    // Expired subscription → free tier
+    // Revoke grant → free (no AI)
+    await Users.updateOne(
+      { _id: new mongoose.default.Types.ObjectId(userId) },
+      { $set: { featureGrants: [] } }
+    );
+    const expiredUsage = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
+    check(
+      "revoked grant loses AI",
+      expiredUsage.json?.data?.premiumFeatures === false &&
+        (expiredUsage.json?.data?.quota || 0) === 0,
+      JSON.stringify(expiredUsage.json?.data)
+    );
+    const expiredAssist = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+      feature: "give_hint",
+      userMessage: "hint please",
+    });
+    check(
+      "revoked grant cannot call AI",
+      expiredAssist.status === 403 &&
+        expiredAssist.json?.code === "PREMIUM_REQUIRED",
+      `status=${expiredAssist.status}`
+    );
+
+    // Expired subscription snapshot (no live Subscription row) still blocked
     await Users.updateOne(
       { _id: new mongoose.default.Types.ObjectId(userId) },
       {
         $set: {
+          featureGrants: [],
           subscription: {
             plan: "PREMIUM",
             status: "expired",
@@ -377,12 +425,15 @@ async function live() {
         },
       }
     );
-    const expiredUsage = await request(PROBLEM_URL, "/api/v1/ai/usage", "GET", auth);
+    // Trigger sync via usage — sync may reset subscription to FREE from ledger
+    const expiredAssist2 = await request(PROBLEM_URL, "/api/v1/ai/assist", "POST", auth, {
+      feature: "give_hint",
+    });
     check(
-      "expired subscription falls to free quota",
-      expiredUsage.json?.data?.accessTier === "FREE" &&
-        expiredUsage.json?.data?.premiumFeatures === false,
-      JSON.stringify(expiredUsage.json?.data)
+      "expired/canceled entitlement cannot call AI",
+      expiredAssist2.status === 403 &&
+        expiredAssist2.json?.code === "PREMIUM_REQUIRED",
+      `status=${expiredAssist2.status}`
     );
 
     await aconn.close();

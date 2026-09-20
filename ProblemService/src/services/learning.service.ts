@@ -197,8 +197,11 @@ export class LearningService {
       return this.getActiveSession(userId);
     }
     const now = Date.now();
+    // Fold the live segment BEFORE changing status — activeMs() only
+    // adds (now - segmentStartedAt) while status is still "running".
+    const nextAccumulated = activeMs(doc, now);
     doc.status = "paused";
-    doc.accumulatedMs = activeMs(doc, now);
+    doc.accumulatedMs = nextAccumulated;
     doc.segmentStartedAt = null;
     doc.updatedAtMs = now;
     await doc.save();
@@ -228,8 +231,10 @@ export class LearningService {
     });
     if (!doc) return null;
     const now = Date.now();
+    // Capture duration while status is still running/paused, then finalize.
+    const nextAccumulated = activeMs(doc, now);
     doc.status = "completed";
-    doc.accumulatedMs = activeMs(doc, now);
+    doc.accumulatedMs = nextAccumulated;
     doc.segmentStartedAt = null;
     doc.endedAt = now;
     doc.updatedAtMs = now;

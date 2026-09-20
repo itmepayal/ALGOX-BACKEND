@@ -1,6 +1,7 @@
 /**
  * AlgoPath AI — learning assistant feature ids.
  * Designed for guided learning, not solution dumping.
+ * All features require active Premium (`premium.ai`).
  */
 export const AI_FEATURES = [
   "explain_problem",
@@ -17,12 +18,9 @@ export const AI_FEATURES = [
 
 export type AiFeatureId = (typeof AI_FEATURES)[number];
 
-/** Features that require active Premium (premium.ai), not just free credits. */
+/** Every AI feature requires active Premium (premium.ai). */
 export const PREMIUM_ONLY_AI_FEATURES: readonly AiFeatureId[] = [
-  "optimize_approach",
-  "compare_approaches",
-  "generate_similar_problem",
-  "interview_mode",
+  ...AI_FEATURES,
 ] as const;
 
 export const AI_FEATURE_META: Record<
@@ -55,19 +53,19 @@ export const AI_FEATURE_META: Record<
   },
   optimize_approach: {
     label: "Optimize Approach",
-    description: "Suggest optimization directions (Premium)",
+    description: "Suggest optimization directions",
   },
   compare_approaches: {
     label: "Compare Approaches",
-    description: "Compare two high-level strategies (Premium)",
+    description: "Compare two high-level strategies",
   },
   generate_similar_problem: {
     label: "Generate Similar Problem",
-    description: "Describe a similar practice prompt (Premium)",
+    description: "Describe a similar practice prompt",
   },
   interview_mode: {
     label: "Interview Mode",
-    description: "Socratic interview-style coaching (Premium)",
+    description: "Socratic interview-style coaching",
   },
 };
 

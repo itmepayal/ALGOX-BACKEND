@@ -718,7 +718,14 @@ export class SubmissionRepository implements ISubmissionRepository {
         {
           $match: {
             ...match,
-            executionTime: { $exists: true, $ne: null, $type: ["double", "int", "long", "decimal"] },
+            // Headline averages: measured ACCEPTED samples only (align with daily trends).
+            // Per-row History still shows runtime/memory for any verdict when measured.
+            status: "ACCEPTED",
+            executionTime: {
+              $exists: true,
+              $ne: null,
+              $type: ["double", "int", "long", "decimal"],
+            },
           },
         },
         {

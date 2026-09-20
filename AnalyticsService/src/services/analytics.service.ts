@@ -59,8 +59,41 @@ function trendPct(current: number, previous: number): number | null {
 }
 
 function rangeToFromTo(range: string): { from: string; to: string } {
-  const days = rangeToDays(range);
   const to = new Date();
+  const r = String(range || "30d").toLowerCase().trim();
+
+  // Calendar-bound ranges (UTC day/month/year boundaries)
+  if (r === "today") {
+    const from = new Date(
+      Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate())
+    );
+    return { from: from.toISOString(), to: to.toISOString() };
+  }
+  if (r === "yesterday") {
+    const start = new Date(
+      Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate() - 1)
+    );
+    const end = new Date(
+      Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate())
+    );
+    return { from: start.toISOString(), to: end.toISOString() };
+  }
+  if (r === "this_month") {
+    const from = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), 1));
+    return { from: from.toISOString(), to: to.toISOString() };
+  }
+  if (r === "prev_month") {
+    const from = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth() - 1, 1));
+    const end = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), 1));
+    return { from: from.toISOString(), to: end.toISOString() };
+  }
+  if (r === "this_year") {
+    const from = new Date(Date.UTC(to.getUTCFullYear(), 0, 1));
+    return { from: from.toISOString(), to: to.toISOString() };
+  }
+
+  // Sliding windows: [now - N days, now]
+  const days = rangeToDays(r);
   const from = new Date(to.getTime() - days * 86400000);
   return { from: from.toISOString(), to: to.toISOString() };
 }
@@ -126,6 +159,7 @@ export class AnalyticsService {
       | "RUNTIME_ERROR";
     difficulty?: "easy" | "medium" | "hard";
     topics?: string[];
+    problemId?: string;
   }) {
     return await this.analyticsRepository.recordSubmissionEvent(eventPayload);
   }
@@ -204,6 +238,15 @@ export class AnalyticsService {
         wau: users?.wau ?? 0,
         mau: users?.mau ?? 0,
         activeUsers: users?.activeUsers ?? users?.dau ?? 0,
+        freeUsers: users?.freeUsers ?? null,
+        premiumUsers: users?.premiumUsers ?? users?.activePremiumUsers ?? null,
+        activePremiumUsers: users?.activePremiumUsers ?? null,
+        expiredPremiumUsers: users?.expiredPremiumUsers ?? null,
+        cancelledPremiumUsers: users?.cancelledPremiumUsers ?? null,
+        pastDuePremiumUsers: users?.pastDuePremiumUsers ?? null,
+        premiumDau: users?.premiumDau ?? null,
+        freeDau: users?.freeDau ?? null,
+        conversionRatePct: users?.conversionRatePct ?? null,
         newUsersInRange: users?.newUsersInRange ?? null,
         newUsersPrevRange: users?.newUsersPrevRange ?? null,
         totalProblems: problems?.total ?? 0,
@@ -460,7 +503,16 @@ export class AnalyticsService {
     return {
       tier: "premium" as const,
       range,
-      overview,
+      // Prefer live Submission aggregates for counts in the selected range.
+      // Event rollup (solvedEasy/streak) remains for profile-style fields.
+      overview: {
+        ...overview,
+        totalSubmissions: history.total ?? 0,
+        acceptedSubmissions: agg.acceptedCount ?? 0,
+        acceptanceRate: agg.acceptanceRate ?? 0,
+        note:
+          "Submission/acceptance counts from SubmissionService for the selected range; difficulty/streak from Analytics event rollup",
+      },
       history: {
         total: history.total ?? 0,
         page: history.page ?? 1,
@@ -484,7 +536,7 @@ export class AnalyticsService {
         easy: overview.solvedEasy,
         medium: overview.solvedMedium,
         hard: overview.solvedHard,
-        signal: "solved counts from Analytics record-submission events",
+        signal: "unique solved problems from Analytics record-submission events",
       },
       languageComparison: Object.entries(agg.byLanguage || {}).map(
         ([language, count]) => ({ language, count })
@@ -496,7 +548,7 @@ export class AnalyticsService {
         runtimeSampleCount: agg.runtimeSampleCount || 0,
         acceptanceRate: agg.acceptanceRate,
         note:
-          "Averages only over submissions with measured executionTime/memory; null means no samples",
+          "Averages use measured ACCEPTED submissions only; null means no accepted measured samples",
       },
       byStatus: agg.byStatus || {},
     };
@@ -587,16 +639,17 @@ export class AnalyticsService {
       from: query.from || from,
       to: query.to || to,
       performanceOverview: {
-        totalSubmissions: overview.totalSubmissions ?? 0,
-        acceptedSubmissions: overview.acceptedSubmissions ?? 0,
-        acceptanceRate: overview.acceptanceRate ?? 0,
+        totalSubmissions: history.total ?? 0,
+        acceptedSubmissions: agg.acceptedCount ?? 0,
+        acceptanceRate: agg.acceptanceRate ?? 0,
         avgExecutionTimeMs: agg.avgExecutionTimeMs,
         avgMemoryMb: agg.avgMemoryMb,
         runtimeSampleCount: agg.runtimeSampleCount || 0,
         attempts: agg.attempts,
         byLanguage: agg.byLanguage || {},
         byStatus: agg.byStatus || {},
-        note: "Runtime/memory null when no measured samples — never invented",
+        note:
+          "Counts and averages from judged Submission docs in range; null runtime/memory means no measured samples — never invented",
       },
       topicMastery,
       topicWeakness: weakTopics,

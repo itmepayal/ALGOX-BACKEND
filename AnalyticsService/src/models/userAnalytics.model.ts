@@ -18,6 +18,8 @@ export interface IUserAnalytics extends Document {
   solvedEasy: number;
   solvedMedium: number;
   solvedHard: number;
+  /** Unique problem IDs with ≥1 ACCEPTED (for unique solved-by-difficulty). */
+  solvedProblemIds: string[];
   wrongAnswers: number;
   timeLimitExceeded: number;
   memoryLimitExceeded: number;
@@ -38,6 +40,7 @@ const userAnalyticsSchema = new Schema<IUserAnalytics>(
     solvedEasy: { type: Number, default: 0 },
     solvedMedium: { type: Number, default: 0 },
     solvedHard: { type: Number, default: 0 },
+    solvedProblemIds: { type: [String], default: [] },
     wrongAnswers: { type: Number, default: 0 },
     timeLimitExceeded: { type: Number, default: 0 },
     memoryLimitExceeded: { type: Number, default: 0 },

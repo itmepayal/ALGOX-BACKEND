@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node -r ts-node/register/transpile-only src/server.ts",
     "dev": "nodemon --config nodemon.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:test-users": "node -r ts-node/register/transpile-only scripts/seed-test-users.ts"
   },
   "keywords": [],
   "author": "",

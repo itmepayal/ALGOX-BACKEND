@@ -8,6 +8,7 @@ import {
 } from "../utils/errors/app.error";
 import { getBillingConfig } from "./billing.config";
 import { sandboxStore } from "./sandbox.store";
+import { createCashfreePremiumOrder } from "./cashfree.client";
 
 function assertBillingEnabled(enabled: boolean, message: string) {
   if (!enabled) {
@@ -40,7 +41,9 @@ export function resetStripeClient(): void {
 export type CheckoutResult = {
   sessionId: string;
   url: string;
-  provider: "stripe" | "sandbox";
+  provider: "stripe" | "sandbox" | "cashfree";
+  /** Cashfree-only: payment_session_id for optional JS SDK. */
+  paymentSessionId?: string;
 };
 
 /**
@@ -93,6 +96,20 @@ export class BillingCheckoutService {
         ? cfg.successUrl.replace("{CHECKOUT_SESSION_ID}", sessionId)
         : `${cfg.successUrl}${cfg.successUrl.includes("?") ? "&" : "?"}session_id=${sessionId}`;
       return { sessionId, url, provider: "sandbox" };
+    }
+
+    if (cfg.provider === "cashfree") {
+      const order = await createCashfreePremiumOrder({
+        userId: input.userId,
+        email: input.email || user.email,
+        customerName: (user as any).name,
+      });
+      return {
+        sessionId: order.orderId,
+        url: order.url,
+        provider: "cashfree",
+        paymentSessionId: order.paymentSessionId,
+      };
     }
 
     const stripe = getStripeClient();

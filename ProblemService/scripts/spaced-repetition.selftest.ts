@@ -80,9 +80,16 @@ check(
 check(
   "routes /reviews + internal seed",
   router.includes("/queue") &&
+    router.includes("/import-candidates") &&
     indexRouter.includes("/reviews") &&
     indexRouter.includes("mountSrsInternal") &&
     router.includes("/internal/srs/seed-on-solve")
+);
+check(
+  "queue enriches problem title + feedback preview",
+  service.includes("feedbackPreview") &&
+    service.includes("loadProblemMeta") &&
+    service.includes("upcomingByDay")
 );
 check(
   "feature catalog premium.spaced_repetition",

@@ -6,9 +6,14 @@ import {
 import { Problem } from "../models/problem.model";
 import { serverConfig } from "../config";
 import {
+  MOCK_INTERVIEW_FEATURE,
+  getMockInterviewPublicConfig,
+} from "../config/mockInterview.config";
+import {
   resolveEntitlements,
   hasFeature,
 } from "../utils/entitlementClient";
+import { PremiumRequiredError } from "../utils/problemAccess";
 import { buildMockInterviewReport } from "../utils/mockInterviewReport";
 import type { StartMockInterviewDto } from "../validators/mockInterview.validator";
 import {
@@ -18,7 +23,7 @@ import {
   NotFoundError,
 } from "../utils/errors/app.error";
 
-const FEATURE = "premium.mock_interview";
+const FEATURE = MOCK_INTERVIEW_FEATURE;
 
 type SessionDoc = any;
 
@@ -41,10 +46,17 @@ function publicSession(doc: SessionDoc, now = new Date()) {
 }
 
 export class MockInterviewService {
+  getPublicConfig() {
+    return getMockInterviewPublicConfig();
+  }
+
   private async requirePremium(authorization?: string | null) {
     const snap = await resolveEntitlements(authorization);
     if (!hasFeature(snap, FEATURE)) {
-      throw new ForbiddenError("Mock interviews require premium.mock_interview");
+      throw new PremiumRequiredError(
+        "Mock interviews require an active Premium subscription.",
+        { feature: FEATURE, accessTier: snap.accessTier }
+      );
     }
   }
 
@@ -77,41 +89,83 @@ export class MockInterviewService {
     return session;
   }
 
+  /**
+   * Deterministic problem selection:
+   * 1) Prefer published problems tagged with company (when company set and not Generic)
+   * 2) Filter by difficulty + topics
+   * 3) Fall back to any published set
+   * Once stored on the session, the set never re-rolls on refresh.
+   */
   private async selectProblems(cfg: StartMockInterviewDto) {
-    const filter: Record<string, unknown> = { status: "published" };
+    const want = cfg.problemCount;
+    const company = (cfg.company || "").trim();
+    const useCompany =
+      company.length > 0 && !/^generic$/i.test(company);
+
+    const baseFilter: Record<string, unknown> = { status: "published" };
     if (cfg.difficulty !== "mixed") {
-      filter.difficulty = cfg.difficulty;
+      baseFilter.difficulty = cfg.difficulty;
     }
     if (cfg.topics?.length) {
-      filter.$or = [
+      baseFilter.$or = [
         { tags: { $in: cfg.topics.map((t) => new RegExp(`^${escapeRe(t)}$`, "i")) } },
         { category: { $in: cfg.topics.map((t) => new RegExp(`^${escapeRe(t)}$`, "i")) } },
       ];
     }
 
-    let problems = await Problem.find(filter)
-      .select("_id slug title difficulty category tags")
-      .limit(80)
-      .lean();
+    const select = "_id slug title difficulty category tags";
+    let pool: Array<{
+      _id: unknown;
+      slug?: string;
+      title?: string;
+      difficulty?: string;
+      category?: string;
+      tags?: string[];
+    }> = [];
 
-    if (problems.length < cfg.problemCount) {
-      problems = await Problem.find({ status: "published" })
-        .select("_id slug title difficulty category tags")
+    if (useCompany) {
+      // Prefer company-tagged published problems (difficulty when not mixed)
+      const companyOnly: Record<string, unknown> = {
+        status: "published",
+        tags: { $elemMatch: { $regex: new RegExp(`^${escapeRe(company)}$`, "i") } },
+      };
+      if (cfg.difficulty !== "mixed") companyOnly.difficulty = cfg.difficulty;
+      pool = await Problem.find(companyOnly).select(select).limit(80).lean();
+    }
+
+    if (pool.length < want) {
+      const broader = await Problem.find(baseFilter).select(select).limit(80).lean();
+      pool = mergeUniqueProblems(pool, broader);
+    }
+
+    if (pool.length < want) {
+      const anyPublished = await Problem.find({ status: "published" })
+        .select(select)
         .limit(80)
         .lean();
+      pool = mergeUniqueProblems(pool, anyPublished);
     }
-    if (!problems.length) {
+
+    if (!pool.length) {
       throw new NotFoundError("No published problems available for mock interview");
     }
 
-    // Deterministic shuffle seed from config + time bucket (minute) for variety without client control
+    // Deterministic shuffle: config + minute bucket (variety without client control)
     const seed = hashStr(
-      `${cfg.language}|${cfg.difficulty}|${(cfg.topics || []).join(",")}|${Math.floor(Date.now() / 60_000)}`
+      `${cfg.language}|${cfg.difficulty}|${cfg.interviewType || "coding"}|${company}|${(cfg.topics || []).join(",")}|${Math.floor(Date.now() / 60_000)}`
     );
-    const shuffled = [...problems].sort(
+    const shuffled = [...pool].sort(
       (a, b) => hashStr(String(a._id) + seed) - hashStr(String(b._id) + seed)
     );
-    return shuffled.slice(0, cfg.problemCount);
+    // Deduplicate by id
+    const seen = new Set<string>();
+    const unique = shuffled.filter((p) => {
+      const id = String(p._id);
+      if (seen.has(id)) return false;
+      seen.add(id);
+      return true;
+    });
+    return unique.slice(0, want);
   }
 
   async start(userId: string, body: StartMockInterviewDto, authorization?: string | null) {
@@ -141,6 +195,7 @@ export class MockInterviewService {
       title: p.title,
       difficulty: p.difficulty,
       order: i,
+      attemptCount: 0,
     }));
 
     try {
@@ -149,6 +204,7 @@ export class MockInterviewService {
         config: {
           company: body.company,
           role: body.role,
+          interviewType: body.interviewType || "coding",
           difficulty: body.difficulty,
           durationMinutes: body.durationMinutes,
           language: body.language,
@@ -206,6 +262,12 @@ export class MockInterviewService {
       completedAt: r.completedAt || null,
       problemsTotal: r.problemIds?.length || 0,
       hasReport: Boolean(r.report),
+      overallScore:
+        (r.report as { overallScore?: number | null } | undefined)?.overallScore ??
+        null,
+      problemsAccepted:
+        (r.report as { problemsAccepted?: number } | undefined)?.problemsAccepted ??
+        null,
     }));
   }
 
@@ -228,9 +290,12 @@ export class MockInterviewService {
     let session = await this.applyTimeoutIfNeeded(found as SessionDoc);
 
     if (session.status !== "in_progress") {
-      throw new BadRequestError(`Session is ${session.status}; submissions closed`);
+      throw new ConflictError(`Session is ${session.status}; submissions closed`, {
+        code: "INTERVIEW_CLOSED",
+        status: session.status,
+      });
     }
-    if (!session.problemIds.map(String).includes(String(problemId))) {
+    if (!this.sessionHasProblem(session, problemId)) {
       throw new BadRequestError("Problem is not part of this interview");
     }
 
@@ -246,10 +311,30 @@ export class MockInterviewService {
       throw new BadRequestError("Run attempts do not count; use official submit");
     }
 
+    // Prefer submissions already bound to this session (workspace submit).
+    // Otherwise enforce configured interview language for manual attaches.
+    const subSessionId = sub.mockInterviewSessionId
+      ? String(sub.mockInterviewSessionId)
+      : "";
+    const boundToSession = subSessionId && subSessionId === String(sessionId);
+    if (
+      !boundToSession &&
+      sub.language &&
+      session.config?.language &&
+      String(sub.language).toLowerCase() !==
+        String(session.config.language).toLowerCase()
+    ) {
+      throw new BadRequestError(
+        `Submission language ${sub.language} does not match interview language ${session.config.language}`
+      );
+    }
+
     const now = new Date();
     if (now > session.endsAt) {
       await this.applyTimeoutIfNeeded(session);
-      throw new BadRequestError("Interview timer has expired");
+      throw new ConflictError("Interview timer has expired", {
+        code: "INTERVIEW_EXPIRED",
+      });
     }
 
     return this.upsertAttempt(session, {
@@ -286,9 +371,7 @@ export class MockInterviewService {
     }
     const session = await this.applyTimeoutIfNeeded(found as SessionDoc);
 
-    // Allow recording results that finished judging slightly after timeout,
-    // but only if submission was started in-window (caller gates allows-submission).
-    if (!session.problemIds.map(String).includes(String(payload.problemId))) {
+    if (!this.sessionHasProblem(session, payload.problemId)) {
       throw new BadRequestError("Problem is not part of this interview");
     }
     if (payload.source === "run") {
@@ -317,13 +400,16 @@ export class MockInterviewService {
     }
     const session = await this.applyTimeoutIfNeeded(found as SessionDoc);
     if (session.status !== "in_progress") {
-      throw new BadRequestError(
-        `Mock interview is not accepting submissions (status=${session.status})`
+      throw new ConflictError(
+        `Mock interview is not accepting submissions (status=${session.status})`,
+        { code: "INTERVIEW_CLOSED", status: session.status }
       );
     }
     const now = new Date();
     if (now > session.endsAt) {
-      throw new BadRequestError("Mock interview submission window has ended");
+      throw new ConflictError("Mock interview submission window has ended", {
+        code: "INTERVIEW_EXPIRED",
+      });
     }
     return { ok: true, endsAt: session.endsAt, remainingMs: session.endsAt.getTime() - now.getTime() };
   }
@@ -335,14 +421,15 @@ export class MockInterviewService {
     this.assertOwner(found as SessionDoc, userId);
     const session = await this.applyTimeoutIfNeeded(found as SessionDoc);
 
-    if (session.status === "timed_out") {
-      return publicSession(session);
-    }
-    if (session.status === "completed") {
+    // Idempotent: already finished states return current snapshot
+    if (session.status === "timed_out" || session.status === "completed") {
       return publicSession(session);
     }
     if (session.status !== "in_progress") {
-      throw new BadRequestError(`Cannot complete session in status ${session.status}`);
+      throw new ConflictError(`Cannot complete session in status ${session.status}`, {
+        code: "INTERVIEW_CLOSED",
+        status: session.status,
+      });
     }
 
     const now = new Date();
@@ -372,7 +459,6 @@ export class MockInterviewService {
       if (session.status === "in_progress") {
         throw new BadRequestError("Report available after complete or timeout");
       }
-      // Build if missing
       session.report = buildMockInterviewReport({
         status: session.status,
         durationMinutes: session.config.durationMinutes,
@@ -387,6 +473,7 @@ export class MockInterviewService {
     return {
       sessionId: String(session._id),
       status: session.status,
+      config: session.config,
       report: session.report,
       remainingMs: Math.max(0, session.endsAt.getTime() - Date.now()),
     };
@@ -398,6 +485,7 @@ export class MockInterviewService {
     if (!found) throw new NotFoundError("Mock interview session not found");
     this.assertOwner(found as SessionDoc, userId);
     const session = await this.applyTimeoutIfNeeded(found as SessionDoc);
+    // Idempotent abandon
     if (session.status !== "in_progress") {
       return publicSession(session);
     }
@@ -416,19 +504,42 @@ export class MockInterviewService {
     return publicSession(session);
   }
 
+  private sessionHasProblem(session: SessionDoc, problemId: string): boolean {
+    const want = String(problemId);
+    return (session.problemIds || []).some((id: unknown) => String(id) === want);
+  }
+
   private async upsertAttempt(
     session: SessionDoc,
-    patch: Partial<IMockInterviewProblemAttempt> & { problemId: string }
+    patch: Partial<IMockInterviewProblemAttempt> & { problemId: string; submissionId?: string }
   ) {
-    const attempts = session.attempts || [];
+    const attempts = [...(session.attempts || [])];
+    const want = String(patch.problemId);
     const idx = attempts.findIndex(
-      (a: IMockInterviewProblemAttempt) => a.problemId === patch.problemId
+      (a: IMockInterviewProblemAttempt) => String(a.problemId) === want
     );
     if (idx >= 0) {
-      attempts[idx] = { ...attempts[idx], ...patch, order: attempts[idx].order };
+      const prev = attempts[idx];
+      const isNewSubmission =
+        patch.submissionId &&
+        String(patch.submissionId) !== String(prev.submissionId || "");
+      const nextCount = isNewSubmission
+        ? (typeof prev.attemptCount === "number" ? prev.attemptCount : 0) + 1
+        : typeof prev.attemptCount === "number"
+          ? prev.attemptCount
+          : patch.submissionId
+            ? 1
+            : 0;
+      attempts[idx] = {
+        ...prev,
+        ...patch,
+        order: prev.order,
+        attemptCount: nextCount || (patch.submissionId ? 1 : prev.attemptCount || 0),
+      };
     } else {
       attempts.push({
         order: attempts.length,
+        attemptCount: patch.submissionId ? 1 : 0,
         ...patch,
       } as IMockInterviewProblemAttempt);
     }
@@ -454,6 +565,19 @@ export class MockInterviewService {
       return null;
     }
   }
+}
+
+function mergeUniqueProblems<T extends { _id: unknown }>(a: T[], b: T[]): T[] {
+  const seen = new Set(a.map((p) => String(p._id)));
+  const out = [...a];
+  for (const p of b) {
+    const id = String(p._id);
+    if (!seen.has(id)) {
+      seen.add(id);
+      out.push(p);
+    }
+  }
+  return out;
 }
 
 function escapeRe(s: string) {

@@ -120,6 +120,12 @@ authRouter.post(
   billingMutationRateLimit("checkout"),
   billingController.createCheckout.bind(billingController)
 );
+authRouter.post(
+  "/subscription/cashfree/confirm",
+  authenticateJwt,
+  billingMutationRateLimit("checkout"),
+  billingController.confirmCashfreeReturn.bind(billingController)
+);
 
 authRouter.post("/email/send-verification", authenticateJwt, authController.sendEmailVerification);
 authRouter.post("/email/verify", authenticateJwt, authController.verifyEmailOtp);

@@ -92,6 +92,7 @@ async function fanOutAfterJudgement(
         status: result.status,
         difficulty: jobData.problem?.difficulty?.toLowerCase() || "easy",
         topics: jobData.problem?.tags || [],
+        problemId: jobData.problemId || undefined,
       },
     }),
   ];
@@ -166,6 +167,25 @@ async function fanOutAfterJudgement(
         })
       );
     }
+  }
+
+  // Study session: any official submit counts as attempted; ACCEPTED also marks solved.
+  // No-op when the user has no active session. Idempotent on problemId sets.
+  if (jobData.userId && jobData.problemId) {
+    tasks.push(
+      postDownstreamBestEffort({
+        service: "ProblemService",
+        operation: "learning-session-activity",
+        url: `${serverConfig.PROBLEM_SERVICE}/internal/learning/session-activity`,
+        submissionId,
+        jobId,
+        body: {
+          userId: jobData.userId,
+          problemId: jobData.problemId,
+          solved: result.status === "ACCEPTED",
+        },
+      })
+    );
   }
 
   // Mock interview: record every final verdict (real judge signals) — not only ACCEPTED

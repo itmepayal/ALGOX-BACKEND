@@ -8,6 +8,7 @@ import type {
   IMockScoreCell,
   MockInterviewStatus,
 } from "../models/mockInterviewSession.model";
+import { MOCK_INTERVIEW_SCORE_WEIGHTS } from "../config/mockInterview.config";
 
 function cell(
   score: number | null,
@@ -21,6 +22,53 @@ function cell(
     signal,
     detail,
   };
+}
+
+function computeOverall(
+  scores: IMockInterviewReport["scores"]
+): number | null {
+  let weighted = 0;
+  let weightSum = 0;
+  const map: Array<[keyof typeof MOCK_INTERVIEW_SCORE_WEIGHTS, IMockScoreCell]> = [
+    ["correctness", scores.correctness],
+    ["problemSolving", scores.problemSolving],
+    ["timeManagement", scores.timeManagement],
+    ["performance", scores.performance],
+    ["codeQuality", scores.codeQuality],
+    ["completion", scores.completion],
+  ];
+  for (const [key, c] of map) {
+    if (c.available && typeof c.score === "number") {
+      const w = MOCK_INTERVIEW_SCORE_WEIGHTS[key];
+      weighted += c.score * w;
+      weightSum += w;
+    }
+  }
+  if (weightSum <= 0) return null;
+  return Math.round(weighted / weightSum);
+}
+
+function deriveInsights(scores: IMockInterviewReport["scores"]): {
+  strengths: string[];
+  areasToImprove: string[];
+} {
+  const strengths: string[] = [];
+  const areasToImprove: string[] = [];
+  const labeled: Array<[string, IMockScoreCell]> = [
+    ["Problem solving", scores.problemSolving],
+    ["Correctness", scores.correctness],
+    ["Time management", scores.timeManagement],
+    ["Code quality", scores.codeQuality],
+    ["Performance", scores.performance],
+    ["Completion", scores.completion],
+    ["Attempt efficiency", scores.attempts],
+  ];
+  for (const [label, c] of labeled) {
+    if (!c.available || c.score == null) continue;
+    if (c.score >= 75) strengths.push(`${label} (${c.score}/100)`);
+    else if (c.score < 50) areasToImprove.push(`${label} (${c.score}/100)`);
+  }
+  return { strengths, areasToImprove };
 }
 
 export function buildMockInterviewReport(args: {
@@ -56,6 +104,11 @@ export function buildMockInterviewReport(args: {
   );
   const problemsAttempted = new Set(withSubmit.map((a) => a.problemId)).size;
   const problemsAccepted = withSubmit.filter(
+    (a) => String(a.status).toUpperCase() === "ACCEPTED"
+  ).length;
+
+  const totalSubmissions = withSubmit.length;
+  const acceptedSubmissions = withSubmit.filter(
     (a) => String(a.status).toUpperCase() === "ACCEPTED"
   ).length;
 
@@ -99,15 +152,14 @@ export function buildMockInterviewReport(args: {
     "No complexity analysis system; score not invented"
   );
 
-  // Time management: finish before server endsAt + efficient use of allotted window
   let timeScore: number | null = null;
   if (completedBeforeTimeout) {
     const ratio = timeUsedMs / durationMs;
-    // Sweet spot: used some time but finished early → high; used almost all → lower but still ok
     timeScore = Math.round(100 - Math.min(40, ratio * 40));
   } else if (status === "timed_out") {
-    // Timed out: score from how much was attempted before window closed
     timeScore = problemsAttempted > 0 ? Math.round((problemsAttempted / problemsTotal) * 50) : 0;
+  } else if (status === "abandoned") {
+    timeScore = problemsAttempted > 0 ? Math.round((problemsAttempted / problemsTotal) * 40) : 0;
   }
   const timeManagement = cell(
     timeScore,
@@ -115,10 +167,11 @@ export function buildMockInterviewReport(args: {
     "server_window_completion + time_used_ms / duration_ms",
     completedBeforeTimeout
       ? `Finished with ${remainingMsAtEnd}ms remaining`
-      : `Timed out after ${timeUsedMs}ms`
+      : status === "timed_out"
+        ? `Time expired after ${timeUsedMs}ms`
+        : `Session ended (${status}) after ${timeUsedMs}ms`
   );
 
-  // Code quality proxy: compilation success among judged submits (real CE signal)
   const judged = latest.filter((a) => a.status && a.status !== "PENDING" && a.status !== "RUNNING");
   const ce = judged.filter((a) => String(a.status).toUpperCase() === "COMPILATION_ERROR").length;
   const codeQuality =
@@ -131,7 +184,6 @@ export function buildMockInterviewReport(args: {
         )
       : cell(null, false, "compilation_error_rate", "No judged submissions");
 
-  // Performance: fraction without TLE/MLE among judged; plus avg runtime when ACCEPTED
   const perfBad = judged.filter((a) => {
     const s = String(a.status).toUpperCase();
     return s === "TIME_LIMIT_EXCEEDED" || s === "MEMORY_LIMIT_EXCEEDED";
@@ -159,6 +211,40 @@ export function buildMockInterviewReport(args: {
     `${problemsAttempted}/${problemsTotal} attempted`
   );
 
+  // Attempt efficiency: fewer attempts per accepted problem → higher score
+  const attemptTotals = latest.map((a) =>
+    typeof a.attemptCount === "number" && a.attemptCount > 0 ? a.attemptCount : 1
+  );
+  let attemptScoreCell: IMockScoreCell;
+  if (attemptTotals.length === 0) {
+    attemptScoreCell = cell(null, false, "attempt_count_efficiency", "No official submissions");
+  } else {
+    const avgAttempts =
+      attemptTotals.reduce((a, b) => a + b, 0) / attemptTotals.length;
+    // 1 attempt → 100; 2 → 80; 3 → 60; 5+ → 20 floor
+    const score = Math.max(20, Math.round(120 - avgAttempts * 20));
+    attemptScoreCell = cell(
+      score,
+      true,
+      "efficiency from attempt_count per problem",
+      `avg ${avgAttempts.toFixed(1)} attempts/problem`
+    );
+  }
+
+  const scores = {
+    problemSolving,
+    correctness,
+    complexity,
+    timeManagement,
+    codeQuality,
+    performance,
+    completion,
+    attempts: attemptScoreCell,
+  };
+
+  const overallScore = computeOverall(scores);
+  const { strengths, areasToImprove } = deriveInsights(scores);
+
   return {
     generatedAt: new Date(),
     sessionStatus: status,
@@ -169,15 +255,12 @@ export function buildMockInterviewReport(args: {
     problemsTotal,
     problemsAttempted,
     problemsAccepted,
-    scores: {
-      problemSolving,
-      correctness,
-      complexity,
-      timeManagement,
-      codeQuality,
-      performance,
-      completion,
-    },
+    overallScore,
+    acceptedSubmissions,
+    totalSubmissions,
+    strengths,
+    areasToImprove,
+    scores,
     attempts: attempts.map((a) => ({ ...a })),
   };
 }
