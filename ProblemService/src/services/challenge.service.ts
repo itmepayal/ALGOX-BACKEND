@@ -540,8 +540,12 @@ export class ChallengeService {
     if (!isValidIanaTimeZone(timezone)) {
       throw new BadRequestError("Invalid IANA timezone");
     }
+    const norm = timezone === "Asia/Calcutta" ? "Asia/Kolkata" : timezone;
     const state = await this.getOrCreateStreakState(userId);
-    state.timezone = timezone;
+    if (state.timezone === norm || (state.timezone === "Asia/Calcutta" && norm === "Asia/Kolkata")) {
+      return this.getStreakView(userId);
+    }
+    state.timezone = norm;
     state.timezoneUpdatedAt = new Date();
     await state.save();
     // Recompute current streak against new "today" without inventing days
