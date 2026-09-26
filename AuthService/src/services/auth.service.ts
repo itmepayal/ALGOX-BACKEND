@@ -439,7 +439,12 @@ export class AuthService {
       if (data.avatar.startsWith("data:image/") || data.avatar.startsWith("http")) {
         let avatarUrl = data.avatar;
         if (data.avatar.startsWith("data:image/")) {
-          avatarUrl = await uploadToCloudinary(data.avatar, "leetcode_avatars");
+          try {
+            avatarUrl = await uploadToCloudinary(data.avatar, "leetcode_avatars");
+          } catch (uploadErr: any) {
+            console.error("[AuthService] Cloudinary avatar upload failed:", uploadErr);
+            throw new Error(`Avatar storage upload failed: ${uploadErr.message || "Cloudinary upload error"}`);
+          }
         }
         user.avatar = avatarUrl;
       }
