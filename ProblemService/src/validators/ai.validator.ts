@@ -17,4 +17,40 @@ export const aiAssistSchema = z
   })
   .strict();
 
+export const aiAssistDto = aiAssistSchema;
 export type AiAssistDto = z.infer<typeof aiAssistSchema>;
+
+export const aiCodeReviewRequestSchema = z.object({
+  submissionId: z.string().min(1, "submissionId is required"),
+  refresh: z.boolean().optional().default(false),
+});
+
+export type AiCodeReviewRequestDto = z.infer<typeof aiCodeReviewRequestSchema>;
+
+export const aiCodeReviewPayloadSchema = z.object({
+  overallAssessment: z.string(),
+  correctness: z.object({
+    status: z.enum(["correct", "incorrect", "partial"]),
+    summary: z.string(),
+  }),
+  timeComplexity: z.object({
+    current: z.string(),
+    expected: z.string().optional().default("N/A"),
+    explanation: z.string(),
+  }),
+  spaceComplexity: z.object({
+    current: z.string(),
+    explanation: z.string(),
+  }),
+  codeQuality: z.object({
+    score: z.number().min(1).max(10),
+    issues: z.array(z.string()).default([]),
+  }),
+  edgeCases: z.array(z.string()).default([]),
+  optimizationSuggestions: z.array(z.string()).default([]),
+  learningFeedback: z.string(),
+  recommendedNextStep: z.string(),
+});
+
+export type AiCodeReviewPayloadDto = z.infer<typeof aiCodeReviewPayloadSchema>;
+

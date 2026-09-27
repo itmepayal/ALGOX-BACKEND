@@ -244,6 +244,32 @@ async function fanOutAfterJudgement(
     );
   }
 
+  // 1v1 Battle: record every final verdict for battle scoring
+  if (
+    jobData.battleId &&
+    jobData.submissionId &&
+    jobData.problemId &&
+    jobData.userId
+  ) {
+    tasks.push(
+      postDownstreamBestEffort({
+        service: "ProblemService",
+        operation: "battle-record-submission",
+        url: `${serverConfig.PROBLEM_SERVICE}/internal/battles/${jobData.battleId}/record-submission`,
+        submissionId,
+        jobId,
+        body: {
+          submissionId: jobData.submissionId,
+          userId: jobData.userId,
+          problemId: jobData.problemId,
+          status: result.status,
+          executionTimeMs: result.executionTimeMs,
+          memoryMb: result.memoryMb,
+        },
+      })
+    );
+  }
+
   await Promise.allSettled(tasks);
 }
 

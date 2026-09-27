@@ -18,11 +18,19 @@ import adminLearningRouter from './adminLearning.router';
 import adminMockInterviewRouter from './adminMockInterview.router';
 import contestRouter from './contest.router';
 import sheetPublicRouter from './sheetPublic.router';
+import battleRouter, { mountBattleInternal } from './battle.router';
 import { sendResponse } from '../../utils/helpers/response.helper';
 import { HTTP_STATUS, PROBLEM_MESSAGES } from '../../utils/constants';
 import { blockWhenMaintenance } from '../../middlewares/featureFlag.middleware';
 import { requireInternalSecret } from '../../middlewares/auth.middleware';
 import { invalidateFeatureFlagsCache } from '../../utils/featureFlags';
+
+import tournamentRouter from './tournament.router';
+import adminTournamentRouter from './adminTournament.router';
+import skillRouter from './skill.router';
+import recommendationRouter from './recommendation.router';
+import teamRouter from './team.router';
+import teamBattleRouter from './teamBattle.router';
 
 const v1Router = express.Router();
 
@@ -49,6 +57,7 @@ mountMockInterviewInternal(v1Router);
 mountSrsInternal(v1Router);
 mountVirtualContestInternal(v1Router);
 mountLearningInternal(v1Router);
+mountBattleInternal(v1Router);
 
 v1Router.use(blockWhenMaintenance);
 
@@ -59,6 +68,7 @@ v1Router.use('/challenges', challengeRouter);
 v1Router.use('/interviews', mockInterviewRouter);
 v1Router.use('/reviews', srsRouter);
 v1Router.use('/virtual-contests', virtualContestRouter);
+v1Router.use('/battles', battleRouter);
 v1Router.use('/ai', aiRouter);
 v1Router.use('/code-analysis', codeAnalysisRouter);
 v1Router.use('/sheets', sheetPublicRouter);
@@ -66,6 +76,13 @@ v1Router.use('/admin/sheets', adminSheetRouter);
 v1Router.use('/admin/contests', adminContestRouter);
 v1Router.use('/admin/learning', adminLearningRouter);
 v1Router.use('/admin/interviews', adminMockInterviewRouter);
+v1Router.use('/admin/tournaments', adminTournamentRouter);
 v1Router.use('/contests', contestRouter);
+v1Router.use('/tournaments', tournamentRouter);
+v1Router.use('/skills', skillRouter);
+v1Router.use('/recommendations', recommendationRouter);
+v1Router.use('/teams', teamRouter);
+v1Router.use('/team-battles', teamBattleRouter);
 
 export default v1Router;
+

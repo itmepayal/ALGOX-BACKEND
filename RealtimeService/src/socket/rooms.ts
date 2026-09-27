@@ -10,10 +10,11 @@ export type RoomKind =
   | "discussion"
   | "user"
   | "admin"
-  | "system";
+  | "system"
+  | "battle";
 
 const ROOM_RE =
-  /^(problem|contest|leaderboard|discussion|user|admin|system):([A-Za-z0-9_\-:]+)$/;
+  /^(problem|contest|leaderboard|discussion|user|admin|system|battle):([A-Za-z0-9_\-:]+)$/;
 
 export function parseRoom(room: string): { kind: RoomKind; id: string } | null {
   const m = room.match(ROOM_RE);
@@ -28,7 +29,7 @@ export function authorizeRoomJoin(
   const parsed = parseRoom(room);
   if (!parsed) {
     throw new BadRequestError(
-      "Invalid room. Expected kind:id (problem|contest|leaderboard|discussion|user|admin|system)"
+      "Invalid room. Expected kind:id (problem|contest|leaderboard|discussion|user|admin|system|battle)"
     );
   }
 
@@ -65,6 +66,7 @@ export function authorizeRoomJoin(
     case "contest":
     case "leaderboard":
     case "discussion":
+    case "battle":
       return;
     default:
       throw new ForbiddenError("Unknown room kind");

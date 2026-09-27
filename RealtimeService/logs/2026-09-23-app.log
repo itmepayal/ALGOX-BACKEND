@@ -1,0 +1,17 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-23-2026 20:08:31","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-23-2026 20:08:33","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-23-2026 20:08:34","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-23-2026 20:08:34","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-23-2026 20:08:34","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-23-2026 20:08:34","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-23-2026 20:08:34","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:16:42","data":{"socketId":"EoYJd91sCIror6YLAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:16:45","data":{"socketId":"BMHSSvdMP-Yl3jzJAAAB","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:16:54","data":{"socketId":"Zj9ehjceeP7nmr9fAAAC","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:16:57","data":{"socketId":"pkttKlaKW-bGAt-WAAAD","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:20:47","data":{"socketId":"vfnYHCG1hiK81CmnAAAE","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:22:34","data":{"socketId":"UWyhILMHjCdi-JC2AAAF","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:29:04","data":{"socketId":"g2oVwrbS1ZQGAb2RAAAG","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 20:47:05","data":{"socketId":"uD5xc2_Blen64gqfAAAH","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 21:38:00","data":{"socketId":"Y8-MO42jVaukN9SDAAAI","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-23-2026 21:42:19","data":{"socketId":"l5YUN8n3G4yp7tLzAAAK","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}

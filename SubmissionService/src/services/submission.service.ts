@@ -195,6 +195,9 @@ export class SubmissionService implements ISubmissionService {
         ...(dto.virtualContestSessionId && {
           virtualContestSessionId: new Types.ObjectId(dto.virtualContestSessionId),
         }),
+        ...(dto.battleId && {
+          battleId: new Types.ObjectId(dto.battleId),
+        }),
         language: dto.language,
         code: dto.code,
         source: "run",
@@ -240,6 +243,9 @@ export class SubmissionService implements ISubmissionService {
       }),
       ...(dto.virtualContestSessionId && {
         virtualContestSessionId: new Types.ObjectId(dto.virtualContestSessionId),
+      }),
+      ...(dto.battleId && {
+        battleId: new Types.ObjectId(dto.battleId),
       }),
       language: dto.language,
       code: dto.code,
@@ -337,6 +343,7 @@ export class SubmissionService implements ISubmissionService {
       ...(dto.virtualContestSessionId
         ? { virtualContestSessionId: dto.virtualContestSessionId }
         : {}),
+      ...(dto.battleId ? { battleId: dto.battleId } : {}),
     };
 
     try {

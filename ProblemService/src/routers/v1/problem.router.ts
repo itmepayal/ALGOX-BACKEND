@@ -11,6 +11,7 @@ import {
   requireTestcaseWritePermission,
 } from "../../middlewares/auth.middleware";
 import { sheetProgressController } from "../../controllers/sheetProgress.controller";
+import { recommendationController } from "../../controllers/recommendation.controller";
 
 const problemRouter = express.Router();
 
@@ -96,6 +97,12 @@ problemRouter.get(
   "/slug/:slug",
   optionalAuthenticateJwt,
   problemController.getProblemBySlug.bind(problemController)
+);
+
+problemRouter.get(
+  "/recommendations",
+  authenticateJwt,
+  recommendationController.getRecommendations.bind(recommendationController)
 );
 
 // Sheet progress — before bare /:id

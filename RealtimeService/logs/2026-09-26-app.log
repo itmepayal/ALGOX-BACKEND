@@ -1,0 +1,88 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-26-2026 19:00:14","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-26-2026 19:00:16","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-26-2026 19:00:18","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-26-2026 19:00:18","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-26-2026 19:00:18","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-26-2026 19:00:18","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-26-2026 19:00:18","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 19:00:19","data":{"socketId":"WM9sZbJtFgs8R8-MAAAA","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-26-2026 19:04:23","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-26-2026 20:48:02","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-26-2026 20:48:04","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-26-2026 20:48:05","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-26-2026 20:48:05","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-26-2026 20:48:05","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-26-2026 20:48:05","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-26-2026 20:48:05","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 20:55:09","data":{"socketId":"2IbWxXlnrbJMwMhlAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 20:58:11","data":{"socketId":"nSf8wU-KRehylSZzAAAC","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 21:04:50","data":{"socketId":"yJtKozzGa7kVYkRBAAAD","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:04:55","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:04:55","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:05:36","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:05:36","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:01","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:01","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:01","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:01","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:06","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:06","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:11","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:11","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:06:59","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:07:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:08:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:09:14","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:09:59","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:10:23","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:10:36","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:10:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:11:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:12:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:12:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:13:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:14:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:15:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:15:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:16:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:17:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:18:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:18:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:19:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:20:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:21:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:21:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:22:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:23:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:24:13","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:24:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:25:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:26:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:27:14","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:27:58","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:28:43","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:29:28","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:30:00","data":{}}
+{"level":"warn","message":"[AppError] UnauthorizedError (401): Access token required","timestamp":"09-26-2026 21:30:00","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 21:30:40","data":{"socketId":"Ov4sUFwJzreFKvCdAAAE","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 21:30:48","data":{"socketId":"vocxv6mlon2yCg6UAAAF","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 22:56:39","data":{"socketId":"gZhZXKSIiT3ndpaqAAAG","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-26-2026 23:03:41","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-26-2026 23:03:42","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-26-2026 23:03:51","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-26-2026 23:03:52","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:05:31","data":{"socketId":"XvAK_kkd0PW-IQSeAAAB","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:16:41","data":{"socketId":"VsRpxaH9oA_PMbr1AAAH","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:20:41","data":{"socketId":"sQ8nd5IpA5vla2J-AAAJ","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-26-2026 23:20:47","data":{"error":"read ETIMEDOUT"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-26-2026 23:20:49","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:23:40","data":{"socketId":"sAuMO7dbrV_XZL2DAAAI","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:23:43","data":{"socketId":"dfK2ABmkZtN3k6zCAAAL","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:28:01","data":{"socketId":"ARKY4B-ITOIf7c2qAAAM","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:33:16","data":{"socketId":"k4JnjmyU9ou5Nci9AAAN","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:33:19","data":{"socketId":"mh-4Fy4wJjKycPGMAAAO","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:48:37","data":{"socketId":"BLBzQqkFXEkdq9fXAAAK","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:48:54","data":{"socketId":"EHZ6PfhS_kTpGBa4AAAQ","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-26-2026 23:52:44","data":{"socketId":"xCOY9ux87bm27XZ1AAAP","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}

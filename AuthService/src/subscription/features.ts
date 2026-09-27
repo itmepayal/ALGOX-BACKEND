@@ -23,6 +23,7 @@ export const FEATURE_IDS = [
   "premium.daily_planner",
   "premium.study_sessions",
   "premium.learning_calendar",
+  "premium.battles",
 ] as const;
 
 export type FeatureId = (typeof FEATURE_IDS)[number];

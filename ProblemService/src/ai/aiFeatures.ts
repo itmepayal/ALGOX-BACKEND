@@ -14,6 +14,7 @@ export const AI_FEATURES = [
   "compare_approaches",
   "generate_similar_problem",
   "interview_mode",
+  "code_review",
 ] as const;
 
 export type AiFeatureId = (typeof AI_FEATURES)[number];
@@ -67,6 +68,10 @@ export const AI_FEATURE_META: Record<
     label: "Interview Mode",
     description: "Socratic interview-style coaching",
   },
+  code_review: {
+    label: "Code Review",
+    description: "Structured educational feedback on your code submission",
+  },
 };
 
 export function isAiFeature(id: string): id is AiFeatureId {
@@ -76,3 +81,4 @@ export function isAiFeature(id: string): id is AiFeatureId {
 export function isPremiumOnlyAiFeature(id: AiFeatureId): boolean {
   return (PREMIUM_ONLY_AI_FEATURES as readonly string[]).includes(id);
 }
+

@@ -19,6 +19,7 @@ import {
 import { UserSheetProgress } from "../models/userSheetProgress.model";
 import { ConflictError, UnauthorizedError } from "../utils/errors/app.error";
 import { sheetService } from "./sheet.service";
+import { recalculateUserSkills } from "./skill.service";
 
 export type ImportSubmissionRow = {
   problemId: string;
@@ -514,6 +515,11 @@ export class ProgressImportService {
           activityDays: activityDays.size,
           lastSubmissionAt: preview.lastSubmissionAt,
         },
+      });
+
+      // Trigger async topic skill recalculation
+      recalculateUserSkills(userId).catch((err) => {
+        console.error("Async topic skill recalculation failed after progress import:", err);
       });
 
       return {

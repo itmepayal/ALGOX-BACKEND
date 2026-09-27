@@ -1,0 +1,592 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 11:45:16","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 11:45:18","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 11:45:20","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 11:45:20","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 11:45:20","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 11:45:20","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 11:45:20","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 12:18:14","data":{"socketId":"Tsm7Lg74m89-uL7ZAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 12:27:30","data":{"socketId":"NYMtnTBywaDJ4KN2AAAB","userId":"6ab8b7f82774a3fcb3a5d3bf","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 12:29:11","data":{"socketId":"cmF5apQbPfMOV7apAAAD","userId":"6ab8b7f82774a3fcb3a5d3bf","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 12:51:00","data":{"socketId":"bUqk2bB0orKjqlynAAAC","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 13:05:14","data":{"socketId":"GmBOeJwc6uJpQAQhAAAE","userId":"6ab8b7f82774a3fcb3a5d3bf","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 13:55:06","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 13:55:13","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 13:55:14","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 13:55:14","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 13:55:14","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 13:55:14","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 13:55:14","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 13:58:08","data":{"socketId":"q60ga9Umz0kBaB7GAAAA","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 14:07:03","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 14:07:04","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 14:07:06","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 14:07:06","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 14:07:06","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 14:07:06","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 14:07:06","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 14:23:43","data":{"socketId":"DFlSR85k9_0aAxT3AAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 14:35:39","data":{"socketId":"odyGOE4zUegDme3JAAAB","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 14:47:11","data":{"socketId":"W7ljxMA2xLmRx43-AAAC","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 14:47:20","data":{"socketId":"6q82Qczsnh_uUo2zAAAD","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 15:34:38","data":{"socketId":"-FegucPD8FdKamxrAAAE","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 15:41:34","data":{"socketId":"nhTwXvFsQIcRooAqAAAG","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 15:41:57","data":{"socketId":"BI4zHTucIv6CmcluAAAH","userId":"6aae732993132482bbfffbe4","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:43:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:43:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 15:43:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:43:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 15:43:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 15:43:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:50:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:50:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 15:50:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 15:50:48","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 15:50:48","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 15:50:48","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 16:07:27","data":{"socketId":"6q5s0eedWsAnf3N9AAAJ","userId":"6ab8f0adf6604dc5c86e9372","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 16:07:29","data":{"socketId":"1s5qbrTF1FItPGG6AAAK","userId":"6ab8f0adf6604dc5c86e9372","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 16:08:37","data":{"socketId":"7W6GahSsBcs1z8mZAAAL","userId":"6ab8f0adf6604dc5c86e9372","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:09:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:21:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:21:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:21:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:21:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:21:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:21:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:20","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:20","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:21:20","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:22:22","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:22:22","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:22:22","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:22:23","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:22:23","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:22:23","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:24","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:24","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:22:24","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:27:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:27:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:27:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:27:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:27:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:27:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:27:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:40:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:40:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:40:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:40:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:40:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:40:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:40:42","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 16:41:36","data":{"socketId":"p4J1GkHrJ-brWa3MAAAF","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:41:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:41:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:cancelled' is not allowed for ingest","timestamp":"09-27-2026 16:41:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:searching' is not allowed for ingest","timestamp":"09-27-2026 16:41:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:41:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'matchmaking:matched' is not allowed for ingest","timestamp":"09-27-2026 16:41:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 16:41:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:25:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:25:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:26:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:26:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:26:04","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:26:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:26:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:26:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:26:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:26:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:26:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:26:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:26:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:26:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:26:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:28:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:28:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:28:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:28:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:28:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:28:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:48","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:49","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:49","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:49","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:49","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:28:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:28:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:28:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:52","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 17:28:52","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:29:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:30:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:30:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:30:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:30:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:30:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:16","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:16","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:17","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:30:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:18","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:30:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:30:19","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:20","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 17:30:20","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:31:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:31:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:31:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:31:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:31:56","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:56","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:56","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:56","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:31:57","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:31:57","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:31:58","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:58","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:58","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:31:58","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:31:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:31:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:31:59","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:32:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:32:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:04","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:32:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:32:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:32:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 17:32:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:33:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:33:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:33:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:33:00","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:33:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:33:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:01","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:02","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:03","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:04","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:05","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:06","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:07","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:08","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:09","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:10","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:11","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:12","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:13","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:33:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:14","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:33:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:33:15","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:16","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 17:33:16","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 17:44:10","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 17:44:18","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 17:49:41","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 17:49:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:54:27","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:54:27","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:28","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:28","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 17:54:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 17:54:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 17:54:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 17:54:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 17:54:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 17:54:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 17:54:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 17:54:47","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 17:55:24","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 17:55:34","data":{}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-27-2026 18:01:03","data":{"error":"read ETIMEDOUT"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-27-2026 18:01:18","data":{"error":"connect ETIMEDOUT"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 18:01:25","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 18:15:23","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 18:15:23","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:24","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:25","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:25","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:26","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:26","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:26","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:26","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 18:15:26","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 18:15:27","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 18:15:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 18:15:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:32","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:38","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:43","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 18:15:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:45","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 18:15:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 18:15:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:47","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 18:15:47","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 19:42:58","data":{"socketId":"FNA1mAWQi9NIOc_GAAAI","userId":"6aae732993132482bbfffbe4","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 19:58:27","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 19:58:28","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:28","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:29","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:30","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.registered' is not allowed for ingest","timestamp":"09-27-2026 19:58:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.status_changed' is not allowed for ingest","timestamp":"09-27-2026 19:58:31","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.seeded' is not allowed for ingest","timestamp":"09-27-2026 19:58:33","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.started' is not allowed for ingest","timestamp":"09-27-2026 19:58:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:34","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:35","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:36","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:37","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:39","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:40","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:41","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:42","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:44","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:46","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:49","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:50","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:51","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:53","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:53","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:53","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.player_advanced' is not allowed for ingest","timestamp":"09-27-2026 19:58:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.round_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:54","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_started' is not allowed for ingest","timestamp":"09-27-2026 19:58:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'battle:rating_updated' is not allowed for ingest","timestamp":"09-27-2026 19:58:55","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.match_completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:56","data":{}}
+{"level":"warn","message":"[AppError] BadRequestError (400): Event 'tournament.completed' is not allowed for ingest","timestamp":"09-27-2026 19:58:56","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 21:21:59","data":{}}
+{"level":"warn","message":"Presence Redis unavailable — in-memory unique-user fallback","timestamp":"09-27-2026 21:22:15","data":{"reason":"Presence Redis ready timeout"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-27-2026 21:22:15","data":{"error":"connect ETIMEDOUT"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=false)","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 21:22:21","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 21:44:03","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 21:44:09","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 21:44:13","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 21:49:46","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 21:49:47","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 21:49:57","data":{}}
+{"level":"warn","message":"MongoDB disconnected — BroadcastLog persistence degraded to memory","timestamp":"09-27-2026 21:55:20","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-27-2026 21:55:30","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 22:04:03","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 22:04:04","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 22:05:21","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 22:05:22","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 22:05:24","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 22:05:24","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 22:05:24","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 22:05:24","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 22:05:24","data":{}}

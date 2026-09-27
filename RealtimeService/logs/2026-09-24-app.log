@@ -1,0 +1,43 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-24-2026 16:41:53","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 16:41:55","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-24-2026 16:41:56","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-24-2026 16:41:56","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-24-2026 16:41:56","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-24-2026 16:41:56","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-24-2026 16:41:56","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 16:42:04","data":{"socketId":"LikiFFyfXeaCpI3aAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 16:42:07","data":{"socketId":"1OBhIGur-sG21PFxAAAB","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-24-2026 17:44:58","data":{"error":"read ECONNRESET"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 17:45:00","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-24-2026 17:45:09","data":{}}
+{"level":"info","message":"MongoDB reconnected — BroadcastLog persistence restored","timestamp":"09-24-2026 17:45:09","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 17:56:53","data":{"socketId":"z-XjUO6Kjr_ILvx-AAAC","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-24-2026 19:04:22","data":{"error":"read ECONNRESET"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 19:04:23","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 20:59:25","data":{"socketId":"ZcaVkUcPG_X8YmOpAAAE","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 20:59:52","data":{"socketId":"czBq3K3t8Jdl5W-LAAAD","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 21:00:12","data":{"socketId":"wsPq7XcHyGy8I0vnAAAG","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-24-2026 21:10:19","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-24-2026 21:11:34","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 21:11:35","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-24-2026 21:11:37","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-24-2026 21:11:37","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-24-2026 21:11:37","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-24-2026 21:11:37","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-24-2026 21:11:37","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 21:26:13","data":{"socketId":"0xd9eGZgv80Y8sIYAAAA","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-24-2026 21:28:04","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-24-2026 21:28:55","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 21:28:56","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-24-2026 21:28:58","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-24-2026 21:28:58","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-24-2026 21:28:58","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-24-2026 21:28:58","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-24-2026 21:28:58","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 21:30:00","data":{"socketId":"PDLC6Q-pgSb_KLRCAAAB","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 22:06:00","data":{"socketId":"w83hwWcZ4jfT1LRpAAAA","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 22:06:00","data":{"socketId":"8lw319h3fmbBh4FuAAAC","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"warn","message":"Presence Redis error","timestamp":"09-24-2026 22:25:05","data":{"error":"read ECONNRESET"}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-24-2026 22:25:07","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 22:25:11","data":{"socketId":"vn4dQWCGmynEwj4MAAAD","userId":"6aae732993132482bbfffbe4","reason":"forced close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-24-2026 22:33:53","data":{"socketId":"ifD44tlwLFJ3CfsBAAAF","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}

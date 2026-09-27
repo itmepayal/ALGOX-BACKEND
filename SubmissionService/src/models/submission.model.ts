@@ -21,6 +21,7 @@ export interface ISubmission extends Document {
   contestId?: Types.ObjectId;
   mockInterviewSessionId?: Types.ObjectId;
   virtualContestSessionId?: Types.ObjectId;
+  battleId?: Types.ObjectId;
 
   language: ProgrammingLanguage;
   code: string;
@@ -64,6 +65,10 @@ const submissionSchema = new Schema<ISubmission>(
       index: true,
     },
     virtualContestSessionId: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
+    battleId: {
       type: Schema.Types.ObjectId,
       index: true,
     },

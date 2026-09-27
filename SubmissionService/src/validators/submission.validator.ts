@@ -24,6 +24,8 @@ export const createSubmissionSchema = z.object({
   mockInterviewSessionId: z.string().optional(),
   /** When set, ProblemService must confirm virtual contest session is in window. */
   virtualContestSessionId: z.string().optional(),
+  /** When set, ProblemService must confirm 1v1 battle is active and user is participant. */
+  battleId: z.string().optional(),
   /** Final verdict for source=run (ignored for submit — set by worker). */
   status: submissionStatusEnum.optional(),
   output: z.string().optional(),

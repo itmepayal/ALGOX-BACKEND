@@ -59,3 +59,5 @@
 {"level":"info","message":"Socket disconnected","timestamp":"09-20-2026 22:31:23","data":{"socketId":"Co6XKYNsn-0WQj8qAAAT","userId":"6aae732993132482bbfffbe4","reason":"transport close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-20-2026 22:32:07","data":{"socketId":"kRP_EoVfnpUI2KaJAAAU","userId":"6aae72f493132482bbfffbe0","reason":"forced close","hadRecord":true}}
 {"level":"info","message":"Socket disconnected","timestamp":"09-20-2026 22:32:54","data":{"socketId":"8TUA6yTzKWix2EksAAAV","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-20-2026 22:35:08","data":{"socketId":"voDwOXFEh57k8CL1AAAW","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-20-2026 22:35:08","data":{"socketId":"V0RAI2eLwXh1F3OCAAAX","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}

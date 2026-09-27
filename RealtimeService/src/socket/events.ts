@@ -67,6 +67,20 @@ export const RealtimeEvents = {
   SECURITY_ALERT: "security.alert",
   SECURITY_RATE_LIMIT: "security.rate_limit",
   SECURITY_SUSPICIOUS: "security.suspicious",
+
+  // battle:*
+  BATTLE_INVITE: "battle:invite",
+  BATTLE_ACCEPTED: "battle:accepted",
+  BATTLE_DECLINED: "battle:declined",
+  BATTLE_READY: "battle:ready",
+  BATTLE_STARTED: "battle:started",
+  BATTLE_TIMER_SYNC: "battle:timer_sync",
+  BATTLE_PROBLEM_SOLVED: "battle:problem_solved",
+  BATTLE_SUBMISSION_RESULT: "battle:submission_result",
+  BATTLE_OPPONENT_STATUS: "battle:opponent_status",
+  BATTLE_FINISHED: "battle:finished",
+  BATTLE_RESULT: "battle:result",
+  BATTLE_FORFEIT: "battle:forfeit",
 } as const;
 
 export type RealtimeEventName =
