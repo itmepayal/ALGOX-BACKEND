@@ -6,6 +6,7 @@ import { TeamInvitation } from "../models/teamInvitation.model";
 
 
 
+import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 import {
   BadRequestError,
   ForbiddenError,
@@ -194,6 +195,16 @@ export class TeamService {
       expiresAt,
     });
 
+    emitRealtimeEvent({
+      event: "team:invitation",
+      room: `user:${targetUserId}`,
+      payload: {
+        invitationId: invitation._id.toString(),
+        teamId,
+        invitedBy: inviterUserId,
+      },
+    });
+
     return invitation;
   }
 
@@ -263,6 +274,15 @@ export class TeamService {
       joinedAt: new Date(),
     });
 
+    emitRealtimeEvent({
+      event: "team:member_joined",
+      room: `team:${invite.teamId.toString()}`,
+      payload: {
+        teamId: invite.teamId.toString(),
+        userId,
+      },
+    });
+
     return this.getTeamById(invite.teamId.toString());
   }
 
@@ -319,6 +339,16 @@ export class TeamService {
     }
 
     await TeamMember.deleteOne({ _id: member._id });
+
+    emitRealtimeEvent({
+      event: "team:member_left",
+      room: `team:${teamId}`,
+      payload: {
+        teamId,
+        userId,
+      },
+    });
+
     return { message: "Left team successfully" };
   }
 
@@ -353,6 +383,17 @@ export class TeamService {
     }
 
     await TeamMember.deleteOne({ _id: target._id });
+
+    emitRealtimeEvent({
+      event: "team:member_left",
+      room: `team:${teamId}`,
+      payload: {
+        teamId,
+        userId: targetUserId,
+        removedBy: requesterUserId,
+      },
+    });
+
     return { message: "Member removed from team" };
   }
 

@@ -6,6 +6,7 @@ import { TeamMember } from "../models/teamMember.model";
 import { Problem } from "../models/problem.model";
 
 
+import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 import {
   BadRequestError,
   ForbiddenError,
@@ -109,6 +110,16 @@ export class TeamBattleService {
       teamBRatingChange: 0,
     });
 
+    emitRealtimeEvent({
+      event: "team:battle_created",
+      room: `team:${teamBId}`,
+      payload: {
+        battleId: battle._id.toString(),
+        challengingTeamId: teamAId,
+        challengingTeamName: teamA.name,
+      },
+    });
+
     return battle;
   }
 
@@ -140,6 +151,24 @@ export class TeamBattleService {
       battle.teamBParticipants.push(new Types.ObjectId(acceptorUserId));
     }
     await battle.save();
+
+    emitRealtimeEvent({
+      event: "team:battle_accepted",
+      room: `team:${battle.teamAId.toString()}`,
+      payload: {
+        battleId: battle._id.toString(),
+        acceptorUserId,
+      },
+    });
+
+    emitRealtimeEvent({
+      event: "team:battle_state",
+      room: `team:${battle.teamBId.toString()}`,
+      payload: {
+        battleId: battle._id.toString(),
+        state: "LOBBY",
+      },
+    });
 
     return battle;
   }
@@ -191,6 +220,17 @@ export class TeamBattleService {
     }
 
     await battle.save();
+
+    emitRealtimeEvent({
+      event: "team:member_status",
+      room: `battle:${battleId}`,
+      payload: {
+        battleId,
+        teamId,
+        participantUserIds: validIds.map((id) => id.toString()),
+      },
+    });
+
     return battle;
   }
 
@@ -203,9 +243,13 @@ export class TeamBattleService {
       throw new BadRequestError("Battle cannot be started from current state");
     }
 
-    const isTeamA = battle.teamAId.toString() === battle.teamAId.toString();
-    if (!isTeamA) {
-      throw new ForbiddenError("Only battle creator team can initiate start");
+    const creatorMember = await TeamMember.findOne({
+      teamId: battle.teamAId,
+      userId: new Types.ObjectId(userId),
+    }).lean();
+
+    if (!creatorMember || (creatorMember.role !== "OWNER" && creatorMember.role !== "CAPTAIN")) {
+      throw new ForbiddenError("Only creator team Captain/Owner can initiate start");
     }
 
     const now = new Date();
@@ -216,6 +260,17 @@ export class TeamBattleService {
     battle.endsAt = endsAt;
 
     await battle.save();
+
+    emitRealtimeEvent({
+      event: "team:battle_started",
+      room: `battle:${battleId}`,
+      payload: {
+        battleId,
+        startedAt: now,
+        endsAt,
+      },
+    });
+
     return battle;
   }
 
@@ -297,6 +352,31 @@ export class TeamBattleService {
     else teamB.draws += 1;
     await teamB.save();
 
+    emitRealtimeEvent({
+      event: "team:battle_ended",
+      room: `battle:${battleId}`,
+      payload: {
+        battleId,
+        winnerTeamId: battle.winnerTeamId?.toString() || null,
+        teamAScore: battle.teamAScore,
+        teamBScore: battle.teamBScore,
+        teamARatingChange: changeA,
+        teamBRatingChange: changeB,
+      },
+    });
+
+    emitRealtimeEvent({
+      event: "team:rating_updated",
+      room: `team:${teamA._id.toString()}`,
+      payload: { teamId: teamA._id.toString(), newRating: teamA.rating, change: changeA },
+    });
+
+    emitRealtimeEvent({
+      event: "team:rating_updated",
+      room: `team:${teamB._id.toString()}`,
+      payload: { teamId: teamB._id.toString(), newRating: teamB.rating, change: changeB },
+    });
+
     return battle;
   }
 
@@ -352,6 +432,106 @@ export class TeamBattleService {
       limit: limitNum,
       totalPages: Math.ceil(total / limitNum),
     };
+  }
+
+  /**
+   * Record a submission verdict for a team battle.
+   */
+  async recordSubmissionVerdict(
+    battleId: string,
+    payload: {
+      userId: string;
+      problemId: string;
+      submissionId: string;
+      status: string;
+      points?: number;
+    }
+  ) {
+    const battle = await TeamBattle.findById(battleId);
+    if (!battle || battle.state !== "LIVE") return;
+
+    if (battle.endsAt && Date.now() >= battle.endsAt.getTime()) {
+      await this.finishBattle(battleId);
+      return;
+    }
+
+    const { userId, problemId, status, points = 100 } = payload;
+    const isTeamA = battle.teamAParticipants.some((p) => p.toString() === userId);
+    const isTeamB = battle.teamBParticipants.some((p) => p.toString() === userId);
+
+    if (!isTeamA && !isTeamB) return;
+
+    const teamId = isTeamA ? battle.teamAId.toString() : battle.teamBId.toString();
+
+    if (status !== "ACCEPTED") {
+      emitRealtimeEvent({
+        event: "team:submission_status",
+        room: `battle:${battleId}`,
+        payload: {
+          battleId,
+          userId,
+          teamId,
+          problemId,
+          status,
+          solved: false,
+        },
+      });
+      return;
+    }
+
+    if (isTeamA) {
+      battle.teamAScore += points;
+    } else {
+      battle.teamBScore += points;
+    }
+    await battle.save();
+
+    emitRealtimeEvent({
+      event: "team:submission_status",
+      room: `battle:${battleId}`,
+      payload: {
+        battleId,
+        userId,
+        teamId,
+        problemId,
+        status: "ACCEPTED",
+        solved: true,
+        teamAScore: battle.teamAScore,
+        teamBScore: battle.teamBScore,
+      },
+    });
+
+    emitRealtimeEvent({
+      event: "team:battle_state",
+      room: `battle:${battleId}`,
+      payload: {
+        battleId,
+        teamAScore: battle.teamAScore,
+        teamBScore: battle.teamBScore,
+        state: "LIVE",
+      },
+    });
+  }
+
+  /**
+   * Cancel Team Battle.
+   */
+  async cancelBattle(userId: string, battleId: string) {
+    const battle = await TeamBattle.findById(battleId);
+    if (!battle || battle.state === "COMPLETED" || battle.state === "CANCELLED") {
+      throw new BadRequestError("Battle cannot be cancelled");
+    }
+
+    battle.state = "CANCELLED";
+    await battle.save();
+
+    emitRealtimeEvent({
+      event: "team:battle_state",
+      room: `battle:${battleId}`,
+      payload: { battleId, state: "CANCELLED" },
+    });
+
+    return battle;
   }
 }
 

@@ -113,6 +113,46 @@ export class TeamBattleController {
     }
   }
 
+  async cancelBattle(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const userId = requireUserId(req);
+      const { id: battleId } = req.params;
+      const data = await teamBattleService.cancelBattle(userId, battleId);
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Team battle cancelled",
+        data,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async recordSubmission(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const { id: battleId } = req.params;
+      const { userId, problemId, submissionId, status, points } = req.body || {};
+      if (!userId || !problemId || !submissionId || !status) {
+        throw new BadRequestError("userId, problemId, submissionId, and status are required");
+      }
+      await teamBattleService.recordSubmissionVerdict(battleId, {
+        userId,
+        problemId,
+        submissionId,
+        status,
+        points,
+      });
+      sendResponse({
+        res,
+        statusCode: HTTP_STATUS.OK,
+        message: "Team battle submission verdict recorded",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getLeaderboard(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const page = Number(req.query.page) || 1;

@@ -12,6 +12,7 @@ teamBattleRouter.get("/:id", teamBattleController.getBattleById.bind(teamBattleC
 teamBattleRouter.post("/:id/accept", teamBattleController.acceptBattle.bind(teamBattleController));
 teamBattleRouter.post("/:id/participants", teamBattleController.selectParticipants.bind(teamBattleController));
 teamBattleRouter.post("/:id/start", teamBattleController.startBattle.bind(teamBattleController));
-teamBattleRouter.post("/:id/finish", teamBattleController.finishBattle.bind(teamBattleController));
+teamBattleRouter.post("/:id/cancel", teamBattleController.cancelBattle.bind(teamBattleController));
+teamBattleRouter.post("/:id/submissions", teamBattleController.recordSubmission.bind(teamBattleController));
 
 export default teamBattleRouter;

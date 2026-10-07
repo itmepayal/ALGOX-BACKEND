@@ -81,6 +81,19 @@ export const RealtimeEvents = {
   BATTLE_FINISHED: "battle:finished",
   BATTLE_RESULT: "battle:result",
   BATTLE_FORFEIT: "battle:forfeit",
+
+  // team:*
+  TEAM_INVITATION: "team:invitation",
+  TEAM_MEMBER_JOINED: "team:member_joined",
+  TEAM_MEMBER_LEFT: "team:member_left",
+  TEAM_BATTLE_CREATED: "team:battle_created",
+  TEAM_BATTLE_ACCEPTED: "team:battle_accepted",
+  TEAM_BATTLE_STARTED: "team:battle_started",
+  TEAM_BATTLE_STATE: "team:battle_state",
+  TEAM_MEMBER_STATUS: "team:member_status",
+  TEAM_SUBMISSION_STATUS: "team:submission_status",
+  TEAM_BATTLE_ENDED: "team:battle_ended",
+  TEAM_RATING_UPDATED: "team:rating_updated",
 } as const;
 
 export type RealtimeEventName =
