@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import { invalidateFeatureFlagsCache } from "./utils/featureFlags";
 import { connectDB } from "./config/db.config";
 import { serverConfig } from "./config";
@@ -8,6 +9,7 @@ import { requireInternalSecret } from "./middlewares/auth.middleware";
 import cors from "cors";
 
 const app = express();
+registerOpenApiDocs(app, "DiscussionService");
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [
   "http://localhost:5173",

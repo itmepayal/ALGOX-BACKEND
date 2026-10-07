@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node -r ts-node/register/transpile-only src/server.ts",
     "dev": "nodemon --config nodemon.json",
+    "test:progression": "node -r ts-node/register/transpile-only scripts/progression.selftest.ts",
     "typecheck": "tsc --noEmit",
     "seed:test-users": "node -r ts-node/register/transpile-only scripts/seed-test-users.ts"
   },

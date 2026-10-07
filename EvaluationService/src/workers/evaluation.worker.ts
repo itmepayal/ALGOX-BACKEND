@@ -98,6 +98,25 @@ async function fanOutAfterJudgement(
   ];
 
   if (result.status === "ACCEPTED" && jobData.userId) {
+    if (jobData.problemId) {
+      const difficulty = String(jobData.problem?.difficulty || "easy").toLowerCase();
+      tasks.push(
+        postDownstreamBestEffort({
+          service: "AuthService",
+          operation: "progression-problem-solved",
+          url: `${serverConfig.AUTH_SERVICE_URL.replace(/\/$/, "")}/api/v1/auth/internal/progression/events`,
+          submissionId,
+          jobId,
+          body: {
+            eventKey: `solve:${jobData.userId}:${jobData.problemId}`,
+            userId: jobData.userId,
+            eventType: "problem_solved",
+            sourceId: jobData.problemId,
+            difficulty: ["easy", "medium", "hard"].includes(difficulty) ? difficulty : "easy",
+          },
+        })
+      );
+    }
     tasks.push(
       postDownstreamBestEffort({
         service: "LeaderboardService",

@@ -6,6 +6,7 @@ import { HTTP_STATUS } from "../../utils/constants";
 import { blockWhenMaintenance } from "../../middlewares/featureFlag.middleware";
 import { requireInternalSecret } from "../../middlewares/auth.middleware";
 import { adminUserController } from "../../controllers/adminUser.controller";
+import { progressionController } from "../../controllers/progression.controller";
 
 const v1Router = express.Router();
 
@@ -32,6 +33,12 @@ v1Router.get(
   "/auth/admin/internal/user-stats",
   requireInternalSecret,
   adminUserController.internalStats.bind(adminUserController)
+);
+
+v1Router.post(
+  "/auth/internal/progression/events",
+  requireInternalSecret,
+  progressionController.recordEvent.bind(progressionController)
 );
 
 v1Router.use("/auth/admin", adminRouter);

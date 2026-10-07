@@ -1,4 +1,5 @@
 import express from 'express';
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import cookieParser from 'cookie-parser';
 import { serverConfig } from './config';
 import { connectDB } from './config/db.config';
@@ -11,6 +12,7 @@ import cors from 'cors';
 import { billingController } from './billing/billing.controller';
 
 const app = express();
+registerOpenApiDocs(app, "AuthService");
 
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [

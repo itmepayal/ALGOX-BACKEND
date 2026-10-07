@@ -251,7 +251,9 @@ export type BillingMutationAction =
   | "checkout"
   | "cancel"
   | "resume"
-  | "subscription-read";
+  | "subscription-read"
+  | "social-read"
+  | "social-write";
 
 /**
  * Rate-limit Premium billing mutations (checkout / cancel / resume).
@@ -263,7 +265,7 @@ export function billingMutationRateLimit(
 ) {
   const resolved =
     opts ||
-    (action === "subscription-read"
+    (action === "subscription-read" || action === "social-read"
       ? ENTITLEMENT_READ_DEFAULTS
       : BILLING_MUTATION_DEFAULTS);
 

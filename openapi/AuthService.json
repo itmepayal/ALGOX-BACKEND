@@ -1,0 +1,5518 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AlgoPath Auth Service",
+    "version": "1.0.0",
+    "description": "Authentication, accounts, subscriptions, billing, notifications, and social APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/auth. The gateway forwards the remaining service path unchanged.\n\n"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Billing"
+    },
+    {
+      "name": "Documentation"
+    },
+    {
+      "name": "Notifications"
+    },
+    {
+      "name": "Social"
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/2fa/toggle": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process 2fa toggle",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:151.",
+        "operationId": "AuthpostApiV1Auth2faToggle",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 151
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:151; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/activity": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin activity",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:63. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminActivity",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 63
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/announcements": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin announcements",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:194. Required permission: announcements:view.",
+        "operationId": "AuthgetApiV1AuthAdminAnnouncements",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 194
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process admin announcements",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:205. Required permission: announcements:create.",
+        "operationId": "AuthpostApiV1AuthAdminAnnouncements",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 205
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:205; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/announcements/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin announcements",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:199. Required permission: announcements:view.",
+        "operationId": "AuthgetApiV1AuthAdminAnnouncementsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 199
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update admin announcements",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:211. Required permission: announcements:create.",
+        "operationId": "AuthpatchApiV1AuthAdminAnnouncementsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 211
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:211; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/announcements/{id}/archive": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process announcements archive",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:235. Required permission: announcements:publish.",
+        "operationId": "AuthpostApiV1AuthAdminAnnouncementsIdArchive",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 235
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:235; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/announcements/{id}/expire": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process announcements expire",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:229. Required permission: announcements:publish.",
+        "operationId": "AuthpostApiV1AuthAdminAnnouncementsIdExpire",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 229
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:229; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/announcements/{id}/publish": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process announcements publish",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:223. Required permission: announcements:publish.",
+        "operationId": "AuthpostApiV1AuthAdminAnnouncementsIdPublish",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 223
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:223; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/announcements/{id}/schedule": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process announcements schedule",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:217. Required permission: announcements:publish.",
+        "operationId": "AuthpostApiV1AuthAdminAnnouncementsIdSchedule",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 217
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:217; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/audit": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process admin audit",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:154. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AuthpostApiV1AuthAdminAudit",
+        "security": [
+          {
+            "bearerAuth": [],
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 154
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:154; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/audit-logs": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get audit logs",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:147. Required permission: audit:view.",
+        "operationId": "AuthgetApiV1AuthAdminAuditLogs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 147
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/internal/announce-sheet": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process announce sheet",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:161. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AuthpostApiV1AuthAdminInternalAnnounceSheet",
+        "security": [
+          {
+            "bearerAuth": [],
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 161
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:161; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/me/permissions": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get me permissions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:20. Required permission: admin:view.",
+        "operationId": "AuthgetApiV1AuthAdminMePermissions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 20
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/notifications": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin notifications",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:242. Required permission: notifications:view.",
+        "operationId": "AuthgetApiV1AuthAdminNotifications",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 242
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process admin notifications",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:248. Required permission: notifications:create.",
+        "operationId": "AuthpostApiV1AuthAdminNotifications",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 248
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:248; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/notifications/{id}": {
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete admin notifications",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:266. Required permission: notifications:manage.",
+        "operationId": "AuthdeleteApiV1AuthAdminNotificationsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 266
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/notifications/campaigns": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get notifications campaigns",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:254. Required permission: notifications:view.",
+        "operationId": "AuthgetApiV1AuthAdminNotificationsCampaigns",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 254
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/notifications/campaigns/{id}/cancel": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process campaigns cancel",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:260. Required permission: notifications:manage.",
+        "operationId": "AuthpostApiV1AuthAdminNotificationsCampaignsIdCancel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 260
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:260; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/progress": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin progress",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:75. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminProgress",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 75
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/roles/{role}/permissions": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update roles permissions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:279. Required permission: roles:manage.",
+        "operationId": "AuthputApiV1AuthAdminRolesRolePermissions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter role. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 279
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:279; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/roles/{role}/reset": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process roles reset",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:285. Required permission: roles:manage.",
+        "operationId": "AuthpostApiV1AuthAdminRolesRoleReset",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter role. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 285
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:285; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/roles/matrix": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get roles matrix",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:273. Required permission: admin:view.",
+        "operationId": "AuthgetApiV1AuthAdminRolesMatrix",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 273
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/sessions": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:69. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminSessions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 69
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/settings": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin settings",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:26. Required permission: settings:view.",
+        "operationId": "AuthgetApiV1AuthAdminSettings",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 26
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update admin settings",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:32. Required permission: settings:update.",
+        "operationId": "AuthpatchApiV1AuthAdminSettings",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 32
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:32; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/settings/reset": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process settings reset",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:38. Required permission: settings:update.",
+        "operationId": "AuthpostApiV1AuthAdminSettingsReset",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 38
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:38; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/test-users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get test users",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:50. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminTestUsers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 50
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/user-stats": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get user stats",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:187. Required permission: analytics:view.",
+        "operationId": "AuthgetApiV1AuthAdminUserStats",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 187
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin users",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:44. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminUsers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 44
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process admin users",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:56. Required permission: users:create.",
+        "operationId": "AuthpostApiV1AuthAdminUsers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 56
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:56; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/users/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin users",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:81. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminUsersId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 81
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete admin users",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:87. Required permission: users:delete.",
+        "operationId": "AuthdeleteApiV1AuthAdminUsersId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 87
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/activity": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get users activity",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:99. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminUsersIdActivity",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 99
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/progress": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get users progress",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:105. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminUsersIdProgress",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 105
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/reset-password": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reset password",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:93. Required permission: users:update.",
+        "operationId": "AuthpostApiV1AuthAdminUsersIdResetPassword",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 93
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:93; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/role": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update users role",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:129. Required permission: users:update.",
+        "operationId": "AuthpatchApiV1AuthAdminUsersIdRole",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 129
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:129; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/sessions": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get users sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:111. Required permission: users:view.",
+        "operationId": "AuthgetApiV1AuthAdminUsersIdSessions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 111
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete users sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:123. Required permission: users:update.",
+        "operationId": "AuthdeleteApiV1AuthAdminUsersIdSessions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 123
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/sessions/{sessionId}": {
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Delete users sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:117. Required permission: users:update.",
+        "operationId": "AuthdeleteApiV1AuthAdminUsersIdSessionsSessionId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          },
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter sessionId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 117
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/status": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update users status",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:135. Required permission: users:update.",
+        "operationId": "AuthpatchApiV1AuthAdminUsersIdStatus",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 135
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:135; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/admin/users/{id}/subscription": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update users subscription",
+        "description": "Implemented by server/AuthService/src/routers/v1/admin.router.ts:141. Required permission: users:update.",
+        "operationId": "AuthpatchApiV1AuthAdminUsersIdSubscription",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 141
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/admin.router.ts:141; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/announcements": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get auth announcements",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:157.",
+        "operationId": "AuthgetApiV1AuthAnnouncements",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 157
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process change password",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:55.",
+        "operationId": "AuthpostApiV1AuthChangePassword",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 55
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:55; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/email/send-verification": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process send verification",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:148.",
+        "operationId": "AuthpostApiV1AuthEmailSendVerification",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 148
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:148; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/email/verify": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process email verify",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:149.",
+        "operationId": "AuthpostApiV1AuthEmailVerify",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 149
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:149; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/entitlements/catalog": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get entitlements catalog",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:78.",
+        "operationId": "AuthgetApiV1AuthEntitlementsCatalog",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 78
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/entitlements/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get entitlements me",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:73.",
+        "operationId": "AuthgetApiV1AuthEntitlementsMe",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 73
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/entitlements/probe/{feature}": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get entitlements probe",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:83.",
+        "operationId": "AuthgetApiV1AuthEntitlementsProbeFeature",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "feature",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter feature. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 83
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process forgot password",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:36.",
+        "operationId": "AuthpostApiV1AuthForgotPassword",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 36
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:36; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process auth login",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:25.",
+        "operationId": "AuthpostApiV1AuthLogin",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 25
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:25; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login/2fa": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process login 2fa",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:26.",
+        "operationId": "AuthpostApiV1AuthLogin2fa",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 26
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:26; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process auth logout",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:51.",
+        "operationId": "AuthpostApiV1AuthLogout",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 51
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:51; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout-all": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process logout all",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:52.",
+        "operationId": "AuthpostApiV1AuthLogoutAll",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 52
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:52; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get auth me",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:53.",
+        "operationId": "AuthgetApiV1AuthMe",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 53
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/notifications": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get auth notifications",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:163.",
+        "operationId": "AuthgetApiV1AuthNotifications",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 163
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/notifications/{id}/read": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Create or process notifications read",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:181.",
+        "operationId": "AuthpostApiV1AuthNotificationsIdRead",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 181
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:181; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/notifications/read-all": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Create or process read all",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:175.",
+        "operationId": "AuthpostApiV1AuthNotificationsReadAll",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 175
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:175; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/notifications/unread-count": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get unread count",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:169.",
+        "operationId": "AuthgetApiV1AuthNotificationsUnreadCount",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 169
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/profile": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Update auth profile",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:54.",
+        "operationId": "AuthputApiV1AuthProfile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 54
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:54; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/progression/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get progression me",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:56.",
+        "operationId": "AuthgetApiV1AuthProgressionMe",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 56
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/public/settings": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get public settings",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:46.",
+        "operationId": "AuthgetApiV1AuthPublicSettings",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 46
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process auth refresh",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:31.",
+        "operationId": "AuthpostApiV1AuthRefresh",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 31
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:31; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process reset password",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:41.",
+        "operationId": "AuthpostApiV1AuthResetPassword",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 41
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:41; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/security-logs": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get security logs",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:155.",
+        "operationId": "AuthgetApiV1AuthSecurityLogs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 155
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/sessions": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get auth sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:153.",
+        "operationId": "AuthgetApiV1AuthSessions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 153
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/sessions/{sessionId}": {
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Delete auth sessions",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:154.",
+        "operationId": "AuthdeleteApiV1AuthSessionsSessionId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter sessionId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 154
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process auth signup",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:19.",
+        "operationId": "AuthpostApiV1AuthSignup",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 19
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:19; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/social/activity": {
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get social activity",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:71.",
+        "operationId": "AuthgetApiV1AuthSocialActivity",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 71
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/discover": {
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get social discover",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:59.",
+        "operationId": "AuthgetApiV1AuthSocialDiscover",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 59
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/follow/{userId}": {
+      "post": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Create or process social follow",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:67.",
+        "operationId": "AuthpostApiV1AuthSocialFollowUserId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter userId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 67
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:67; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Delete social follow",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:68.",
+        "operationId": "AuthdeleteApiV1AuthSocialFollowUserId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter userId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 68
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/followers": {
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get social followers",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:69.",
+        "operationId": "AuthgetApiV1AuthSocialFollowers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 69
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/following": {
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get social following",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:70.",
+        "operationId": "AuthgetApiV1AuthSocialFollowing",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 70
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/friend-requests": {
+      "post": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Create or process friend requests",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:60.",
+        "operationId": "AuthpostApiV1AuthSocialFriendRequests",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 60
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:60; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get friend requests",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:61.",
+        "operationId": "AuthgetApiV1AuthSocialFriendRequests",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 61
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/friend-requests/{requestId}/accept": {
+      "post": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Create or process requests accept",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:62.",
+        "operationId": "AuthpostApiV1AuthSocialFriendRequestsRequestIdAccept",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter requestId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 62
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:62; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/social/friend-requests/{requestId}/cancel": {
+      "post": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Create or process requests cancel",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:64.",
+        "operationId": "AuthpostApiV1AuthSocialFriendRequestsRequestIdCancel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter requestId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 64
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:64; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/social/friend-requests/{requestId}/reject": {
+      "post": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Create or process requests reject",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:63.",
+        "operationId": "AuthpostApiV1AuthSocialFriendRequestsRequestIdReject",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter requestId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 63
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:63; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/social/friends": {
+      "get": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Get social friends",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:65.",
+        "operationId": "AuthgetApiV1AuthSocialFriends",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 65
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/social/friends/{userId}": {
+      "delete": {
+        "tags": [
+          "Social"
+        ],
+        "summary": "Delete social friends",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:66.",
+        "operationId": "AuthdeleteApiV1AuthSocialFriendsUserId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter userId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 66
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/subscription": {
+      "get": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Get auth subscription",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:92.",
+        "operationId": "AuthgetApiV1AuthSubscription",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 92
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process auth subscription",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:122.",
+        "operationId": "AuthpostApiV1AuthSubscription",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 122
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:122; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/subscription/billing": {
+      "get": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Get subscription billing",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:129.",
+        "operationId": "AuthgetApiV1AuthSubscriptionBilling",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 129
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/subscription/cancel": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process subscription cancel",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:110.",
+        "operationId": "AuthpostApiV1AuthSubscriptionCancel",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 110
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:110; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/subscription/cashfree/confirm": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process cashfree confirm",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:141.",
+        "operationId": "AuthpostApiV1AuthSubscriptionCashfreeConfirm",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 141
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:141; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/subscription/checkout": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process subscription checkout",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:135.",
+        "operationId": "AuthpostApiV1AuthSubscriptionCheckout",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 135
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:135; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/subscription/entitlements": {
+      "get": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Get subscription entitlements",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:98.",
+        "operationId": "AuthgetApiV1AuthSubscriptionEntitlements",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 98
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/subscription/history": {
+      "get": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Get subscription history",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:104.",
+        "operationId": "AuthgetApiV1AuthSubscriptionHistory",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 104
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/auth/subscription/resume": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process subscription resume",
+        "description": "Implemented by server/AuthService/src/routers/v1/auth.router.ts:116.",
+        "operationId": "AuthpostApiV1AuthSubscriptionResume",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/auth.router.ts",
+          "line": 116
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/auth.router.ts:116; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/webhooks/cashfree": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process webhooks cashfree",
+        "description": "Implemented by server/AuthService/src/server.ts:77.",
+        "operationId": "AuthpostApiV1AuthWebhooksCashfree",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 77
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/server.ts:77; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/webhooks/stripe": {
+      "post": {
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create or process webhooks stripe",
+        "description": "Implemented by server/AuthService/src/server.ts:72.",
+        "operationId": "AuthpostApiV1AuthWebhooksStripe",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 72
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/server.ts:72; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/auth/admin/internal/user-stats": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get user stats",
+        "description": "Implemented by server/AuthService/src/routers/v1/index.router.ts:32. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AuthgetApiV2AuthAdminInternalUserStats",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 32
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v2/auth/internal/progression/events": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create or process progression events",
+        "description": "Implemented by server/AuthService/src/routers/v1/index.router.ts:38. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AuthpostApiV2AuthInternalProgressionEvents",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 38
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AuthService/src/routers/v1/index.router.ts:38; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/health": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get v2 health",
+        "description": "Implemented by server/AuthService/src/routers/v1/index.router.ts:14.",
+        "operationId": "AuthgetApiV2Health",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 14
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Get this service OpenAPI document",
+        "operationId": "AuthgetOpenApiDocument",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.0.3 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Open Swagger UI",
+        "operationId": "AuthgetSwaggerUi",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token issued by AuthService."
+      },
+      "internalServiceSecret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-internal-secret",
+        "description": "Configured service-to-service secret. Do not place secret values in examples."
+      }
+    },
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "description": "Endpoint-specific response data."
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request or validation failure.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated caller lacks permission or internal authorization.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Requested resource was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Request conflicts with current resource state.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

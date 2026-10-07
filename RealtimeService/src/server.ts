@@ -1,4 +1,5 @@
 import http from "http";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import express from "express";
 import cors from "cors";
 import { Server as SocketIOServer } from "socket.io";
@@ -24,6 +25,7 @@ import { onlinePresenceService } from "./services/onlinePresence.service";
 import { isPresenceRedisReady } from "./config/presenceRedis";
 
 const app = express();
+registerOpenApiDocs(app, "RealtimeService");
 
 function isAllowedCorsOrigin(origin: string | undefined): boolean {
   // No Origin = non-browser / service-to-service — allow.
@@ -117,6 +119,7 @@ async function start() {
 
   const httpServer = http.createServer(app);
   const io = new SocketIOServer(httpServer, {
+    maxHttpBufferSize: 64 * 1024,
     cors: {
       origin: (origin, callback) => {
         if (isAllowedCorsOrigin(origin)) {

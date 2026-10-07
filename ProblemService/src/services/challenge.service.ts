@@ -22,6 +22,8 @@ import {
   isValidIanaTimeZone,
   shiftDateKey,
 } from "../utils/streakRules";
+import { recordProgressionEvent } from "../utils/helpers/progressionFanout";
+import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 import {
   BadRequestError,
   ConflictError,
@@ -727,6 +729,7 @@ export class ChallengeService {
 
   private async refreshStreakAfterQualify(userId: string, qualifiedDateKey: string) {
     const state = await this.getOrCreateStreakState(userId);
+    const previousStreak = state.currentStreak;
     const applied = applyQualifiedDay({
       todayKey: qualifiedDateKey,
       lastQualifiedDateKey: state.lastQualifiedDateKey,
@@ -738,6 +741,19 @@ export class ChallengeService {
     state.lastQualifiedDateKey = qualifiedDateKey;
     await this.mergeBadges(state, badgesForStreak(state.currentStreak));
     await state.save();
+    if (previousStreak < 30 && state.currentStreak >= 30) {
+      await recordProgressionEvent({
+        eventKey: `streak-milestone:${userId}:30:${qualifiedDateKey}`,
+        userId,
+        eventType: "streak_milestone",
+        sourceId: "30",
+      });
+      emitRealtimeEvent({
+        event: "contest.status_changed",
+        userId,
+        payload: { type: "streak.milestone", userId, days: 30, dateKey: qualifiedDateKey },
+      });
+    }
   }
 
   private async recomputeStreakCounters(userId: string) {

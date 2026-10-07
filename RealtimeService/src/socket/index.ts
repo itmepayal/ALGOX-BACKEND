@@ -14,6 +14,7 @@ import { clearSocketRateLimits, withRateLimit } from "./rateLimit";
 import { pushEvent } from "../events/eventStream";
 import { onlinePresenceService } from "../services/onlinePresence.service";
 import logger from "../config/logger.config";
+import { codingSessionService, CodingSessionError } from "../services/codingSession.service";
 
 const presenceSchema = z.object({
   currentPage: z.string().max(200).nullable().optional(),
@@ -24,6 +25,44 @@ const presenceSchema = z.object({
 const roomSchema = z.object({
   room: z.string().min(3).max(200),
 });
+
+const codingCreateSchema = z.object({
+  problemId: z.string().trim().min(1).max(100),
+  mode: z.enum(["replay", "collaborative"]),
+  language: z.string().trim().min(1).max(40),
+  code: z.string().max(20_000),
+  inviteeIds: z.array(z.string().regex(/^[a-f\d]{24}$/i)).max(20).optional(),
+});
+const codingJoinSchema = z.object({ sessionId: z.string().regex(/^[a-f\d]{24}$/i) });
+const codingUpdateSchema = z.object({
+  sessionId: z.string().regex(/^[a-f\d]{24}$/i),
+  eventId: z.string().min(8).max(100),
+  baseRevision: z.number().int().nonnegative(),
+  code: z.string().max(20_000),
+  cursor: z.object({ line: z.number().int().min(1), column: z.number().int().min(1) }).optional(),
+});
+const codingCompleteSchema = z.object({
+  sessionId: z.string().regex(/^[a-f\d]{24}$/i),
+  status: z.enum(["completed", "cancelled"]),
+});
+const codingControlSchema = z.object({
+  sessionId: z.string().regex(/^[a-f\d]{24}$/i),
+  action: z.enum(["pause", "resume"]),
+});
+const codingCursorSchema = z.object({
+  sessionId: z.string().regex(/^[a-f\d]{24}$/i),
+  line: z.number().int().min(1).max(100_000),
+  column: z.number().int().min(1).max(10_000),
+});
+
+function codingError(err: unknown) {
+  if (err instanceof CodingSessionError) {
+    const status = err.code === "INVALID" ? 422 : err.code === "NOT_FOUND" ? 404 : err.code === "FORBIDDEN" ? 403 : 409;
+    return { ok: false, status, code: err.code, error: err.message };
+  }
+  logger.error("Coding session operation failed", { error: err instanceof Error ? err.message : String(err) });
+  return { ok: false, status: 503, code: "UNAVAILABLE", error: "Coding session service is unavailable" };
+}
 
 let ioRef: SocketIOServer | null = null;
 let lastBroadcastCount = -1;
@@ -208,6 +247,74 @@ export function attachSocketHandlers(io: SocketIOServer): void {
         { max: 30, windowMs: 10_000 }
       )
     );
+
+    socket.on(RealtimeEvents.CODING_CREATE, withRateLimit(socket, RealtimeEvents.CODING_CREATE, async (raw, ack?: (r: unknown) => void) => {
+      try {
+        const input = codingCreateSchema.parse(raw);
+        const session = await codingSessionService.create({ ...input, userId: user.userId });
+        await socket.join(`coding:${session.id}`);
+        ack?.({ ok: true, session });
+      } catch (err) {
+        ack?.(codingError(err));
+      }
+    }, { max: 5, windowMs: 60_000 }));
+
+    socket.on(RealtimeEvents.CODING_JOIN, withRateLimit(socket, RealtimeEvents.CODING_JOIN, async (raw, ack?: (r: unknown) => void) => {
+      try {
+        const input = codingJoinSchema.parse(raw);
+        const session = await codingSessionService.join(input.sessionId, user.userId);
+        await socket.join(`coding:${session.id}`);
+        ack?.({ ok: true, session });
+      } catch (err) {
+        ack?.(codingError(err));
+      }
+    }, { max: 20, windowMs: 10_000 }));
+
+    socket.on(RealtimeEvents.CODING_UPDATE, withRateLimit(socket, RealtimeEvents.CODING_UPDATE, async (raw, ack?: (r: unknown) => void) => {
+      try {
+        const input = codingUpdateSchema.parse(raw);
+        const update = await codingSessionService.update({ ...input, userId: user.userId });
+        if (!update.duplicate) socket.to(`coding:${update.id}`).emit(RealtimeEvents.CODING_STATE, update);
+        ack?.({ ok: true, ...update });
+      } catch (err) {
+        ack?.(codingError(err));
+      }
+    }, { max: 8, windowMs: 5_000 }));
+
+    socket.on(RealtimeEvents.CODING_COMPLETE, withRateLimit(socket, RealtimeEvents.CODING_COMPLETE, async (raw, ack?: (r: unknown) => void) => {
+      try {
+        const input = codingCompleteSchema.parse(raw);
+        const session = await codingSessionService.complete(input.sessionId, user.userId, input.status);
+        io.to(`coding:${session.id}`).emit(RealtimeEvents.CODING_STATE, session);
+        ack?.({ ok: true, session });
+      } catch (err) {
+        ack?.(codingError(err));
+      }
+    }, { max: 5, windowMs: 60_000 }));
+
+    socket.on(RealtimeEvents.CODING_CONTROL, withRateLimit(socket, RealtimeEvents.CODING_CONTROL, async (raw, ack?: (r: unknown) => void) => {
+      try {
+        const input = codingControlSchema.parse(raw);
+        const session = await codingSessionService.setPaused(input.sessionId, user.userId, input.action === "pause");
+        io.to(`coding:${session.id}`).emit(RealtimeEvents.CODING_STATE, session);
+        ack?.({ ok: true, session });
+      } catch (err) {
+        ack?.(codingError(err));
+      }
+    }, { max: 10, windowMs: 60_000 }));
+
+    socket.on(RealtimeEvents.CODING_CURSOR, withRateLimit(socket, RealtimeEvents.CODING_CURSOR, async (raw) => {
+      try {
+        const input = codingCursorSchema.parse(raw);
+        await codingSessionService.assertParticipant(input.sessionId, user.userId);
+        socket.to(`coding:${input.sessionId}`).emit(RealtimeEvents.CODING_CURSOR_STATE, {
+          sessionId: input.sessionId,
+          userId: user.userId,
+          line: input.line,
+          column: input.column,
+        });
+      } catch { /* Invalid, expired, or unauthorized cursor events are ignored. */ }
+    }, { max: 20, windowMs: 10_000 }));
 
     socket.on(RealtimeEvents.DISCONNECT, (reason) => {
       clearSocketRateLimits(socket.id);

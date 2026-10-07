@@ -1,0 +1,8 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-28-2026 17:22:49","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-28-2026 17:22:51","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-28-2026 17:22:53","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-28-2026 17:22:53","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-28-2026 17:22:53","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-28-2026 17:22:53","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-28-2026 17:22:53","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-28-2026 17:46:45","data":{}}

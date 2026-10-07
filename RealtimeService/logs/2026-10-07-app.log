@@ -1,0 +1,146 @@
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 19:47:25","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 19:47:26","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 19:47:29","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 19:47:29","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 19:47:29","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 19:47:29","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 19:47:29","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 19:55:34","data":{"socketId":"1CP8GXdqsiMkRkc7AAAA","userId":"6aae72f493132482bbfffbe0","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:03:05","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:03:11","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:03:13","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:03:13","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:03:13","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:03:13","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:03:13","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:03:32","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:03:34","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:03:35","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:03:35","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:03:35","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:03:35","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:03:35","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:11:49","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:11:51","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:11:52","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:11:52","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:11:52","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:11:52","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:11:52","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:23:05","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:23:07","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:23:08","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:23:08","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:23:08","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:23:08","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:23:08","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:24:08","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:24:14","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:24:16","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:24:16","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:24:16","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:24:16","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:24:16","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:26:00","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:26:01","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:26:03","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:26:03","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:26:03","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:26:03","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:26:03","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:27:16","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:27:17","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:27:18","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:27:18","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:27:18","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:27:18","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:27:18","data":{}}
+{"level":"warn","message":"MongoDB unavailable — BroadcastLog persistence disabled (memory fallback only)","timestamp":"10-07-2026 20:31:53","data":{"error":"querySrv ECONNREFUSED _mongodb._tcp.cluster0.ojeyznz.mongodb.net"}}
+{"level":"warn","message":"Presence Redis error","timestamp":"10-07-2026 20:31:54","data":{"error":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"warn","message":"Presence Redis unavailable — in-memory unique-user fallback","timestamp":"10-07-2026 20:31:54","data":{"reason":"getaddrinfo EAI_AGAIN crisp-ghost-149194.upstash.io"}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:43:16","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:43:17","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:43:19","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:43:19","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:43:19","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:43:19","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:43:19","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:43:30","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:43:31","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:43:33","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:43:33","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:43:33","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:43:33","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:43:33","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:43:46","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:43:47","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:43:49","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:43:49","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:43:49","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:43:49","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:43:49","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:49:01","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:49:02","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:49:03","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:49:03","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:49:03","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:49:03","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:49:03","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:53:12","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:53:13","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:53:15","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:53:15","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:53:15","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:53:15","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:53:15","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"10-07-2026 20:57:25","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"10-07-2026 20:57:26","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"10-07-2026 20:57:27","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"10-07-2026 20:57:28","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"10-07-2026 20:57:28","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"10-07-2026 20:57:28","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 20:57:28","data":{}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"Presence Redis disabled — REDIS_URL unset (using in-memory unique users)","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"REDIS_URL unset — Socket.IO using in-memory adapter","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:39983","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MONGO_URL unset — BroadcastLog persistence disabled)","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 21:08:02","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:02","data":{"socketId":"wN_Vmybt8iiaIICWAAAA","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"Presence Redis disabled — REDIS_URL unset (using in-memory unique users)","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"REDIS_URL unset — Socket.IO using in-memory adapter","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:34005","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MONGO_URL unset — BroadcastLog persistence disabled)","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 21:08:23","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:24","data":{"socketId":"LmnfurNsB-kUzBd6AAAA","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:24","data":{"socketId":"9PFpLCU4B89ZRWvHAAAB","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"Presence Redis disabled — REDIS_URL unset (using in-memory unique users)","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"REDIS_URL unset — Socket.IO using in-memory adapter","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:44607","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MONGO_URL unset — BroadcastLog persistence disabled)","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 21:08:37","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:37","data":{"socketId":"Mzi0d6TYmn9gFXZLAAAA","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:37","data":{"socketId":"qj9ay-1Swal0D5oVAAAB","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"Presence Redis disabled — REDIS_URL unset (using in-memory unique users)","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"REDIS_URL unset — Socket.IO using in-memory adapter","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:45445","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MONGO_URL unset — BroadcastLog persistence disabled)","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 21:08:58","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:58","data":{"socketId":"8_MpU9rjhjIYLfR2AAAA","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:08:58","data":{"socketId":"X_5ynMwg-Yj4VLTHAAAB","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"MONGO_URL unset — BroadcastLog persistence disabled","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"Presence Redis disabled — REDIS_URL unset (using in-memory unique users)","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"REDIS_URL unset — Socket.IO using in-memory adapter","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:34769","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=memory; presenceRedis=false)","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"BroadcastLog persistence=memory (MONGO_URL unset — BroadcastLog persistence disabled)","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"10-07-2026 21:10:05","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:10:06","data":{"socketId":"o8KTFsQXjU3MDqEaAAAA","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}
+{"level":"info","message":"Socket disconnected","timestamp":"10-07-2026 21:10:06","data":{"socketId":"j2ORcBE6YKF6zibrAAAB","userId":"507f1f77bcf86cd799439011","reason":"client namespace disconnect","hadRecord":true}}

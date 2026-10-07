@@ -1,0 +1,752 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AlgoPath Analytics Service",
+    "version": "1.0.0",
+    "description": "User and platform analytics APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/analytics. The gateway forwards the remaining service path unchanged.\n\n"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3007",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Analytics"
+    },
+    {
+      "name": "Documentation"
+    }
+  ],
+  "paths": {
+    "/api/v1/analytics/admin/charts": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin charts",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:58. Required permission: analytics:view.",
+        "operationId": "AnalyticsgetApiV1AnalyticsAdminCharts",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 58
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/admin/dashboard": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin dashboard",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:64. Required permission: analytics:view.",
+        "operationId": "AnalyticsgetApiV1AnalyticsAdminDashboard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 64
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/admin/export": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin export",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:70. Required permission: analytics:view.",
+        "operationId": "AnalyticsgetApiV1AnalyticsAdminExport",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 70
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/admin/overview": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin overview",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:52. Required permission: analytics:view.",
+        "operationId": "AnalyticsgetApiV1AnalyticsAdminOverview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 52
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/me/history": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get me history",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:29.",
+        "operationId": "AnalyticsgetApiV1AnalyticsMeHistory",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 29
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/me/learning": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get me learning",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:39.",
+        "operationId": "AnalyticsgetApiV1AnalyticsMeLearning",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 39
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/me/overview": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get me overview",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:24.",
+        "operationId": "AnalyticsgetApiV1AnalyticsMeOverview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 24
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/me/premium": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get me premium",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:34.",
+        "operationId": "AnalyticsgetApiV1AnalyticsMePremium",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 34
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/analytics/record-submission": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Create or process record submission",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:46. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AnalyticspostApiV1AnalyticsRecordSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 46
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AnalyticsService/src/routers/v1/analytics.router.ts:46; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analytics/user/{userId}": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get analytics user",
+        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:18.",
+        "operationId": "AnalyticsgetApiV1AnalyticsUserUserId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter userId. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 18
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Get v1 health",
+        "description": "Implemented by server/AnalyticsService/src/server.ts:65.",
+        "operationId": "AnalyticsgetApiV1Health",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 65
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Create or process flags invalidate",
+        "description": "Implemented by server/AnalyticsService/src/server.ts:73. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "AnalyticspostApiV1InternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 73
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AnalyticsService/src/server.ts:73; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Get this service OpenAPI document",
+        "operationId": "AnalyticsgetOpenApiDocument",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.0.3 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Open Swagger UI",
+        "operationId": "AnalyticsgetSwaggerUi",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token issued by AuthService."
+      },
+      "internalServiceSecret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-internal-secret",
+        "description": "Configured service-to-service secret. Do not place secret values in examples."
+      }
+    },
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "description": "Endpoint-specific response data."
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request or validation failure.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated caller lacks permission or internal authorization.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Requested resource was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Request conflicts with current resource state.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

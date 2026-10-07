@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import v1Router from "./routers/v1/index.router";
@@ -8,6 +9,7 @@ import logger from "./config/logger.config";
 import cors from "cors";
 
 const app = express();
+registerOpenApiDocs(app, "LeaderboardService");
 
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [

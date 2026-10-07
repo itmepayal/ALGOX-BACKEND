@@ -18,60 +18,60 @@ const analyticsRouter = Router();
 analyticsRouter.get(
   "/user/:userId",
   authenticateJwt,
-  analyticsController.getUserAnalytics.bind(analyticsController)
+  analyticsController.getUserAnalytics.bind(analyticsController),
 );
 
 analyticsRouter.get(
   "/me/overview",
   authenticateJwt,
-  analyticsController.getMyOverview.bind(analyticsController)
+  analyticsController.getMyOverview.bind(analyticsController),
 );
 analyticsRouter.get(
   "/me/history",
   authenticateJwt,
-  analyticsController.getMyHistory.bind(analyticsController)
+  analyticsController.getMyHistory.bind(analyticsController),
 );
 analyticsRouter.get(
   "/me/premium",
   authenticateJwt,
-  analyticsController.getMyPremium.bind(analyticsController)
+  analyticsController.getMyPremium.bind(analyticsController),
 );
 analyticsRouter.get(
   "/me/learning",
   authenticateJwt,
-  analyticsController.getMyLearning.bind(analyticsController)
+  analyticsController.getMyLearning.bind(analyticsController),
 );
 
 // Evaluation worker only
 analyticsRouter.post(
   "/record-submission",
   requireInternalSecret,
-  analyticsController.recordSubmissionEvent.bind(analyticsController)
+  analyticsController.recordSubmissionEvent.bind(analyticsController),
 );
 
 analyticsRouter.get(
   "/admin/overview",
   authenticateJwt,
   requirePermission("analytics:view"),
-  analyticsController.getOverview.bind(analyticsController)
+  analyticsController.getOverview.bind(analyticsController),
 );
 analyticsRouter.get(
   "/admin/charts",
   authenticateJwt,
   requirePermission("analytics:view"),
-  analyticsController.getCharts.bind(analyticsController)
+  analyticsController.getCharts.bind(analyticsController),
 );
 analyticsRouter.get(
   "/admin/dashboard",
   authenticateJwt,
   requirePermission("analytics:view"),
-  analyticsController.getDashboard.bind(analyticsController)
+  analyticsController.getDashboard.bind(analyticsController),
 );
 analyticsRouter.get(
   "/admin/export",
   authenticateJwt,
   requirePermission("analytics:view"),
-  analyticsController.exportDashboard.bind(analyticsController)
+  analyticsController.exportDashboard.bind(analyticsController),
 );
 
 export default analyticsRouter;

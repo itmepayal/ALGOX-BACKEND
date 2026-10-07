@@ -1,0 +1,1620 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AlgoPath Discussion Service",
+    "version": "1.0.0",
+    "description": "Discussion posts, comments, and moderation APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/discussion. The gateway forwards the remaining service path unchanged.\n\n"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3008",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Discussion"
+    },
+    {
+      "name": "Documentation"
+    }
+  ],
+  "paths": {
+    "/api/v1/discussions/admin/posts": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:106. Required permission: discussions:view.",
+        "operationId": "DiscussiongetApiV1DiscussionsAdminPosts",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 106
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/admin/posts/{id}/moderate": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process posts moderate",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:112. Required permission: discussions:moderate.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminPostsIdModerate",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 112
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:112; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/admin/reports": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin reports",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:119. Required permission: reports:view.",
+        "operationId": "DiscussiongetApiV1DiscussionsAdminReports",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 119
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get admin reports",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:125. Required permission: reports:view.",
+        "operationId": "DiscussiongetApiV1DiscussionsAdminReportsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 125
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}/assign": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reports assign",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:131. Required permission: reports:review.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdAssign",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 131
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:131; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}/dismiss": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reports dismiss",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:149. Required permission: reports:resolve.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdDismiss",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 149
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:149; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}/reopen": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reports reopen",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:155. Required permission: reports:review.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdReopen",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 155
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:155; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}/resolve": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reports resolve",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:143. Required permission: reports:resolve.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdResolve",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 143
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:143; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/admin/reports/{id}/review": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process reports review",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:137. Required permission: reports:review.",
+        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdReview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 137
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:137; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/comments": {
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process discussions comments",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:79.",
+        "operationId": "DiscussionpostApiV1DiscussionsComments",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 79
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:79; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/comments/{id}": {
+      "patch": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Update discussions comments",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:85.",
+        "operationId": "DiscussionpatchApiV1DiscussionsCommentsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 85
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:85; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Delete discussions comments",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:91.",
+        "operationId": "DiscussiondeleteApiV1DiscussionsCommentsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 91
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/posts": {
+      "get": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Get discussions posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:30.",
+        "operationId": "DiscussiongetApiV1DiscussionsPosts",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 30
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process discussions posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:49.",
+        "operationId": "DiscussionpostApiV1DiscussionsPosts",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 49
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:49; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/posts/{id}": {
+      "get": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Get discussions posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:36.",
+        "operationId": "DiscussiongetApiV1DiscussionsPostsId",
+        "security": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 36
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      },
+      "patch": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Update discussions posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:55.",
+        "operationId": "DiscussionpatchApiV1DiscussionsPostsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 55
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:55; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Delete discussions posts",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:61.",
+        "operationId": "DiscussiondeleteApiV1DiscussionsPostsId",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 61
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/posts/{id}/bookmark": {
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process posts bookmark",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:73.",
+        "operationId": "DiscussionpostApiV1DiscussionsPostsIdBookmark",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 73
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:73; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/posts/{id}/comments": {
+      "get": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Get posts comments",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:42.",
+        "operationId": "DiscussiongetApiV1DiscussionsPostsIdComments",
+        "security": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 42
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/discussions/posts/{id}/vote": {
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process posts vote",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:67.",
+        "operationId": "DiscussionpostApiV1DiscussionsPostsIdVote",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 67
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:67; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/discussions/reports": {
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process discussions reports",
+        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:98.",
+        "operationId": "DiscussionpostApiV1DiscussionsReports",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
+          "line": 98
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:98; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Get v1 health",
+        "description": "Implemented by server/DiscussionService/src/server.ts:69.",
+        "operationId": "DiscussiongetApiV1Health",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 69
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Create or process flags invalidate",
+        "description": "Implemented by server/DiscussionService/src/server.ts:73. Service-to-service endpoint; requires the configured internal secret header.",
+        "operationId": "DiscussionpostApiV1InternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 73
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/server.ts:73; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Discussion"
+        ],
+        "summary": "Get health",
+        "description": "Implemented by server/DiscussionService/src/server.ts:65.",
+        "operationId": "DiscussiongetHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 65
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Get this service OpenAPI document",
+        "operationId": "DiscussiongetOpenApiDocument",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.0.3 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Open Swagger UI",
+        "operationId": "DiscussiongetSwaggerUi",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token issued by AuthService."
+      },
+      "internalServiceSecret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-internal-secret",
+        "description": "Configured service-to-service secret. Do not place secret values in examples."
+      }
+    },
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "description": "Endpoint-specific response data."
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request or validation failure.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated caller lacks permission or internal authorization.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Requested resource was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Request conflicts with current resource state.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

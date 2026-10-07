@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import contentRouter from "./routers/v1/content.router";
@@ -8,6 +9,7 @@ import { invalidateFeatureFlagsCache } from "./utils/featureFlags";
 import cors from "cors";
 
 const app = express();
+registerOpenApiDocs(app, "ContentService");
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [
   "http://localhost:5173",

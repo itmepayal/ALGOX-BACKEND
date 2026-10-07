@@ -17,6 +17,7 @@ import {
 } from "../utils/errors/app.error";
 import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
 import logger from "../config/logger.config";
+import { recordProgressionEvent } from "../utils/helpers/progressionFanout";
 
 export interface CreateBattleDto {
   opponentId: string;
@@ -712,6 +713,15 @@ export class BattleService {
     battle.finishedAt = new Date();
     await battle.save();
 
+    if (battle.battleMode === "ranked") {
+      await recordProgressionEvent({
+        eventKey: `battle-win:${battle._id}:${winnerId}`,
+        userId: winnerId.toString(),
+        eventType: "battle_won",
+        sourceId: battle._id.toString(),
+      });
+    }
+
     emitRealtimeEvent({
       event: "battle:forfeit",
       room: `battle:${battleId}`,
@@ -787,6 +797,15 @@ export class BattleService {
     battle.finishedAt = new Date();
     await battle.save();
 
+    if (winnerId && battle.battleMode === "ranked") {
+      await recordProgressionEvent({
+        eventKey: `battle-win:${battle._id}:${winnerId}`,
+        userId: winnerId.toString(),
+        eventType: "battle_won",
+        sourceId: battle._id.toString(),
+      });
+    }
+
     logger.info("BATTLE FINISHED & FINALIZED", {
       battleId: battle._id.toString(),
       winnerId: winnerId ? winnerId.toString() : "DRAW",
@@ -799,6 +818,7 @@ export class BattleService {
         battleId: battle._id.toString(),
         status: "RESULT_PUBLISHED",
         winnerId: winnerId ? winnerId.toString() : null,
+        battleMode: battle.battleMode,
       },
     });
 

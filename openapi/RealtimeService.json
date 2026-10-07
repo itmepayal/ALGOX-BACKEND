@@ -1,0 +1,787 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AlgoPath Realtime Service",
+    "version": "1.0.0",
+    "description": "HTTP administration/ingest APIs. Realtime collaboration and presence use Socket.IO and are not REST operations.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/realtime. The gateway forwards the remaining service path unchanged.\n\nSocket.IO transport through the gateway: ws://localhost:3000/api/realtime/socket.io. Socket events are not HTTP OpenAPI paths."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3010",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Documentation"
+    },
+    {
+      "name": "Realtime"
+    }
+  ],
+  "paths": {
+    "/api/v1/admin/realtime/analytics": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime analytics",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:46. Required permission: realtime:analytics OR realtime:view. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeAnalytics",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 46
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/admin/realtime/broadcast": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process realtime broadcast",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:52. Required permission: realtime:broadcast. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimepostApiV1AdminRealtimeBroadcast",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 52
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/RealtimeService/src/admin/realtime.routes.ts:52; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/realtime/connections": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime connections",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:28. Required permission: realtime:connections OR realtime:view. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeConnections",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 28
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/admin/realtime/connections/{id}/disconnect": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Create or process connections disconnect",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:58. Required permission: realtime:disconnect. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimepostApiV1AdminRealtimeConnectionsIdDisconnect",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Route parameter id. See source validation for its exact format.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "000000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 58
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/RealtimeService/src/admin/realtime.routes.ts:58; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/realtime/events": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime events",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:40. Required permission: realtime:events OR realtime:view. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeEvents",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 40
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/admin/realtime/overview": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime overview",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:16. Required permission: realtime:view OR realtime:analytics OR health:view. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeOverview",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 16
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/admin/realtime/rooms": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime rooms",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:34. Required permission: realtime:rooms OR realtime:view. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeRooms",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 34
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/admin/realtime/users": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Get realtime users",
+        "description": "Implemented by server/RealtimeService/src/admin/realtime.routes.ts:22. Required permission: realtime:view OR realtime:connections. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1AdminRealtimeUsers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/realtime.routes.ts",
+          "line": 22
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Realtime"
+        ],
+        "summary": "Get v1 health",
+        "description": "Implemented by server/RealtimeService/src/server.ts:74. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetApiV1Health",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 74
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Realtime"
+        ],
+        "summary": "Create or process flags invalidate",
+        "description": "Implemented by server/RealtimeService/src/server.ts:89. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimepostApiV1InternalFeatureFlagsInvalidate",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 89
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/RealtimeService/src/server.ts:89; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/realtime/ingest/events": {
+      "post": {
+        "tags": [
+          "Realtime"
+        ],
+        "summary": "Create or process ingest events",
+        "description": "Implemented by server/RealtimeService/src/admin/ingest.routes.ts:47. Required permission: realtime:broadcast OR realtime:events. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimepostApiV1RealtimeIngestEvents",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/admin/ingest.routes.ts",
+          "line": 47
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
+        "requestBody": {
+          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/RealtimeService/src/admin/ingest.routes.ts:47; this generated route inventory does not infer them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Realtime"
+        ],
+        "summary": "Get health",
+        "description": "Implemented by server/RealtimeService/src/server.ts:49. Socket.IO events are documented separately in the RealtimeService source; this operation is HTTP only.",
+        "operationId": "RealtimegetHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 49
+        },
+        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Get this service OpenAPI document",
+        "operationId": "RealtimegetOpenApiDocument",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.0.3 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "tags": [
+          "Documentation"
+        ],
+        "summary": "Open Swagger UI",
+        "operationId": "RealtimegetSwaggerUi",
+        "responses": {
+          "200": {
+            "description": "Swagger UI HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token issued by AuthService."
+      },
+      "internalServiceSecret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-internal-secret",
+        "description": "Configured service-to-service secret. Do not place secret values in examples."
+      }
+    },
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "description": "Endpoint-specific response data."
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request or validation failure.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication is missing or invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Authenticated caller lacks permission or internal authorization.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Requested resource was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Request conflicts with current resource state.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
 import analyticsRouter from "./routers/v1/analytics.router";
@@ -8,6 +9,7 @@ import { requireInternalSecret } from "./middlewares/auth.middleware";
 import cors from "cors";
 
 const app = express();
+registerOpenApiDocs(app, "AnalyticsService");
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [
   "http://localhost:5173",

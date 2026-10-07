@@ -590,3 +590,18 @@
 {"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 22:05:24","data":{}}
 {"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 22:05:24","data":{}}
 {"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 22:05:24","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 22:24:07","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 22:24:08","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 22:24:09","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 22:24:09","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 22:24:09","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 22:24:09","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 22:24:09","data":{}}
+{"level":"info","message":"Connected to MongoDB for BroadcastLog (db=leetcode_realtime)","timestamp":"09-27-2026 22:24:42","data":{}}
+{"level":"info","message":"Presence Redis ready","timestamp":"09-27-2026 22:24:43","data":{}}
+{"level":"info","message":"Socket.IO Redis adapter attached","timestamp":"09-27-2026 22:24:45","data":{}}
+{"level":"info","message":"RealtimeService listening on http://localhost:3010","timestamp":"09-27-2026 22:24:45","data":{}}
+{"level":"info","message":"Socket.IO ready (adapter=redis; presenceRedis=true)","timestamp":"09-27-2026 22:24:45","data":{}}
+{"level":"info","message":"BroadcastLog persistence=mongo","timestamp":"09-27-2026 22:24:45","data":{}}
+{"level":"info","message":"Client env: VITE_REALTIME_URL=http://localhost:3010","timestamp":"09-27-2026 22:24:45","data":{}}
+{"level":"info","message":"Socket disconnected","timestamp":"09-27-2026 22:49:21","data":{"socketId":"zEPZlZAn73Ts5UExAAAA","userId":"6aae72f493132482bbfffbe0","reason":"transport close","hadRecord":true}}

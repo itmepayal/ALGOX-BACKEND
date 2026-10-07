@@ -14,6 +14,14 @@ export const RealtimeEvents = {
   ROOM_JOIN: "room.join",
   ROOM_LEAVE: "room.leave",
   HEARTBEAT: "user.heartbeat",
+  CODING_CREATE: "coding:session:create",
+  CODING_JOIN: "coding:session:join",
+  CODING_UPDATE: "coding:session:update",
+  CODING_STATE: "coding:session:state",
+  CODING_COMPLETE: "coding:session:complete",
+  CODING_CONTROL: "coding:session:control",
+  CODING_CURSOR: "coding:session:cursor",
+  CODING_CURSOR_STATE: "coding:session:cursor-state",
 
   // Server → client presence broadcast (unique online users)
   PRESENCE_COUNT: "presence:count",

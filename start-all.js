@@ -1,10 +1,11 @@
 import { spawn, execSync } from "child_process";
 
 console.log("==================================================");
-console.log("🚀 Launching All LeetCode Microservices...");
+console.log("🚀 Launching AlgoPath API Gateway and Microservices...");
 console.log("==================================================\n");
 
 const services = [
+  { name: "APIGateway", port: 3000, path: "APIGateway" },
   { name: "AuthService", port: 3001, path: "AuthService" },
   { name: "ProblemService", port: 3003, path: "ProblemService" },
   { name: "SubmissionService", port: 3004, path: "SubmissionService" },
@@ -33,7 +34,7 @@ function startService(s, attempt = 0) {
   console.log(
     `[+] Starting ${s.name} on http://localhost:${s.port}` +
       (attempt > 0 ? ` (retry ${attempt})` : "") +
-      "..."
+      "...",
   );
 
   const child = spawn("npm", ["run", "dev"], {
@@ -56,7 +57,7 @@ function startService(s, attempt = 0) {
     children.delete(s.name);
     if (shuttingDown) return;
     console.error(
-      `[-] ${s.name} exited (code=${code}, signal=${signal}). Auto-restarting in ${Math.min(2 + attempt, 15)}s...`
+      `[-] ${s.name} exited (code=${code}, signal=${signal}). Auto-restarting in ${Math.min(2 + attempt, 15)}s...`,
     );
     const delay = Math.min(2000 * (attempt + 1), 15000);
     setTimeout(() => startService(s, attempt + 1), delay);
@@ -76,7 +77,7 @@ for (const s of services) {
 function shutdown() {
   if (shuttingDown) return;
   shuttingDown = true;
-  console.log("\n[~] Stopping all microservices...");
+  console.log("\n[~] Stopping API Gateway and microservices...");
   for (const child of children.values()) {
     try {
       child.kill("SIGTERM");
@@ -90,4 +91,4 @@ function shutdown() {
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
 
-console.log("\n✅ All Microservices launched! Press Ctrl+C to stop all.\n");
+console.log("\n✅ All AlgoPath services launched! Press Ctrl+C to stop all.\n");

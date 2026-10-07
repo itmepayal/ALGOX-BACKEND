@@ -10,6 +10,8 @@ import { entitlementController } from "../../subscription/entitlement.controller
 import { requireEntitlement } from "../../subscription/entitlement.middleware";
 import { subscriptionController } from "../../subscription/subscription.controller";
 import { billingController } from "../../billing/billing.controller";
+import { socialController } from "../../controllers/social.controller";
+import { progressionController } from "../../controllers/progression.controller";
 
 const authRouter = Router();
 const authController = new AuthController();
@@ -51,6 +53,22 @@ authRouter.post("/logout-all", authenticateJwt, authController.logoutAllSessions
 authRouter.get("/me", authenticateJwt, authController.getCurrentUser);
 authRouter.put("/profile", authenticateJwt, authController.updateProfile);
 authRouter.post("/change-password", authenticateJwt, authController.changePassword);
+authRouter.get("/progression/me", authenticateJwt, billingMutationRateLimit("social-read"), progressionController.me);
+
+/** Social graph and activity APIs are always scoped to the authenticated account. */
+authRouter.get("/social/discover", authenticateJwt, billingMutationRateLimit("social-read"), socialController.discover);
+authRouter.post("/social/friend-requests", authenticateJwt, billingMutationRateLimit("social-write"), socialController.sendRequest);
+authRouter.get("/social/friend-requests", authenticateJwt, billingMutationRateLimit("social-read"), socialController.requests);
+authRouter.post("/social/friend-requests/:requestId/accept", authenticateJwt, billingMutationRateLimit("social-write"), socialController.respond("accept"));
+authRouter.post("/social/friend-requests/:requestId/reject", authenticateJwt, billingMutationRateLimit("social-write"), socialController.respond("reject"));
+authRouter.post("/social/friend-requests/:requestId/cancel", authenticateJwt, billingMutationRateLimit("social-write"), socialController.respond("cancel"));
+authRouter.get("/social/friends", authenticateJwt, billingMutationRateLimit("social-read"), socialController.friends);
+authRouter.delete("/social/friends/:userId", authenticateJwt, billingMutationRateLimit("social-write"), socialController.removeFriend);
+authRouter.post("/social/follow/:userId", authenticateJwt, billingMutationRateLimit("social-write"), socialController.follow);
+authRouter.delete("/social/follow/:userId", authenticateJwt, billingMutationRateLimit("social-write"), socialController.unfollow);
+authRouter.get("/social/followers", authenticateJwt, billingMutationRateLimit("social-read"), socialController.followers);
+authRouter.get("/social/following", authenticateJwt, billingMutationRateLimit("social-read"), socialController.following);
+authRouter.get("/social/activity", authenticateJwt, billingMutationRateLimit("social-read"), socialController.activity);
 
 authRouter.get(
   "/entitlements/me",

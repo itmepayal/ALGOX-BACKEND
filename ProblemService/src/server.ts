@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import cors from "cors";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
@@ -10,6 +11,7 @@ import { attachCorrelationIdMiddleware } from "./middlewares/correlation.middlew
 import { sheetService } from "./services/sheet.service";
 
 const app = express();
+registerOpenApiDocs(app, "ProblemService");
 
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [

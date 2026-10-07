@@ -5,7 +5,8 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "test:coding-session": "node -r ts-node/register/transpile-only scripts/coding-session.selftest.ts"
   },
   "license": "ISC",
   "dependencies": {

@@ -6,7 +6,8 @@ export type DownstreamService =
   | "AnalyticsService"
   | "LeaderboardService"
   | "ProblemService"
-  | "SubmissionService";
+  | "SubmissionService"
+  | "AuthService";
 
 export type DownstreamErrorClass =
   | "timeout"

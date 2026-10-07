@@ -18,6 +18,7 @@ import {
   NotFoundError,
 } from "../utils/errors/app.error";
 import { emitRealtimeEvent } from "../utils/helpers/realtimeEmit";
+import { recordProgressionEvent } from "../utils/helpers/progressionFanout";
 
 export type ActorCtx = {
   userId: string;
@@ -604,6 +605,18 @@ export class ContestService {
         solvedCount: 0,
         penalty: 0,
       });
+      await recordProgressionEvent({
+        eventKey: `contest-participation:${contest._id}:${userId}`,
+        userId,
+        eventType: "contest_participation",
+        sourceId: String(contest._id),
+      });
+      emitRealtimeEvent({
+        event: "contest.status_changed",
+        userId,
+        room: contestRoom(contest._id),
+        payload: { type: "participant.registered", userId, contestId: String(contest._id) },
+      });
       return participant;
     } catch (err: any) {
       if (err?.code === 11000) {
@@ -708,6 +721,17 @@ export class ContestService {
         )
       )
     );
+
+    if (contest.status === "ENDED" || contest.status === "ARCHIVED") {
+      await Promise.all(entries.filter((row) => row.rank <= 10).map((row) =>
+        recordProgressionEvent({
+          eventKey: `contest-top10:${contest._id}:${row.userId}`,
+          userId: row.userId,
+          eventType: "contest_top10",
+          sourceId: String(contest._id),
+        })
+      ));
+    }
 
     return entries;
   }

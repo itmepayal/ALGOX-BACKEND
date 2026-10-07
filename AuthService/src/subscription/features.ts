@@ -116,6 +116,10 @@ export const FEATURE_META: Record<
     description:
       "Plan your DSA preparation with scheduled practice, roadmap tracking, and review planning.",
   },
+  "premium.battles": {
+    label: "Ranked battles",
+    description: "Ranked competitive battles and matchmaking",
+  },
 };
 
 /**

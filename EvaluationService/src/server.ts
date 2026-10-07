@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOpenApiDocs } from "../../shared/openapiDocs";
 import cors from "cors";
 import { serverConfig } from "./config";
 import { connectDB } from "./config/db.config";
@@ -13,6 +14,7 @@ import { ensureQueueRedisSafety } from "./queues/submission.queue";
 
 
 const app = express();
+registerOpenApiDocs(app, "EvaluationService");
 
 const isProdCors = (process.env.NODE_ENV || "").toLowerCase() === "production";
 const devCorsOrigins = [

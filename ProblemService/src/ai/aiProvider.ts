@@ -136,9 +136,15 @@ function mapHttpProviderError(
     lower.includes("quota") ||
     lower.includes("exceeded your current quota")
   ) {
+    const quotaFailure =
+      lower.includes("insufficient_quota") ||
+      lower.includes("credit_balance_exhausted") ||
+      lower.includes("billing_hard_limit_reached");
     providerFailure(
-      `AlgoPath AI provider quota/rate limit exceeded (${provider}). Retry later or check billing.`,
-      { code: "AI_PROVIDER_QUOTA", httpStatus: status || 429 }
+      quotaFailure
+        ? `AlgoPath AI provider credits are exhausted (${provider}). Check billing.`
+        : `AlgoPath AI provider rate limit reached (${provider}). Retry shortly.`,
+      { code: quotaFailure ? "AI_PROVIDER_QUOTA" : "AI_PROVIDER_RATE_LIMIT", httpStatus: status || 429 }
     );
   }
   if (
@@ -188,7 +194,7 @@ async function runGeminiAssist(
   });
 
   // Gemini free/shared capacity often returns 503/429; retry with backoff.
-  const maxAttempts = 6;
+  const maxAttempts = 3;
   let lastStatus = 0;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     let res: Response;
@@ -200,6 +206,7 @@ async function runGeminiAssist(
           "x-goog-api-key": key,
         },
         body: payload,
+        signal: AbortSignal.timeout(15_000),
       });
     } catch {
       if (attempt < maxAttempts) {
@@ -210,8 +217,11 @@ async function runGeminiAssist(
     }
 
     lastStatus = res.status;
-    // Transient Gemini capacity / rate-limit — exponential backoff
-    if ((res.status === 503 || res.status === 429) && attempt < maxAttempts) {
+    // Retry transient capacity/rate-limit responses, but never retry exhausted credits.
+    const transient429 = res.status === 429
+      ? !/insufficient_quota|credit_balance_exhausted|billing_hard_limit_reached/i.test(await readProviderErrorSnippet(res.clone()))
+      : false;
+    if ((res.status === 503 || transient429) && attempt < maxAttempts) {
       await new Promise((r) => setTimeout(r, Math.min(10000, 700 * 2 ** (attempt - 1))));
       continue;
     }
@@ -268,31 +278,49 @@ async function runOpenAiAssist(
   model: string,
   userContent: string
 ): Promise<string> {
-  let res: Response;
-  try {
-    res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        temperature: 0.4,
-        max_tokens: 700,
-        messages: [
-          { role: "system", content: LEARNING_SYSTEM_PROMPT },
-          { role: "user", content: userContent },
-        ],
-      }),
-    });
-  } catch {
-    providerFailure("AlgoPath AI provider is unreachable. Try again shortly.");
+  let res: Response | null = null;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model,
+          temperature: 0.4,
+          max_tokens: 700,
+          messages: [
+            { role: "system", content: LEARNING_SYSTEM_PROMPT },
+            { role: "user", content: userContent },
+          ],
+        }),
+        signal: AbortSignal.timeout(15_000),
+      });
+    } catch {
+      if (attempt < 3) {
+        await new Promise((resolve) => setTimeout(resolve, attempt * 500));
+        continue;
+      }
+      providerFailure("AlgoPath AI provider timed out or is unreachable. Try again shortly.");
+    }
+
+    if (res.ok) break;
+    const snippet = await readProviderErrorSnippet(res.clone());
+    const retryableRateLimit = res.status === 429 && !/insufficient_quota|credit_balance_exhausted|billing_hard_limit_reached/i.test(snippet);
+    if ((res.status >= 500 || retryableRateLimit) && attempt < 3) {
+      const retryAfter = Number(res.headers.get("retry-after"));
+      const delayMs = Number.isFinite(retryAfter) && retryAfter > 0
+        ? Math.min(5000, retryAfter * 1000)
+        : attempt * 700;
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      continue;
+    }
+    mapHttpProviderError(res.status, "openai", snippet);
   }
 
-  if (!res.ok) {
-    mapHttpProviderError(res.status, "openai");
-  }
+  if (!res?.ok) providerFailure("AlgoPath AI provider is temporarily unavailable.");
 
   let json: any;
   try {

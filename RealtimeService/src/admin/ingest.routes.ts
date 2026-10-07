@@ -11,6 +11,7 @@ import {
   requirePermission,
 } from "../middlewares/auth.middleware";
 import { serverConfig } from "../config";
+import logger from "../config/logger.config";
 import { KNOWN_EVENT_NAMES } from "../socket/events";
 
 const ALLOWED_INGEST_EVENTS = new Set(KNOWN_EVENT_NAMES);
@@ -30,6 +31,18 @@ const bodySchema = z.object({
  * Event names are allowlisted — never trust arbitrary client event strings.
  */
 export const ingestRouter = Router();
+
+function emitProgressionEvent(eventKey: string, userId: string, eventType: string, sourceId: string) {
+  const base = serverConfig.AUTH_SERVICE_URL.replace(/\/$/, "");
+  void fetch(`${base}/auth/internal/progression/events`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-internal-secret": serverConfig.INTERNAL_SERVICE_SECRET },
+    body: JSON.stringify({ eventKey, userId, eventType, sourceId }),
+    signal: AbortSignal.timeout(2500),
+  }).then((response) => {
+    if (!response.ok) logger.warn("Progression event rejected by AuthService", { status: response.status, eventType });
+  }).catch((err) => logger.warn("Progression event fan-out failed", { eventType, error: err instanceof Error ? err.message : String(err) }));
+}
 
 ingestRouter.post(
   "/events",
@@ -85,6 +98,24 @@ ingestRouter.post(
           ...(payload || {}),
         },
       });
+
+      // Forward only facts from verified domain events. AuthService makes these writes idempotent.
+      if (event === "battle:finished" && payload?.battleMode === "ranked" && typeof payload?.winnerId === "string" && typeof payload?.battleId === "string") {
+        emitProgressionEvent(`battle:${payload.battleId}:${payload.winnerId}`, payload.winnerId, "battle_won", payload.battleId);
+      }
+      if (event === "contest.status_changed" && payload?.type === "participant.registered" && typeof payload?.userId === "string" && typeof payload?.contestId === "string") {
+        emitProgressionEvent(`contest-participation:${payload.contestId}:${payload.userId}`, payload.userId, "contest_participation", payload.contestId);
+      }
+      if (event === "contest.status_changed" && payload?.type === "streak.milestone" && payload?.days === 30 && typeof payload?.userId === "string") {
+        emitProgressionEvent(`streak:${payload.userId}:30`, payload.userId, "streak_milestone", "30");
+      }
+      if (event === "leaderboard.updated" && payload?.kind === "contest" && typeof payload?.contestId === "string" && Array.isArray(payload?.top)) {
+        for (const row of payload.top) {
+          if (Number(row?.rank) > 0 && Number(row?.rank) <= 10 && typeof row?.userId === "string") {
+            emitProgressionEvent(`contest-top10:${payload.contestId}:${row.userId}`, row.userId, "contest_top10", payload.contestId);
+          }
+        }
+      }
 
       try {
         const io = getIO();
