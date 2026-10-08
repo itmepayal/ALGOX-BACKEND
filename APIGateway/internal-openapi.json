@@ -1,0 +1,2385 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "AlgoPath Internal & Operational Service API",
+    "version": "1.0.0",
+    "description": "Service-to-service, internal synchronization, and operational management endpoints."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "AlgoPath API Gateway"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Administration"
+    },
+    {
+      "name": "Analytics"
+    },
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Battles"
+    },
+    {
+      "name": "Challenges"
+    },
+    {
+      "name": "Content"
+    },
+    {
+      "name": "Contests"
+    },
+    {
+      "name": "Discussions"
+    },
+    {
+      "name": "Evaluation"
+    },
+    {
+      "name": "Interviews"
+    },
+    {
+      "name": "Leaderboard"
+    },
+    {
+      "name": "Learning"
+    },
+    {
+      "name": "Problems"
+    },
+    {
+      "name": "Revisions"
+    },
+    {
+      "name": "Submissions"
+    },
+    {
+      "name": "System"
+    },
+    {
+      "name": "Virtual Contests"
+    }
+  ],
+  "paths": {
+    "/api/auth/api/v1/auth/admin/internal/announce-sheet": {
+      "post": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Create or execute action on announce sheet",
+        "description": "Handles POST requests for /api/v1/auth/admin/internal/announce-sheet. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AuthService/src/routers/v1/admin.router.ts:161.",
+        "operationId": "createAuthAdminInternalAnnounceSheet",
+        "security": [
+          {
+            "bearerAuth": [],
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/admin.router.ts",
+          "line": 161
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/AuthService/src/routers/v1/admin.router.ts:161.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/api/v2/health": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/AuthService/src/routers/v1/index.router.ts:14.",
+        "operationId": "listHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 14
+        }
+      }
+    },
+    "/api/auth/api/v2/auth/admin/internal/user-stats": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Retrieve user stats",
+        "description": "Handles GET requests for /api/v2/auth/admin/internal/user-stats. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AuthService/src/routers/v1/index.router.ts:32.",
+        "operationId": "listAuthAdminInternalUserStats",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 32
+        }
+      }
+    },
+    "/api/auth/api/v2/auth/internal/progression/events": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Create or execute action on progression events",
+        "description": "Handles POST requests for /api/v2/auth/internal/progression/events. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AuthService/src/routers/v1/index.router.ts:38.",
+        "operationId": "createAuthInternalProgressionEvents",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/routers/v1/index.router.ts",
+          "line": 38
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/AuthService/src/routers/v1/index.router.ts:38.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/battles/internal/battles/:battleId/record-submission": {
+      "post": {
+        "tags": [
+          "Battles"
+        ],
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/battles/internal/battles/{battleId}/record-submission. Implemented in server/ProblemService/src/routers/v1/battle.router.ts:39.",
+        "operationId": "createBattlesInternalBattlesBattleIdRecordSubmission",
+        "security": [],
+        "parameters": [
+          {
+            "name": "battleId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'battleId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/battle.router.ts",
+          "line": 39
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/battle.router.ts:39.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/challenges/internal/challenges/qualify": {
+      "post": {
+        "tags": [
+          "Challenges"
+        ],
+        "summary": "Create or execute action on challenges qualify",
+        "description": "Handles POST requests for /api/v1/challenges/internal/challenges/qualify. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/challenge.router.ts:91.",
+        "operationId": "createChallengesInternalChallengesQualify",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/challenge.router.ts",
+          "line": 91
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/challenge.router.ts:91.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/contests/internal/:contestId/allows-submission": {
+      "get": {
+        "tags": [
+          "Contests"
+        ],
+        "summary": "Retrieve allows submission",
+        "description": "Handles GET requests for /api/v1/contests/internal/{contestId}/allows-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/contest.router.ts:12.",
+        "operationId": "getContestsInternalContestIdAllowsSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contestId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'contestId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/contest.router.ts",
+          "line": 12
+        }
+      }
+    },
+    "/api/problems/api/v1/contests/internal/:contestId/record-submission": {
+      "post": {
+        "tags": [
+          "Contests"
+        ],
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/contests/internal/{contestId}/record-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/contest.router.ts:18.",
+        "operationId": "createContestsInternalContestIdRecordSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contestId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'contestId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/contest.router.ts",
+          "line": 18
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/contest.router.ts:18.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v2/health": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/ProblemService/src/routers/v1/index.router.ts:37.",
+        "operationId": "ProblemListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/index.router.ts",
+          "line": 37
+        }
+      }
+    },
+    "/api/problems/api/v2/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v2/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/index.router.ts:46.",
+        "operationId": "createInternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/index.router.ts",
+          "line": 46
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/index.router.ts:46.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/learning/internal/learning/session-activity": {
+      "post": {
+        "tags": [
+          "Learning"
+        ],
+        "summary": "Create or execute action on session activity",
+        "description": "Handles POST requests for /api/v1/learning/internal/learning/session-activity. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/learning.router.ts:81.",
+        "operationId": "createLearningInternalLearningSessionActivity",
+        "security": [
+          {
+            "bearerAuth": [],
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/learning.router.ts",
+          "line": 81
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/learning.router.ts:81.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/interviews/internal/interviews/:sessionId/allows-submission": {
+      "get": {
+        "tags": [
+          "Interviews"
+        ],
+        "summary": "Retrieve allows submission",
+        "description": "Handles GET requests for /api/v1/interviews/internal/interviews/{sessionId}/allows-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/mockInterview.router.ts:71.",
+        "operationId": "getInterviewsInternalInterviewsSessionIdAllowsSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'sessionId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/mockInterview.router.ts",
+          "line": 71
+        }
+      }
+    },
+    "/api/problems/api/v1/interviews/internal/interviews/:sessionId/record-submission": {
+      "post": {
+        "tags": [
+          "Interviews"
+        ],
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/interviews/internal/interviews/{sessionId}/record-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/mockInterview.router.ts:76.",
+        "operationId": "createInterviewsInternalInterviewsSessionIdRecordSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'sessionId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/mockInterview.router.ts",
+          "line": 76
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/mockInterview.router.ts:76.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/problems/admin/internal-stats": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Retrieve internal stats",
+        "description": "Handles GET requests for /api/v1/problems/admin/internal-stats. Required permission: analytics:view OR problems:view. Implemented in server/ProblemService/src/routers/v1/problem.router.ts:29.",
+        "operationId": "listProblemsAdminInternalStats",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/problem.router.ts",
+          "line": 29
+        }
+      }
+    },
+    "/api/problems/api/v1/problems/internal/:id": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve problems internal",
+        "description": "Handles GET requests for /api/v1/problems/internal/{id}. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/problem.router.ts:225.",
+        "operationId": "getProblemsInternalId",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/problem.router.ts",
+          "line": 225
+        }
+      }
+    },
+    "/api/problems/api/v1/problems/internal/:id/solve-access": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve solve access",
+        "description": "Handles GET requests for /api/v1/problems/internal/{id}/solve-access. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/problem.router.ts:231.",
+        "operationId": "getProblemsInternalIdSolveAccess",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/problem.router.ts",
+          "line": 231
+        }
+      }
+    },
+    "/api/problems/api/v1/reviews/internal/srs/seed-on-solve": {
+      "post": {
+        "tags": [
+          "Revisions"
+        ],
+        "summary": "Create or execute action on on solve",
+        "description": "Handles POST requests for /api/v1/reviews/internal/srs/seed-on-solve. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/srs.router.ts:59.",
+        "operationId": "createReviewsInternalSrsSeedOnSolve",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/srs.router.ts",
+          "line": 59
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/srs.router.ts:59.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/problems/api/v1/virtual-contests/internal/virtual-contests/:sessionId/allows-submission": {
+      "get": {
+        "tags": [
+          "Virtual Contests"
+        ],
+        "summary": "Retrieve allows submission",
+        "description": "Handles GET requests for /api/v1/virtual-contests/internal/virtual-contests/{sessionId}/allows-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/virtualContest.router.ts:44.",
+        "operationId": "getVirtualContestsInternalVirtualContestsSessionIdAllowsSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'sessionId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/virtualContest.router.ts",
+          "line": 44
+        }
+      }
+    },
+    "/api/problems/api/v1/virtual-contests/internal/virtual-contests/:sessionId/record-submission": {
+      "post": {
+        "tags": [
+          "Virtual Contests"
+        ],
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/virtual-contests/internal/virtual-contests/{sessionId}/record-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/ProblemService/src/routers/v1/virtualContest.router.ts:49.",
+        "operationId": "createVirtualContestsInternalVirtualContestsSessionIdRecordSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'sessionId'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/routers/v1/virtualContest.router.ts",
+          "line": 49
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ProblemService/src/routers/v1/virtualContest.router.ts:49.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/submissions/api/v2/health": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:17.",
+        "operationId": "SubmissionListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/routers/v1/index.router.ts",
+          "line": 17
+        }
+      }
+    },
+    "/api/submissions/api/v2/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v2/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:76.",
+        "operationId": "SubmissionCreateInternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/routers/v1/index.router.ts",
+          "line": 76
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/index.router.ts:76.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/submissions/api/v1/submissions/admin/internal-stats": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Retrieve internal stats",
+        "description": "Handles GET requests for /api/v1/submissions/admin/internal-stats. Required permission: analytics:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:65.",
+        "operationId": "listSubmissionsAdminInternalStats",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
+          "line": 65
+        }
+      }
+    },
+    "/api/submissions/api/v1/submissions/internal/:id": {
+      "put": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Replace submissions internal",
+        "description": "Handles PUT requests for /api/v1/submissions/internal/{id}. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:118.",
+        "operationId": "updateSubmissionsInternalId",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "650000000000000000000000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
+          "line": 118
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/submission.router.ts:118.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/api/v1/health": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:11.",
+        "operationId": "LeaderboardListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/routers/v1/index.router.ts",
+          "line": 11
+        }
+      }
+    },
+    "/api/leaderboard/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:20.",
+        "operationId": "LeaderboardCreateInternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/routers/v1/index.router.ts",
+          "line": 20
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/index.router.ts:20.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leaderboard/api/v1/leaderboard/internal/contest-rating": {
+      "post": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Create or execute action on contest rating",
+        "description": "Handles POST requests for /api/v1/leaderboard/internal/contest-rating. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29.",
+        "operationId": "createLeaderboardInternalContestRating",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
+          "line": 29
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/evaluation/health": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:72.",
+        "operationId": "EvaluationListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/EvaluationService/src/server.ts",
+          "line": 72
+        }
+      }
+    },
+    "/api/evaluation/api/v2/health": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/EvaluationService/src/routers/v1/index.router.ts:17.",
+        "operationId": "EvaluationListHealthV2",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/EvaluationService/src/routers/v1/index.router.ts",
+          "line": 17
+        }
+      }
+    },
+    "/api/evaluation/api/v2/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v2/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/EvaluationService/src/routers/v1/index.router.ts:78.",
+        "operationId": "EvaluationCreateInternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/EvaluationService/src/routers/v1/index.router.ts",
+          "line": 78
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/EvaluationService/src/routers/v1/index.router.ts:78.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analytics/api/v1/health": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/AnalyticsService/src/server.ts:65.",
+        "operationId": "AnalyticsListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 65
+        }
+      }
+    },
+    "/api/analytics/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/AnalyticsService/src/server.ts:73.",
+        "operationId": "AnalyticsCreateInternalFeatureFlagsInvalidate",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 73
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/AnalyticsService/src/server.ts:73.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analytics/api/v1/analytics/record-submission": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/analytics/record-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:46.",
+        "operationId": "createAnalyticsRecordSubmission",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
+          "line": 46
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/AnalyticsService/src/routers/v1/analytics.router.ts:46.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/discussion/health": {
+      "get": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:65.",
+        "operationId": "DiscussionListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 65
+        }
+      }
+    },
+    "/api/discussion/api/v1/health": {
+      "get": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:69.",
+        "operationId": "DiscussionListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 69
+        }
+      }
+    },
+    "/api/discussion/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/DiscussionService/src/server.ts:73.",
+        "operationId": "DiscussionCreateInternalFeatureFlagsInvalidate",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 73
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:73.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/content/health": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:65.",
+        "operationId": "ContentListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ContentService/src/server.ts",
+          "line": 65
+        }
+      }
+    },
+    "/api/content/api/v1/health": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:73.",
+        "operationId": "ContentListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ContentService/src/server.ts",
+          "line": 73
+        }
+      }
+    },
+    "/api/content/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:82.",
+        "operationId": "ContentCreateInternalFeatureFlagsInvalidate",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ContentService/src/server.ts",
+          "line": 82
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:82.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/realtime/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/RealtimeService/src/server.ts:49.",
+        "operationId": "RealtimeListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 49
+        }
+      }
+    },
+    "/api/realtime/api/v1/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/RealtimeService/src/server.ts:74.",
+        "operationId": "RealtimeListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 74
+        }
+      }
+    },
+    "/api/realtime/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/RealtimeService/src/server.ts:89.",
+        "operationId": "RealtimeCreateInternalFeatureFlagsInvalidate",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 89
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/RealtimeService/src/server.ts:89.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token issued by AuthService."
+      },
+      "internalServiceSecret": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-internal-secret",
+        "description": "Configured service-to-service secret."
+      }
+    },
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Operation completed successfully"
+          },
+          "data": {
+            "description": "Payload data object or array."
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ],
+        "additionalProperties": true
+      },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Standard error response payload.",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ],
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Validation or operation failure"
+          },
+          "code": {
+            "type": "string",
+            "example": "INVALID_INPUT"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "success",
+          "message"
+        ]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request body, query parameter, or validation error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication required or invalid JWT access token provided.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Requested entity or route not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Request state conflicts with existing resource.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded. Retry after specified duration.",
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Unexpected internal server error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

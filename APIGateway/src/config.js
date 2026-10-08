@@ -15,33 +15,33 @@ if (fs.existsSync(envFile)) {
 }
 
 const serviceDefinitions = [
-  ["auth", "AUTH_SERVICE_URL", 3001, "/api/auth", "/api/v1/health"],
-  ["problems", "PROBLEM_SERVICE_URL", 3003, "/api/problems", "/api/v1/health"],
+  ["auth", "AUTH_SERVICE_URL", 3001, "/api/auth", "/health/ready"],
+  ["problems", "PROBLEM_SERVICE_URL", 3003, "/api/problems", "/health/ready"],
   [
     "submissions",
     "SUBMISSION_SERVICE_URL",
     3004,
     "/api/submissions",
-    "/api/v1/health",
+    "/health/ready",
   ],
   [
     "leaderboard",
     "LEADERBOARD_SERVICE_URL",
     3005,
     "/api/leaderboard",
-    "/api/v1/health",
+    "/health/ready",
   ],
-  ["evaluation", "EVALUATION_SERVICE_URL", 3006, "/api/evaluation", "/health"],
+  ["evaluation", "EVALUATION_SERVICE_URL", 3006, "/api/evaluation", "/health/ready"],
   [
     "analytics",
     "ANALYTICS_SERVICE_URL",
     3007,
     "/api/analytics",
-    "/api/v1/health",
+    "/health/ready",
   ],
-  ["discussion", "DISCUSSION_SERVICE_URL", 3008, "/api/discussion", "/health"],
-  ["content", "CONTENT_SERVICE_URL", 3009, "/api/content", "/health"],
-  ["realtime", "REALTIME_SERVICE_URL", 3010, "/api/realtime", "/health"],
+  ["discussion", "DISCUSSION_SERVICE_URL", 3008, "/api/discussion", "/health/ready"],
+  ["content", "CONTENT_SERVICE_URL", 3009, "/api/content", "/health/ready"],
+  ["realtime", "REALTIME_SERVICE_URL", 3010, "/api/realtime", "/health/ready"],
 ];
 
 function serviceUrl(envName, port) {
@@ -99,7 +99,7 @@ if (production && !process.env.ALLOWED_ORIGINS && !process.env.CLIENT_URL) {
 }
 
 module.exports = {
-  port: positiveInt("GATEWAY_PORT", 3000),
+  port: positiveInt("PORT", positiveInt("GATEWAY_PORT", 3000)),
   timeoutMs: positiveInt("GATEWAY_TIMEOUT_MS", 30000),
   submissionTimeoutMs: positiveInt("GATEWAY_SUBMISSION_TIMEOUT_MS", 120000),
   evaluationTimeoutMs: positiveInt("GATEWAY_EVALUATION_TIMEOUT_MS", 120000),

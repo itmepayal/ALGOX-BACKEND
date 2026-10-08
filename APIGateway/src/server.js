@@ -100,10 +100,18 @@ function handleCors(req, res, id) {
 }
 
 function buildUpstreamPath(service, requestUrl) {
-  const pathname = new URL(requestUrl, "http://gateway.invalid").pathname;
-  let suffix = pathname.slice(service.prefix.length);
+  const parsed = new URL(requestUrl, "http://gateway.invalid");
+  let suffix = parsed.pathname.slice(service.prefix.length);
   if (!suffix) suffix = "/";
-  return `${suffix}${new URL(requestUrl, "http://gateway.invalid").search}`;
+
+  // Translate clean frontend public paths like /api/problems/v1/problems -> /api/v1/problems
+  if (suffix.startsWith("/v1/")) {
+    suffix = `/api${suffix}`;
+  } else if (suffix.startsWith("/v2/")) {
+    suffix = `/api${suffix}`;
+  }
+
+  return `${suffix}${parsed.search}`;
 }
 
 function filteredRequestHeaders(req, upstreamUrl, id) {
@@ -236,10 +244,7 @@ function proxyHttp(req, res, service, id, startedAt) {
 
 async function serviceHealth(service) {
   const controller = new AbortController();
-  const timeout = setTimeout(
-    () => controller.abort(),
-    5000,
-  );
+  const timeout = setTimeout(() => controller.abort(), 5000);
   try {
     const url = new URL(service.healthPath, service.url);
     const response = await fetch(url, {
@@ -276,6 +281,35 @@ const server = http.createServer(async (req, res) => {
         success: true,
         service: "APIGateway",
         status: "ok",
+        requestId: id,
+      }),
+    );
+    return;
+  }
+  if (req.method === "GET" && pathname === "/health/ready") {
+    const services = Object.fromEntries(
+      await Promise.all(
+        config.services.map(async (service) => [
+          service.name,
+          await serviceHealth(service),
+        ]),
+      ),
+    );
+    const ready = Object.values(services).every(
+      (result) => result.status === "healthy",
+    );
+    res.writeHead(ready ? 200 : 503, {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "x-request-id": id,
+      ...res.__corsHeaders,
+    });
+    res.end(
+      JSON.stringify({
+        success: ready,
+        service: "APIGateway",
+        status: ready ? "ready" : "starting",
+        services,
         requestId: id,
       }),
     );
@@ -320,14 +354,26 @@ const server = http.createServer(async (req, res) => {
     res.end(fs.readFileSync(specPath));
     return;
   }
-  if (req.method === "GET" && pathname === "/api-docs") {
-    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AlgoPath API</title><link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui.css"></head><body><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url:"/openapi.json",dom_id:"#swagger-ui",deepLinking:true,persistAuthorization:false,validatorUrl:null});</script></body></html>`;
+  if (req.method === "GET" && (pathname === "/" || pathname === "/api-docs" || pathname === "/api-docs/")) {
+    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AlgoPath API Documentation</title><link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui.css"></head><body><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@5.18.2/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url:"/openapi.json",dom_id:"#swagger-ui",deepLinking:true,persistAuthorization:false,validatorUrl:null});</script></body></html>`;
     res.writeHead(200, {
       "content-type": "text/html; charset=utf-8",
       "x-request-id": id,
       ...res.__corsHeaders,
     });
     res.end(html);
+    return;
+  }
+  if (req.method === "GET" && (pathname === "/internal-openapi.json")) {
+    const internalPath = path.join(gatewayRoot, "internal-openapi.json");
+    if (!fs.existsSync(internalPath))
+      return sendJson(res, 503, "Gateway internal OpenAPI document is unavailable", id);
+    res.writeHead(200, {
+      "content-type": "application/json; charset=utf-8",
+      "x-request-id": id,
+      ...res.__corsHeaders,
+    });
+    res.end(fs.readFileSync(internalPath));
     return;
   }
   const service = serviceFor(pathname);
