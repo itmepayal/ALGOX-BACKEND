@@ -1277,8 +1277,94 @@
           "Discussions"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:69.",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:81.",
         "operationId": "DiscussionListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 81
+        }
+      }
+    },
+    "/api/v1/internal/feature-flags/invalidate": {
+      "post": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/DiscussionService/src/server.ts:85.",
+        "operationId": "DiscussionCreateInternalFeatureFlagsInvalidate",
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 85
+        },
+        "requestBody": {
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:85.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:69.",
+        "operationId": "DiscussionListHealth",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1302,14 +1388,14 @@
         }
       }
     },
-    "/api/v1/internal/feature-flags/invalidate": {
-      "post": {
+    "/health/ready": {
+      "get": {
         "tags": [
           "Discussions"
         ],
-        "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/DiscussionService/src/server.ts:73.",
-        "operationId": "DiscussionCreateInternalFeatureFlagsInvalidate",
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/DiscussionService/src/server.ts:73.",
+        "operationId": "DiscussionListHealthReady",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1322,12 +1408,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "409": {
-            "$ref": "#/components/responses/Conflict"
           },
           "500": {
             "$ref": "#/components/responses/ServerError"
@@ -1336,48 +1416,6 @@
         "x-source": {
           "file": "server/DiscussionService/src/server.ts",
           "line": 73
-        },
-        "requestBody": {
-          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:73.",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      }
-    },
-    "/health": {
-      "get": {
-        "tags": [
-          "Discussions"
-        ],
-        "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:65.",
-        "operationId": "DiscussionListHealth",
-        "security": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Operation succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/ServerError"
-          }
-        },
-        "x-source": {
-          "file": "server/DiscussionService/src/server.ts",
-          "line": 65
         }
       }
     },

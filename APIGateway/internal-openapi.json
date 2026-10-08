@@ -65,6 +65,68 @@
     }
   ],
   "paths": {
+    "/api/auth/health": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/AuthService/src/server.ts:91.",
+        "operationId": "listHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 91
+        }
+      }
+    },
+    "/api/auth/health/ready": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/AuthService/src/server.ts:95.",
+        "operationId": "listHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 95
+        }
+      }
+    },
     "/api/auth/api/v1/auth/admin/internal/announce-sheet": {
       "post": {
         "tags": [
@@ -134,7 +196,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/AuthService/src/routers/v1/index.router.ts:14.",
-        "operationId": "listHealth",
+        "operationId": "listHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -248,6 +310,68 @@
               }
             }
           }
+        }
+      }
+    },
+    "/api/problems/health": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/ProblemService/src/server.ts:73.",
+        "operationId": "ProblemListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/server.ts",
+          "line": 73
+        }
+      }
+    },
+    "/api/problems/health/ready": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/ProblemService/src/server.ts:77.",
+        "operationId": "ProblemListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/server.ts",
+          "line": 77
         }
       }
     },
@@ -496,7 +620,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/ProblemService/src/routers/v1/index.router.ts:37.",
-        "operationId": "ProblemListHealth",
+        "operationId": "ProblemListHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1076,6 +1200,68 @@
         }
       }
     },
+    "/api/submissions/health": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/SubmissionService/src/server.ts:75.",
+        "operationId": "SubmissionListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/server.ts",
+          "line": 75
+        }
+      }
+    },
+    "/api/submissions/health/ready": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/SubmissionService/src/server.ts:79.",
+        "operationId": "SubmissionListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/server.ts",
+          "line": 79
+        }
+      }
+    },
     "/api/submissions/api/v2/health": {
       "get": {
         "tags": [
@@ -1083,7 +1269,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:17.",
-        "operationId": "SubmissionListHealth",
+        "operationId": "SubmissionListHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1272,6 +1458,68 @@
         }
       }
     },
+    "/api/leaderboard/health": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/LeaderboardService/src/server.ts:70.",
+        "operationId": "LeaderboardListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/server.ts",
+          "line": 70
+        }
+      }
+    },
+    "/api/leaderboard/health/ready": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/LeaderboardService/src/server.ts:74.",
+        "operationId": "LeaderboardListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/server.ts",
+          "line": 74
+        }
+      }
+    },
     "/api/leaderboard/api/v1/health": {
       "get": {
         "tags": [
@@ -1279,7 +1527,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v1/health. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:11.",
-        "operationId": "LeaderboardListHealth",
+        "operationId": "LeaderboardListHealthAlt",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1419,7 +1667,7 @@
           "Evaluation"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:72.",
+        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:76.",
         "operationId": "EvaluationListHealth",
         "security": [],
         "parameters": [],
@@ -1440,7 +1688,38 @@
         },
         "x-source": {
           "file": "server/EvaluationService/src/server.ts",
-          "line": 72
+          "line": 76
+        }
+      }
+    },
+    "/api/evaluation/health/ready": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/EvaluationService/src/server.ts:80.",
+        "operationId": "EvaluationListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/EvaluationService/src/server.ts",
+          "line": 80
         }
       }
     },
@@ -1530,13 +1809,13 @@
         }
       }
     },
-    "/api/analytics/api/v1/health": {
+    "/api/analytics/health": {
       "get": {
         "tags": [
           "Analytics"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/AnalyticsService/src/server.ts:65.",
+        "description": "Handles GET requests for /health. Implemented in server/AnalyticsService/src/server.ts:69.",
         "operationId": "AnalyticsListHealth",
         "security": [],
         "parameters": [],
@@ -1557,7 +1836,69 @@
         },
         "x-source": {
           "file": "server/AnalyticsService/src/server.ts",
-          "line": 65
+          "line": 69
+        }
+      }
+    },
+    "/api/analytics/health/ready": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/AnalyticsService/src/server.ts:73.",
+        "operationId": "AnalyticsListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 73
+        }
+      }
+    },
+    "/api/analytics/api/v1/health": {
+      "get": {
+        "tags": [
+          "Analytics"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/AnalyticsService/src/server.ts:81.",
+        "operationId": "AnalyticsListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AnalyticsService/src/server.ts",
+          "line": 81
         }
       }
     },
@@ -1567,9 +1908,13 @@
           "Analytics"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/AnalyticsService/src/server.ts:73.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AnalyticsService/src/server.ts:89.",
         "operationId": "AnalyticsCreateInternalFeatureFlagsInvalidate",
-        "security": [],
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -1585,6 +1930,9 @@
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
           "409": {
             "$ref": "#/components/responses/Conflict"
           },
@@ -1594,10 +1942,10 @@
         },
         "x-source": {
           "file": "server/AnalyticsService/src/server.ts",
-          "line": 73
+          "line": 89
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/AnalyticsService/src/server.ts:73.",
+          "description": "JSON request payload processed by controller at server/AnalyticsService/src/server.ts:89.",
           "content": {
             "application/json": {
               "schema": {
@@ -1670,39 +2018,8 @@
           "Discussions"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:65.",
+        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:69.",
         "operationId": "DiscussionListHealth",
-        "security": [],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Operation succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "$ref": "#/components/responses/ServerError"
-          }
-        },
-        "x-source": {
-          "file": "server/DiscussionService/src/server.ts",
-          "line": 65
-        }
-      }
-    },
-    "/api/discussion/api/v1/health": {
-      "get": {
-        "tags": [
-          "Discussions"
-        ],
-        "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:69.",
-        "operationId": "DiscussionListHealthAlt",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1726,15 +2043,81 @@
         }
       }
     },
+    "/api/discussion/health/ready": {
+      "get": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/DiscussionService/src/server.ts:73.",
+        "operationId": "DiscussionListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 73
+        }
+      }
+    },
+    "/api/discussion/api/v1/health": {
+      "get": {
+        "tags": [
+          "Discussions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:81.",
+        "operationId": "DiscussionListHealthAlt",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/DiscussionService/src/server.ts",
+          "line": 81
+        }
+      }
+    },
     "/api/discussion/api/v1/internal/feature-flags/invalidate": {
       "post": {
         "tags": [
           "Discussions"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/DiscussionService/src/server.ts:73.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/DiscussionService/src/server.ts:85.",
         "operationId": "DiscussionCreateInternalFeatureFlagsInvalidate",
-        "security": [],
+        "security": [
+          {
+            "internalServiceSecret": []
+          }
+        ],
         "parameters": [],
         "responses": {
           "200": {
@@ -1750,6 +2133,9 @@
           "400": {
             "$ref": "#/components/responses/BadRequest"
           },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
           "409": {
             "$ref": "#/components/responses/Conflict"
           },
@@ -1759,10 +2145,10 @@
         },
         "x-source": {
           "file": "server/DiscussionService/src/server.ts",
-          "line": 73
+          "line": 85
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:73.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:85.",
           "content": {
             "application/json": {
               "schema": {
@@ -1780,7 +2166,7 @@
           "Content"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:65.",
+        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:69.",
         "operationId": "ContentListHealth",
         "security": [],
         "parameters": [],
@@ -1801,7 +2187,38 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 65
+          "line": 69
+        }
+      }
+    },
+    "/api/content/health/ready": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/ContentService/src/server.ts:77.",
+        "operationId": "ContentListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ContentService/src/server.ts",
+          "line": 77
         }
       }
     },
@@ -1811,7 +2228,7 @@
           "Content"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:73.",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:85.",
         "operationId": "ContentListHealthAlt",
         "security": [],
         "parameters": [],
@@ -1832,7 +2249,7 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 73
+          "line": 85
         }
       }
     },
@@ -1842,7 +2259,7 @@
           "Content"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:82.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:94.",
         "operationId": "ContentCreateInternalFeatureFlagsInvalidate",
         "security": [],
         "parameters": [],
@@ -1869,10 +2286,10 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 82
+          "line": 94
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:82.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:94.",
           "content": {
             "application/json": {
               "schema": {
@@ -1890,7 +2307,7 @@
           "System"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/RealtimeService/src/server.ts:49.",
+        "description": "Handles GET requests for /health. Implemented in server/RealtimeService/src/server.ts:51.",
         "operationId": "RealtimeListHealth",
         "security": [],
         "parameters": [],
@@ -1911,7 +2328,38 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 49
+          "line": 51
+        }
+      }
+    },
+    "/api/realtime/health/ready": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/RealtimeService/src/server.ts:76.",
+        "operationId": "RealtimeListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 76
         }
       }
     },
@@ -1921,7 +2369,7 @@
           "System"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/RealtimeService/src/server.ts:74.",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/RealtimeService/src/server.ts:85.",
         "operationId": "RealtimeListHealthAlt",
         "security": [],
         "parameters": [],
@@ -1942,7 +2390,7 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 74
+          "line": 85
         }
       }
     },
@@ -1952,7 +2400,7 @@
           "System"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/RealtimeService/src/server.ts:89.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/RealtimeService/src/server.ts:100.",
         "operationId": "RealtimeCreateInternalFeatureFlagsInvalidate",
         "security": [],
         "parameters": [],
@@ -1979,10 +2427,10 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 89
+          "line": 100
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/RealtimeService/src/server.ts:89.",
+          "description": "JSON request payload processed by controller at server/RealtimeService/src/server.ts:100.",
           "content": {
             "application/json": {
               "schema": {

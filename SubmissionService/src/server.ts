@@ -70,6 +70,20 @@ app.use(cors({
 app.use(express.json());
 app.use(attachCorrelationIdMiddleware);
 
+let isSubmissionReady = false;
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ success: true, service: "SubmissionService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isSubmissionReady) {
+    res.status(200).json({ success: true, service: "SubmissionService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "SubmissionService", status: "starting" });
+  }
+});
+
 app.use("/api/v1", v1Router);
 /** RESERVED: empty v2 mount — see routers/v2/index.router.ts */
 app.use("/api/v2", v2Router);
@@ -82,6 +96,7 @@ const startServer = async () => {
     await connectDB();
     await ensureQueueRedisSafety();
     app.listen(serverConfig.PORT, () => {
+      isSubmissionReady = true;
       logger.info(`Server is running on http://localhost:${serverConfig.PORT}`);
       logger.info(`Press Ctrl+C to stop the server.`);
       checkRedis();

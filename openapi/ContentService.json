@@ -2180,7 +2180,7 @@
           "Content"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:73.",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:85.",
         "operationId": "ContentListHealthAlt",
         "security": [],
         "parameters": [],
@@ -2201,7 +2201,7 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 73
+          "line": 85
         }
       }
     },
@@ -2211,7 +2211,7 @@
           "Content"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:82.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:94.",
         "operationId": "ContentCreateInternalFeatureFlagsInvalidate",
         "security": [],
         "parameters": [],
@@ -2238,10 +2238,10 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 82
+          "line": 94
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:82.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:94.",
           "content": {
             "application/json": {
               "schema": {
@@ -2259,7 +2259,7 @@
           "Content"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:65.",
+        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:69.",
         "operationId": "ContentListHealth",
         "security": [],
         "parameters": [],
@@ -2280,7 +2280,38 @@
         },
         "x-source": {
           "file": "server/ContentService/src/server.ts",
-          "line": 65
+          "line": 69
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Content"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/ContentService/src/server.ts:77.",
+        "operationId": "ContentListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ContentService/src/server.ts",
+          "line": 77
         }
       }
     },

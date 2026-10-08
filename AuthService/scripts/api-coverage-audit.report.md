@@ -1,24 +1,24 @@
 # §15 Complete API Coverage Audit
 
-Generated: 2026-10-07T15:24:51.834Z
+Generated: 2026-10-08T15:03:52.723Z
 
 ## Counts
 
 | Metric | Count |
 |---|---:|
-| backendRoutes | 446 |
-| uniqueServiceOperations | 446 |
+| backendRoutes | 460 |
+| uniqueServiceOperations | 460 |
 | clientAsyncMethods | 364 |
 | clientUsed | 343 |
 | clientLegitimatelyUnused | 18 |
 | clientBroken | 3 |
-| backendUsed | 379 |
+| backendUsed | 384 |
 | backendLegitimatelyUnused | 49 |
-| backendMissingConsumer | 18 |
+| backendMissingConsumer | 27 |
 | backendMissingConsumerAdmin | 2 |
-| backendMissingConsumerUser | 16 |
+| backendMissingConsumerUser | 25 |
 | duplicateClientPaths | 1 |
-| duplicateBackendPaths | 5 |
+| duplicateBackendPaths | 6 |
 | obsolete | 0 |
 
 ### Client method categories
@@ -34,8 +34,8 @@ Generated: 2026-10-07T15:24:51.834Z
 | Category | Count |
 |---|---:|
 | LEGITIMATELY UNUSED | 49 |
-| USED | 379 |
-| MISSING CONSUMER | 18 |
+| USED | 384 |
+| MISSING CONSUMER | 27 |
 
 ## BROKEN client APIs (3)
 
@@ -48,8 +48,9 @@ Generated: 2026-10-07T15:24:51.834Z
 - `AuthService` `GET /api/v1/auth/admin/test-users` — server/AuthService/src/routers/v1/admin.router.ts:50
 - `ContentService` `PATCH /api/v1/content/admin/companies/:id/questions/:questionId` — server/ContentService/src/routers/v1/content.router.ts:168
 
-## MISSING CONSUMER — User/public backend (16)
+## MISSING CONSUMER — User/public backend (25)
 
+- `AuthService` `GET /health/ready` — server/AuthService/src/server.ts:95
 - `AuthService` `GET /api/v1/auth/social/discover` — server/AuthService/src/routers/v1/auth.router.ts:59
 - `AuthService` `POST /api/v1/auth/social/friend-requests` — server/AuthService/src/routers/v1/auth.router.ts:60
 - `AuthService` `GET /api/v1/auth/social/friend-requests` — server/AuthService/src/routers/v1/auth.router.ts:61
@@ -64,8 +65,16 @@ Generated: 2026-10-07T15:24:51.834Z
 - `AuthService` `GET /api/v1/auth/social/following` — server/AuthService/src/routers/v1/auth.router.ts:70
 - `AuthService` `GET /api/v1/auth/social/activity` — server/AuthService/src/routers/v1/auth.router.ts:71
 - `AuthService` `GET /api/v1/auth/subscription/history` — server/AuthService/src/routers/v1/auth.router.ts:104
+- `ProblemService` `GET /health/ready` — server/ProblemService/src/server.ts:77
 - `ProblemService` `GET /api/v1/challenges/badges` — server/ProblemService/src/routers/v1/challenge.router.ts:64
 - `ProblemService` `GET /api/v1/problems/recommendations` — server/ProblemService/src/routers/v1/problem.router.ts:102
+- `SubmissionService` `GET /health/ready` — server/SubmissionService/src/server.ts:79
+- `LeaderboardService` `GET /health/ready` — server/LeaderboardService/src/server.ts:74
+- `EvaluationService` `GET /health/ready` — server/EvaluationService/src/server.ts:80
+- `AnalyticsService` `GET /health/ready` — server/AnalyticsService/src/server.ts:73
+- `DiscussionService` `GET /health/ready` — server/DiscussionService/src/server.ts:73
+- `ContentService` `GET /health/ready` — server/ContentService/src/server.ts:77
+- `RealtimeService` `GET /health/ready` — server/RealtimeService/src/server.ts:76
 
 ## LEGITIMATELY UNUSED client wrappers (18)
 
@@ -94,13 +103,14 @@ _Backend exists (or helper); no UI/caller reference found. Not deleted._
 
 - `DELETE /api/v1/submissions/:param` → client/src/api/adminSubmissionApi.ts::remove, client/src/api/submissionApi.ts::deleteSubmission
 
-## Duplicate backend paths (5)
+## Duplicate backend paths (6)
 
+- `GET /health` → AuthService:server/AuthService/src/server.ts:91 | ProblemService:server/ProblemService/src/server.ts:73 | SubmissionService:server/SubmissionService/src/server.ts:75 | LeaderboardService:server/LeaderboardService/src/server.ts:70 | EvaluationService:server/EvaluationService/src/server.ts:76 | AnalyticsService:server/AnalyticsService/src/server.ts:69 | DiscussionService:server/DiscussionService/src/server.ts:69 | ContentService:server/ContentService/src/server.ts:69 | RealtimeService:server/RealtimeService/src/server.ts:51
+- `GET /health/ready` → AuthService:server/AuthService/src/server.ts:95 | ProblemService:server/ProblemService/src/server.ts:77 | SubmissionService:server/SubmissionService/src/server.ts:79 | LeaderboardService:server/LeaderboardService/src/server.ts:74 | EvaluationService:server/EvaluationService/src/server.ts:80 | AnalyticsService:server/AnalyticsService/src/server.ts:73 | DiscussionService:server/DiscussionService/src/server.ts:73 | ContentService:server/ContentService/src/server.ts:77 | RealtimeService:server/RealtimeService/src/server.ts:76
 - `GET /api/v2/health` → AuthService:server/AuthService/src/routers/v1/index.router.ts:14 | ProblemService:server/ProblemService/src/routers/v1/index.router.ts:37 | SubmissionService:server/SubmissionService/src/routers/v1/index.router.ts:17 | EvaluationService:server/EvaluationService/src/routers/v1/index.router.ts:17
 - `POST /api/v2/internal/feature-flags/invalidate` → ProblemService:server/ProblemService/src/routers/v1/index.router.ts:46 | SubmissionService:server/SubmissionService/src/routers/v1/index.router.ts:76 | EvaluationService:server/EvaluationService/src/routers/v1/index.router.ts:78
-- `GET /api/v1/health` → LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:11 | AnalyticsService:server/AnalyticsService/src/server.ts:65 | DiscussionService:server/DiscussionService/src/server.ts:69 | ContentService:server/ContentService/src/server.ts:73 | RealtimeService:server/RealtimeService/src/server.ts:74
-- `POST /api/v1/internal/feature-flags/invalidate` → LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:20 | AnalyticsService:server/AnalyticsService/src/server.ts:73 | DiscussionService:server/DiscussionService/src/server.ts:73 | ContentService:server/ContentService/src/server.ts:82 | RealtimeService:server/RealtimeService/src/server.ts:89
-- `GET /health` → EvaluationService:server/EvaluationService/src/server.ts:72 | DiscussionService:server/DiscussionService/src/server.ts:65 | ContentService:server/ContentService/src/server.ts:65 | RealtimeService:server/RealtimeService/src/server.ts:49
+- `GET /api/v1/health` → LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:11 | AnalyticsService:server/AnalyticsService/src/server.ts:81 | DiscussionService:server/DiscussionService/src/server.ts:81 | ContentService:server/ContentService/src/server.ts:85 | RealtimeService:server/RealtimeService/src/server.ts:85
+- `POST /api/v1/internal/feature-flags/invalidate` → LeaderboardService:server/LeaderboardService/src/routers/v1/index.router.ts:20 | AnalyticsService:server/AnalyticsService/src/server.ts:89 | DiscussionService:server/DiscussionService/src/server.ts:85 | ContentService:server/ContentService/src/server.ts:94 | RealtimeService:server/RealtimeService/src/server.ts:100
 
 ## Notes
 

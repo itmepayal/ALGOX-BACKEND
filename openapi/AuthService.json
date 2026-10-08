@@ -5004,7 +5004,7 @@
           "Billing"
         ],
         "summary": "Create or execute action on webhooks cashfree",
-        "description": "Handles POST requests for /api/v1/auth/webhooks/cashfree. Implemented in server/AuthService/src/server.ts:77.",
+        "description": "Handles POST requests for /api/v1/auth/webhooks/cashfree. Implemented in server/AuthService/src/server.ts:79.",
         "operationId": "createAuthWebhooksCashfree",
         "security": [],
         "parameters": [],
@@ -5031,10 +5031,10 @@
         },
         "x-source": {
           "file": "server/AuthService/src/server.ts",
-          "line": 77
+          "line": 79
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/AuthService/src/server.ts:77.",
+          "description": "JSON request payload processed by controller at server/AuthService/src/server.ts:79.",
           "content": {
             "application/json": {
               "schema": {
@@ -5052,7 +5052,7 @@
           "Billing"
         ],
         "summary": "Create or execute action on webhooks stripe",
-        "description": "Handles POST requests for /api/v1/auth/webhooks/stripe. Implemented in server/AuthService/src/server.ts:72.",
+        "description": "Handles POST requests for /api/v1/auth/webhooks/stripe. Implemented in server/AuthService/src/server.ts:74.",
         "operationId": "createAuthWebhooksStripe",
         "security": [],
         "parameters": [],
@@ -5079,10 +5079,10 @@
         },
         "x-source": {
           "file": "server/AuthService/src/server.ts",
-          "line": 72
+          "line": 74
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/AuthService/src/server.ts:72.",
+          "description": "JSON request payload processed by controller at server/AuthService/src/server.ts:74.",
           "content": {
             "application/json": {
               "schema": {
@@ -5194,7 +5194,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/AuthService/src/routers/v1/index.router.ts:14.",
-        "operationId": "listHealth",
+        "operationId": "listHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -5215,6 +5215,68 @@
         "x-source": {
           "file": "server/AuthService/src/routers/v1/index.router.ts",
           "line": 14
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/AuthService/src/server.ts:91.",
+        "operationId": "listHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 91
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/AuthService/src/server.ts:95.",
+        "operationId": "listHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/AuthService/src/server.ts",
+          "line": 95
         }
       }
     },

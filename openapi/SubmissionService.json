@@ -1233,7 +1233,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:17.",
-        "operationId": "SubmissionListHealth",
+        "operationId": "SubmissionListHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -1309,6 +1309,68 @@
               }
             }
           }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/SubmissionService/src/server.ts:75.",
+        "operationId": "SubmissionListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/server.ts",
+          "line": 75
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Submissions"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/SubmissionService/src/server.ts:79.",
+        "operationId": "SubmissionListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/SubmissionService/src/server.ts",
+          "line": 79
         }
       }
     },

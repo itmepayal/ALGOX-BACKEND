@@ -222,7 +222,7 @@
           "Evaluation"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:72.",
+        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:76.",
         "operationId": "EvaluationListHealth",
         "security": [],
         "parameters": [],
@@ -243,7 +243,38 @@
         },
         "x-source": {
           "file": "server/EvaluationService/src/server.ts",
-          "line": 72
+          "line": 76
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Evaluation"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/EvaluationService/src/server.ts:80.",
+        "operationId": "EvaluationListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/EvaluationService/src/server.ts",
+          "line": 80
         }
       }
     },

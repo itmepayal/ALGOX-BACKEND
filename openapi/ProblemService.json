@@ -12193,7 +12193,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v2/health. Implemented in server/ProblemService/src/routers/v1/index.router.ts:37.",
-        "operationId": "ProblemListHealth",
+        "operationId": "ProblemListHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
@@ -12269,6 +12269,68 @@
               }
             }
           }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/ProblemService/src/server.ts:73.",
+        "operationId": "ProblemListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/server.ts",
+          "line": 73
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Problems"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/ProblemService/src/server.ts:77.",
+        "operationId": "ProblemListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/ProblemService/src/server.ts",
+          "line": 77
         }
       }
     },

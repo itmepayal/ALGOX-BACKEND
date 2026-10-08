@@ -405,7 +405,7 @@
           "System"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /api/v1/health. Implemented in server/RealtimeService/src/server.ts:74.",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/RealtimeService/src/server.ts:85.",
         "operationId": "RealtimeListHealthAlt",
         "security": [],
         "parameters": [],
@@ -426,7 +426,7 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 74
+          "line": 85
         }
       }
     },
@@ -436,7 +436,7 @@
           "System"
         ],
         "summary": "Create or execute action on flags invalidate",
-        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/RealtimeService/src/server.ts:89.",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/RealtimeService/src/server.ts:100.",
         "operationId": "RealtimeCreateInternalFeatureFlagsInvalidate",
         "security": [],
         "parameters": [],
@@ -463,10 +463,10 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 89
+          "line": 100
         },
         "requestBody": {
-          "description": "JSON request payload processed by controller at server/RealtimeService/src/server.ts:89.",
+          "description": "JSON request payload processed by controller at server/RealtimeService/src/server.ts:100.",
           "content": {
             "application/json": {
               "schema": {
@@ -542,7 +542,7 @@
           "System"
         ],
         "summary": "Retrieve health",
-        "description": "Handles GET requests for /health. Implemented in server/RealtimeService/src/server.ts:49.",
+        "description": "Handles GET requests for /health. Implemented in server/RealtimeService/src/server.ts:51.",
         "operationId": "RealtimeListHealth",
         "security": [],
         "parameters": [],
@@ -563,7 +563,38 @@
         },
         "x-source": {
           "file": "server/RealtimeService/src/server.ts",
-          "line": 49
+          "line": 51
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/RealtimeService/src/server.ts:76.",
+        "operationId": "RealtimeListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/RealtimeService/src/server.ts",
+          "line": 76
         }
       }
     },

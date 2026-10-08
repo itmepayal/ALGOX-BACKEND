@@ -30,7 +30,7 @@
         ],
         "summary": "Retrieve health",
         "description": "Handles GET requests for /api/v1/health. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:11.",
-        "operationId": "LeaderboardListHealth",
+        "operationId": "LeaderboardListHealthAlt",
         "security": [],
         "parameters": [],
         "responses": {
@@ -523,6 +523,68 @@
         "x-source": {
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 20
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/LeaderboardService/src/server.ts:70.",
+        "operationId": "LeaderboardListHealth",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/server.ts",
+          "line": 70
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "Retrieve health ready",
+        "description": "Handles GET requests for /health/ready. Implemented in server/LeaderboardService/src/server.ts:74.",
+        "operationId": "LeaderboardListHealthReady",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        },
+        "x-source": {
+          "file": "server/LeaderboardService/src/server.ts",
+          "line": 74
         }
       }
     },
