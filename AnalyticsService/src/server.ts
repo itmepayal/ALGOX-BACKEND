@@ -64,6 +64,20 @@ app.use(cors({
 }));
 app.use(express.json());
 
+let isAnalyticsReady = false;
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ success: true, service: "AnalyticsService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isAnalyticsReady) {
+    res.status(200).json({ success: true, service: "AnalyticsService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "AnalyticsService", status: "starting" });
+  }
+});
+
 app.get("/api/v1/health", (_req, res) => {
   res.status(200).json({
     success: true,
@@ -103,6 +117,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(serverConfig.PORT, () => {
+      isAnalyticsReady = true;
       console.log(
         `AnalyticsService is running on http://localhost:${serverConfig.PORT}`
       );

@@ -64,12 +64,22 @@ app.use(cors({
 }));
 app.use(express.json());
 
+let isContentReady = false;
+
 app.get("/health", (_req, res) => {
   res.status(200).json({
     success: true,
     message: "ContentService is healthy",
     data: { service: "ContentService", status: "ok" },
   });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isContentReady) {
+    res.status(200).json({ success: true, service: "ContentService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "ContentService", status: "starting" });
+  }
 });
 
 app.get("/api/v1/health", (_req, res) => {
@@ -134,6 +144,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(serverConfig.PORT, () => {
+      isContentReady = true;
       console.log(`ContentService is running on http://localhost:${serverConfig.PORT}`);
     });
   } catch (error) {

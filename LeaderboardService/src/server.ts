@@ -65,6 +65,20 @@ app.use(cors({
 }));
 app.use(express.json());
 
+let isLeaderboardReady = false;
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ success: true, service: "LeaderboardService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isLeaderboardReady) {
+    res.status(200).json({ success: true, service: "LeaderboardService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "LeaderboardService", status: "starting" });
+  }
+});
+
 app.use("/api/v1", v1Router);
 
 app.use(errorHandler);
@@ -73,6 +87,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(serverConfig.PORT, () => {
+      isLeaderboardReady = true;
       logger.info(`LeaderboardService is running on http://localhost:${serverConfig.PORT}`);
       logger.info("Press Ctrl+C to stop the server.");
     });

@@ -3,17 +3,17 @@
   "info": {
     "title": "AlgoPath Submission Service",
     "version": "1.0.0",
-    "description": "Submission creation, lookup, evaluation callbacks, and moderation APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/submissions. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "Submission creation, lookup, evaluation callbacks, and moderation APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/submissions."
   },
   "servers": [
     {
       "url": "http://localhost:3004",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
     {
-      "name": "Admin"
+      "name": "Administration"
     },
     {
       "name": "Documentation"
@@ -26,11 +26,11 @@
     "/api/v1/admin/suspicious-submissions": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get suspicious submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:18. Required permission: suspicious:view.",
-        "operationId": "SubmissiongetApiV1AdminSuspiciousSubmissions",
+        "summary": "Retrieve suspicious submissions",
+        "description": "Handles GET requests for /api/v1/admin/suspicious-submissions. Required permission: suspicious:view. Implemented in server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:18.",
+        "operationId": "listAdminSuspiciousSubmissions",
         "security": [
           {
             "bearerAuth": []
@@ -39,11 +39,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -61,18 +61,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts",
           "line": 18
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/admin/suspicious-submissions/{id}/confirm": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process submissions confirm",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:30. Required permission: suspicious:review.",
-        "operationId": "SubmissionpostApiV1AdminSuspiciousSubmissionsIdConfirm",
+        "summary": "Create or execute action on submissions confirm",
+        "description": "Handles POST requests for /api/v1/admin/suspicious-submissions/{id}/confirm. Required permission: suspicious:review. Implemented in server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:30.",
+        "operationId": "createAdminSuspiciousSubmissionsIdConfirm",
         "security": [
           {
             "bearerAuth": []
@@ -83,20 +82,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -124,9 +123,8 @@
           "file": "server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts",
           "line": 30
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:30; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:30.",
           "content": {
             "application/json": {
               "schema": {
@@ -141,11 +139,11 @@
     "/api/v1/admin/suspicious-submissions/{id}/dismiss": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process submissions dismiss",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:36. Required permission: suspicious:review.",
-        "operationId": "SubmissionpostApiV1AdminSuspiciousSubmissionsIdDismiss",
+        "summary": "Create or execute action on submissions dismiss",
+        "description": "Handles POST requests for /api/v1/admin/suspicious-submissions/{id}/dismiss. Required permission: suspicious:review. Implemented in server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:36.",
+        "operationId": "createAdminSuspiciousSubmissionsIdDismiss",
         "security": [
           {
             "bearerAuth": []
@@ -156,20 +154,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -197,9 +195,8 @@
           "file": "server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts",
           "line": 36
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:36; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:36.",
           "content": {
             "application/json": {
               "schema": {
@@ -214,11 +211,11 @@
     "/api/v1/admin/suspicious-submissions/{id}/review": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process submissions review",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:24. Required permission: suspicious:review.",
-        "operationId": "SubmissionpostApiV1AdminSuspiciousSubmissionsIdReview",
+        "summary": "Create or execute action on submissions review",
+        "description": "Handles POST requests for /api/v1/admin/suspicious-submissions/{id}/review. Required permission: suspicious:review. Implemented in server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:24.",
+        "operationId": "createAdminSuspiciousSubmissionsIdReview",
         "security": [
           {
             "bearerAuth": []
@@ -229,20 +226,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -270,9 +267,8 @@
           "file": "server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts",
           "line": 24
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:24; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/suspiciousSubmission.router.ts:24.",
           "content": {
             "application/json": {
               "schema": {
@@ -289,9 +285,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Create or process v1 submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:19.",
-        "operationId": "SubmissionpostApiV1Submissions",
+        "summary": "Create or execute action on submissions",
+        "description": "Handles POST requests for /api/v1/submissions. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:19.",
+        "operationId": "createSubmissions",
         "security": [
           {
             "bearerAuth": []
@@ -300,11 +296,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -326,9 +322,8 @@
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 19
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/submission.router.ts:19; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/submission.router.ts:19.",
           "content": {
             "application/json": {
               "schema": {
@@ -343,9 +338,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get v1 submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:85. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1Submissions",
+        "summary": "Retrieve submissions",
+        "description": "Handles GET requests for /api/v1/submissions. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:85.",
+        "operationId": "listSubmissions",
         "security": [
           {
             "bearerAuth": []
@@ -354,11 +349,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -376,8 +371,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 85
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/{id}": {
@@ -385,9 +379,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get v1 submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:111.",
-        "operationId": "SubmissiongetApiV1SubmissionsId",
+        "summary": "Retrieve submissions",
+        "description": "Handles GET requests for /api/v1/submissions/{id}. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:111.",
+        "operationId": "getSubmissionsId",
         "security": [
           {
             "bearerAuth": []
@@ -398,20 +392,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -429,16 +423,15 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 111
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "put": {
         "tags": [
           "Submissions"
         ],
-        "summary": "Update v1 submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:124. Required permission: submissions:update.",
-        "operationId": "SubmissionputApiV1SubmissionsId",
+        "summary": "Replace submissions",
+        "description": "Handles PUT requests for /api/v1/submissions/{id}. Required permission: submissions:update. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:124.",
+        "operationId": "updateSubmissionsId",
         "security": [
           {
             "bearerAuth": []
@@ -449,20 +442,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -490,9 +483,8 @@
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 124
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/submission.router.ts:124; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/submission.router.ts:124.",
           "content": {
             "application/json": {
               "schema": {
@@ -507,9 +499,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Delete v1 submissions",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:130. Required permission: submissions:delete.",
-        "operationId": "SubmissiondeleteApiV1SubmissionsId",
+        "summary": "Delete submissions",
+        "description": "Handles DELETE requests for /api/v1/submissions/{id}. Required permission: submissions:delete. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:130.",
+        "operationId": "deleteSubmissionsId",
         "security": [
           {
             "bearerAuth": []
@@ -520,20 +512,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -560,18 +552,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 130
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/admin/{id}": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get submissions admin",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:77. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsAdminId",
+        "summary": "Retrieve submissions admin",
+        "description": "Handles GET requests for /api/v1/submissions/admin/{id}. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:77.",
+        "operationId": "getSubmissionsAdminId",
         "security": [
           {
             "bearerAuth": []
@@ -582,20 +573,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -616,18 +607,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 77
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/admin/failed": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin failed",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:59. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsAdminFailed",
+        "summary": "Retrieve admin failed",
+        "description": "Handles GET requests for /api/v1/submissions/admin/failed. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:59.",
+        "operationId": "listSubmissionsAdminFailed",
         "security": [
           {
             "bearerAuth": []
@@ -636,11 +626,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -658,18 +648,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 59
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/admin/internal-stats": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get internal stats",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:65. Required permission: analytics:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsAdminInternalStats",
+        "summary": "Retrieve internal stats",
+        "description": "Handles GET requests for /api/v1/submissions/admin/internal-stats. Required permission: analytics:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:65.",
+        "operationId": "listSubmissionsAdminInternalStats",
         "security": [
           {
             "bearerAuth": []
@@ -678,11 +667,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -700,18 +689,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 65
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/admin/list": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin list",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:53. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsAdminList",
+        "summary": "Retrieve admin list",
+        "description": "Handles GET requests for /api/v1/submissions/admin/list. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:53.",
+        "operationId": "listSubmissionsAdminList",
         "security": [
           {
             "bearerAuth": []
@@ -720,11 +708,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -742,18 +730,17 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 53
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/admin/problem-stats/{problemId}": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get problem stats",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:71. Required permission: analytics:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsAdminProblemStatsProblemId",
+        "summary": "Retrieve problem stats",
+        "description": "Handles GET requests for /api/v1/submissions/admin/problem-stats/{problemId}. Required permission: analytics:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:71.",
+        "operationId": "getSubmissionsAdminProblemStatsProblemId",
         "security": [
           {
             "bearerAuth": []
@@ -764,20 +751,20 @@
             "name": "problemId",
             "in": "path",
             "required": true,
-            "description": "Route parameter problemId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'problemId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -798,8 +785,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 71
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/internal/{id}": {
@@ -807,9 +793,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Update submissions internal",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:118. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "SubmissionputApiV1SubmissionsInternalId",
+        "summary": "Replace submissions internal",
+        "description": "Handles PUT requests for /api/v1/submissions/internal/{id}. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:118.",
+        "operationId": "updateSubmissionsInternalId",
         "security": [
           {
             "internalServiceSecret": []
@@ -820,20 +806,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -858,9 +844,8 @@
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 118
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/submission.router.ts:118; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/submission.router.ts:118.",
           "content": {
             "application/json": {
               "schema": {
@@ -877,9 +862,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions language",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:103. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsLanguageLanguage",
+        "summary": "Retrieve submissions language",
+        "description": "Handles GET requests for /api/v1/submissions/language/{language}. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:103.",
+        "operationId": "getSubmissionsLanguageLanguage",
         "security": [
           {
             "bearerAuth": []
@@ -890,19 +875,20 @@
             "name": "language",
             "in": "path",
             "required": true,
-            "description": "Route parameter language. See source validation for its exact format.",
+            "description": "Identifier parameter 'language' for this resource.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -923,8 +909,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 103
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/me": {
@@ -932,9 +917,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions me",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:26.",
-        "operationId": "SubmissiongetApiV1SubmissionsMe",
+        "summary": "Get current user profile",
+        "description": "Handles GET requests for /api/v1/submissions/me. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:26.",
+        "operationId": "getMySubmissionsMe",
         "security": [
           {
             "bearerAuth": []
@@ -943,11 +928,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -962,8 +947,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 26
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/me/analytics": {
@@ -971,9 +955,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get me analytics",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:36.",
-        "operationId": "SubmissiongetApiV1SubmissionsMeAnalytics",
+        "summary": "Retrieve me analytics",
+        "description": "Handles GET requests for /api/v1/submissions/me/analytics. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:36.",
+        "operationId": "listSubmissionsMeAnalytics",
         "security": [
           {
             "bearerAuth": []
@@ -982,11 +966,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1001,8 +985,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 36
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/me/import-source": {
@@ -1010,9 +993,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get import source",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:31.",
-        "operationId": "SubmissiongetApiV1SubmissionsMeImportSource",
+        "summary": "Retrieve import source",
+        "description": "Handles GET requests for /api/v1/submissions/me/import-source. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:31.",
+        "operationId": "listSubmissionsMeImportSource",
         "security": [
           {
             "bearerAuth": []
@@ -1021,11 +1004,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1040,8 +1023,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 31
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/problem/{problemId}": {
@@ -1049,9 +1031,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions problem",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:41.",
-        "operationId": "SubmissiongetApiV1SubmissionsProblemProblemId",
+        "summary": "Retrieve submissions problem",
+        "description": "Handles GET requests for /api/v1/submissions/problem/{problemId}. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:41.",
+        "operationId": "getSubmissionsProblemProblemId",
         "security": [
           {
             "bearerAuth": []
@@ -1062,20 +1044,20 @@
             "name": "problemId",
             "in": "path",
             "required": true,
-            "description": "Route parameter problemId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'problemId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1093,8 +1075,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 41
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/search": {
@@ -1102,9 +1083,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions search",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:91. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsSearch",
+        "summary": "Retrieve submissions search",
+        "description": "Handles GET requests for /api/v1/submissions/search. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:91.",
+        "operationId": "listSubmissionsSearch",
         "security": [
           {
             "bearerAuth": []
@@ -1113,11 +1094,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1135,8 +1116,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 91
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/status/{status}": {
@@ -1144,9 +1124,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions status",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:97. Required permission: submissions:view.",
-        "operationId": "SubmissiongetApiV1SubmissionsStatusStatus",
+        "summary": "Retrieve submissions status",
+        "description": "Handles GET requests for /api/v1/submissions/status/{status}. Required permission: submissions:view. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:97.",
+        "operationId": "getSubmissionsStatusStatus",
         "security": [
           {
             "bearerAuth": []
@@ -1157,19 +1137,20 @@
             "name": "status",
             "in": "path",
             "required": true,
-            "description": "Route parameter status. See source validation for its exact format.",
+            "description": "Identifier parameter 'status' for this resource.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1190,8 +1171,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 97
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/submissions/user/{userId}": {
@@ -1199,9 +1179,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get submissions user",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/submission.router.ts:46.",
-        "operationId": "SubmissiongetApiV1SubmissionsUserUserId",
+        "summary": "Retrieve submissions user",
+        "description": "Handles GET requests for /api/v1/submissions/user/{userId}. Implemented in server/SubmissionService/src/routers/v1/submission.router.ts:46.",
+        "operationId": "getSubmissionsUserUserId",
         "security": [
           {
             "bearerAuth": []
@@ -1212,20 +1192,20 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1243,8 +1223,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/submission.router.ts",
           "line": 46
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v2/health": {
@@ -1252,18 +1231,18 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Get v2 health",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/index.router.ts:17.",
-        "operationId": "SubmissiongetApiV2Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:17.",
+        "operationId": "SubmissionListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1275,8 +1254,7 @@
         "x-source": {
           "file": "server/SubmissionService/src/routers/v1/index.router.ts",
           "line": 17
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v2/internal/feature-flags/invalidate": {
@@ -1284,9 +1262,9 @@
         "tags": [
           "Submissions"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/SubmissionService/src/routers/v1/index.router.ts:76. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "SubmissionpostApiV2InternalFeatureFlagsInvalidate",
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v2/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/SubmissionService/src/routers/v1/index.router.ts:76.",
+        "operationId": "SubmissionCreateInternalFeatureFlagsInvalidate",
         "security": [
           {
             "internalServiceSecret": []
@@ -1295,11 +1273,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1321,9 +1299,8 @@
           "file": "server/SubmissionService/src/routers/v1/index.router.ts",
           "line": 76
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/SubmissionService/src/routers/v1/index.router.ts:76; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/SubmissionService/src/routers/v1/index.router.ts:76.",
           "content": {
             "application/json": {
               "schema": {
@@ -1340,11 +1317,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "SubmissiongetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -1390,23 +1367,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -1419,20 +1397,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -1447,22 +1654,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -1472,7 +1674,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -1482,7 +1684,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -1492,7 +1694,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -1502,7 +1704,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -1512,7 +1714,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -1529,7 +1731,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

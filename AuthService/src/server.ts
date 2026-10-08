@@ -86,6 +86,20 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+let isAuthReady = false;
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ success: true, service: "AuthService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isAuthReady) {
+    res.status(200).json({ success: true, service: "AuthService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "AuthService", status: "starting" });
+  }
+});
+
 app.use(attachCorrelationIdMiddleware);
 app.use('/api/v1', v1Router);
 /** RESERVED: empty v2 mount — see routers/v2/index.router.ts */
@@ -120,6 +134,7 @@ const startServer = async () => {
         }, 30_000);
 
         app.listen(serverConfig.PORT, () => {
+            isAuthReady = true;
             logger.info(`Server is running on http://localhost:${serverConfig.PORT}`);
             logger.info(`Press Ctrl+C to stop the server.`);
         });

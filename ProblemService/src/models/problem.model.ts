@@ -125,7 +125,6 @@ const problemSchema = new Schema<IProblem>(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
     },
     description: {
       type: String,
@@ -225,7 +224,6 @@ problemSchema.index({ difficulty: 1 });
 problemSchema.index({ category: 1, difficulty: 1 });
 problemSchema.index({ status: 1, difficulty: 1 });
 problemSchema.index({ status: 1, createdAt: -1 });
-problemSchema.index({ tags: 1 });
 problemSchema.index({ status: 1, isPremium: 1 });
 
 export const Problem = mongoose.model<IProblem>("Problem", problemSchema);

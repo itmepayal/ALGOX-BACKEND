@@ -3,17 +3,17 @@
   "info": {
     "title": "AlgoPath Leaderboard Service",
     "version": "1.0.0",
-    "description": "Ratings, rankings, and leaderboard APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/leaderboard. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "Ratings, rankings, and leaderboard APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/leaderboard."
   },
   "servers": [
     {
       "url": "http://localhost:3005",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
     {
-      "name": "Admin"
+      "name": "Administration"
     },
     {
       "name": "Documentation"
@@ -28,18 +28,18 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Get v1 health",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/index.router.ts:11.",
-        "operationId": "LeaderboardgetApiV1Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:11.",
+        "operationId": "LeaderboardListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -51,8 +51,7 @@
         "x-source": {
           "file": "server/LeaderboardService/src/routers/v1/index.router.ts",
           "line": 11
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/internal/feature-flags/invalidate": {
@@ -60,9 +59,9 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/index.router.ts:20. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "LeaderboardpostApiV1InternalFeatureFlagsInvalidate",
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/LeaderboardService/src/routers/v1/index.router.ts:20.",
+        "operationId": "LeaderboardCreateInternalFeatureFlagsInvalidate",
         "security": [
           {
             "internalServiceSecret": []
@@ -71,11 +70,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -97,9 +96,8 @@
           "file": "server/LeaderboardService/src/routers/v1/index.router.ts",
           "line": 20
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/index.router.ts:20; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/index.router.ts:20.",
           "content": {
             "application/json": {
               "schema": {
@@ -116,18 +114,18 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Get v1 leaderboard",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:16.",
-        "operationId": "LeaderboardgetApiV1Leaderboard",
+        "summary": "Retrieve leaderboard",
+        "description": "Handles GET requests for /api/v1/leaderboard. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:16.",
+        "operationId": "listLeaderboard",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -139,18 +137,17 @@
         "x-source": {
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 16
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/leaderboard/admin/audit": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin audit",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:53.",
-        "operationId": "LeaderboardgetApiV1LeaderboardAdminAudit",
+        "summary": "Retrieve admin audit",
+        "description": "Handles GET requests for /api/v1/leaderboard/admin/audit. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:53.",
+        "operationId": "listLeaderboardAdminAudit",
         "security": [
           {
             "bearerAuth": []
@@ -159,11 +156,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -178,18 +175,17 @@
         "x-source": {
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 53
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/leaderboard/admin/rebuild": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process admin rebuild",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:35.",
-        "operationId": "LeaderboardpostApiV1LeaderboardAdminRebuild",
+        "summary": "Create or execute action on admin rebuild",
+        "description": "Handles POST requests for /api/v1/leaderboard/admin/rebuild. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:35.",
+        "operationId": "createLeaderboardAdminRebuild",
         "security": [
           {
             "bearerAuth": []
@@ -198,11 +194,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -224,9 +220,8 @@
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 35
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:35; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:35.",
           "content": {
             "application/json": {
               "schema": {
@@ -241,11 +236,11 @@
     "/api/v1/leaderboard/admin/reset-user/{userId}": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reset user",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:41.",
-        "operationId": "LeaderboardpostApiV1LeaderboardAdminResetUserUserId",
+        "summary": "Create or execute action on reset user",
+        "description": "Handles POST requests for /api/v1/leaderboard/admin/reset-user/{userId}. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:41.",
+        "operationId": "createLeaderboardAdminResetUserUserId",
         "security": [
           {
             "bearerAuth": []
@@ -256,20 +251,20 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -294,9 +289,8 @@
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 41
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:41; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:41.",
           "content": {
             "application/json": {
               "schema": {
@@ -311,11 +305,11 @@
     "/api/v1/leaderboard/admin/suspend-entry/{userId}": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process suspend entry",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:47.",
-        "operationId": "LeaderboardpostApiV1LeaderboardAdminSuspendEntryUserId",
+        "summary": "Create or execute action on suspend entry",
+        "description": "Handles POST requests for /api/v1/leaderboard/admin/suspend-entry/{userId}. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:47.",
+        "operationId": "createLeaderboardAdminSuspendEntryUserId",
         "security": [
           {
             "bearerAuth": []
@@ -326,20 +320,20 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -364,9 +358,8 @@
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 47
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:47; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:47.",
           "content": {
             "application/json": {
               "schema": {
@@ -383,9 +376,9 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Create or process contest rating",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "LeaderboardpostApiV1LeaderboardInternalContestRating",
+        "summary": "Create or execute action on contest rating",
+        "description": "Handles POST requests for /api/v1/leaderboard/internal/contest-rating. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29.",
+        "operationId": "createLeaderboardInternalContestRating",
         "security": [
           {
             "internalServiceSecret": []
@@ -394,11 +387,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -420,9 +413,8 @@
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 29
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:29.",
           "content": {
             "application/json": {
               "schema": {
@@ -439,9 +431,9 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Create or process record solved",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:24. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "LeaderboardpostApiV1LeaderboardRecordSolved",
+        "summary": "Create or execute action on record solved",
+        "description": "Handles POST requests for /api/v1/leaderboard/record-solved. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:24.",
+        "operationId": "createLeaderboardRecordSolved",
         "security": [
           {
             "internalServiceSecret": []
@@ -450,11 +442,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -476,9 +468,8 @@
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 24
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:24; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/LeaderboardService/src/routers/v1/leaderboard.router.ts:24.",
           "content": {
             "application/json": {
               "schema": {
@@ -495,29 +486,29 @@
         "tags": [
           "Leaderboard"
         ],
-        "summary": "Get leaderboard user",
-        "description": "Implemented by server/LeaderboardService/src/routers/v1/leaderboard.router.ts:20.",
-        "operationId": "LeaderboardgetApiV1LeaderboardUserUserId",
+        "summary": "Retrieve leaderboard user",
+        "description": "Handles GET requests for /api/v1/leaderboard/user/{userId}. Implemented in server/LeaderboardService/src/routers/v1/leaderboard.router.ts:20.",
+        "operationId": "getLeaderboardUserUserId",
         "security": [],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -532,8 +523,7 @@
         "x-source": {
           "file": "server/LeaderboardService/src/routers/v1/leaderboard.router.ts",
           "line": 20
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/openapi.json": {
@@ -541,11 +531,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "LeaderboardgetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -591,23 +581,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -620,20 +611,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -648,22 +868,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -673,7 +888,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -683,7 +898,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -693,7 +908,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -703,7 +918,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -713,7 +928,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -730,7 +945,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

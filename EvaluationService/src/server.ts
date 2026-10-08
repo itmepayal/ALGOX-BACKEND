@@ -71,8 +71,18 @@ app.use(cors({
 app.use(express.json());
 app.use(attachCorrelationIdMiddleware);
 
+let isEvaluationReady = false;
+
 app.get("/health", (_req, res) => {
   res.json({ success: true, service: "EvaluationService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isEvaluationReady) {
+    res.json({ success: true, service: "EvaluationService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "EvaluationService", status: "starting" });
+  }
 });
 
 app.use("/api/v1", v1Router);
@@ -87,6 +97,7 @@ const startServer = async () => {
     await connectDB();
     await ensureQueueRedisSafety();
     app.listen(serverConfig.PORT, async () => {
+      isEvaluationReady = true;
       logger.info(`EvaluationService is running on http://localhost:${serverConfig.PORT}`);
       logger.info(`Press Ctrl+C to stop the server.`);
       await startWorkers();

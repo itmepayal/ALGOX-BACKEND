@@ -3,17 +3,17 @@
   "info": {
     "title": "AlgoPath Content Service",
     "version": "1.0.0",
-    "description": "Learning content, companies, and study plan APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/content. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "Learning content, companies, and study plan APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/content."
   },
   "servers": [
     {
       "url": "http://localhost:3009",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
     {
-      "name": "Admin"
+      "name": "Administration"
     },
     {
       "name": "Content"
@@ -26,11 +26,11 @@
     "/api/v1/content/admin/articles": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:57. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminArticles",
+        "summary": "Retrieve admin articles",
+        "description": "Handles GET requests for /api/v1/content/admin/articles. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:57.",
+        "operationId": "listContentAdminArticles",
         "security": [
           {
             "bearerAuth": []
@@ -39,11 +39,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -61,18 +61,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 57
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/articles/{id}": {
       "patch": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Update admin articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:63. Required permission: content:update.",
-        "operationId": "ContentpatchApiV1ContentAdminArticlesId",
+        "description": "Handles PATCH requests for /api/v1/content/admin/articles/{id}. Required permission: content:update. Implemented in server/ContentService/src/routers/v1/content.router.ts:63.",
+        "operationId": "updateContentAdminArticlesId",
         "security": [
           {
             "bearerAuth": []
@@ -83,20 +82,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -124,9 +123,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 63
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:63; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:63.",
           "content": {
             "application/json": {
               "schema": {
@@ -139,11 +137,11 @@
       },
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete admin articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:70. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminArticlesId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/articles/{id}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:70.",
+        "operationId": "deleteContentAdminArticlesId",
         "security": [
           {
             "bearerAuth": []
@@ -154,20 +152,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -194,18 +192,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 70
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/companies": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:121. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminCompanies",
+        "summary": "Retrieve admin companies",
+        "description": "Handles GET requests for /api/v1/content/admin/companies. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:121.",
+        "operationId": "listContentAdminCompanies",
         "security": [
           {
             "bearerAuth": []
@@ -214,11 +211,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -236,16 +233,15 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 121
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process admin companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:127. Required permission: content:create.",
-        "operationId": "ContentpostApiV1ContentAdminCompanies",
+        "summary": "Create or execute action on admin companies",
+        "description": "Handles POST requests for /api/v1/content/admin/companies. Required permission: content:create. Implemented in server/ContentService/src/routers/v1/content.router.ts:127.",
+        "operationId": "createContentAdminCompanies",
         "security": [
           {
             "bearerAuth": []
@@ -254,11 +250,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -283,9 +279,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 127
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:127; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:127.",
           "content": {
             "application/json": {
               "schema": {
@@ -300,11 +295,11 @@
     "/api/v1/content/admin/companies/{id}": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:135. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminCompaniesId",
+        "summary": "Retrieve admin companies",
+        "description": "Handles GET requests for /api/v1/content/admin/companies/{id}. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:135.",
+        "operationId": "getContentAdminCompaniesId",
         "security": [
           {
             "bearerAuth": []
@@ -315,20 +310,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -349,16 +344,15 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 135
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "patch": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Update admin companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:141. Required permission: content:update.",
-        "operationId": "ContentpatchApiV1ContentAdminCompaniesId",
+        "description": "Handles PATCH requests for /api/v1/content/admin/companies/{id}. Required permission: content:update. Implemented in server/ContentService/src/routers/v1/content.router.ts:141.",
+        "operationId": "updateContentAdminCompaniesId",
         "security": [
           {
             "bearerAuth": []
@@ -369,20 +363,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -410,9 +404,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 141
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:141; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:141.",
           "content": {
             "application/json": {
               "schema": {
@@ -425,11 +418,11 @@
       },
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete admin companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:148. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminCompaniesId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/companies/{id}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:148.",
+        "operationId": "deleteContentAdminCompaniesId",
         "security": [
           {
             "bearerAuth": []
@@ -440,20 +433,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -480,18 +473,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 148
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/companies/{id}/questions": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get companies questions",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:154. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminCompaniesIdQuestions",
+        "summary": "Retrieve companies questions",
+        "description": "Handles GET requests for /api/v1/content/admin/companies/{id}/questions. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:154.",
+        "operationId": "getContentAdminCompaniesIdQuestions",
         "security": [
           {
             "bearerAuth": []
@@ -502,20 +494,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -536,16 +528,15 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 154
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process companies questions",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:160. Required permission: content:create.",
-        "operationId": "ContentpostApiV1ContentAdminCompaniesIdQuestions",
+        "summary": "Create or execute action on companies questions",
+        "description": "Handles POST requests for /api/v1/content/admin/companies/{id}/questions. Required permission: content:create. Implemented in server/ContentService/src/routers/v1/content.router.ts:160.",
+        "operationId": "createContentAdminCompaniesIdQuestions",
         "security": [
           {
             "bearerAuth": []
@@ -556,20 +547,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -597,9 +588,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 160
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:160; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:160.",
           "content": {
             "application/json": {
               "schema": {
@@ -614,11 +604,11 @@
     "/api/v1/content/admin/companies/{id}/questions/{questionId}": {
       "patch": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Update companies questions",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:168. Required permission: content:update.",
-        "operationId": "ContentpatchApiV1ContentAdminCompaniesIdQuestionsQuestionId",
+        "description": "Handles PATCH requests for /api/v1/content/admin/companies/{id}/questions/{questionId}. Required permission: content:update. Implemented in server/ContentService/src/routers/v1/content.router.ts:168.",
+        "operationId": "updateContentAdminCompaniesIdQuestionsQuestionId",
         "security": [
           {
             "bearerAuth": []
@@ -629,30 +619,30 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           },
           {
             "name": "questionId",
             "in": "path",
             "required": true,
-            "description": "Route parameter questionId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'questionId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -680,9 +670,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 168
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:168; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:168.",
           "content": {
             "application/json": {
               "schema": {
@@ -695,11 +684,11 @@
       },
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete companies questions",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:175. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminCompaniesIdQuestionsQuestionId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/companies/{id}/questions/{questionId}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:175.",
+        "operationId": "deleteContentAdminCompaniesIdQuestionsQuestionId",
         "security": [
           {
             "bearerAuth": []
@@ -710,30 +699,30 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           },
           {
             "name": "questionId",
             "in": "path",
             "required": true,
-            "description": "Route parameter questionId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'questionId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -760,18 +749,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 175
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/editorials": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin editorials",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:95. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminEditorials",
+        "summary": "Retrieve admin editorials",
+        "description": "Handles GET requests for /api/v1/content/admin/editorials. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:95.",
+        "operationId": "listContentAdminEditorials",
         "security": [
           {
             "bearerAuth": []
@@ -780,11 +768,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -802,18 +790,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 95
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/editorials/{id}": {
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete admin editorials",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:101. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminEditorialsId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/editorials/{id}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:101.",
+        "operationId": "deleteContentAdminEditorialsId",
         "security": [
           {
             "bearerAuth": []
@@ -824,20 +811,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -864,18 +851,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 101
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/notes": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin notes",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:107. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminNotes",
+        "summary": "Retrieve admin notes",
+        "description": "Handles GET requests for /api/v1/content/admin/notes. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:107.",
+        "operationId": "listContentAdminNotes",
         "security": [
           {
             "bearerAuth": []
@@ -884,11 +870,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -906,18 +892,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 107
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/notes/{id}": {
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete admin notes",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:113. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminNotesId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/notes/{id}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:113.",
+        "operationId": "deleteContentAdminNotesId",
         "security": [
           {
             "bearerAuth": []
@@ -928,20 +913,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -968,18 +953,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 113
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/study-plans": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:76. Required permission: content:view.",
-        "operationId": "ContentgetApiV1ContentAdminStudyPlans",
+        "summary": "Retrieve study plans",
+        "description": "Handles GET requests for /api/v1/content/admin/study-plans. Required permission: content:view. Implemented in server/ContentService/src/routers/v1/content.router.ts:76.",
+        "operationId": "listContentAdminStudyPlans",
         "security": [
           {
             "bearerAuth": []
@@ -988,11 +972,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1010,18 +994,17 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 76
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/admin/study-plans/{id}": {
       "patch": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Update study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:82. Required permission: content:update.",
-        "operationId": "ContentpatchApiV1ContentAdminStudyPlansId",
+        "description": "Handles PATCH requests for /api/v1/content/admin/study-plans/{id}. Required permission: content:update. Implemented in server/ContentService/src/routers/v1/content.router.ts:82.",
+        "operationId": "updateContentAdminStudyPlansId",
         "security": [
           {
             "bearerAuth": []
@@ -1032,20 +1015,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1073,9 +1056,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 82
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:82; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:82.",
           "content": {
             "application/json": {
               "schema": {
@@ -1088,11 +1070,11 @@
       },
       "delete": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
         "summary": "Delete study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:89. Required permission: content:delete.",
-        "operationId": "ContentdeleteApiV1ContentAdminStudyPlansId",
+        "description": "Handles DELETE requests for /api/v1/content/admin/study-plans/{id}. Required permission: content:delete. Implemented in server/ContentService/src/routers/v1/content.router.ts:89.",
+        "operationId": "deleteContentAdminStudyPlansId",
         "security": [
           {
             "bearerAuth": []
@@ -1103,20 +1085,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1143,8 +1125,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 89
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/articles": {
@@ -1152,9 +1133,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process content articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:48. Required permission: content:create.",
-        "operationId": "ContentpostApiV1ContentArticles",
+        "summary": "Create or execute action on content articles",
+        "description": "Handles POST requests for /api/v1/content/articles. Required permission: content:create. Implemented in server/ContentService/src/routers/v1/content.router.ts:48.",
+        "operationId": "createContentArticles",
         "security": [
           {
             "bearerAuth": []
@@ -1163,11 +1144,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1192,9 +1173,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 48
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:48; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:48.",
           "content": {
             "application/json": {
               "schema": {
@@ -1209,18 +1189,18 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get content articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:265.",
-        "operationId": "ContentgetApiV1ContentArticles",
+        "summary": "Retrieve content articles",
+        "description": "Handles GET requests for /api/v1/content/articles. Implemented in server/ContentService/src/routers/v1/content.router.ts:265.",
+        "operationId": "listContentArticles",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1232,8 +1212,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 265
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/articles/{slug}": {
@@ -1241,28 +1220,29 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get content articles",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:269.",
-        "operationId": "ContentgetApiV1ContentArticlesSlug",
+        "summary": "Retrieve content articles",
+        "description": "Handles GET requests for /api/v1/content/articles/{slug}. Implemented in server/ContentService/src/routers/v1/content.router.ts:269.",
+        "operationId": "getContentArticlesSlug",
         "security": [],
         "parameters": [
           {
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1277,8 +1257,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 269
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/companies": {
@@ -1286,9 +1265,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get content companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:182.",
-        "operationId": "ContentgetApiV1ContentCompanies",
+        "summary": "Retrieve content companies",
+        "description": "Handles GET requests for /api/v1/content/companies. Implemented in server/ContentService/src/routers/v1/content.router.ts:182.",
+        "operationId": "listContentCompanies",
         "security": [
           {
             "bearerAuth": []
@@ -1297,11 +1276,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1316,8 +1295,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 182
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/companies/{slug}": {
@@ -1325,9 +1303,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get content companies",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:188.",
-        "operationId": "ContentgetApiV1ContentCompaniesSlug",
+        "summary": "Retrieve content companies",
+        "description": "Handles GET requests for /api/v1/content/companies/{slug}. Implemented in server/ContentService/src/routers/v1/content.router.ts:188.",
+        "operationId": "getContentCompaniesSlug",
         "security": [
           {
             "bearerAuth": []
@@ -1338,19 +1316,20 @@
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1368,8 +1347,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 188
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/editorials": {
@@ -1377,9 +1355,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process content editorials",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:34. Required permission: content:create OR content:update.",
-        "operationId": "ContentpostApiV1ContentEditorials",
+        "summary": "Create or execute action on content editorials",
+        "description": "Handles POST requests for /api/v1/content/editorials. Required permission: content:create OR content:update. Implemented in server/ContentService/src/routers/v1/content.router.ts:34.",
+        "operationId": "createContentEditorials",
         "security": [
           {
             "bearerAuth": []
@@ -1388,11 +1366,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1417,9 +1395,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 34
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:34; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:34.",
           "content": {
             "application/json": {
               "schema": {
@@ -1436,29 +1413,29 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get editorials problem",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:250.",
-        "operationId": "ContentgetApiV1ContentEditorialsProblemProblemId",
+        "summary": "Retrieve editorials problem",
+        "description": "Handles GET requests for /api/v1/content/editorials/problem/{problemId}. Implemented in server/ContentService/src/routers/v1/content.router.ts:250.",
+        "operationId": "getContentEditorialsProblemProblemId",
         "security": [],
         "parameters": [
           {
             "name": "problemId",
             "in": "path",
             "required": true,
-            "description": "Route parameter problemId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'problemId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1476,8 +1453,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 250
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/notes": {
@@ -1485,9 +1461,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process content notes",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:223.",
-        "operationId": "ContentpostApiV1ContentNotes",
+        "summary": "Create or execute action on content notes",
+        "description": "Handles POST requests for /api/v1/content/notes. Implemented in server/ContentService/src/routers/v1/content.router.ts:223.",
+        "operationId": "createContentNotes",
         "security": [
           {
             "bearerAuth": []
@@ -1496,11 +1472,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1522,9 +1498,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 223
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:223; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:223.",
           "content": {
             "application/json": {
               "schema": {
@@ -1541,9 +1516,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get content notes",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:233.",
-        "operationId": "ContentgetApiV1ContentNotesUserIdProblemId",
+        "summary": "Retrieve content notes",
+        "description": "Handles GET requests for /api/v1/content/notes/{userId}/{problemId}. Implemented in server/ContentService/src/routers/v1/content.router.ts:233.",
+        "operationId": "getContentNotesUserIdProblemId",
         "security": [
           {
             "bearerAuth": []
@@ -1554,30 +1529,30 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           },
           {
             "name": "problemId",
             "in": "path",
             "required": true,
-            "description": "Route parameter problemId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'problemId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1595,16 +1570,15 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 233
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "delete": {
         "tags": [
           "Content"
         ],
         "summary": "Delete content notes",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:238.",
-        "operationId": "ContentdeleteApiV1ContentNotesUserIdProblemId",
+        "description": "Handles DELETE requests for /api/v1/content/notes/{userId}/{problemId}. Implemented in server/ContentService/src/routers/v1/content.router.ts:238.",
+        "operationId": "deleteContentNotesUserIdProblemId",
         "security": [
           {
             "bearerAuth": []
@@ -1615,30 +1589,30 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           },
           {
             "name": "problemId",
             "in": "path",
             "required": true,
-            "description": "Route parameter problemId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'problemId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1662,8 +1636,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 238
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/notes/user/{userId}": {
@@ -1671,9 +1644,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get notes user",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:228.",
-        "operationId": "ContentgetApiV1ContentNotesUserUserId",
+        "summary": "Retrieve notes user",
+        "description": "Handles GET requests for /api/v1/content/notes/user/{userId}. Implemented in server/ContentService/src/routers/v1/content.router.ts:228.",
+        "operationId": "getContentNotesUserUserId",
         "security": [
           {
             "bearerAuth": []
@@ -1684,20 +1657,20 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1715,8 +1688,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 228
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/study-plans": {
@@ -1724,9 +1696,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:41. Required permission: content:create.",
-        "operationId": "ContentpostApiV1ContentStudyPlans",
+        "summary": "Create or execute action on study plans",
+        "description": "Handles POST requests for /api/v1/content/study-plans. Required permission: content:create. Implemented in server/ContentService/src/routers/v1/content.router.ts:41.",
+        "operationId": "createContentStudyPlans",
         "security": [
           {
             "bearerAuth": []
@@ -1735,11 +1707,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1764,9 +1736,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 41
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:41; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:41.",
           "content": {
             "application/json": {
               "schema": {
@@ -1781,18 +1752,18 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:255.",
-        "operationId": "ContentgetApiV1ContentStudyPlans",
+        "summary": "Retrieve study plans",
+        "description": "Handles GET requests for /api/v1/content/study-plans. Implemented in server/ContentService/src/routers/v1/content.router.ts:255.",
+        "operationId": "listContentStudyPlans",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1807,8 +1778,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 255
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/study-plans/{slug}": {
@@ -1816,28 +1786,29 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get study plans",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:260.",
-        "operationId": "ContentgetApiV1ContentStudyPlansSlug",
+        "summary": "Retrieve study plans",
+        "description": "Handles GET requests for /api/v1/content/study-plans/{slug}. Implemented in server/ContentService/src/routers/v1/content.router.ts:260.",
+        "operationId": "getContentStudyPlansSlug",
         "security": [],
         "parameters": [
           {
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1855,8 +1826,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 260
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/study-plans/{slug}/complete": {
@@ -1864,9 +1834,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process plans complete",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:213.",
-        "operationId": "ContentpostApiV1ContentStudyPlansSlugComplete",
+        "summary": "Create or execute action on plans complete",
+        "description": "Handles POST requests for /api/v1/content/study-plans/{slug}/complete. Implemented in server/ContentService/src/routers/v1/content.router.ts:213.",
+        "operationId": "createContentStudyPlansSlugComplete",
         "security": [
           {
             "bearerAuth": []
@@ -1877,19 +1847,20 @@
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1914,9 +1885,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 213
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:213; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:213.",
           "content": {
             "application/json": {
               "schema": {
@@ -1933,9 +1903,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process plans enroll",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:208.",
-        "operationId": "ContentpostApiV1ContentStudyPlansSlugEnroll",
+        "summary": "Create or execute action on plans enroll",
+        "description": "Handles POST requests for /api/v1/content/study-plans/{slug}/enroll. Implemented in server/ContentService/src/routers/v1/content.router.ts:208.",
+        "operationId": "createContentStudyPlansSlugEnroll",
         "security": [
           {
             "bearerAuth": []
@@ -1946,19 +1916,20 @@
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1983,9 +1954,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 208
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:208; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:208.",
           "content": {
             "application/json": {
               "schema": {
@@ -2002,9 +1972,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get plans resume",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:218.",
-        "operationId": "ContentgetApiV1ContentStudyPlansSlugResume",
+        "summary": "Retrieve plans resume",
+        "description": "Handles GET requests for /api/v1/content/study-plans/{slug}/resume. Implemented in server/ContentService/src/routers/v1/content.router.ts:218.",
+        "operationId": "getContentStudyPlansSlugResume",
         "security": [
           {
             "bearerAuth": []
@@ -2015,19 +1985,20 @@
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2045,8 +2016,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 218
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/study-plans/progress": {
@@ -2054,9 +2024,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process plans progress",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:197.",
-        "operationId": "ContentpostApiV1ContentStudyPlansProgress",
+        "summary": "Create or execute action on plans progress",
+        "description": "Handles POST requests for /api/v1/content/study-plans/progress. Implemented in server/ContentService/src/routers/v1/content.router.ts:197.",
+        "operationId": "createContentStudyPlansProgress",
         "security": [
           {
             "bearerAuth": []
@@ -2065,11 +2035,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2091,9 +2061,8 @@
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 197
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/routers/v1/content.router.ts:197; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/routers/v1/content.router.ts:197.",
           "content": {
             "application/json": {
               "schema": {
@@ -2110,9 +2079,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get plans progress",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:243.",
-        "operationId": "ContentgetApiV1ContentStudyPlansProgressUserIdSlug",
+        "summary": "Retrieve plans progress",
+        "description": "Handles GET requests for /api/v1/content/study-plans/progress/{userId}/{slug}. Implemented in server/ContentService/src/routers/v1/content.router.ts:243.",
+        "operationId": "getContentStudyPlansProgressUserIdSlug",
         "security": [
           {
             "bearerAuth": []
@@ -2123,29 +2092,30 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           },
           {
             "name": "slug",
             "in": "path",
             "required": true,
-            "description": "Route parameter slug. See source validation for its exact format.",
+            "description": "URL-friendly unique slug parameter 'slug'.",
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "two-sum"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2163,8 +2133,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 243
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/content/study-plans/progress/me": {
@@ -2172,9 +2141,9 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get progress me",
-        "description": "Implemented by server/ContentService/src/routers/v1/content.router.ts:203.",
-        "operationId": "ContentgetApiV1ContentStudyPlansProgressMe",
+        "summary": "Get current user profile",
+        "description": "Handles GET requests for /api/v1/content/study-plans/progress/me. Implemented in server/ContentService/src/routers/v1/content.router.ts:203.",
+        "operationId": "getMyContentStudyPlansProgressMe",
         "security": [
           {
             "bearerAuth": []
@@ -2183,11 +2152,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2202,8 +2171,7 @@
         "x-source": {
           "file": "server/ContentService/src/routers/v1/content.router.ts",
           "line": 203
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/health": {
@@ -2211,18 +2179,18 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get v1 health",
-        "description": "Implemented by server/ContentService/src/server.ts:73.",
-        "operationId": "ContentgetApiV1Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/ContentService/src/server.ts:73.",
+        "operationId": "ContentListHealthAlt",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2234,8 +2202,7 @@
         "x-source": {
           "file": "server/ContentService/src/server.ts",
           "line": 73
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/internal/feature-flags/invalidate": {
@@ -2243,18 +2210,18 @@
         "tags": [
           "Content"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/ContentService/src/server.ts:82.",
-        "operationId": "ContentpostApiV1InternalFeatureFlagsInvalidate",
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/ContentService/src/server.ts:82.",
+        "operationId": "ContentCreateInternalFeatureFlagsInvalidate",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2273,9 +2240,8 @@
           "file": "server/ContentService/src/server.ts",
           "line": 82
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/ContentService/src/server.ts:82; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/ContentService/src/server.ts:82.",
           "content": {
             "application/json": {
               "schema": {
@@ -2292,18 +2258,18 @@
         "tags": [
           "Content"
         ],
-        "summary": "Get health",
-        "description": "Implemented by server/ContentService/src/server.ts:65.",
-        "operationId": "ContentgetHealth",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/ContentService/src/server.ts:65.",
+        "operationId": "ContentListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -2315,8 +2281,7 @@
         "x-source": {
           "file": "server/ContentService/src/server.ts",
           "line": 65
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/openapi.json": {
@@ -2324,11 +2289,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "ContentgetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -2374,23 +2339,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -2403,20 +2369,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -2431,22 +2626,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -2456,7 +2646,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -2466,7 +2656,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -2476,7 +2666,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -2486,7 +2676,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -2496,7 +2686,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -2513,7 +2703,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

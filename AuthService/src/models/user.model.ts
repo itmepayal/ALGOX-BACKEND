@@ -18,13 +18,8 @@ export interface IUser extends Document {
   role: UserRole;
   status: AccountStatus;
 
-  /**
-   * Paid/free entitlement — independent of platform role.
-   * Missing docs behave as FREE via normalizeSubscription.
-   */
   subscription: UserSubscription;
 
-  /** Extra feature ids granted beyond plan (promo / admin). */
   featureGrants?: string[];
 
   isEmailVerified: boolean;
@@ -37,10 +32,8 @@ export interface IUser extends Document {
 
   passwordChangedAt?: Date;
 
-  /** Soft-delete timestamp — excluded from default listings when set. */
   deletedAt?: Date | null;
 
-  /** When true, user should change password on next login. */
   mustChangePassword?: boolean;
 
   lastActiveAt?: Date;
@@ -71,7 +64,6 @@ const subscriptionSchema = new Schema(
       enum: ["default", "admin_grant", "promo", "billing"],
       default: "default",
     },
-    /** Billing provider reference — never expose to clients. */
     externalRef: { type: String, default: null, select: false },
     updatedAt: { type: Date, default: null },
   },
@@ -98,7 +90,6 @@ const userSchema = new Schema<IUser>(
       required: true,
       unique: true,
       lowercase: true,
-      index: true,
       match: [/^\S+@\S+\.\S+$/, "Invalid email"],
     },
 
@@ -179,7 +170,6 @@ const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-userSchema.index({ email: 1 });
 userSchema.index({ role: 1, status: 1 });
 userSchema.index({ createdAt: -1 });
 userSchema.index({ lastActiveAt: -1 });

@@ -64,8 +64,18 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "1mb" }));
 
+let isDiscussionReady = false;
+
 app.get("/health", (_req, res) => {
   res.json({ success: true, service: "DiscussionService", status: "ok" });
+});
+
+app.get("/health/ready", (_req, res) => {
+  if (isDiscussionReady) {
+    res.json({ success: true, service: "DiscussionService", status: "ready" });
+  } else {
+    res.status(503).json({ success: false, service: "DiscussionService", status: "starting" });
+  }
 });
 
 app.get("/api/v1/health", (_req, res) => {
@@ -88,6 +98,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(serverConfig.PORT, () => {
+      isDiscussionReady = true;
       console.log(`DiscussionService is running on http://localhost:${serverConfig.PORT}`);
     });
   } catch (error) {

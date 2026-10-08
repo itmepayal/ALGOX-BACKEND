@@ -51,7 +51,6 @@ const suspiciousSubmissionSchema = new Schema<ISuspiciousSubmission>(
       type: Schema.Types.ObjectId,
       ref: "Submission",
       required: true,
-      index: true,
     },
     signals: {
       type: [String],

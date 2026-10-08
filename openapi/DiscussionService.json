@@ -3,20 +3,20 @@
   "info": {
     "title": "AlgoPath Discussion Service",
     "version": "1.0.0",
-    "description": "Discussion posts, comments, and moderation APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/discussion. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "Discussion posts, comments, and moderation APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/discussion."
   },
   "servers": [
     {
       "url": "http://localhost:3008",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
     {
-      "name": "Admin"
+      "name": "Administration"
     },
     {
-      "name": "Discussion"
+      "name": "Discussions"
     },
     {
       "name": "Documentation"
@@ -26,11 +26,11 @@
     "/api/v1/discussions/admin/posts": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:106. Required permission: discussions:view.",
-        "operationId": "DiscussiongetApiV1DiscussionsAdminPosts",
+        "summary": "Retrieve admin posts",
+        "description": "Handles GET requests for /api/v1/discussions/admin/posts. Required permission: discussions:view. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:106.",
+        "operationId": "listDiscussionsAdminPosts",
         "security": [
           {
             "bearerAuth": []
@@ -39,11 +39,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -61,18 +61,17 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 106
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/admin/posts/{id}/moderate": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process posts moderate",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:112. Required permission: discussions:moderate.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminPostsIdModerate",
+        "summary": "Create or execute action on posts moderate",
+        "description": "Handles POST requests for /api/v1/discussions/admin/posts/{id}/moderate. Required permission: discussions:moderate. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:112.",
+        "operationId": "createDiscussionsAdminPostsIdModerate",
         "security": [
           {
             "bearerAuth": []
@@ -83,20 +82,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -124,9 +123,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 112
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:112; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:112.",
           "content": {
             "application/json": {
               "schema": {
@@ -141,11 +139,11 @@
     "/api/v1/discussions/admin/reports": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin reports",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:119. Required permission: reports:view.",
-        "operationId": "DiscussiongetApiV1DiscussionsAdminReports",
+        "summary": "Retrieve admin reports",
+        "description": "Handles GET requests for /api/v1/discussions/admin/reports. Required permission: reports:view. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:119.",
+        "operationId": "listDiscussionsAdminReports",
         "security": [
           {
             "bearerAuth": []
@@ -154,11 +152,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -176,18 +174,17 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 119
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/admin/reports/{id}": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin reports",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:125. Required permission: reports:view.",
-        "operationId": "DiscussiongetApiV1DiscussionsAdminReportsId",
+        "summary": "Retrieve admin reports",
+        "description": "Handles GET requests for /api/v1/discussions/admin/reports/{id}. Required permission: reports:view. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:125.",
+        "operationId": "getDiscussionsAdminReportsId",
         "security": [
           {
             "bearerAuth": []
@@ -198,20 +195,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -232,18 +229,17 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 125
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/admin/reports/{id}/assign": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reports assign",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:131. Required permission: reports:review.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdAssign",
+        "summary": "Create or execute action on reports assign",
+        "description": "Handles POST requests for /api/v1/discussions/admin/reports/{id}/assign. Required permission: reports:review. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:131.",
+        "operationId": "createDiscussionsAdminReportsIdAssign",
         "security": [
           {
             "bearerAuth": []
@@ -254,20 +250,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -295,9 +291,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 131
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:131; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:131.",
           "content": {
             "application/json": {
               "schema": {
@@ -312,11 +307,11 @@
     "/api/v1/discussions/admin/reports/{id}/dismiss": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reports dismiss",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:149. Required permission: reports:resolve.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdDismiss",
+        "summary": "Create or execute action on reports dismiss",
+        "description": "Handles POST requests for /api/v1/discussions/admin/reports/{id}/dismiss. Required permission: reports:resolve. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:149.",
+        "operationId": "createDiscussionsAdminReportsIdDismiss",
         "security": [
           {
             "bearerAuth": []
@@ -327,20 +322,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -368,9 +363,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 149
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:149; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:149.",
           "content": {
             "application/json": {
               "schema": {
@@ -385,11 +379,11 @@
     "/api/v1/discussions/admin/reports/{id}/reopen": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reports reopen",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:155. Required permission: reports:review.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdReopen",
+        "summary": "Create or execute action on reports reopen",
+        "description": "Handles POST requests for /api/v1/discussions/admin/reports/{id}/reopen. Required permission: reports:review. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:155.",
+        "operationId": "createDiscussionsAdminReportsIdReopen",
         "security": [
           {
             "bearerAuth": []
@@ -400,20 +394,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -441,9 +435,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 155
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:155; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:155.",
           "content": {
             "application/json": {
               "schema": {
@@ -458,11 +451,11 @@
     "/api/v1/discussions/admin/reports/{id}/resolve": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reports resolve",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:143. Required permission: reports:resolve.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdResolve",
+        "summary": "Create or execute action on reports resolve",
+        "description": "Handles POST requests for /api/v1/discussions/admin/reports/{id}/resolve. Required permission: reports:resolve. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:143.",
+        "operationId": "createDiscussionsAdminReportsIdResolve",
         "security": [
           {
             "bearerAuth": []
@@ -473,20 +466,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -514,9 +507,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 143
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:143; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:143.",
           "content": {
             "application/json": {
               "schema": {
@@ -531,11 +523,11 @@
     "/api/v1/discussions/admin/reports/{id}/review": {
       "post": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Create or process reports review",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:137. Required permission: reports:review.",
-        "operationId": "DiscussionpostApiV1DiscussionsAdminReportsIdReview",
+        "summary": "Create or execute action on reports review",
+        "description": "Handles POST requests for /api/v1/discussions/admin/reports/{id}/review. Required permission: reports:review. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:137.",
+        "operationId": "createDiscussionsAdminReportsIdReview",
         "security": [
           {
             "bearerAuth": []
@@ -546,20 +538,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -587,9 +579,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 137
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:137; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:137.",
           "content": {
             "application/json": {
               "schema": {
@@ -604,11 +595,11 @@
     "/api/v1/discussions/comments": {
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process discussions comments",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:79.",
-        "operationId": "DiscussionpostApiV1DiscussionsComments",
+        "summary": "Create or execute action on discussions comments",
+        "description": "Handles POST requests for /api/v1/discussions/comments. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:79.",
+        "operationId": "createDiscussionsComments",
         "security": [
           {
             "bearerAuth": []
@@ -617,11 +608,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -643,9 +634,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 79
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:79; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:79.",
           "content": {
             "application/json": {
               "schema": {
@@ -660,11 +650,11 @@
     "/api/v1/discussions/comments/{id}": {
       "patch": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
         "summary": "Update discussions comments",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:85.",
-        "operationId": "DiscussionpatchApiV1DiscussionsCommentsId",
+        "description": "Handles PATCH requests for /api/v1/discussions/comments/{id}. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:85.",
+        "operationId": "updateDiscussionsCommentsId",
         "security": [
           {
             "bearerAuth": []
@@ -675,20 +665,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -713,9 +703,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 85
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:85; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:85.",
           "content": {
             "application/json": {
               "schema": {
@@ -728,11 +717,11 @@
       },
       "delete": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
         "summary": "Delete discussions comments",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:91.",
-        "operationId": "DiscussiondeleteApiV1DiscussionsCommentsId",
+        "description": "Handles DELETE requests for /api/v1/discussions/comments/{id}. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:91.",
+        "operationId": "deleteDiscussionsCommentsId",
         "security": [
           {
             "bearerAuth": []
@@ -743,20 +732,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -780,27 +769,26 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 91
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/posts": {
       "get": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Get discussions posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:30.",
-        "operationId": "DiscussiongetApiV1DiscussionsPosts",
+        "summary": "Retrieve discussions posts",
+        "description": "Handles GET requests for /api/v1/discussions/posts. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:30.",
+        "operationId": "listDiscussionsPosts",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -815,16 +803,15 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 30
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process discussions posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:49.",
-        "operationId": "DiscussionpostApiV1DiscussionsPosts",
+        "summary": "Create or execute action on discussions posts",
+        "description": "Handles POST requests for /api/v1/discussions/posts. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:49.",
+        "operationId": "createDiscussionsPosts",
         "security": [
           {
             "bearerAuth": []
@@ -833,11 +820,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -859,9 +846,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 49
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:49; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:49.",
           "content": {
             "application/json": {
               "schema": {
@@ -876,31 +862,31 @@
     "/api/v1/discussions/posts/{id}": {
       "get": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Get discussions posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:36.",
-        "operationId": "DiscussiongetApiV1DiscussionsPostsId",
+        "summary": "Retrieve discussions posts",
+        "description": "Handles GET requests for /api/v1/discussions/posts/{id}. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:36.",
+        "operationId": "getDiscussionsPostsId",
         "security": [],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -918,16 +904,15 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 36
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       },
       "patch": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
         "summary": "Update discussions posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:55.",
-        "operationId": "DiscussionpatchApiV1DiscussionsPostsId",
+        "description": "Handles PATCH requests for /api/v1/discussions/posts/{id}. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:55.",
+        "operationId": "updateDiscussionsPostsId",
         "security": [
           {
             "bearerAuth": []
@@ -938,20 +923,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -976,9 +961,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 55
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:55; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:55.",
           "content": {
             "application/json": {
               "schema": {
@@ -991,11 +975,11 @@
       },
       "delete": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
         "summary": "Delete discussions posts",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:61.",
-        "operationId": "DiscussiondeleteApiV1DiscussionsPostsId",
+        "description": "Handles DELETE requests for /api/v1/discussions/posts/{id}. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:61.",
+        "operationId": "deleteDiscussionsPostsId",
         "security": [
           {
             "bearerAuth": []
@@ -1006,20 +990,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1043,18 +1027,17 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 61
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/posts/{id}/bookmark": {
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process posts bookmark",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:73.",
-        "operationId": "DiscussionpostApiV1DiscussionsPostsIdBookmark",
+        "summary": "Create or execute action on posts bookmark",
+        "description": "Handles POST requests for /api/v1/discussions/posts/{id}/bookmark. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:73.",
+        "operationId": "createDiscussionsPostsIdBookmark",
         "security": [
           {
             "bearerAuth": []
@@ -1065,20 +1048,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1103,9 +1086,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 73
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:73; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:73.",
           "content": {
             "application/json": {
               "schema": {
@@ -1120,31 +1102,31 @@
     "/api/v1/discussions/posts/{id}/comments": {
       "get": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Get posts comments",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:42.",
-        "operationId": "DiscussiongetApiV1DiscussionsPostsIdComments",
+        "summary": "Retrieve posts comments",
+        "description": "Handles GET requests for /api/v1/discussions/posts/{id}/comments. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:42.",
+        "operationId": "getDiscussionsPostsIdComments",
         "security": [],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1162,18 +1144,17 @@
         "x-source": {
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 42
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/discussions/posts/{id}/vote": {
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process posts vote",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:67.",
-        "operationId": "DiscussionpostApiV1DiscussionsPostsIdVote",
+        "summary": "Create or execute action on posts vote",
+        "description": "Handles POST requests for /api/v1/discussions/posts/{id}/vote. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:67.",
+        "operationId": "createDiscussionsPostsIdVote",
         "security": [
           {
             "bearerAuth": []
@@ -1184,20 +1165,20 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Route parameter id. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'id'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1222,9 +1203,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 67
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:67; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:67.",
           "content": {
             "application/json": {
               "schema": {
@@ -1239,11 +1219,11 @@
     "/api/v1/discussions/reports": {
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process discussions reports",
-        "description": "Implemented by server/DiscussionService/src/routers/v1/discussion.router.ts:98.",
-        "operationId": "DiscussionpostApiV1DiscussionsReports",
+        "summary": "Create or execute action on discussions reports",
+        "description": "Handles POST requests for /api/v1/discussions/reports. Implemented in server/DiscussionService/src/routers/v1/discussion.router.ts:98.",
+        "operationId": "createDiscussionsReports",
         "security": [
           {
             "bearerAuth": []
@@ -1252,11 +1232,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1278,9 +1258,8 @@
           "file": "server/DiscussionService/src/routers/v1/discussion.router.ts",
           "line": 98
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/routers/v1/discussion.router.ts:98; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/routers/v1/discussion.router.ts:98.",
           "content": {
             "application/json": {
               "schema": {
@@ -1295,20 +1274,20 @@
     "/api/v1/health": {
       "get": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Get v1 health",
-        "description": "Implemented by server/DiscussionService/src/server.ts:69.",
-        "operationId": "DiscussiongetApiV1Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/DiscussionService/src/server.ts:69.",
+        "operationId": "DiscussionListHealthAlt",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1320,40 +1299,32 @@
         "x-source": {
           "file": "server/DiscussionService/src/server.ts",
           "line": 69
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/internal/feature-flags/invalidate": {
       "post": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/DiscussionService/src/server.ts:73. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "DiscussionpostApiV1InternalFeatureFlagsInvalidate",
-        "security": [
-          {
-            "internalServiceSecret": []
-          }
-        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/DiscussionService/src/server.ts:73.",
+        "operationId": "DiscussionCreateInternalFeatureFlagsInvalidate",
+        "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
           },
           "409": {
             "$ref": "#/components/responses/Conflict"
@@ -1366,9 +1337,8 @@
           "file": "server/DiscussionService/src/server.ts",
           "line": 73
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/DiscussionService/src/server.ts:73; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/DiscussionService/src/server.ts:73.",
           "content": {
             "application/json": {
               "schema": {
@@ -1383,20 +1353,20 @@
     "/health": {
       "get": {
         "tags": [
-          "Discussion"
+          "Discussions"
         ],
-        "summary": "Get health",
-        "description": "Implemented by server/DiscussionService/src/server.ts:65.",
-        "operationId": "DiscussiongetHealth",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/DiscussionService/src/server.ts:65.",
+        "operationId": "DiscussionListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -1408,8 +1378,7 @@
         "x-source": {
           "file": "server/DiscussionService/src/server.ts",
           "line": 65
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/openapi.json": {
@@ -1417,11 +1386,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "DiscussiongetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -1467,23 +1436,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -1496,20 +1466,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -1524,22 +1723,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -1549,7 +1743,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -1559,7 +1753,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -1569,7 +1763,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -1579,7 +1773,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -1589,7 +1783,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -1606,7 +1800,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

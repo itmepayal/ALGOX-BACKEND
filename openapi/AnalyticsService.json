@@ -3,17 +3,17 @@
   "info": {
     "title": "AlgoPath Analytics Service",
     "version": "1.0.0",
-    "description": "User and platform analytics APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/analytics. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "User and platform analytics APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/analytics."
   },
   "servers": [
     {
       "url": "http://localhost:3007",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
     {
-      "name": "Admin"
+      "name": "Administration"
     },
     {
       "name": "Analytics"
@@ -26,11 +26,11 @@
     "/api/v1/analytics/admin/charts": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin charts",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:58. Required permission: analytics:view.",
-        "operationId": "AnalyticsgetApiV1AnalyticsAdminCharts",
+        "summary": "Retrieve admin charts",
+        "description": "Handles GET requests for /api/v1/analytics/admin/charts. Required permission: analytics:view. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:58.",
+        "operationId": "listAnalyticsAdminCharts",
         "security": [
           {
             "bearerAuth": []
@@ -39,11 +39,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -61,18 +61,17 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 58
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/admin/dashboard": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin dashboard",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:64. Required permission: analytics:view.",
-        "operationId": "AnalyticsgetApiV1AnalyticsAdminDashboard",
+        "summary": "Retrieve admin dashboard",
+        "description": "Handles GET requests for /api/v1/analytics/admin/dashboard. Required permission: analytics:view. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:64.",
+        "operationId": "listAnalyticsAdminDashboard",
         "security": [
           {
             "bearerAuth": []
@@ -81,11 +80,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -103,18 +102,17 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 64
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/admin/export": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin export",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:70. Required permission: analytics:view.",
-        "operationId": "AnalyticsgetApiV1AnalyticsAdminExport",
+        "summary": "Retrieve admin export",
+        "description": "Handles GET requests for /api/v1/analytics/admin/export. Required permission: analytics:view. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:70.",
+        "operationId": "listAnalyticsAdminExport",
         "security": [
           {
             "bearerAuth": []
@@ -123,11 +121,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -145,18 +143,17 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 70
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/admin/overview": {
       "get": {
         "tags": [
-          "Admin"
+          "Administration"
         ],
-        "summary": "Get admin overview",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:52. Required permission: analytics:view.",
-        "operationId": "AnalyticsgetApiV1AnalyticsAdminOverview",
+        "summary": "Retrieve admin overview",
+        "description": "Handles GET requests for /api/v1/analytics/admin/overview. Required permission: analytics:view. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:52.",
+        "operationId": "listAnalyticsAdminOverview",
         "security": [
           {
             "bearerAuth": []
@@ -165,11 +162,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -187,8 +184,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 52
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/me/history": {
@@ -196,9 +192,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get me history",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:29.",
-        "operationId": "AnalyticsgetApiV1AnalyticsMeHistory",
+        "summary": "Retrieve me history",
+        "description": "Handles GET requests for /api/v1/analytics/me/history. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:29.",
+        "operationId": "listAnalyticsMeHistory",
         "security": [
           {
             "bearerAuth": []
@@ -207,11 +203,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -226,8 +222,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 29
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/me/learning": {
@@ -235,9 +230,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get me learning",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:39.",
-        "operationId": "AnalyticsgetApiV1AnalyticsMeLearning",
+        "summary": "Retrieve me learning",
+        "description": "Handles GET requests for /api/v1/analytics/me/learning. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:39.",
+        "operationId": "listAnalyticsMeLearning",
         "security": [
           {
             "bearerAuth": []
@@ -246,11 +241,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -265,8 +260,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 39
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/me/overview": {
@@ -274,9 +268,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get me overview",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:24.",
-        "operationId": "AnalyticsgetApiV1AnalyticsMeOverview",
+        "summary": "Retrieve me overview",
+        "description": "Handles GET requests for /api/v1/analytics/me/overview. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:24.",
+        "operationId": "listAnalyticsMeOverview",
         "security": [
           {
             "bearerAuth": []
@@ -285,11 +279,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -304,8 +298,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 24
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/me/premium": {
@@ -313,9 +306,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get me premium",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:34.",
-        "operationId": "AnalyticsgetApiV1AnalyticsMePremium",
+        "summary": "Retrieve me premium",
+        "description": "Handles GET requests for /api/v1/analytics/me/premium. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:34.",
+        "operationId": "listAnalyticsMePremium",
         "security": [
           {
             "bearerAuth": []
@@ -324,11 +317,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -343,8 +336,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 34
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/analytics/record-submission": {
@@ -352,9 +344,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Create or process record submission",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:46. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "AnalyticspostApiV1AnalyticsRecordSubmission",
+        "summary": "Create or execute action on record submission",
+        "description": "Handles POST requests for /api/v1/analytics/record-submission. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:46.",
+        "operationId": "createAnalyticsRecordSubmission",
         "security": [
           {
             "internalServiceSecret": []
@@ -363,11 +355,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -389,9 +381,8 @@
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 46
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AnalyticsService/src/routers/v1/analytics.router.ts:46; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/AnalyticsService/src/routers/v1/analytics.router.ts:46.",
           "content": {
             "application/json": {
               "schema": {
@@ -408,9 +399,9 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get analytics user",
-        "description": "Implemented by server/AnalyticsService/src/routers/v1/analytics.router.ts:18.",
-        "operationId": "AnalyticsgetApiV1AnalyticsUserUserId",
+        "summary": "Retrieve analytics user",
+        "description": "Handles GET requests for /api/v1/analytics/user/{userId}. Implemented in server/AnalyticsService/src/routers/v1/analytics.router.ts:18.",
+        "operationId": "getAnalyticsUserUserId",
         "security": [
           {
             "bearerAuth": []
@@ -421,20 +412,20 @@
             "name": "userId",
             "in": "path",
             "required": true,
-            "description": "Route parameter userId. See source validation for its exact format.",
+            "description": "MongoDB ObjectId or unique string identifier for 'userId'.",
             "schema": {
               "type": "string"
             },
-            "example": "000000000000000000000000"
+            "example": "650000000000000000000000"
           }
         ],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -452,8 +443,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/routers/v1/analytics.router.ts",
           "line": 18
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/health": {
@@ -461,18 +451,18 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Get v1 health",
-        "description": "Implemented by server/AnalyticsService/src/server.ts:65.",
-        "operationId": "AnalyticsgetApiV1Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v1/health. Implemented in server/AnalyticsService/src/server.ts:65.",
+        "operationId": "AnalyticsListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -484,8 +474,7 @@
         "x-source": {
           "file": "server/AnalyticsService/src/server.ts",
           "line": 65
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v1/internal/feature-flags/invalidate": {
@@ -493,31 +482,24 @@
         "tags": [
           "Analytics"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/AnalyticsService/src/server.ts:73. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "AnalyticspostApiV1InternalFeatureFlagsInvalidate",
-        "security": [
-          {
-            "internalServiceSecret": []
-          }
-        ],
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v1/internal/feature-flags/invalidate. Implemented in server/AnalyticsService/src/server.ts:73.",
+        "operationId": "AnalyticsCreateInternalFeatureFlagsInvalidate",
+        "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
           },
           "409": {
             "$ref": "#/components/responses/Conflict"
@@ -530,9 +512,8 @@
           "file": "server/AnalyticsService/src/server.ts",
           "line": 73
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/AnalyticsService/src/server.ts:73; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/AnalyticsService/src/server.ts:73.",
           "content": {
             "application/json": {
               "schema": {
@@ -549,11 +530,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "AnalyticsgetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -599,23 +580,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -628,20 +610,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -656,22 +867,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -681,7 +887,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -691,7 +897,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -701,7 +907,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -711,7 +917,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -721,7 +927,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -738,7 +944,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

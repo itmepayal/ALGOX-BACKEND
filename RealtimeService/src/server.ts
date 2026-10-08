@@ -73,6 +73,15 @@ app.get("/health", async (_req, res) => {
   });
 });
 
+app.get("/health/ready", (_req, res) => {
+  sendResponse({
+    res,
+    statusCode: HTTP_STATUS.OK,
+    message: REALTIME_MESSAGES.SERVICE_HEALTHY,
+    data: { service: "RealtimeService", status: "ready" },
+  });
+});
+
 app.get("/api/v1/health", (_req, res) => {
   const broadcastPersistence = getBroadcastPersistenceStatus();
   sendResponse({

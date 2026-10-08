@@ -20,7 +20,7 @@ export interface IUserStudySession extends Document {
 
 const userStudySessionSchema = new Schema<IUserStudySession>(
   {
-    userId: { type: String, required: true, index: true },
+    userId: { type: String, required: true },
     clientId: { type: String, required: true },
     topic: { type: String, required: true, maxlength: 200, default: "General" },
     status: {

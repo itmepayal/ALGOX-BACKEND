@@ -3,12 +3,12 @@
   "info": {
     "title": "AlgoPath Evaluation Service",
     "version": "1.0.0",
-    "description": "Internal code evaluation and queue health APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/evaluation. The gateway forwards the remaining service path unchanged.\n\n"
+    "description": "Internal code evaluation and queue health APIs.\n\nDirect service endpoint on its internal port. Public gateway prefix: /api/evaluation."
   },
   "servers": [
     {
       "url": "http://localhost:3006",
-      "description": "Local development"
+      "description": "Internal service instance"
     }
   ],
   "tags": [
@@ -25,9 +25,9 @@
         "tags": [
           "Evaluation"
         ],
-        "summary": "Create or process evaluation evaluate",
-        "description": "Implemented by server/EvaluationService/src/routers/v1/evaluation.router.ts:20. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "EvaluationpostApiV1EvaluationEvaluate",
+        "summary": "Create or execute action on evaluation evaluate",
+        "description": "Handles POST requests for /api/v1/evaluation/evaluate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/EvaluationService/src/routers/v1/evaluation.router.ts:20.",
+        "operationId": "createEvaluationEvaluate",
         "security": [
           {
             "internalServiceSecret": []
@@ -36,11 +36,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -62,9 +62,8 @@
           "file": "server/EvaluationService/src/routers/v1/evaluation.router.ts",
           "line": 20
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/EvaluationService/src/routers/v1/evaluation.router.ts:20; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/EvaluationService/src/routers/v1/evaluation.router.ts:20.",
           "content": {
             "application/json": {
               "schema": {
@@ -81,9 +80,9 @@
         "tags": [
           "Evaluation"
         ],
-        "summary": "Create or process evaluation run",
-        "description": "Implemented by server/EvaluationService/src/routers/v1/evaluation.router.ts:12.",
-        "operationId": "EvaluationpostApiV1EvaluationRun",
+        "summary": "Create or execute action on evaluation run",
+        "description": "Handles POST requests for /api/v1/evaluation/run. Implemented in server/EvaluationService/src/routers/v1/evaluation.router.ts:12.",
+        "operationId": "createEvaluationRun",
         "security": [
           {
             "bearerAuth": []
@@ -92,11 +91,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -118,9 +117,8 @@
           "file": "server/EvaluationService/src/routers/v1/evaluation.router.ts",
           "line": 12
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/EvaluationService/src/routers/v1/evaluation.router.ts:12; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/EvaluationService/src/routers/v1/evaluation.router.ts:12.",
           "content": {
             "application/json": {
               "schema": {
@@ -137,18 +135,18 @@
         "tags": [
           "Evaluation"
         ],
-        "summary": "Get v2 health",
-        "description": "Implemented by server/EvaluationService/src/routers/v1/index.router.ts:17.",
-        "operationId": "EvaluationgetApiV2Health",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /api/v2/health. Implemented in server/EvaluationService/src/routers/v1/index.router.ts:17.",
+        "operationId": "EvaluationListHealthV2",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -160,8 +158,7 @@
         "x-source": {
           "file": "server/EvaluationService/src/routers/v1/index.router.ts",
           "line": 17
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/api/v2/internal/feature-flags/invalidate": {
@@ -169,9 +166,9 @@
         "tags": [
           "Evaluation"
         ],
-        "summary": "Create or process flags invalidate",
-        "description": "Implemented by server/EvaluationService/src/routers/v1/index.router.ts:78. Service-to-service endpoint; requires the configured internal secret header.",
-        "operationId": "EvaluationpostApiV2InternalFeatureFlagsInvalidate",
+        "summary": "Create or execute action on flags invalidate",
+        "description": "Handles POST requests for /api/v2/internal/feature-flags/invalidate. Internal service-to-service operation; requires x-internal-secret header. Implemented in server/EvaluationService/src/routers/v1/index.router.ts:78.",
+        "operationId": "EvaluationCreateInternalFeatureFlagsInvalidate",
         "security": [
           {
             "internalServiceSecret": []
@@ -180,11 +177,11 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -206,9 +203,8 @@
           "file": "server/EvaluationService/src/routers/v1/index.router.ts",
           "line": 78
         },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields",
         "requestBody": {
-          "description": "JSON request body. Exact fields are enforced by the handler/validator at server/EvaluationService/src/routers/v1/index.router.ts:78; this generated route inventory does not infer them.",
+          "description": "JSON request payload processed by controller at server/EvaluationService/src/routers/v1/index.router.ts:78.",
           "content": {
             "application/json": {
               "schema": {
@@ -225,18 +221,18 @@
         "tags": [
           "Evaluation"
         ],
-        "summary": "Get health",
-        "description": "Implemented by server/EvaluationService/src/server.ts:72.",
-        "operationId": "EvaluationgetHealth",
+        "summary": "Retrieve health",
+        "description": "Handles GET requests for /health. Implemented in server/EvaluationService/src/server.ts:72.",
+        "operationId": "EvaluationListHealth",
         "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Request completed. The response shape follows this service controller's implementation.",
+            "description": "Operation succeeded.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SuccessResponse"
+                  "$ref": "#/components/schemas/ApiResponse"
                 }
               }
             }
@@ -248,8 +244,7 @@
         "x-source": {
           "file": "server/EvaluationService/src/server.ts",
           "line": 72
-        },
-        "x-contract-status": "route-inventoried; inspect source for exact body and response fields"
+        }
       }
     },
     "/openapi.json": {
@@ -257,11 +252,11 @@
         "tags": [
           "Documentation"
         ],
-        "summary": "Get this service OpenAPI document",
+        "summary": "Get service OpenAPI spec",
         "operationId": "EvaluationgetOpenApiDocument",
         "responses": {
           "200": {
-            "description": "OpenAPI 3.0.3 document",
+            "description": "OpenAPI 3.0.3 spec",
             "content": {
               "application/json": {
                 "schema": {
@@ -307,23 +302,24 @@
         "type": "apiKey",
         "in": "header",
         "name": "x-internal-secret",
-        "description": "Configured service-to-service secret. Do not place secret values in examples."
+        "description": "Configured service-to-service secret."
       }
     },
     "schemas": {
-      "SuccessResponse": {
+      "ApiResponse": {
         "type": "object",
-        "description": "Common response helper envelope; controllers may return endpoint-specific data or direct JSON.",
+        "description": "Standard response wrapper returned across AlgoPath REST endpoints.",
         "properties": {
           "success": {
             "type": "boolean",
             "example": true
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Operation completed successfully"
           },
           "data": {
-            "description": "Endpoint-specific response data."
+            "description": "Payload data object or array."
           },
           "meta": {
             "type": "object",
@@ -336,20 +332,249 @@
         ],
         "additionalProperties": true
       },
+      "Pagination": {
+        "type": "object",
+        "description": "Pagination metadata for list endpoints.",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "example": 1
+          },
+          "limit": {
+            "type": "integer",
+            "example": 20
+          },
+          "total": {
+            "type": "integer",
+            "example": 100
+          },
+          "pages": {
+            "type": "integer",
+            "example": 5
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total",
+          "pages"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "description": "AlgoPath user account domain entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin",
+              "moderator"
+            ],
+            "example": "user"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "pending"
+            ],
+            "example": "active"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.png"
+          },
+          "isEmailVerified": {
+            "type": "boolean",
+            "example": true
+          },
+          "twoFactorEnabled": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "role",
+          "status"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "description": "AlgoPath coding problem entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "title": {
+            "type": "string",
+            "example": "Two Sum"
+          },
+          "slug": {
+            "type": "string",
+            "example": "two-sum"
+          },
+          "description": {
+            "type": "string",
+            "example": "Given an array of integers..."
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "easy"
+          },
+          "category": {
+            "type": "string",
+            "example": "Arrays"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "array",
+              "hash-table"
+            ]
+          },
+          "isPremium": {
+            "type": "boolean",
+            "example": false
+          },
+          "timeLimitMs": {
+            "type": "integer",
+            "example": 2000
+          },
+          "memoryLimitMb": {
+            "type": "integer",
+            "example": 256
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "slug",
+          "difficulty",
+          "category"
+        ]
+      },
+      "Submission": {
+        "type": "object",
+        "description": "Code submission record entity.",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "userId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "problemId": {
+            "type": "string",
+            "example": "650000000000000000000000"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "cpp",
+              "java"
+            ],
+            "example": "python"
+          },
+          "code": {
+            "type": "string",
+            "example": "def twoSum(nums, target): return [0, 1]"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "ACCEPTED",
+              "WRONG_ANSWER",
+              "TIME_LIMIT_EXCEEDED",
+              "MEMORY_LIMIT_EXCEEDED",
+              "RUNTIME_ERROR",
+              "COMPILATION_ERROR"
+            ],
+            "example": "ACCEPTED"
+          },
+          "executionTime": {
+            "type": "number",
+            "example": 45
+          },
+          "memory": {
+            "type": "number",
+            "example": 14.2
+          },
+          "testCasesPassed": {
+            "type": "integer",
+            "example": 10
+          },
+          "totalTestCases": {
+            "type": "integer",
+            "example": 10
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "_id",
+          "problemId",
+          "language",
+          "code",
+          "status"
+        ]
+      },
       "ErrorResponse": {
         "type": "object",
+        "description": "Standard error response payload.",
         "properties": {
           "success": {
             "type": "boolean",
             "enum": [
               false
-            ]
+            ],
+            "example": false
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "example": "Validation or operation failure"
           },
           "code": {
-            "type": "string"
+            "type": "string",
+            "example": "INVALID_INPUT"
           },
           "errors": {
             "type": "array",
@@ -364,22 +589,17 @@
                 }
               }
             }
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": true
           }
         },
         "required": [
           "success",
           "message"
-        ],
-        "additionalProperties": true
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Invalid request or validation failure.",
+        "description": "Invalid request body, query parameter, or validation error.",
         "content": {
           "application/json": {
             "schema": {
@@ -389,7 +609,7 @@
         }
       },
       "Unauthorized": {
-        "description": "Authentication is missing or invalid.",
+        "description": "Authentication required or invalid JWT access token provided.",
         "content": {
           "application/json": {
             "schema": {
@@ -399,7 +619,7 @@
         }
       },
       "Forbidden": {
-        "description": "Authenticated caller lacks permission or internal authorization.",
+        "description": "Access forbidden; insufficient roles/permissions or invalid internal secret.",
         "content": {
           "application/json": {
             "schema": {
@@ -409,7 +629,7 @@
         }
       },
       "NotFound": {
-        "description": "Requested resource was not found.",
+        "description": "Requested entity or route not found.",
         "content": {
           "application/json": {
             "schema": {
@@ -419,7 +639,7 @@
         }
       },
       "Conflict": {
-        "description": "Request conflicts with current resource state.",
+        "description": "Request state conflicts with existing resource.",
         "content": {
           "application/json": {
             "schema": {
@@ -429,7 +649,7 @@
         }
       },
       "RateLimited": {
-        "description": "Rate limit exceeded. Retry according to the response headers and service policy.",
+        "description": "Rate limit exceeded. Retry after specified duration.",
         "headers": {
           "Retry-After": {
             "schema": {
@@ -446,7 +666,7 @@
         }
       },
       "ServerError": {
-        "description": "Unexpected server error.",
+        "description": "Unexpected internal server error.",
         "content": {
           "application/json": {
             "schema": {

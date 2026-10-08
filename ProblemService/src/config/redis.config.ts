@@ -11,10 +11,12 @@ const inMemoryQueue = new Map<string, { entry: any; expiresAt: number }>();
 export function getRedisClient(): Redis | null {
   if (redisClient) return redisClient;
   try {
+    const useTls = REDIS_URL.startsWith("rediss://");
     const client = new Redis(REDIS_URL, {
       maxRetriesPerRequest: 1,
       lazyConnect: true,
       retryStrategy: (times) => (times > 3 ? null : 200),
+      ...(useTls ? { tls: { rejectUnauthorized: false } } : {}),
     });
 
     client.on("connect", () => {
